@@ -1,0 +1,225 @@
+"use client";
+
+import { useForm } from "react-hook-form";
+import { useCreateLocationMutation } from "../../redux/query/locationsQuery/location.query";
+
+type AddLocationForm = {
+  name: string;
+  description: string;
+  area: string;
+  location: string;
+  operation_hours: string;
+  branchEmail: string;
+  telephone: string;
+  mobileNumber: string;
+};
+
+export const AddLocation = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<AddLocationForm>();
+
+  const [createLocation, { isLoading }] = useCreateLocationMutation();
+
+  const onSubmit = async (data: AddLocationForm) => {
+    try {
+      await createLocation(data).unwrap();
+      reset();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return (
+    <section className="bg-white py-24">
+      <div className="container mx-auto max-w-6xl px-6">
+
+        {/* Heading */}
+        <div className="text-center mb-20">
+          <div className="flex justify-center">
+            <p className="font-[allura] text-[#d1a054] text-2xl mb-2 border-b border-black w-[380px]">
+              Manage Branches
+            </p>
+          </div>
+          <div className="flex justify-center">
+            <h2 className="text-4xl tracking-widest border-b border-black w-[380px]">
+              ADD LOCATION
+            </h2>
+          </div>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-16">
+
+          {/* Name + Area */}
+          <div className="grid md:grid-cols-2 gap-12">
+            <div>
+              <label className="block text-xs uppercase tracking-widest text-gray-500">
+                Location Name *
+              </label>
+              <input
+                {...register("name", { required: "Name is required" })}
+                className={`w-full border-b bg-transparent outline-none
+                  ${errors.name ? "border-red-500" : "border-gray-400"}`}
+              />
+              {errors.name && (
+                <span className="text-xs text-red-500">
+                  {errors.name.message}
+                </span>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-xs uppercase tracking-widest text-gray-500">
+                Area *
+              </label>
+              <input
+                {...register("area", { required: "Area is required" })}
+                className={`w-full border-b bg-transparent outline-none
+                  ${errors.area ? "border-red-500" : "border-gray-400"}`}
+              />
+              {errors.area && (
+                <span className="text-xs text-red-500">
+                  {errors.area.message}
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Address */}
+          <div>
+            <label className="block text-xs uppercase tracking-widest text-gray-500">
+              Location / Address *
+            </label>
+            <input
+              {...register("location", { required: "Location is required" })}
+              className={`w-full border-b bg-transparent outline-none
+                ${errors.location ? "border-red-500" : "border-gray-400"}`}
+            />
+            {errors.location && (
+              <span className="text-xs text-red-500">
+                {errors.location.message}
+              </span>
+            )}
+          </div>
+
+          {/* Description */}
+          <div className="m-0">
+            <label className="block text-xs uppercase tracking-widest text-gray-500">
+              Description *
+            </label>
+            <textarea
+              rows={1}
+              {...register("description", {
+                required: "Description is required",
+              })}
+              className={`w-full resize-none border-b bg-transparent outline-none
+                ${errors.description ? "border-red-500" : "border-gray-400"}`}
+            />
+            {errors.description && (
+              <span className="text-xs text-red-500">
+                {errors.description.message}
+              </span>
+            )}
+          </div>
+
+          {/* Contact Info */}
+          <div className="grid md:grid-cols-3 gap-12 mt-4">
+            <div>
+              <label className="block text-xs uppercase tracking-widest text-gray-500">
+                Operation Hours *
+              </label>
+              <input
+                {...register("operation_hours", {
+                  required: "Operation hours required",
+                })}
+                className={`w-full border-b bg-transparent outline-none
+                  ${errors.operation_hours ? "border-red-500" : "border-gray-400"}`}
+              />
+              {errors.operation_hours && (
+                <span className="text-xs text-red-500">
+                  {errors.operation_hours.message}
+                </span>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-xs uppercase tracking-widest text-gray-500">
+                Branch Email *
+              </label>
+              <input
+                type="email"
+                {...register("branchEmail", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^\S+@\S+$/i,
+                    message: "Invalid email",
+                  },
+                })}
+                className={`w-full border-b bg-transparent outline-none
+                  ${errors.branchEmail ? "border-red-500" : "border-gray-400"}`}
+              />
+              {errors.branchEmail && (
+                <span className="text-xs text-red-500">
+                  {errors.branchEmail.message}
+                </span>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-xs uppercase tracking-widest text-gray-500">
+                Telephone *
+              </label>
+              <input
+                {...register("telephone", {
+                  required: "Telephone is required",
+                })}
+                className={`w-full border-b bg-transparent outline-none
+                  ${errors.telephone ? "border-red-500" : "border-gray-400"}`}
+              />
+              {errors.telephone && (
+                <span className="text-xs text-red-500">
+                  {errors.telephone.message}
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Mobile */}
+          <div>
+            <label className="block text-xs uppercase tracking-widest text-gray-500">
+              Mobile Number *
+            </label>
+            <input
+              {...register("mobileNumber", {
+                required: "Mobile number required",
+                minLength: { value: 10, message: "Minimum 10 digits" },
+              })}
+              className={`w-full border-b bg-transparent outline-none
+                ${errors.mobileNumber ? "border-red-500" : "border-gray-400"}`}
+            />
+            {errors.mobileNumber && (
+              <span className="text-xs text-red-500">
+                {errors.mobileNumber.message}
+              </span>
+            )}
+          </div>
+
+          {/* Submit */}
+          <div className="flex justify-center mt-12">
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="rounded-full bg-[#12171a] px-14 py-4 text-sm tracking-widest text-white transition hover:bg-black disabled:opacity-50"
+            >
+              {isLoading ? "SAVING..." : "ADD LOCATION"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+  );
+};

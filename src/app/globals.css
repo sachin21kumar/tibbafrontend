@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family:"cinzel";
+}
+
+
+/* Hide submenu by default */
+/* Wrapper keeps hover alive */
+.menu_wrapper {
+  position: relative;
+}
+
+/* Hide submenu by default */
+.menu_item__sub_menu {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* Show submenu on hover */
+.menu_wrapper:hover .menu_item__sub_menu {
+  display: grid;
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Optional UX polish */
+::selection {
+  background-color: aliceblue;
+}
+
+p{
+  font-family: "allura";
+}
+
