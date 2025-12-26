@@ -65,7 +65,7 @@ export default function ReservationDetails() {
       };
 
       const res = await axios.post(
-        "http://localhost:4000/reservationhotel",
+        `${process.env.NEXT_PUBLIC_BASE_URL}/reservationhotel`,
         payload
       );
       reset();

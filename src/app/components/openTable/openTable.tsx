@@ -34,7 +34,7 @@ export default function OpenTable() {
     try {
       setErrorMsg("");
 
-      await axios.post("http://localhost:4000/reservation", {
+      await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/reservation`, {
         date: data.date,
         time: data.time,
         guests: Number(data.guests), // 🔴 important
