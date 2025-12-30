@@ -14,56 +14,68 @@ interface Location {
   imageUrl: string;
 }
 
-interface Props {
-  location: Location;
-}
-
 export default function LocationCard() {
-    const router=useRouter()
+  const router = useRouter();
   const { data: locations } = useGetLocationsQuery();
 
   return (
-    <>
-      {locations?.map((location: any) => {
-        return (
-          <>
-            <div className="max-w-[1348px]  mx-auto border border-gray-300 my-19 flex flex-col md:flex-row bg-white shadow-md rounded-lg overflow-hidden">
-              <div className="md:w-1/2 relative h-64 md:h-auto">
-                <img
-                  src={
-                    "http://mtb.dgh.mybluehost.me/wp-content/uploads/2025/07/Abu-Hail-857x500.webp"
-                  }
-                  alt={location.name}
-                  className="object-cover h-full"
-                />
-              </div>
+    <div>
+      {/* Banner Section */}
+      <div
+        className="w-full h-64 md:h-100 bg-cover bg-center flex items-center justify-center"
+        style={{
+          backgroundImage: `url('/locations.jpg')`, 
+        }}
+      >
+        <h1 className="text-white text-4xl md:text-5xl font-cinzel bg-white/10 border-white/32 backdrop-blur-[20px] px-6 py-5">
+          LOCATIONS
+        </h1>
+      </div>
 
-              {/* Details Section */}
-              <div className="md:w-1/2 p-[32px] flex flex-col justify-center">
-                <h2 className="text-[28px] border-b border-b-yellow-500  mb-2">
-                  {location.name}
-                </h2>
-                <div className="flex items-center gap-4 py-3 text-gray-600 mb-1">
-                  <CiLocationOn />
-
-                  <span>{location.location}</span>
-                </div>
-                <div className="flex items-center gap-4 text-gray-600 mb-4">
-                  <BsFillTelephoneFill />
-
-                  <span>{location.telephone}</span>
-                </div>
-                <a
-                  href={`/locations/${location?._id}`}
-                  className="hover:text-yellow-600 border-b mt-10 w-fit border-b-yellow-600 font-medium"
-                >
-                  More Details
-                </a>
-              </div>
+      {/* Location Cards */}
+      <div className="max-w-[1348px] mx-auto mt-10 space-y-10">
+        {locations?.map((location: any) => (
+          <div
+            key={location._id}
+            className="flex flex-col md:flex-row border border-gray-300 shadow-md rounded-lg overflow-hidden bg-white"
+          >
+            {/* Image Section */}
+            <div className="md:w-1/2 relative h-64 md:h-auto">
+              <img
+                src={
+                  location.imageUrl ||
+                  "http://mtb.dgh.mybluehost.me/wp-content/uploads/2025/07/Abu-Hail-857x500.webp"
+                }
+                alt={location.name}
+                className="object-cover w-full h-full"
+              />
             </div>
-          </>
-        );
-      })}
-    </>
+
+            {/* Details Section */}
+            <div className="md:w-1/2 p-8 flex flex-col justify-center">
+              <h2 className="text-2xl md:text-3xl text-[#252525] font-regular mb-4">
+                {location.name}
+              </h2>
+              <div className="w-[369px] bg-gradient-to-r from-[#D1A054] to-[#D1A054]/0 ... h-[1px]"></div>
+              <div className="flex items-center gap-3 text-gray-600 mb-2 mt-3">
+                <img src="/location.png" alt="Location Icon" />
+                <span>{location.location}</span>
+              </div>
+              <div className="flex items-center gap-3 text-gray-600 mb-4">
+                <img src="/phoneIcon.png" alt="Phone Icon" />
+                <span>{location.mobileNumber}</span>
+              </div>
+              <a
+                href={`/locations/${location._id}`}
+                className="mt-6 w-fit text-[#252525] font-regular hover:text-yellow-600"
+              >
+                More Details
+              </a>
+              <div className="w-[108px] bg-gradient-to-r from-[#D1A054] to-[#D1A054]/0 ... h-[1px]"></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

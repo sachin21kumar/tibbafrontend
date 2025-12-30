@@ -41,6 +41,7 @@ export const productApi = createApi({
       ProductResponse,
       {
         categoryId?: string;
+        name?: string; // <-- added filter by name
         page?: number;
         limit?: number;
         sortBy?: "price" | "name";
@@ -49,6 +50,7 @@ export const productApi = createApi({
     >({
       query: ({
         categoryId,
+        name, // <-- added
         page = 1,
         limit = 9,
         sortBy = "price",
@@ -56,6 +58,7 @@ export const productApi = createApi({
       }) => {
         const params = new URLSearchParams();
         if (categoryId) params.append("categoryId", categoryId);
+        if (name) params.append("name", name); // <-- append name filter
         params.append("page", page.toString());
         params.append("limit", limit.toString());
         params.append("sortBy", sortBy);
@@ -106,5 +109,5 @@ export const {
   useGetProductByIdQuery,
   useAddProductMutation,
   useDeleteProductMutation,
-  useUpdateProductMutation
+  useUpdateProductMutation,
 } = productApi;

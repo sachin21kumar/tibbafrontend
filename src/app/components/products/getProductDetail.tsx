@@ -79,7 +79,7 @@ export default function ProductDetail() {
           <div className="flex gap-2 sm:gap-4 flex-wrap">
             <button
               onClick={() => router.push("/cart")}
-              className="bg-[#d1a054] hover:opacity-90 text-white font-medium py-3 px-6 rounded-full shadow-md transition-all duration-200 w-full md:w-auto"
+              className="bg-[#d1a054] hover:opacity-90 text-white font-medium py-3 px-6 rounded-full shadow-md cursor-pointer transition-all duration-200 w-full md:w-auto"
             >
               View Cart
             </button>
@@ -91,7 +91,7 @@ export default function ProductDetail() {
                   quantity,
                 })
               }
-              className="bg-[#d1a054] hover:opacity-90 text-white font-medium py-3 px-6 rounded-full shadow-md transition-all duration-200 w-full md:w-auto"
+              className="bg-[#d1a054] cursor-pointer hover:opacity-90 text-white font-medium py-3 px-6 rounded-full shadow-md transition-all duration-200 w-full md:w-auto"
             >
               Add to Cart
             </button>

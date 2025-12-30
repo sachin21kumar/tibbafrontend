@@ -31,11 +31,22 @@ const today = new Date().toLocaleDateString("en-US", {
   weekday: "long",
 });
   return (
-    <section className="bg-white py-20">
+    <>
+    <div
+        className="w-full h-64 md:h-100 bg-cover bg-center flex items-center justify-center"
+        style={{
+          backgroundImage: `url('/locationDetail.jpg')`, 
+        }}
+      >
+        <h1 className="text-white text-4xl md:text-5xl font-cinzel bg-white/10 border-white/32 backdrop-blur-[20px] px-6 py-5">
+          Closed until 9:00 am
+        </h1>
+      </div>
+    <section className="bg-white">
       <div className="container mx-auto max-w-7xl px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-start ">
           {/* LEFT CONTENT */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-8 py-20">
             <div>
               <h1 className="font-serif text-4xl tracking-wide border-b border-b-[#d1a054] pb-2 w-fit text-gray-900">
                 {location?.name}
@@ -103,5 +114,6 @@ const today = new Date().toLocaleDateString("en-US", {
       <LocationForm/>
       <LocationsGrid/>
     </section>
+    </>
   );
 }
