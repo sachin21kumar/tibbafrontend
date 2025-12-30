@@ -147,7 +147,7 @@ export default function AddToCartModal({
               <div className="border-b border-b-gray-200 h-[1px] w-full"></div>
 
               {isInCart && (
-                <div className="flex border-gray-200">
+                <div className="flex border-gray-200 pt-[20px]">
                   <button
                     className="text-red-500 hover:text-red-700 font-medium"
                     onClick={handleRemoveAll}
@@ -162,8 +162,8 @@ export default function AddToCartModal({
                   !isInCart ? "justify-end" : "justify-between"
                 } items-center border-t mt-13 border-gray-200`}
               >
-                <div className="flex items-center justify-between p-4">
-                  <div className="flex items-center gap-4">
+                <div className={`flex items-center justify-between ${isInCart ? "w-full" : ""} p-4`}>
+                  <div className={`flex items-center gap-4 w-full ${isInCart ? "justify-between" : "justify-end"}`}>
                     {isInCart && (
                       <div>${product.price * quantity}</div>
                     )}
@@ -192,7 +192,7 @@ export default function AddToCartModal({
 
                 {!isInCart && (
                   <button
-                    className="bg-pink-600 text-white px-15 py-3 rounded-lg font-medium hover:opacity-90 cursor-pointer"
+                    className="bg-[#D1A054] text-white px-15 py-3 rounded-lg font-medium hover:opacity-90 cursor-pointer"
                     onClick={handleAddToCart}
                   >
                     Add item | ${product.price * quantity}

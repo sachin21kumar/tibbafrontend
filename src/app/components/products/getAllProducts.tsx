@@ -252,7 +252,7 @@ export default function MenuPage() {
                           )}
 
                           {cartItem && (
-                            <div className="border border-[#d1a054] rounded-2xl flex justify-center items-center absolute bottom-2 right-2 curs">
+                            <div className="border border-[#d1a054] rounded-2xl flex justify-center items-center absolute bottom-2 right-2 curs bg-white">
                               <div className="flex items-center justify-center gap-2 p-1">
                                 <button
                                   onClick={() =>
@@ -351,7 +351,7 @@ export default function MenuPage() {
                                   )}
 
                                   {cartItem && (
-                                    <div className="border border-[#d1a054] rounded-2xl flex justify-center items-center absolute bottom-2 right-2 curs">
+                                    <div className="border border-[#d1a054] rounded-2xl flex justify-center items-center absolute bottom-2 right-2 bg-white">
                                       <div className="flex items-center justify-center gap-2 p-1">
                                         <button
                                           onClick={() =>
