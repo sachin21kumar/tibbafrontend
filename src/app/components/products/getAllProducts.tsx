@@ -7,8 +7,10 @@ import { useGetProductsQuery } from "../redux/query/productsQuery/productsQuery"
 import {
   useAddToCartMutation,
   useGetCartQuery,
+  useUpdateCartMutation,
 } from "../redux/query/cartQuery/cart.query";
 import ViewCartModal from "../common/ViewCartModel";
+import AddToCartModal from "../common/addToCartModel";
 
 function useDebounce<T>(value: T, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
@@ -29,9 +31,13 @@ interface Category {
 export default function MenuPage() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(
+    null
+  );
   const [activeCategory, setActiveCategory] = useState<string>("");
   const [search, setSearch] = useState<string>("");
   const debouncedSearch = useDebounce(search, 300);
+  const [updateCart] = useUpdateCartMutation();
 
   const { data: categoriesResponse, isLoading: categoriesLoading } =
     useGetCategoryQuery();
@@ -39,7 +45,11 @@ export default function MenuPage() {
     useGetProductsQuery({ limit: 1000 });
   const { data: cart } = useGetCartQuery();
   const [addToCart] = useAddToCartMutation();
+  const cartItem = cart?.items?.find(
+    (item: any) => item.productId?._id === selectedProductId
+  );
 
+  const isInCart = Boolean(cartItem);
   const categories: Category[] = categoriesResponse?.data || [];
   const products: any[] = productsResponse?.data || [];
 
@@ -141,12 +151,18 @@ export default function MenuPage() {
   if (categoriesLoading || productsLoading) {
     return <p className="text-center py-10">Loading...</p>;
   }
+  const handleIncrease = (productId: string, qty: number) => {
+    updateCart({ productId, quantity: qty + 1 });
+  };
 
+  const handleDecrease = (productId: string, qty: number) => {
+    if (qty <= 1) return;
+    updateCart({ productId, quantity: qty - 1 });
+  };
   return (
     <>
       <div className="min-h-screen px-4 py-6">
         <div className="flex gap-[10px] mx-auto">
-          {/* Sidebar */}
           <aside className="hidden md:block bg-white h-screen p-4 sticky top-[90px] h-fit border-r border-gray-200 flex-none w-[19%]">
             <input
               placeholder="Search menu"
@@ -166,10 +182,10 @@ export default function MenuPage() {
                       desktopCategoryRefs.current[cat._id] = el ?? null;
                     }}
                     onClick={() => scrollToCategory(cat._id)}
-                    className={`cursor-pointer px-3 py-2 font-sans text-sm transition ${
+                    className={`cursor-pointer px-3 py-2 text-sm transition ${
                       activeCategory === cat._id
-                        ? "border-l-3 border-l-[#d90368] font-bold"
-                        : "text-[#313131] font-semibold hover:text-[#d90368]"
+                        ? "border-l-3 border-l-[#D1A054] font-bold"
+                        : "text-[#313131] font-semibold hover:text-[#D1A054]"
                     }`}
                   >
                     {cat.title}
@@ -199,12 +215,14 @@ export default function MenuPage() {
                         <div className="flex-1 pr-6">
                           <h3
                             className="font-semibold text-lg text-gray-800"
-                            onClick={() =>
-                              router.push(`/products/${product._id}`)
-                            }
+                            onClick={() => {
+                              setSelectedProductId(product._id);
+                              setOpen(true);
+                            }}
                           >
                             {getProductName(product.name)}
                           </h3>
+
                           <span className="text-[16px] font-semibold text-gray-800">
                             ${product.price}
                           </span>
@@ -219,19 +237,51 @@ export default function MenuPage() {
                             alt={product.name}
                             className="w-full h-full object-cover rounded-xl"
                           />
-                          <button
-                            onClick={() =>
-                              cartItem
-                                ? setOpen(true)
-                                : addToCart({
-                                    productId: product._id,
-                                    quantity: 1,
-                                  })
-                            }
-                            className="absolute bottom-2 right-2 w-9 h-9 bg-white border rounded-lg flex items-center justify-center text-pink-600 text-xl shadow hover:bg-pink-50"
-                          >
-                            +
-                          </button>
+                          {!cartItem && (
+                            <button
+                              onClick={() =>
+                                addToCart({
+                                  productId: product._id,
+                                  quantity: 1,
+                                })
+                              }
+                              className="absolute bottom-2 right-2 cursor-pointer w-9 h-9 bg-white border rounded-lg flex items-center justify-center text-[#d1a054] text-xl shadow "
+                            >
+                              +
+                            </button>
+                          )}
+
+                          {cartItem && (
+                            <div className="border border-[#d1a054] rounded-2xl flex justify-center items-center absolute bottom-2 right-2 curs">
+                              <div className="flex items-center justify-center gap-2 p-1">
+                                <button
+                                  onClick={() =>
+                                    handleDecrease(
+                                      product._id,
+                                      cartItem.quantity
+                                    )
+                                  }
+                                  className="px-2 py-1 rounded text-[#d1a054] text-lg cursor-pointer"
+                                >
+                                  −
+                                </button>
+                                <span className="px-3 py-1 rounded font-bold text-[#d1a054]">
+                                  {cartItem.quantity}
+                                </span>
+                                <button
+                                  onClick={() =>
+                                    handleIncrease(
+                                      product._id,
+                                      cartItem.quantity
+                                    )
+                                  }
+                                  className="px-2 py-1 rounded text-lg cursor-pointer text-[#d1a054]"
+                                >
+                                  +
+                                </button>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
                     );
@@ -251,7 +301,7 @@ export default function MenuPage() {
                         }}
                         className="mb-12 scroll-mt-32"
                       >
-                        <h2 className="text-2xl font-semibold mb-6 font-sans">
+                        <h2 className="text-2xl text-[#252525] mb-6 font-regular">
                           {category.title}
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -260,18 +310,19 @@ export default function MenuPage() {
                             return (
                               <div
                                 key={product._id}
-                                className="flex justify-between cursor-pointer items-center bg-white rounded-2xl p-5 border border-gray-200 hover:border-gray-400 transition font-sans"
+                                className="flex justify-between cursor-pointer items-center bg-white rounded-2xl p-5 border border-gray-200 hover:border-gray-400 transition"
                               >
                                 <div className="flex-1 pr-6">
                                   <h3
-                                    className="font-semibold text-lg text-gray-800"
-                                    onClick={() =>
-                                      router.push(`/product/${product._id}`)
-                                    }
+                                    className="font-regular text-lg text-gray-800"
+                                    onClick={() => {
+                                      setSelectedProductId(product._id);
+                                      setOpen(true);
+                                    }}
                                   >
                                     {getProductName(product.name)}
                                   </h3>
-                                  <span className="text-[16px] font-semibold text-gray-800">
+                                  <span className="text-[18px] font-[system-ui] font-medium text-[252525]">
                                     ${product.price}
                                   </span>
                                 </div>
@@ -285,19 +336,51 @@ export default function MenuPage() {
                                     alt={product.name}
                                     className="w-full h-full object-cover rounded-xl"
                                   />
-                                  <button
-                                    onClick={() =>
-                                      cartItem
-                                        ? setOpen(true)
-                                        : addToCart({
-                                            productId: product._id,
-                                            quantity: 1,
-                                          })
-                                    }
-                                    className="absolute bottom-2 right-2 w-9 h-9 bg-white border rounded-lg flex items-center justify-center text-pink-600 text-xl shadow hover:bg-pink-50"
-                                  >
-                                    +
-                                  </button>
+                                  {!cartItem && (
+                                    <button
+                                      onClick={() =>
+                                        addToCart({
+                                          productId: product._id,
+                                          quantity: 1,
+                                        })
+                                      }
+                                      className="absolute bottom-2 right-2 cursor-pointer w-9 h-9 bg-white border rounded-lg flex items-center justify-center text-[#d1a054] text-xl shadow"
+                                    >
+                                      +
+                                    </button>
+                                  )}
+
+                                  {cartItem && (
+                                    <div className="border border-[#d1a054] rounded-2xl flex justify-center items-center absolute bottom-2 right-2 curs">
+                                      <div className="flex items-center justify-center gap-2 p-1">
+                                        <button
+                                          onClick={() =>
+                                            handleDecrease(
+                                              product._id,
+                                              cartItem.quantity
+                                            )
+                                          }
+                                          className="px-2 py-1 rounded text-[#d1a054] text-lg cursor-pointer"
+                                        >
+                                          −
+                                        </button>
+                                        <span className="px-3 py-1 rounded font-bold text-[#d1a054]">
+                                          {cartItem.quantity}
+                                        </span>
+                                        <button
+                                          onClick={() =>
+                                            handleIncrease(
+                                              product._id,
+                                              cartItem.quantity
+                                            )
+                                          }
+                                          className="px-2 py-1 rounded text-lg cursor-pointer text-[#d1a054]"
+                                        >
+                                          +
+                                        </button>
+                                      </div>
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                             );
@@ -311,7 +394,11 @@ export default function MenuPage() {
         </div>
       </div>
 
-      <ViewCartModal isOpen={open} onClose={() => setOpen(false)} cart={cart} />
+      <AddToCartModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        productId={selectedProductId}
+      />
     </>
   );
 }

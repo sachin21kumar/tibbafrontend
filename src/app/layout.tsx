@@ -41,7 +41,7 @@ export default function RootLayout({
         <ReduxProvider>
           <Navbar />
           {children}
-          {/* <Footer/> */}
+          <Footer/>
         </ReduxProvider>
       </body>
     </html>

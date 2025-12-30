@@ -60,18 +60,14 @@ const Navbar = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-6 font-[system-ui]">
-            {/* Home */}
             <a
               href="http://mtb.dgh.mybluehost.me/"
               target="_blank"
-              className={`${navBase} ${
-                pathname === "/" ? navHover : navHover
-              }`}
+              className={`${navBase} ${navHover}`}
             >
               Home
             </a>
 
-            {/* Blog */}
             <a
               href="http://mtb.dgh.mybluehost.me/blog/"
               target="_blank"
@@ -82,7 +78,6 @@ const Navbar = () => {
               Blog
             </a>
 
-            {/* Contact */}
             <a
               href="http://mtb.dgh.mybluehost.me/contact-us/"
               target="_blank"
@@ -93,41 +88,16 @@ const Navbar = () => {
               Contact Us
             </a>
 
-            {/* Online Ordering */}
             <div
               className="menu_wrapper relative py-2"
               onMouseEnter={() => setDesktopOpen(true)}
               onMouseLeave={() => setDesktopOpen(false)}
             >
-              <a
-                href="/"
-                className={`${navBase} ${
-                  pathname === "/" ? navActive : navHover
-                }`}
-              >
+              <a href="/" className={`${navBase} ${navHover}`}>
                 Online Ordering
               </a>
-
-              {desktopOpen && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 text-white p-6 rounded-lg shadow-xl grid grid-cols-2 gap-4 min-w-[300px] bg-black">
-                  {category?.data?.map((item) => (
-                    <a
-                      key={item._id}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        navigate.push(`/?category=${item._id}`);
-                        setDesktopOpen(false);
-                      }}
-                      className="text-sm font-medium hover:text-[#d1a054] cursor-pointer"
-                    >
-                      {item.title}
-                    </a>
-                  ))}
-                </div>
-              )}
             </div>
 
-            {/* Locations */}
             <div
               className="menu_wrapper relative py-2"
               onMouseEnter={() => setLocationsOpen(true)}
@@ -161,7 +131,6 @@ const Navbar = () => {
               )}
             </div>
 
-            {/* Reservation */}
             <div
               className="menu_wrapper relative py-3"
               onMouseEnter={() => setReservationOpen(true)}
@@ -185,7 +154,7 @@ const Navbar = () => {
           </div>
 
           {/* Cart */}
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 cursor-pointer" onClick={() => setOpen(true)}>
             <svg
               width="32"
               height="32"
@@ -204,8 +173,7 @@ const Navbar = () => {
                 d="M8.27491 8.95409H21.3949C22.0622 8.95409 22.621 9.46298 22.6817 10.1247L23.993 24.43C24.0622 25.1847 23.4681 25.8357 22.7102 25.8357H6.95958C6.20171 25.8357 5.60761 25.1847 5.67679 24.43L6.98811 10.1247C7.04876 9.46298 7.60763 8.95409 8.27491 8.95409Z"
               />
             </svg>
-
-            <span className="cursor-pointer" onClick={() => setOpen(true)}>
+            <span className="cursor-pointer" >
               {cart?.totalPrice ? `$${cart.totalPrice}` : "$0.00"}
             </span>
           </div>
@@ -218,6 +186,82 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+
+      {/* MOBILE MENU (FIXED) */}
+      {mobileOpen && (
+        <div className="md:hidden bg-[#141617] px-4 pb-6 text-white">
+          <div
+            className="uppercase text-sm py-3 border-b border-gray-700 cursor-pointer"
+            onClick={() => {
+              navigate.push("/");
+              setMobileOpen(false);
+            }}
+          >
+            Home
+          </div>
+
+          <div
+            className="uppercase text-sm py-3 border-b border-gray-700 cursor-pointer"
+            onClick={() => {
+              window.open("http://mtb.dgh.mybluehost.me/blog/", "_blank");
+              setMobileOpen(false);
+            }}
+          >
+            Blog
+          </div>
+
+          <div
+            className="uppercase text-sm py-3 border-b border-gray-700 cursor-pointer"
+            onClick={() => {
+              window.open(
+                "http://mtb.dgh.mybluehost.me/contact-us/",
+                "_blank"
+              );
+              setMobileOpen(false);
+            }}
+          >
+            Contact Us
+          </div>
+
+          <div className="uppercase text-sm py-3 border-b border-gray-700">
+            Online Ordering
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 py-3">
+            {category?.data?.map((item) => (
+              <div
+                key={item._id}
+                className="text-sm text-gray-300 hover:text-[#d1a054] cursor-pointer"
+                onClick={() => {
+                  navigate.push(`/?category=${item._id}`);
+                  setMobileOpen(false);
+                }}
+              >
+                {item.title}
+              </div>
+            ))}
+          </div>
+
+          <div className="uppercase text-sm py-3 border-b border-gray-700">
+            Locations
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 py-3">
+            {locations?.map((loc: Location) => (
+              <div
+                key={loc._id}
+                className="text-sm text-gray-300 hover:text-[#d1a054] cursor-pointer"
+                onClick={() => {
+                  navigate.push(`/locations/${loc._id}`);
+                  setMobileOpen(false);
+                }}
+              >
+                {loc.name}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <ViewCartModal isOpen={open} onClose={() => setOpen(false)} cart={cart} />
     </nav>
