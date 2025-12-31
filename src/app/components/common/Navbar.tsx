@@ -60,29 +60,25 @@ const Navbar = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-6 font-[system-ui]">
-            <a
-              href="http://mtb.dgh.mybluehost.me/"
-              target="_blank"
-              className={`${navBase} ${navHover}`}
-            >
+            <a href="/" className={`${navBase} ${
+                pathname === "/" ? navActive : navHover
+              }`}>
               Home
             </a>
 
             <a
-              href="http://mtb.dgh.mybluehost.me/blog/"
-              target="_blank"
+              href="/gallery"
               className={`${navBase} ${
-                pathname === "/blog" ? navActive : navHover
+                pathname === "/gallery" ? navActive : navHover
               }`}
             >
-              Blog
+              Gallery
             </a>
 
             <a
-              href="http://mtb.dgh.mybluehost.me/contact-us/"
-              target="_blank"
+              href="/contact"
               className={`${navBase} ${
-                pathname === "/contact-us" ? navActive : navHover
+                pathname === "/contact" ? navActive : navHover
               }`}
             >
               Contact Us
@@ -93,7 +89,9 @@ const Navbar = () => {
               onMouseEnter={() => setDesktopOpen(true)}
               onMouseLeave={() => setDesktopOpen(false)}
             >
-              <a href="/" className={`${navBase} ${navHover}`}>
+              <a href="/onlineordering" className={`${navBase} ${
+                pathname === "/onlineordering" ? navActive : navHover
+              }`}>
                 Online Ordering
               </a>
             </div>
@@ -106,9 +104,7 @@ const Navbar = () => {
               <div
                 onClick={() => navigate.push("/locations")}
                 className={`${navBase} ${
-                  pathname.startsWith("/locations")
-                    ? navActive
-                    : navHover
+                  pathname.startsWith("/locations") ? navActive : navHover
                 }`}
               >
                 Locations
@@ -120,9 +116,7 @@ const Navbar = () => {
                     <div
                       key={loc._id}
                       className="text-sm py-1 px-2 hover:text-[#d1a054] cursor-pointer"
-                      onClick={() =>
-                        navigate.push(`/locations/${loc._id}`)
-                      }
+                      onClick={() => navigate.push(`/locations/${loc._id}`)}
                     >
                       {loc.name}
                     </div>
@@ -136,9 +130,9 @@ const Navbar = () => {
               onMouseEnter={() => setReservationOpen(true)}
               onMouseLeave={() => setReservationOpen(false)}
             >
-              <div className={`${navBase} ${navHover}`}>
-                Reservation
-              </div>
+              <div  className={`${navBase} ${
+                  pathname.startsWith("/reservation") ? navActive : navHover
+                }`}>Reservation</div>
 
               {reservationOpen && (
                 <div className="absolute top-full left-1/2 -translate-x-1/2 bg-black text-white p-4 rounded-lg shadow-lg min-w-[200px]">
@@ -154,7 +148,11 @@ const Navbar = () => {
           </div>
 
           {/* Cart */}
-          <div className="flex items-center gap-1 cursor-pointer" onClick={() => setOpen(true)}>
+          <div
+            className="relative cursor-pointer flex items-center"
+            onClick={() => setOpen(true)}
+          >
+            {/* SVG */}
             <svg
               width="32"
               height="32"
@@ -173,7 +171,16 @@ const Navbar = () => {
                 d="M8.27491 8.95409H21.3949C22.0622 8.95409 22.621 9.46298 22.6817 10.1247L23.993 24.43C24.0622 25.1847 23.4681 25.8357 22.7102 25.8357H6.95958C6.20171 25.8357 5.60761 25.1847 5.67679 24.43L6.98811 10.1247C7.04876 9.46298 7.60763 8.95409 8.27491 8.95409Z"
               />
             </svg>
-            <span className="cursor-pointer" >
+
+            {/* Number Badge */}
+            {cart?.items?.length > 0 && (
+              <span className="absolute -top-2 left-2 bg-[#d1a054] text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                {cart.items.length}
+              </span>
+            )}
+
+            {/* Total Price */}
+            <span className="ml-2">
               {cart?.totalPrice ? `$${cart.totalPrice}` : "$0.00"}
             </span>
           </div>
@@ -188,7 +195,7 @@ const Navbar = () => {
       </div>
 
       {/* MOBILE MENU (FIXED) */}
-      {mobileOpen && (
+      {/* {mobileOpen && (
         <div className="md:hidden bg-[#141617] px-4 pb-6 text-white">
           <div
             className="uppercase text-sm py-3 border-b border-gray-700 cursor-pointer"
@@ -213,10 +220,7 @@ const Navbar = () => {
           <div
             className="uppercase text-sm py-3 border-b border-gray-700 cursor-pointer"
             onClick={() => {
-              window.open(
-                "http://mtb.dgh.mybluehost.me/contact-us/",
-                "_blank"
-              );
+              window.open("http://mtb.dgh.mybluehost.me/contact-us/", "_blank");
               setMobileOpen(false);
             }}
           >
@@ -261,7 +265,7 @@ const Navbar = () => {
             ))}
           </div>
         </div>
-      )}
+      )} */}
 
       <ViewCartModal isOpen={open} onClose={() => setOpen(false)} cart={cart} />
     </nav>

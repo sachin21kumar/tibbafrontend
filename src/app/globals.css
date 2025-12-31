@@ -51,3 +51,86 @@ p{
   font-family: "allura";
 }
 
+@keyframes kenburns1 {
+  /* Image 1 visible for first 5s */
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+
+  /* Fade out smoothly */
+  70% {
+    opacity: 0;
+    transform: scale(1.12);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.12);
+  }
+}
+
+@keyframes kenburns2 {
+  /* Hidden initially */
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+
+  /* Fade in smoothly at 5s */
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Visible & zooming for next 5s */
+  100% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+}
+
+.hero-img-1,
+.hero-img-2 {
+  will-change: transform, opacity;
+}
+
+.hero-img-1 {
+  animation: kenburns1 10s ease-in-out infinite;
+}
+
+.hero-img-2 {
+  animation: kenburns2 10s ease-in-out infinite;
+}
+
+
+
+.text-shadow-gold {
+  text-shadow: 0 4px 20px rgba(209, 160, 84, 0.8);
+}
+
+.text-shadow-white {
+  text-shadow: 0 4px 20px rgba(255, 255, 255, 0.8);
+}
+
+.hero-title {
+  transition: text-shadow 0.5s ease;
+}
+
+.hero-title:hover {
+  text-shadow:
+    0 2px 10px rgba(209, 160, 84, 0.6),
+    0 6px 30px rgba(209, 160, 84, 0.8);
+}
+
+.yarl__slide.yarl__slide_current.yarl__flex_center img{
+min-height: 600px !important;
+min-width: 1030px !important;
+border-radius: 10px;
+border: 1px solid transparent;
+}

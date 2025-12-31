@@ -56,7 +56,10 @@ export default function AddToCartModal({
   };
 
   const handleDecrease = () => {
-    if (quantity <= 1) return;
+    if (quantity <= 1) {
+    removeFromCart({ productId: product._id })
+    onClose()
+    }
 
     updateCart({
       productId: product._id,
@@ -146,16 +149,7 @@ export default function AddToCartModal({
 
               <div className="border-b border-b-gray-200 h-[1px] w-full"></div>
 
-              {isInCart && (
-                <div className="flex border-gray-200 pt-[20px]">
-                  <button
-                    className="text-red-500 hover:text-red-700 font-medium"
-                    onClick={handleRemoveAll}
-                  >
-                    Remove All
-                  </button>
-                </div>
-              )}
+             
 
               <div
                 className={`p-4 flex ${

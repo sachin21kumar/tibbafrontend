@@ -35,20 +35,18 @@ export default function ContactForm() {
       <div className="container mx-auto max-w-7xl px-6">
 
         {/* Heading */}
-        <div className="text-center mb-20">
-          <div className="flex justify-center">
-            <p className="font-[allura] text-[#d1a054] text-2xl mb-2 border-b border-black w-[350px]">
-              Send Us a Message
-            </p>
-          </div>
-          <div className="flex justify-center">
-            <h2 className="text-4xl tracking-widest border-b border-black w-[350px]">
-              CONTACT FORM
-            </h2>
-          </div>
-        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-[26px]  text-[#d1a054] leading-[0.7]">Send Us a Message</p>
+          <div className="h-px w-[330px] mx-auto bg-gradient-to-r from-transparent via-black to-transparent" />
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-16">
+          <button className="text-lg text-black p-[9px] leading-7 text-[34px] font-normal">
+            CONTACT FORM
+          </button>
+          <div className="h-px w-[330px] mx-auto bg-gradient-to-r from-transparent via-black to-transparent" />
+        </div>
+        
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 mt-10">
 
           {/* Inputs */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">

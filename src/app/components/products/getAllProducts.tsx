@@ -7,10 +7,12 @@ import { useGetProductsQuery } from "../redux/query/productsQuery/productsQuery"
 import {
   useAddToCartMutation,
   useGetCartQuery,
+  useRemoveFromCartMutation,
   useUpdateCartMutation,
 } from "../redux/query/cartQuery/cart.query";
 import ViewCartModal from "../common/ViewCartModel";
 import AddToCartModal from "../common/addToCartModel";
+import { RestaurantCard } from "./restaurantGuard";
 
 function useDebounce<T>(value: T, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
@@ -38,6 +40,7 @@ export default function MenuPage() {
   const [search, setSearch] = useState<string>("");
   const debouncedSearch = useDebounce(search, 300);
   const [updateCart] = useUpdateCartMutation();
+  const [removeFromCart] = useRemoveFromCartMutation();
 
   const { data: categoriesResponse, isLoading: categoriesLoading } =
     useGetCategoryQuery();
@@ -156,11 +159,19 @@ export default function MenuPage() {
   };
 
   const handleDecrease = (productId: string, qty: number) => {
-    if (qty <= 1) return;
+    if (qty <= 1) {
+    // remove entire product from cart
+    removeFromCart({ productId: productId });
+    return;
+  }
     updateCart({ productId, quantity: qty - 1 });
   };
   return (
     <>
+    <div>
+
+    <RestaurantCard/>
+    </div>
       <div className="min-h-screen px-4 py-6">
         <div className="flex gap-[10px] mx-auto">
           <aside className="hidden md:block bg-white h-screen p-4 sticky top-[90px] h-fit border-r border-gray-200 flex-none w-[19%]">

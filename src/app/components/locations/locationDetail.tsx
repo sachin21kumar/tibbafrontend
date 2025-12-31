@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { useGetLocationByIdQuery } from "../redux/query/locationsQuery/location.query";
 import LocationForm from "./locationForm";
 import LocationsGrid from "./locationsGrid";
+import { Location } from "../home/locations";
 
 const openingHours = [
   "Monday",
@@ -43,7 +44,7 @@ export default function LocationDetails() {
         </h1>
       </div>
 
-      <section className="bg-white">
+      <section className="bg-white ">
         <div className="container mx-auto max-w-7xl px-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-start ">
             {/* LEFT CONTENT */}
@@ -110,6 +111,10 @@ export default function LocationDetails() {
         </div>
         <LocationForm />
         <LocationsGrid />
+        <div className="mt-15">
+
+        <Location/>
+        </div>
       </section>
     </>
   );
