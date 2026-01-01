@@ -28,7 +28,7 @@ export default function LocationsGrid() {
               className="bg-[#f8f8f8] rounded-2xl shadow-sm hover:shadow-lg transition overflow-hidden"
             >
               {/* Image */}
-              <div className="relative h-64 w-full">
+              <div className="relative md:h-64 w-full">
                 <img
                   src={
                     "http://mtb.dgh.mybluehost.me/wp-content/uploads/2025/07/Abu-Hail-754x500.webp"
@@ -39,9 +39,9 @@ export default function LocationsGrid() {
               </div>
 
               {/* Content */}
-              <div className="p-8 space-y-6 cursor-pointer">
+              <div className="md:p-8 p-4 space-y-6 cursor-pointer">
                 <h3
-                  className=" text-[20px] text-gray-900 leading-snug"
+                  className="md:text-[20px] text-[16px] text-gray-900 leading-snug"
                   onClick={() => router.push(`/locations/${loc?._id}`)}
                 >
                   {loc.name}
@@ -49,13 +49,13 @@ export default function LocationsGrid() {
 
                 {/* Address */}
                 <div className="flex items-start gap-3 text-gray-600">
-                  <MapPin size={18} className="text-[#d1a054] mt-1" />
+                  <img src="/location.png"/>
                   <span>{loc.location}</span>
                 </div>
 
                 {/* Phone */}
                 <div className="flex items-center gap-3 text-gray-600">
-                  <Phone size={18} className="text-[#d1a054]" />
+                  <img src="/phoneIcon.png"/>
                   <span>{loc.mobileNumber}</span>
                 </div>
               </div>

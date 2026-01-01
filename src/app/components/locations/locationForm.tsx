@@ -33,26 +33,26 @@ export default function ContactForm() {
   return (
     <section className="bg-white py-24">
       <div className="container mx-auto max-w-7xl px-6">
-
         {/* Heading */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-[26px]  text-[#d1a054] leading-[0.7]">Send Us a Message</p>
-          <div className="h-px w-[330px] mx-auto bg-gradient-to-r from-transparent via-black to-transparent" />
+          <p className="text-[18px] sm:text-[22px] lg:text-[26px] text-[#d1a054] leading-[0.9] sm:leading-[0.8] lg:leading-[0.7]">
+            Send Us a Message
+          </p>
 
-          <button className="text-lg text-black p-[9px] leading-7 text-[34px] font-normal">
+          <div className="h-px w-[200px] sm:w-[260px] lg:w-[330px] mx-auto bg-gradient-to-r from-transparent via-black to-transparent" />
+
+          <button className="text-[20px] sm:text-[26px] lg:text-[34px] text-black p-[6px] sm:p-[8px] lg:p-[9px] leading-7 font-normal">
             CONTACT FORM
           </button>
-          <div className="h-px w-[330px] mx-auto bg-gradient-to-r from-transparent via-black to-transparent" />
+
+          <div className="h-px w-[200px] sm:w-[260px] lg:w-[330px] mx-auto bg-gradient-to-r from-transparent via-black to-transparent" />
         </div>
-        
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 mt-10">
-
           {/* Inputs */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-
             {/* Name */}
-            <div >
+            <div>
               <label className="block text-xs uppercase tracking-widest text-gray-500">
                 Your Name
               </label>
@@ -145,7 +145,6 @@ export default function ContactForm() {
               </div>
             )}
           </div>
-
         </form>
       </div>
     </section>

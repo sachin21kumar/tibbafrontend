@@ -1,7 +1,7 @@
 "use client";
 
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { X, Trash2 } from "lucide-react";
 import { useRemoveFromCartMutation, useUpdateCartMutation } from "../redux/query/cartQuery/cart.query";
 import { useRouter } from "next/navigation";
@@ -40,6 +40,12 @@ export default function ViewCartModal({
   const handleRemove = (productId: string) => {
     removeFromCart({ productId });
   };
+useEffect(() => {
+  document.documentElement.style.overflowX = "hidden";
+  return () => {
+    document.documentElement.style.overflowX = "";
+  };
+}, [isOpen]);
 
   return (
     <Transition appear show={isOpen} as={Fragment} >
@@ -53,7 +59,7 @@ export default function ViewCartModal({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black/50" />
+          <div className="fixed inset-0 bg-gray/50" />
         </Transition.Child>
 
         <div className="fixed inset-0 flex items-center justify-center p-4">
@@ -68,7 +74,7 @@ export default function ViewCartModal({
           >
             <Dialog.Panel className="w-full max-w-2xl rounded-2xl bg-white shadow-xl">
               <div className="relative border-b p-6 text-center border-b-gray-200">
-                <h2 className="text-[34px] tracking-wide">View Order</h2>
+                <h2 className="sm:text-[34px] text-[20px] tracking-wide">View Order</h2>
                 <button
                   onClick={onClose}
                   className="absolute right-6 top-6 font-[300] hover:text-black cursor-pointer"

@@ -41,29 +41,32 @@ export default function MenuPage() {
   const debouncedSearch = useDebounce(search, 300);
   const [updateCart] = useUpdateCartMutation();
   const [removeFromCart] = useRemoveFromCartMutation();
+  const [addToCart] = useAddToCartMutation();
+  const [isClient, setIsClient] = useState(false);
 
   const { data: categoriesResponse, isLoading: categoriesLoading } =
     useGetCategoryQuery();
   const { data: productsResponse, isLoading: productsLoading } =
     useGetProductsQuery({ limit: 1000 });
   const { data: cart } = useGetCartQuery();
-  const [addToCart] = useAddToCartMutation();
-  const cartItem = cart?.items?.find(
-    (item: any) => item.productId?._id === selectedProductId
-  );
 
-  const isInCart = Boolean(cartItem);
   const categories: Category[] = categoriesResponse?.data || [];
   const products: any[] = productsResponse?.data || [];
 
-  // refs
+  const sortedCategories = useMemo(() => {
+    if (!categories?.length) return [];
+    const popular = categories.find((cat) => cat.title === "Popular Meals");
+    const others = categories.filter((cat) => cat.title !== "Popular Meals");
+    return popular ? [popular, ...others] : categories;
+  }, [categories]);
+
   const categoryRefs = useRef<Record<string, HTMLElement | null>>({});
-  const categoryButtonRefs = useRef<Record<string, HTMLButtonElement | null>>(
-    {}
-  );
   const desktopCategoryRefs = useRef<Record<string, HTMLLIElement | null>>({});
   const mobileCategoryContainerRef = useRef<HTMLDivElement | null>(null);
   const desktopCategoryContainerRef = useRef<HTMLUListElement | null>(null);
+  const mobileCategoryButtonRefs = useRef<
+    Record<string, HTMLButtonElement | null>
+  >({});
 
   const scrollToCategory = (categoryId: string) => {
     categoryRefs.current[categoryId]?.scrollIntoView({
@@ -72,7 +75,12 @@ export default function MenuPage() {
     });
   };
 
-  // Scroll spy (disabled during search)
+  useEffect(() => {
+    if (!activeCategory && sortedCategories.length) {
+      setActiveCategory(sortedCategories[0]._id);
+    }
+  }, [sortedCategories, activeCategory]);
+
   useEffect(() => {
     if (!categories.length || debouncedSearch) return;
 
@@ -92,34 +100,33 @@ export default function MenuPage() {
     Object.values(categoryRefs.current).forEach(
       (el) => el && observer.observe(el)
     );
-
     return () => observer.disconnect();
   }, [categories, products, debouncedSearch]);
 
-  // Scroll active category into view
   useEffect(() => {
     if (!activeCategory) return;
-
-    const activeButton = categoryButtonRefs.current[activeCategory];
-    if (activeButton && mobileCategoryContainerRef.current) {
+    const activeMobileButton = mobileCategoryButtonRefs.current[activeCategory];
+    if (activeMobileButton && mobileCategoryContainerRef.current) {
       const container = mobileCategoryContainerRef.current;
-      const buttonRect = activeButton.getBoundingClientRect();
+      const buttonRect = activeMobileButton.getBoundingClientRect();
       const containerRect = container.getBoundingClientRect();
-
       if (
         buttonRect.left < containerRect.left ||
         buttonRect.right > containerRect.right
       ) {
-        activeButton.scrollIntoView({ behavior: "smooth", inline: "center" });
+        activeMobileButton.scrollIntoView({
+          behavior: "smooth",
+          inline: "center",
+        });
       }
     }
 
+    // Desktop
     const activeDesktopItem = desktopCategoryRefs.current[activeCategory];
     if (activeDesktopItem && desktopCategoryContainerRef.current) {
       const container = desktopCategoryContainerRef.current;
       const itemRect = activeDesktopItem.getBoundingClientRect();
       const containerRect = container.getBoundingClientRect();
-
       if (
         itemRect.top < containerRect.top ||
         itemRect.bottom > containerRect.bottom
@@ -132,17 +139,14 @@ export default function MenuPage() {
     }
   }, [activeCategory]);
 
-  const getCartItem = (productId: string) =>
-    cart?.items?.find((item: any) => item.productId?._id === productId);
-
-  const [isClient, setIsClient] = useState(false);
-  useEffect(() => setIsClient(true), []);
-
   const filteredProducts = useMemo(() => {
     return products.filter((p) =>
       p.name.toLowerCase().includes(debouncedSearch.toLowerCase())
     );
   }, [products, debouncedSearch]);
+
+  const getCartItem = (productId: string) =>
+    cart?.items?.find((item: any) => item.productId?._id === productId);
 
   const getProductName = (name: string) => {
     if (isClient && window.innerWidth < 768 && name.length > 11) {
@@ -151,27 +155,60 @@ export default function MenuPage() {
     return name;
   };
 
-  if (categoriesLoading || productsLoading) {
-    return <p className="text-center py-10">Loading...</p>;
-  }
   const handleIncrease = (productId: string, qty: number) => {
     updateCart({ productId, quantity: qty + 1 });
   };
 
   const handleDecrease = (productId: string, qty: number) => {
     if (qty <= 1) {
-    // remove entire product from cart
-    removeFromCart({ productId: productId });
-    return;
-  }
+      removeFromCart({ productId });
+      return;
+    }
     updateCart({ productId, quantity: qty - 1 });
   };
+
+  useEffect(() => setIsClient(true), []);
+
+  if (categoriesLoading || productsLoading) {
+    return <p className="text-center py-10">Loading...</p>;
+  }
+
   return (
     <>
-    <div>
+      <RestaurantCard />
+      {!debouncedSearch && (
+        <div className="md:hidden sticky top-[88px] z-40 bg-white border-t border-b border-gray-300">
+          <div
+            ref={mobileCategoryContainerRef}
+            className="flex gap-6 overflow-x-auto px-4 scrollbar-hide"
+          >
+            {sortedCategories.map((cat) => (
+              <button
+                key={cat._id}
+                ref={(el) => {
+                  mobileCategoryButtonRefs.current[cat._id] = el;
+                }}
+                onClick={() => scrollToCategory(cat._id)}
+                className="relative py-3 whitespace-nowrap text-sm font-medium"
+              >
+                <span
+                  className={`${
+                    activeCategory === cat._id
+                      ? "text-[#d1a054]"
+                      : "text-gray-700"
+                  }`}
+                >
+                  {cat.title}
+                  {activeCategory === cat._id && (
+                    <span className="absolute -bottom-2 left-0 bottom-0 w-full h-[2px] bg-[#d1a054] rounded-full" />
+                  )}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
-    <RestaurantCard/>
-    </div>
       <div className="min-h-screen px-4 py-6">
         <div className="flex gap-[10px] mx-auto">
           <aside className="hidden md:block bg-white h-screen p-4 sticky top-[90px] h-fit border-r border-gray-200 flex-none w-[19%]">
@@ -186,7 +223,7 @@ export default function MenuPage() {
                 ref={desktopCategoryContainerRef}
                 className="space-y-1 max-h-[80vh] overflow-y-auto"
               >
-                {categories.map((cat) => (
+                {sortedCategories.map((cat) => (
                   <li
                     key={cat._id}
                     ref={(el) => {
@@ -196,7 +233,7 @@ export default function MenuPage() {
                     className={`cursor-pointer px-3 py-2 text-sm transition ${
                       activeCategory === cat._id
                         ? "border-l-3 border-l-[#D1A054] font-bold"
-                        : "text-[#313131] font-semibold hover:text-[#D1A054]"
+                        : "text-[#313131] font-semibold hover:text-[#d1a054]"
                     }`}
                   >
                     {cat.title}
@@ -233,7 +270,6 @@ export default function MenuPage() {
                           >
                             {getProductName(product.name)}
                           </h3>
-
                           <span className="text-[16px] font-semibold text-gray-800">
                             ${product.price}
                           </span>
@@ -256,14 +292,13 @@ export default function MenuPage() {
                                   quantity: 1,
                                 })
                               }
-                              className="absolute bottom-2 right-2 cursor-pointer w-9 h-9 bg-white border rounded-lg flex items-center justify-center text-[#d1a054] text-xl shadow "
+                              className="absolute bottom-2 right-2 cursor-pointer w-9 h-9 bg-white border rounded-lg flex items-center justify-center text-[#d1a054] text-xl shadow"
                             >
                               +
                             </button>
                           )}
-
                           {cartItem && (
-                            <div className="border border-[#d1a054] rounded-2xl flex justify-center items-center absolute bottom-2 right-2 curs bg-white">
+                            <div className="border border-[#d1a054] rounded-2xl flex justify-center items-center absolute bottom-2 right-2 bg-white">
                               <div className="flex items-center justify-center gap-2 p-1">
                                 <button
                                   onClick={() =>
@@ -297,7 +332,7 @@ export default function MenuPage() {
                       </div>
                     );
                   })
-                : categories.map((category) => {
+                : sortedCategories.map((category) => {
                     const categoryProducts = products.filter(
                       (p) => p.categoryId === category._id
                     );
@@ -360,7 +395,6 @@ export default function MenuPage() {
                                       +
                                     </button>
                                   )}
-
                                   {cartItem && (
                                     <div className="border border-[#d1a054] rounded-2xl flex justify-center items-center absolute bottom-2 right-2 bg-white">
                                       <div className="flex items-center justify-center gap-2 p-1">

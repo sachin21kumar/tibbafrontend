@@ -35,14 +35,14 @@ export default function LocationCard() {
         </div>
 
         {/* Location Cards */}
-        <div className="max-w-[1348px] mx-auto mt-10 space-y-10">
+        <div className="max-w-[1348px] mx-auto mt-10 space-y-10 p-3">
           {locations?.map((location: any) => (
             <div
               key={location._id}
               className="flex flex-col md:flex-row border border-gray-300 shadow-md rounded-lg overflow-hidden bg-white"
             >
               {/* Image Section */}
-              <div className="md:w-1/2 relative h-64 md:h-auto">
+              <div className="md:w-1/2 relative md:h-64 md:h-auto">
                 <img
                   src={
                     location.imageUrl ||
@@ -54,11 +54,15 @@ export default function LocationCard() {
               </div>
 
               {/* Details Section */}
-              <div className="md:w-1/2 p-8 flex flex-col justify-center">
-                <h2 className="text-2xl md:text-3xl text-[#252525] font-regular mb-4">
+              <div className="md:w-1/2 p-8  flex flex-col justify-center">
+              <div className="w-fit">
+                <h2 className="text-[20px] md:text-3xl text-[#252525] font-regular md:mb-4">
                   {location.name}
                 </h2>
-                <div className="w-[369px] bg-gradient-to-r from-[#D1A054] to-[#D1A054]/0 ... h-[1px]"></div>
+                <div className="bg-gradient-to-r from-[#D1A054] to-[#D1A054]/0 ... h-[1px]"></div>
+                </div>
+                <div className="md:py-auto pt-5">
+
                 <div className="flex items-center gap-3 text-gray-600 mb-2 mt-3">
                   <img src="/location.png" alt="Location Icon" />
                   <span>{location.location}</span>
@@ -66,6 +70,7 @@ export default function LocationCard() {
                 <div className="flex items-center gap-3 text-gray-600 mb-4">
                   <img src="/phoneIcon.png" alt="Phone Icon" />
                   <span>{location.mobileNumber}</span>
+                </div>
                 </div>
                 <a
                   href={`/locations/${location._id}`}

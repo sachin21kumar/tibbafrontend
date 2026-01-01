@@ -16,18 +16,22 @@ export const BestSeller = () => {
   const [open, setOpen] = useState(false);
 
   return (
+    <>
     <section className="py-[90px]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-[26px]  text-[#d1a054] leading-[0.7]">
             Best Sellers for Delivery
           </p>
-          <div className="h-px w-[400px] mx-auto bg-gradient-to-r from-transparent via-black to-transparent" />
+          <div className="w-fit mx-auto">
 
-          <button className="text-lg text-black p-[8px] leading-7 text-[34px] font-normal">
+          <div className="h-px mx-auto bg-gradient-to-r from-transparent via-black to-transparent" />
+
+          <button className="text-lg text-black p-[8px] leading-7 xl:text-[34px] text-[20px] font-normal">
             Favourite Delivery
           </button>
-          <div className="h-px w-[400px] mx-auto bg-gradient-to-r from-transparent via-black to-transparent" />
+          <div className="h-px mx-auto bg-gradient-to-r from-transparent via-black to-transparent" />
+          </div>
         </div>
         <div className="max-w-[1288px] mx-auto px-4 py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {data?.data.slice(0, 3).map((product) => {
@@ -110,7 +114,8 @@ export const BestSeller = () => {
           )}
         </div>
       </div>
-      <ViewCartModal isOpen={open} onClose={() => setOpen(false)} cart={cart} />
     </section>
+      <ViewCartModal isOpen={open} onClose={() => setOpen(false)} cart={cart} />
+    </>
   );
 };

@@ -18,8 +18,7 @@ export const Contact = () => {
       text: "Mon - Fri: 08:00 - 22:00\nSat - Sun: 10:00 - 23:00",
     },
     {
-      icon: <MdOutlinePhoneEnabled />
-,
+      icon: <MdOutlinePhoneEnabled />,
       title: "PHONE",
       text: "+38 (012) 34 56 789",
     },
@@ -27,15 +26,16 @@ export const Contact = () => {
   return (
     <>
       <div
-        className="w-full h-64 md:h-100 bg-cover bg-center flex items-center justify-center"
+        className="w-full h-48 sm:h-56 md:h-100 bg-cover bg-center flex items-center justify-center"
         style={{
           backgroundImage: `url('/header.jpg')`,
         }}
       >
-        <h1 className="text-white text-4xl md:text-5xl font-cinzel bg-white/10 border-white/32 backdrop-blur-[20px] px-6 py-7">
+        <h1 className="text-white text-2xl sm:text-3xl md:text-5xl font-cinzel bg-white/10 border-white/32 backdrop-blur-[20px] px-4 sm:px-5 md:px-6 py-4 sm:py-5 md:py-7">
           Contact Us
         </h1>
       </div>
+
       <div className="max-w-[1288px] mx-auto pt-15">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-[26px]  text-[#d1a054] leading-[0.7]">Visit Us</p>
@@ -76,20 +76,18 @@ export const Contact = () => {
               </div>
 
               {/* Card content */}
-              <h3 className="mt-8 text-[20px]">
-                {card.title}
-              </h3>
+              <h3 className="mt-8 text-[20px]">{card.title}</h3>
               <p className="mt-2 text-[#1B2024] font-light !font-[system-ui] whitespace-pre-line">
                 {card.text}
               </p>
             </div>
           ))}
         </div>
-        <ContactForm/>
+        <ContactForm />
       </div>
-        <div>
-            <Location/>
-        </div>
+      <div>
+        <Location />
+      </div>
     </>
   );
 };

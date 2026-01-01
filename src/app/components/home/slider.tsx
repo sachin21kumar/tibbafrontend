@@ -62,7 +62,7 @@ export default function ImageSlider() {
               <div
                 className={`absolute inset-0 ${
                   slide.image ? "" : "white"
-                } flex items-center justify-center`}
+                } flex items-center justify-center px-4 sm:px-6`}
               >
                 <div className="relative bg-white p-[44px_clamp(1rem,_-1.3602rem_+_9.9379vw,_5rem)] rounded-xl max-w-[720px] text-center shadow-[inset_0_0_3px_rgba(255,255,255,0.25),0_3px_15px_rgba(0,0,0,0.25)]">
                   <h2 className="text-2xl md:text-[32px] mb-4">
@@ -84,7 +84,7 @@ export default function ImageSlider() {
 
                   {/* Arrows with small gap from content */}
                   <div
-                    className="absolute top-1/2 -translate-y-1/2 -left-19 w-[52px] h-[52px] border border-gray-300 bg-white rounded-full flex items-center justify-center cursor-pointer swiper-button-prev-custom"
+                    className="hidden xl:flex absolute top-1/2 -translate-y-1/2 -left-19 w-[52px] h-[52px] border border-gray-300 bg-white rounded-full flex items-center justify-center cursor-pointer swiper-button-prev-custom"
                     style={{
                       borderRadius: "63% 37% 30% 70% / 50% 45% 55% 50%",
                     }}
@@ -92,7 +92,7 @@ export default function ImageSlider() {
                     ❮
                   </div>
                   <div
-                    className="absolute top-1/2 -translate-y-1/2 -right-19 w-[52px] h-[52px] border border-gray-300 bg-white rounded-full flex items-center justify-center cursor-pointer swiper-button-next-custom"
+                    className="hidden xl:flex absolute top-1/2 -translate-y-1/2 -right-19 w-[52px] h-[52px] border border-gray-300 bg-white rounded-full flex items-center justify-center cursor-pointer swiper-button-next-custom"
                     style={{
                       borderRadius: "63% 37% 30% 70% / 50% 45% 55% 50%",
                     }}

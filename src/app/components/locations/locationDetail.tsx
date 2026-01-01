@@ -46,13 +46,16 @@ export default function LocationDetails() {
 
       <section className="bg-white ">
         <div className="container mx-auto max-w-7xl px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-start ">
+          <div className="grid grid-cols-1 lg:grid-cols-3 md:gap-16 gap-7 items-start ">
             {/* LEFT CONTENT */}
-            <div className="lg:col-span-2 space-y-8 py-20">
-              <div>
-                <h1 className="font-serif text-4xl tracking-wide border-b border-b-[#d1a054] pb-2 w-fit text-gray-900">
+            <div className="lg:col-span-2 space-y-8 xl:py-20 py-10">
+              <div className="w-fit">
+                <h1 className="md:text-4xl text-[28px] tracking-wide text-[#1B2024] pb-2 w-fit text-gray-900">
                   {location?.name}
                 </h1>
+          <div className="h-px mx-auto bg-gradient-to-l from-transparent to-[#d1a054]" />
+
+
               </div>
 
               <h1 className="text-gray-600 font-[system-ui] leading-relaxed">
@@ -79,7 +82,7 @@ export default function LocationDetails() {
             </div>
 
             {/* RIGHT CARD */}
-            <div className="bg-white shadow-xl border border-[#f8f8f8] p-8">
+            <div className="bg-white shadow-xl border border-[#f8f8f8] md:p-8">
               <div className="flex items-center justify-center">
                 <h3 className="border-b border-b-[#d1a054] text-[#d1a054] font-[allura] text-[32px] pb-1 w-fit mb-6">
                   Opening Hours
@@ -97,9 +100,9 @@ export default function LocationDetails() {
           ${isToday ? "border-b border-t border-[#d1a054]" : ""}
         `}
                     >
-                      <span className={`font-medium `}>{day}</span>
+                      <span className={`font-medium text-[14px]`}>{day}</span>
 
-                      <span className={isToday ? "text-[#d1a054]" : ""}>
+                      <span className={isToday ? "text-[#d1a054]" : "" }>
                         {location?.operation_hours || "8:00 am – 3:00 am"}
                       </span>
                     </li>
