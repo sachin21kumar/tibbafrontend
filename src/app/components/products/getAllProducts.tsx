@@ -180,7 +180,7 @@ export default function MenuPage() {
         <div className="md:hidden sticky top-[88px] z-40 bg-white border-t border-b border-gray-300">
           <div
             ref={mobileCategoryContainerRef}
-            className="flex gap-6 overflow-x-auto px-4 scrollbar-hide"
+            className="flex gap-6 overflow-x-auto px-4 scrollbar-hide scroll-hide"
           >
             {sortedCategories.map((cat) => (
               <button

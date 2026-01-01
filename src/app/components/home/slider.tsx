@@ -31,13 +31,6 @@ const slides: Slide[] = [
       "Take a break with our Weekday Lunch Delight! Enjoy a two-course meal at a special price, Monday to Friday, 11 AM to 3 PM. Treat yourself to a delightful lunch today!",
     buttonText: "Our Menu",
   },
-  {
-    id: 2,
-    image: "",
-    title: "List Title",
-    description: "List Content",
-    buttonText: "",
-  },
 ];
 
 export default function ImageSlider() {

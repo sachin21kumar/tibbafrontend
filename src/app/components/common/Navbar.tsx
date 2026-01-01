@@ -50,6 +50,9 @@ const Navbar = () => {
   const mobileNavHover = "hover:after:w-full";
   const mobileNavActive = "after:w-full";
 
+
+  
+
   return (
     <nav className="bg-[#141617] text-white sticky top-0 z-50 py-3">
       <div className="px-4 sm:px-6 lg:px-8">
@@ -181,13 +184,17 @@ const Navbar = () => {
                 {cart.items.length}
               </span>
             )}
+
+            <span className="ml-2 hidden xl:block">
+              {cart?.totalPrice ? `$${cart.totalPrice}` : "$0.00"}
+            </span>
           </div>
         </div>
       </div>
 
       {mobileOpen && (
         <div className="lg:hidden bg-[#141617] border-t border-white/10">
-          <div className="flex flex-col px-8 py-7 space-y-4 items-start">
+          <div className="flex flex-col px-8 py-7 space-y-4 items-start h-[calc(100vh-88px)]">
             {[
               { label: "Home", path: "/" },
               { label: "Gallery", path: "/gallery" },

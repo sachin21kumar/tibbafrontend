@@ -153,10 +153,10 @@ export default function AddToCartModal({
 
               <div
                 className={`p-4 flex ${
-                  !isInCart ? "justify-end" : "justify-between"
+                  !isInCart ? "md:justify-end justify-center" : "justify-between"
                 } items-center border-t mt-13 border-gray-200`}
               >
-                <div className={`flex items-center justify-between ${isInCart ? "w-full" : ""} p-4`}>
+                <div className={`flex items-center justify-between ${isInCart ? "w-full" : ""} md:p-4 p-2`}>
                   <div className={`flex items-center gap-4 w-full ${isInCart ? "justify-between" : "justify-end"}`}>
                     {isInCart && (
                       <div>${product.price * quantity}</div>
@@ -186,7 +186,7 @@ export default function AddToCartModal({
 
                 {!isInCart && (
                   <button
-                    className="bg-[#D1A054] text-white px-15 py-3 rounded-lg font-medium hover:opacity-90 cursor-pointer"
+                    className="bg-[#D1A054] text-white text-[14px] md:text-[20px] md:px-15 px-2 py-3 rounded-lg font-medium hover:opacity-90 cursor-pointer"
                     onClick={handleAddToCart}
                   >
                     Add item | ${product.price * quantity}

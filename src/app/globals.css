@@ -159,8 +159,8 @@ p{
 
 }
 
-::-webkit-scrollbar {
-    display: none;
+.scroll-hide::-webkit-scrollbar {
+  display: none; /* Hide scrollbar in WebKit browsers */
 }
 
 
