@@ -66,7 +66,7 @@ const Navbar = () => {
           <Image
             src={tibbaLogo}
             alt="Logo"
-            className="h-15 w-auto cursor-pointer"
+            className=" md:w-[72px] w-[50px] object-cover cursor-pointer"
             onClick={() => navigate.push("/")}
           />
 
