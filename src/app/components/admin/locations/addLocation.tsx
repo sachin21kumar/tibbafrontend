@@ -12,6 +12,9 @@ type AddLocationForm = {
   branchEmail: string;
   telephone: string;
   mobileNumber: string;
+  lat: string;
+  lng: string;
+  image: FileList;
 };
 
 export const AddLocation = () => {
@@ -26,7 +29,25 @@ export const AddLocation = () => {
 
   const onSubmit = async (data: AddLocationForm) => {
     try {
-      await createLocation(data).unwrap();
+      const formData = new FormData();
+
+      formData.append("name", data.name);
+      formData.append("description", data.description);
+      formData.append("area", data.area);
+      formData.append("location", data.location);
+      formData.append("operation_hours", data.operation_hours);
+      formData.append("branchEmail", data.branchEmail);
+      formData.append("telephone", data.telephone);
+      formData.append("mobileNumber", data.mobileNumber);
+
+      // ✅ REQUIRED LAT LNG
+      formData.append("lat", data.lat);
+      formData.append("lng", data.lng);
+
+      // ✅ REQUIRED IMAGE
+      formData.append("image", data.image[0]);
+
+      await createLocation(formData as any).unwrap();
       reset();
     } catch (err) {
       console.error(err);
@@ -66,9 +87,7 @@ export const AddLocation = () => {
                   ${errors.name ? "border-red-500" : "border-gray-400"}`}
               />
               {errors.name && (
-                <span className="text-xs text-red-500">
-                  {errors.name.message}
-                </span>
+                <span className="text-xs text-red-500">{errors.name.message}</span>
               )}
             </div>
 
@@ -82,9 +101,7 @@ export const AddLocation = () => {
                   ${errors.area ? "border-red-500" : "border-gray-400"}`}
               />
               {errors.area && (
-                <span className="text-xs text-red-500">
-                  {errors.area.message}
-                </span>
+                <span className="text-xs text-red-500">{errors.area.message}</span>
               )}
             </div>
           </div>
@@ -100,22 +117,18 @@ export const AddLocation = () => {
                 ${errors.location ? "border-red-500" : "border-gray-400"}`}
             />
             {errors.location && (
-              <span className="text-xs text-red-500">
-                {errors.location.message}
-              </span>
+              <span className="text-xs text-red-500">{errors.location.message}</span>
             )}
           </div>
 
           {/* Description */}
-          <div className="m-0">
+          <div>
             <label className="block text-xs uppercase tracking-widest text-gray-500">
               Description *
             </label>
             <textarea
               rows={1}
-              {...register("description", {
-                required: "Description is required",
-              })}
+              {...register("description", { required: "Description is required" })}
               className={`w-full resize-none border-b bg-transparent outline-none
                 ${errors.description ? "border-red-500" : "border-gray-400"}`}
             />
@@ -127,7 +140,7 @@ export const AddLocation = () => {
           </div>
 
           {/* Contact Info */}
-          <div className="grid md:grid-cols-3 gap-12 mt-4">
+          <div className="grid md:grid-cols-3 gap-12">
             <div>
               <label className="block text-xs uppercase tracking-widest text-gray-500">
                 Operation Hours *
@@ -139,11 +152,6 @@ export const AddLocation = () => {
                 className={`w-full border-b bg-transparent outline-none
                   ${errors.operation_hours ? "border-red-500" : "border-gray-400"}`}
               />
-              {errors.operation_hours && (
-                <span className="text-xs text-red-500">
-                  {errors.operation_hours.message}
-                </span>
-              )}
             </div>
 
             <div>
@@ -154,19 +162,11 @@ export const AddLocation = () => {
                 type="email"
                 {...register("branchEmail", {
                   required: "Email is required",
-                  pattern: {
-                    value: /^\S+@\S+$/i,
-                    message: "Invalid email",
-                  },
+                  pattern: { value: /^\S+@\S+$/i, message: "Invalid email" },
                 })}
                 className={`w-full border-b bg-transparent outline-none
                   ${errors.branchEmail ? "border-red-500" : "border-gray-400"}`}
               />
-              {errors.branchEmail && (
-                <span className="text-xs text-red-500">
-                  {errors.branchEmail.message}
-                </span>
-              )}
             </div>
 
             <div>
@@ -174,17 +174,10 @@ export const AddLocation = () => {
                 Telephone *
               </label>
               <input
-                {...register("telephone", {
-                  required: "Telephone is required",
-                })}
+                {...register("telephone", { required: "Telephone is required" })}
                 className={`w-full border-b bg-transparent outline-none
                   ${errors.telephone ? "border-red-500" : "border-gray-400"}`}
               />
-              {errors.telephone && (
-                <span className="text-xs text-red-500">
-                  {errors.telephone.message}
-                </span>
-              )}
             </div>
           </div>
 
@@ -201,10 +194,50 @@ export const AddLocation = () => {
               className={`w-full border-b bg-transparent outline-none
                 ${errors.mobileNumber ? "border-red-500" : "border-gray-400"}`}
             />
-            {errors.mobileNumber && (
-              <span className="text-xs text-red-500">
-                {errors.mobileNumber.message}
-              </span>
+          </div>
+
+          {/* ✅ LAT / LNG */}
+          <div className="grid md:grid-cols-2 gap-12">
+            <div>
+              <label className="block text-xs uppercase tracking-widest text-gray-500">
+                Latitude *
+              </label>
+              <input
+                type="number"
+                step="any"
+                {...register("lat", { required: "Latitude is required" })}
+                className={`w-full border-b bg-transparent outline-none
+                  ${errors.lat ? "border-red-500" : "border-gray-400"}`}
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs uppercase tracking-widest text-gray-500">
+                Longitude *
+              </label>
+              <input
+                type="number"
+                step="any"
+                {...register("lng", { required: "Longitude is required" })}
+                className={`w-full border-b bg-transparent outline-none
+                  ${errors.lng ? "border-red-500" : "border-gray-400"}`}
+              />
+            </div>
+          </div>
+
+          {/* ✅ IMAGE */}
+          <div>
+            <label className="block text-xs uppercase tracking-widest text-gray-500">
+              Location Image *
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              {...register("image", { required: "Image is required" })}
+              className="mt-2 block w-full text-sm"
+            />
+            {errors.image && (
+              <span className="text-xs text-red-500">{errors.image.message}</span>
             )}
           </div>
 

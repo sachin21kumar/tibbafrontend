@@ -9,6 +9,7 @@ export interface CartResponse {
   _id: string;
   items: CartItem[];
   totalPrice: number;
+  locationId?:string
 }
 
 export const cartApi = createApi({
@@ -25,7 +26,7 @@ export const cartApi = createApi({
 
     addToCart: builder.mutation<
       CartResponse,
-      { productId: string; quantity?: number }
+      { productId: string; quantity?: number,locationId?:string }
     >({
       query: (body) => ({
         url: "cart/add",

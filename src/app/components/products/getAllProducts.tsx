@@ -10,10 +10,11 @@ import {
   useRemoveFromCartMutation,
   useUpdateCartMutation,
 } from "../redux/query/cartQuery/cart.query";
-import ViewCartModal from "../common/ViewCartModel";
 import AddToCartModal from "../common/addToCartModel";
 import { RestaurantCard } from "./restaurantGuard";
-
+import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { setLocation } from "../redux/slices/orderSlice";
+import Cookies from "js-cookie";
 function useDebounce<T>(value: T, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
@@ -32,6 +33,7 @@ interface Category {
 
 export default function MenuPage() {
   const router = useRouter();
+   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null
@@ -67,6 +69,18 @@ export default function MenuPage() {
   const mobileCategoryButtonRefs = useRef<
     Record<string, HTMLButtonElement | null>
   >({});
+
+  const order = useAppSelector((state) => state.order);
+  console.log(order, "order++++");
+   useEffect(() => {
+    const savedLocationId = Cookies.get("selectedLocationId");
+    if (savedLocationId && !order.location) {
+      dispatch(setLocation({ _id: savedLocationId } as any));
+    }
+    if (!savedLocationId && !order.location) {
+      router.replace("/selectLocation");
+    }
+  }, [order.location, dispatch, router]);
 
   const scrollToCategory = (categoryId: string) => {
     categoryRefs.current[categoryId]?.scrollIntoView({
@@ -175,9 +189,9 @@ export default function MenuPage() {
 
   return (
     <>
-      <RestaurantCard />
+      <RestaurantCard order={order}/>
       {!debouncedSearch && (
-        <div className="md:hidden sticky top-[88px] z-40 bg-white border-t border-b border-gray-300">
+        <div className="xl:hidden sticky top-[88px] z-40 bg-white border-t border-b border-gray-300">
           <div
             ref={mobileCategoryContainerRef}
             className="flex gap-6 overflow-x-auto px-4 scrollbar-hide scroll-hide"
@@ -209,9 +223,9 @@ export default function MenuPage() {
         </div>
       )}
 
-      <div className="min-h-screen px-4 py-6">
+      <div className="px-4 py-6">
         <div className="flex gap-[10px] mx-auto">
-          <aside className="hidden md:block bg-white h-screen p-4 sticky top-[90px] h-fit border-r border-gray-200 flex-none w-[19%]">
+          <aside className="hidden xl:block bg-white h-screen p-4 sticky top-[90px] h-fit border-r border-gray-200 flex-none w-[19%]">
             <input
               placeholder="Search menu"
               value={search}
@@ -279,7 +293,7 @@ export default function MenuPage() {
                             src={
                               product.imagePath
                                 ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
-                                : "/placeholder.png"
+                                : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
                             }
                             alt={product.name}
                             className="w-full h-full object-cover rounded-xl"
@@ -290,6 +304,7 @@ export default function MenuPage() {
                                 addToCart({
                                   productId: product._id,
                                   quantity: 1,
+                                  locationId: order?.location?._id,
                                 })
                               }
                               className="absolute bottom-2 right-2 cursor-pointer w-9 h-9 bg-white border rounded-lg flex items-center justify-center text-[#d1a054] text-xl shadow"
@@ -377,7 +392,7 @@ export default function MenuPage() {
                                     src={
                                       product.imagePath
                                         ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
-                                        : "/placeholder.png"
+                                        : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
                                     }
                                     alt={product.name}
                                     className="w-full h-full object-cover rounded-xl"
@@ -388,6 +403,7 @@ export default function MenuPage() {
                                         addToCart({
                                           productId: product._id,
                                           quantity: 1,
+                                          locationId: order?.location?._id,
                                         })
                                       }
                                       className="absolute bottom-2 right-2 cursor-pointer w-9 h-9 bg-white border rounded-lg flex items-center justify-center text-[#d1a054] text-xl shadow"

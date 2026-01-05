@@ -32,7 +32,7 @@ export default function ProductDetail() {
           src={
             product.imagePath
               ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
-              : "/placeholder.png"
+              : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
           }
           alt={product.name}
           className="w-full h-full object-cover rounded-t-xl md:rounded-none md:rounded-l-xl"

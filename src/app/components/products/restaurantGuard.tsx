@@ -1,42 +1,46 @@
 "use client";
 
 import { useState } from "react";
+import { setOrderType } from "../redux/slices/orderSlice";
+import { useAppDispatch } from "../redux/hook";
+import { useGetLocationByIdQuery } from "../redux/query/locationsQuery/location.query";
 
-export const RestaurantCard = () => {
+export const RestaurantCard = ({ order }) => {
+  console.log("onBoarding", order?.location?._id);
+  const { data: location, isLoading } = useGetLocationByIdQuery(
+    order?.location?._id
+  );
+  const dispatch = useAppDispatch();
   const [selectedOption, setSelectedOption] = useState<"delivery" | "pickup">(
     "delivery"
   );
-
+  console.log(location, "datadata");
   return (
     <div className="flex flex-col xl:flex-row gap-5 rounded-lg overflow-hidden my-6 mx-4">
-      {/* Image Section */}
       <div className="relative w-full xl:w-auto">
         <img
-          src="https://f.nooncdn.com/food_production/food/restaurant/partner_38754/noonprofile_19Sep2024051303.jpeg?width=720&crop=720:328&form"
+          src={
+            location?.imagePath
+              ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location.imagePath}`
+              : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
+          }
           alt="Restaurant Food"
-          className="w-full xl:w-[868px] h-48 sm:h-64 xl:h-full object-cover"
+          className="w-full xl:w-[868px] h-48 sm:h-64 xl:h-[395px] object-cover"
         />
-        <div className="absolute bottom-0 left-0 bg-gray-700 bg-opacity-70 text-white text-xs sm:text-sm p-2 w-full">
-          This outlet doesn't serve your area
-        </div>
       </div>
-
-      {/* Content Section */}
       <div className="p-4 flex flex-col gap-4">
         <div>
           <h2 className="text-[20px] sm:text-[22px] xl:text-[24px]">
-            Tibba Restaurant for Mandi & Madhbi
+            {location?.name}
           </h2>
 
           <div className="flex flex-wrap gap-x-5 gap-y-1">
             <p className="text-gray-600 text-sm mt-1 !font-[system-ui]">
-              Arabic, Mandi, Meat, Seafood, Sweets
+              {location?.area} {location?.location}
             </p>
-            <p className="text-sm mt-1 !font-[system-ui]">⭐ 4.3 (100+)</p>
           </div>
         </div>
 
-        {/* Delivery / Pickup */}
         <div className="border border-gray-200 p-3 rounded-lg bg-gray-50">
           <div className="flex gap-2 sm:gap-3 flex-nowrap mb-2">
             <button
@@ -47,7 +51,10 @@ export const RestaurantCard = () => {
           ? "bg-[#D1A054] text-white hover:bg-[#b9893f]"
           : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-100"
       }`}
-              onClick={() => setSelectedOption("delivery")}
+              onClick={() => {
+                setSelectedOption("delivery");
+                dispatch(setOrderType("delivery"));
+              }}
             >
               Delivery
             </button>
@@ -60,7 +67,10 @@ export const RestaurantCard = () => {
           ? "bg-[#D1A054] text-white hover:bg-[#b9893f]"
           : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-100"
       }`}
-              onClick={() => setSelectedOption("pickup")}
+              onClick={() => {
+                setSelectedOption("pickup");
+                dispatch(setOrderType("pickup"));
+              }}
             >
               Pickup - 10% off
             </button>
@@ -83,7 +93,6 @@ export const RestaurantCard = () => {
           )}
         </div>
 
-        {/* Offer Image */}
         <div className="py-2">
           <img src="/offFrame.png" className="w-full sm:w-auto" />
         </div>

@@ -12,7 +12,11 @@ export interface Location {
   mobileNumber?: string;
   createdAt?: string;
   updatedAt?: string;
+  imagePath?:string
+  lat?:any,
+  lng?:any
 }
+
 export interface CreateLocationPayload {
   name: string;
   description?: string;
@@ -24,11 +28,14 @@ export interface CreateLocationPayload {
   mobileNumber?: string;
 }
 
-
 export interface UpdateLocationPayload extends Partial<CreateLocationPayload> {
   id: string;
 }
 
+// DTO for select/update location
+export interface SelectLocationPayload {
+  locationId: string;
+}
 
 export const locationsApi = createApi({
   reducerPath: "locationsApi",
@@ -37,6 +44,7 @@ export const locationsApi = createApi({
   }),
   tagTypes: ["Locations"],
   endpoints: (builder) => ({
+    // ------------------ Existing endpoints ------------------
     getLocations: builder.query<Location[], void>({
       query: () => "locations",
       providesTags: ["Locations"],
@@ -44,9 +52,7 @@ export const locationsApi = createApi({
 
     getLocationById: builder.query<Location, string>({
       query: (id) => `locations/${id}`,
-      providesTags: (result, error, id) => [
-        { type: "Locations", id },
-      ],
+      providesTags: (result, error, id) => [{ type: "Locations", id }],
     }),
 
     createLocation: builder.mutation<Location, CreateLocationPayload>({
@@ -74,6 +80,30 @@ export const locationsApi = createApi({
       }),
       invalidatesTags: ["Locations"],
     }),
+
+    // ------------------ Selected location endpoints ------------------
+    selectLocation: builder.mutation<{ message: string; locationId: string }, SelectLocationPayload>({
+      query: (body) => ({
+        url: "locations/select",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Locations"],
+    }),
+
+    getSelectedLocation: builder.query<{ locationId: string }, void>({
+      query: () => "locations/selected",
+      providesTags: ["Locations"],
+    }),
+
+    updateSelectedLocation: builder.mutation<{ message: string; locationId: string }, SelectLocationPayload>({
+      query: (body) => ({
+        url: "locations/selected",
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: ["Locations"],
+    }),
   }),
 });
 
@@ -83,4 +113,7 @@ export const {
   useCreateLocationMutation,
   useUpdateLocationMutation,
   useDeleteLocationMutation,
+  useSelectLocationMutation,
+  useGetSelectedLocationQuery,
+  useUpdateSelectedLocationMutation,
 } = locationsApi;

@@ -31,12 +31,28 @@ export default function LocationDetails() {
   const today = new Date().toLocaleDateString("en-US", {
     weekday: "long",
   });
+
+  const lat = location?.lat;
+  const lon = location?.lng;
+
+  const zoomLevel = 19; // max zoom
+  const delta = 0.000; // small bbox so map is zoomed in fully
+
+  const mapSrc =
+    lat && lon
+      ? `https://www.openstreetmap.org/export/embed.html?bbox=${
+          lon - delta
+        }%2C${lat - delta}%2C${lon + delta}%2C${
+          lat + delta
+        }&layer=mapnik&marker=${lat}%2C${lon}&zoom=${zoomLevel}`
+      : "";
+
   return (
     <>
       <div
         className="w-full h-64 sm:h-80 md:h-100 bg-cover bg-center flex items-center justify-center px-4"
         style={{
-          backgroundImage: `url('/locationDetail.jpg')`,
+          backgroundImage: `url(${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location.imagePath})`,
         }}
       >
         <h1 className="text-white text-2xl sm:text-3xl md:text-5xl font-cinzel bg-white/10 border border-white/32 backdrop-blur-[20px] px-4 sm:px-6 py-3 sm:py-4">
@@ -47,22 +63,18 @@ export default function LocationDetails() {
       <section className="bg-white ">
         <div className="container mx-auto max-w-7xl px-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 md:gap-16 gap-7 items-start ">
-            {/* LEFT CONTENT */}
             <div className="lg:col-span-2 space-y-8 xl:py-20 py-10">
               <div className="w-fit">
                 <h1 className="md:text-4xl text-[28px] tracking-wide text-[#1B2024] pb-2 w-fit text-gray-900">
                   {location?.name}
                 </h1>
-          <div className="h-px mx-auto bg-gradient-to-l from-transparent to-[#d1a054]" />
-
-
+                <div className="h-px mx-auto bg-gradient-to-l from-transparent to-[#d1a054]" />
               </div>
 
               <h1 className="text-gray-600 font-[system-ui] leading-relaxed">
                 {location?.description}
               </h1>
 
-              {/* ADDRESS */}
               <div className="flex items-center gap-4">
                 <div className="min-w-[40px] h-[40px] rounded-[63%_37%_30%_70%_/_50%_45%_55%_50%] bg-[#d1a054] text-white flex items-center justify-center text-[14px]">
                   <img src="/locationtrans.png" alt="Location Icon" />
@@ -70,7 +82,6 @@ export default function LocationDetails() {
                 <span className="text-gray-700">{location?.location}</span>
               </div>
 
-              {/* PHONE */}
               <div className="flex items-center gap-4">
                 <div className="min-w-[40px] h-[40px] rounded-[63%_37%_30%_70%_/_50%_45%_55%_50%] bg-[#d1a054] text-white flex items-center justify-center text-[14px]">
                   <img src={"/phonetrans.png"} alt="Phone Icon" />
@@ -81,7 +92,6 @@ export default function LocationDetails() {
               </div>
             </div>
 
-            {/* RIGHT CARD */}
             <div className="bg-white shadow-xl border border-[#f8f8f8] md:p-8">
               <div className="flex items-center justify-center">
                 <h3 className="border-b border-b-[#d1a054] text-[#d1a054] font-[allura] text-[32px] pb-1 w-fit mb-6">
@@ -102,7 +112,7 @@ export default function LocationDetails() {
                     >
                       <span className={`font-medium text-[14px]`}>{day}</span>
 
-                      <span className={isToday ? "text-[#d1a054]" : "" }>
+                      <span className={isToday ? "text-[#d1a054]" : ""}>
                         {location?.operation_hours || "8:00 am – 3:00 am"}
                       </span>
                     </li>
@@ -115,8 +125,20 @@ export default function LocationDetails() {
         <LocationForm />
         <LocationsGrid />
         <div className="mt-15">
-
-        <Location/>
+          <div className="w-full h-[45vh] overflow-hidden rounded-xl border border-gray-200">
+            {mapSrc ? (
+              <iframe
+                src={mapSrc}
+                className="w-full h-full"
+                style={{ border: 0 }}
+                loading="lazy"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-gray-500">
+                Location map not available
+              </div>
+            )}
+          </div>
         </div>
       </section>
     </>

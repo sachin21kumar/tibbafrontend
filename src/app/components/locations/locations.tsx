@@ -1,9 +1,5 @@
-// components/LocationCard.tsx
 "use client";
-import Image from "next/image";
 import { useGetLocationsQuery } from "../redux/query/locationsQuery/location.query";
-import { CiLocationOn } from "react-icons/ci";
-import { BsFillTelephoneFill } from "react-icons/bs";
 import { useRouter } from "next/navigation";
 import { Location } from "../home/locations";
 
@@ -22,7 +18,6 @@ export default function LocationCard() {
   return (
     <>
       <div>
-        {/* Banner Section */}
         <div
           className="w-full h-64 sm:h-80 md:h-100 bg-cover bg-center flex items-center justify-center px-4"
           style={{
@@ -34,18 +29,16 @@ export default function LocationCard() {
           </h1>
         </div>
 
-        {/* Location Cards */}
         <div className="max-w-[1348px] mx-auto mt-10 space-y-10 p-3">
           {locations?.map((location: any) => (
             <div
               key={location._id}
               className="flex flex-col md:flex-row border border-gray-300 shadow-md rounded-lg overflow-hidden bg-white"
             >
-              {/* Image Section */}
               <div className="md:w-1/2 relative md:h-64 md:h-auto">
                 <img
                   src={
-                    location.imageUrl ||
+                    `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location.imagePath}` ||
                     "http://mtb.dgh.mybluehost.me/wp-content/uploads/2025/07/Abu-Hail-857x500.webp"
                   }
                   alt={location.name}
@@ -53,24 +46,22 @@ export default function LocationCard() {
                 />
               </div>
 
-              {/* Details Section */}
               <div className="md:w-1/2 p-8  flex flex-col justify-center">
-              <div className="w-fit">
-                <h2 className="text-[20px] md:text-3xl text-[#252525] font-regular md:mb-4">
-                  {location.name}
-                </h2>
-                <div className="bg-gradient-to-r from-[#D1A054] to-[#D1A054]/0 ... h-[1px]"></div>
+                <div className="w-fit">
+                  <h2 className="text-[20px] md:text-3xl text-[#252525] font-regular md:mb-4">
+                    {location.name}
+                  </h2>
+                  <div className="bg-gradient-to-r from-[#D1A054] to-[#D1A054]/0 ... h-[1px]"></div>
                 </div>
                 <div className="md:py-auto pt-5">
-
-                <div className="flex items-center gap-3 text-gray-600 mb-2 mt-3">
-                  <img src="/location.png" alt="Location Icon" />
-                  <span>{location.location}</span>
-                </div>
-                <div className="flex items-center gap-3 text-gray-600 mb-4">
-                  <img src="/phoneIcon.png" alt="Phone Icon" />
-                  <span>{location.mobileNumber}</span>
-                </div>
+                  <div className="flex items-center gap-3 text-gray-600 mb-2 mt-3">
+                    <img src="/location.png" alt="Location Icon" />
+                    <span>{location.location}</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-gray-600 mb-4">
+                    <img src="/phoneIcon.png" alt="Phone Icon" />
+                    <span>{location.mobileNumber}</span>
+                  </div>
                 </div>
                 <a
                   href={`/locations/${location._id}`}

@@ -4,13 +4,15 @@ import { productApi } from "../query/productsQuery/productsQuery";
 import { cartApi } from "../query/cartQuery/cart.query";
 import { checkoutApi } from "../query/checkout/checkoutQuery";
 import { locationsApi } from "../query/locationsQuery/location.query";
+import orderReducer from "../slices/orderSlice"
 export const store = configureStore({
   reducer: {
     [categoryApi.reducerPath]: categoryApi.reducer,
     [productApi.reducerPath]: productApi.reducer,
     [cartApi.reducerPath]: cartApi.reducer,
     [checkoutApi.reducerPath]: checkoutApi.reducer,
-    [locationsApi.reducerPath]:locationsApi.reducer
+    [locationsApi.reducerPath]:locationsApi.reducer,
+    order:orderReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(

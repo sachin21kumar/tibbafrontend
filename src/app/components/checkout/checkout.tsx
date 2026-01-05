@@ -1,11 +1,12 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useGetCartQuery } from "../redux/query/cartQuery/cart.query";
 import { stripePromise } from "@/app/lib/stripe";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 import {
   useConfirmPaymentMutation,
   useCreateCheckoutMutation,
@@ -23,6 +24,7 @@ type CheckoutFormValues = {
   pinCode: string;
   phone: number;
   email: string;
+  deliveryType: string;
 };
 
 export const CheckoutPage = () => {
@@ -33,6 +35,7 @@ export const CheckoutPage = () => {
   const [confirmPayment] = useConfirmPaymentMutation();
   const [addressSuggestions, setAddressSuggestions] = useState<any[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [customerLatLng, setCustomerLatLng] = useState<any>(null);
   const stripe = useStripe();
   const elements = useElements();
   const {
@@ -40,6 +43,7 @@ export const CheckoutPage = () => {
     handleSubmit,
     formState: { errors, isSubmitted },
     setValue,
+    control,
     reset,
   } = useForm<CheckoutFormValues>();
 
@@ -66,11 +70,20 @@ export const CheckoutPage = () => {
 
   const fillAddressFields = (feature: any) => {
     const props = feature.properties;
-    setValue("address", props.street || props.formatted || "");
+    console.log(props, "props");
+    setValue("address", props.formatted, { shouldDirty: true });
+
+    // setValue("address", props.address_line1 || "");
     setValue("city", props.city || props.county || "");
     setValue("state", props.state || "");
     setValue("pinCode", props.postcode || "");
-    setValue("country", props.country_code?.toLowerCase() || "United States (US)");
+    setValue(
+      "country",
+      props.country_code?.toLowerCase() || "United States (US)"
+    );
+    if (props.lat && props.lon) {
+      setCustomerLatLng({ lat: props.lat, lng: props.lon });
+    }
   };
 
   const onSubmit = async (data: CheckoutFormValues) => {
@@ -80,7 +93,12 @@ export const CheckoutPage = () => {
     }
 
     try {
-      const res: any = await checkout(data).unwrap();
+      const payload = {
+        ...data,
+        locationId: cart?.locationId || null, // <-- pass locationId from cart
+        addressLatLng: customerLatLng,
+      };
+      const res: any = await checkout(payload).unwrap();
 
       const { clientSecret, orderId } = res;
 
@@ -115,6 +133,7 @@ export const CheckoutPage = () => {
       if (paymentResult.error) {
         toast.error("Payment failed: " + paymentResult.error.message);
       } else if (paymentResult.paymentIntent?.status === "succeeded") {
+        Cookies.remove("selectedLocationId");
         toast.success("Payment successful!");
         reset();
 
@@ -147,6 +166,61 @@ export const CheckoutPage = () => {
         </h3>
 
         <form className="space-y-10" onSubmit={handleSubmit(onSubmit)}>
+          <div className="w-full">
+            <label className="text-xs uppercase tracking-wider text-gray-500 mb-2 block">
+              Delivery Type <span className="text-red-500">*</span>
+            </label>
+
+            <div className="flex gap-3">
+              {/* DELIVERY */}
+              <label className="cursor-pointer">
+                <input
+                  type="radio"
+                  value="delivery"
+                  {...register("deliveryType", {
+                    required: "Please select delivery type",
+                  })}
+                  className="hidden peer"
+                />
+                <div
+                  className="px-5 py-2 rounded-full border text-sm font-semibold transition
+        peer-checked:bg-[#d1a054]
+        peer-checked:text-white
+        peer-checked:border-[#d1a054]
+        bg-white text-gray-700 border-gray-300"
+                >
+                  DELIVERY
+                </div>
+              </label>
+
+              <label className="cursor-pointer">
+                <input
+                  type="radio"
+                  value="pickup"
+                  {...register("deliveryType", {
+                    required: "Please select delivery type",
+                  })}
+                  className="hidden peer"
+                />
+                <div
+                  className="px-5 py-2 rounded-full border text-sm font-semibold transition
+        peer-checked:bg-[#d1a054]
+        peer-checked:text-white
+        peer-checked:border-[#d1a054]
+        bg-white text-gray-700 border-gray-300"
+                >
+                  PICKUP
+                </div>
+              </label>
+            </div>
+
+            {isSubmitted && errors.deliveryType && (
+              <span className="text-xs text-red-500 mt-1 block">
+                {errors.deliveryType.message}
+              </span>
+            )}
+          </div>
+
           <div>
             <label className="text-xs uppercase tracking-wider ">
               First Name <span className="text-red-500">*</span>
@@ -206,23 +280,29 @@ export const CheckoutPage = () => {
             <label className="text-xs uppercase tracking-wider text-gray-500">
               Street Address <span className="text-red-500">*</span>
             </label>
-            <input
-              type="text"
-              {...register("address", {
-                required: "Street address is required",
-              })}
-              ref={addressInputRef}
-              onChange={(e) => {
-                fetchAddressSuggestions(e.target.value);
-                setShowSuggestions(true);
-              }}
-              className={`w-full border-b focus:outline-none py-2 ${
-                isSubmitted && errors.address
-                  ? "border-red-500"
-                  : "border-gray-300"
-              }`}
-              autoComplete="off"
-            />
+           <Controller
+  name="address"
+  control={control}
+  rules={{ required: "Street address is required" }}
+  render={({ field }) => (
+    <input
+      {...field}
+      ref={addressInputRef}
+      onChange={(e) => {
+        field.onChange(e);
+        fetchAddressSuggestions(e.target.value);
+        setShowSuggestions(true);
+      }}
+      className={`w-full border-b focus:outline-none py-2 ${
+        isSubmitted && errors.address
+          ? "border-red-500"
+          : "border-gray-300"
+      }`}
+      autoComplete="off"
+    />
+  )}
+/>
+
             {isSubmitted && errors.address && (
               <span className="text-xs text-red-500 mt-1">
                 {errors.address.message}

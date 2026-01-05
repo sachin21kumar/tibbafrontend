@@ -59,7 +59,7 @@ export default function OrderSuccessPage() {
         <div className="mt-6 text-sm text-gray-500">
           Need help?{" "}
           <Link
-            href="http://mtb.dgh.mybluehost.me/contact-us/"
+            href="/contact"
             className="underline text-[#d1a054]"
           >
             Contact us

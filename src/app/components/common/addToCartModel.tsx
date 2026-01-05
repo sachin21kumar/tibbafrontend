@@ -11,6 +11,7 @@ import {
   useUpdateCartMutation,
 } from "../redux/query/cartQuery/cart.query";
 import { useGetProductByIdQuery } from "../redux/query/productsQuery/productsQuery";
+import Cookies from "js-cookie";
 
 interface AddToCartModalProps {
   isOpen: boolean;
@@ -23,6 +24,8 @@ export default function AddToCartModal({
   onClose,
   productId,
 }: AddToCartModalProps) {
+  const savedLocationId = Cookies.get("selectedLocationId");
+
   const router = useRouter();
   const { data: product, isLoading } = useGetProductByIdQuery(productId!, {
     skip: !productId,
@@ -44,7 +47,10 @@ export default function AddToCartModal({
   if (isLoading || !product) return null;
 
   const handleAddToCart = () => {
-    addToCart({ productId: product._id, quantity });
+    if(!savedLocationId){
+      router.push("/selectLocation")
+    }
+    addToCart({ productId: product._id, quantity,locationId:savedLocationId });
     onClose();
   };
 
@@ -57,8 +63,8 @@ export default function AddToCartModal({
 
   const handleDecrease = () => {
     if (quantity <= 1) {
-    removeFromCart({ productId: product._id })
-    onClose()
+      removeFromCart({ productId: product._id });
+      onClose();
     }
 
     updateCart({
@@ -103,14 +109,12 @@ export default function AddToCartModal({
                     src={
                       product.imagePath
                         ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
-                        : "/placeholder.png"
+                        : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
                     }
                     alt={product.name}
                     className="w-16 h-16 rounded-lg object-cover"
                   />
-                  <span className="font-bold font-sans">
-                    {product.name}
-                  </span>
+                  <span className="font-bold font-sans">{product.name}</span>
                 </div>
 
                 {!isInCart && (
@@ -149,18 +153,24 @@ export default function AddToCartModal({
 
               <div className="border-b border-b-gray-200 h-[1px] w-full"></div>
 
-             
-
               <div
                 className={`p-4 flex ${
-                  !isInCart ? "md:justify-end justify-center" : "justify-between"
+                  !isInCart
+                    ? "md:justify-end justify-center"
+                    : "justify-between"
                 } items-center border-t mt-13 border-gray-200`}
               >
-                <div className={`flex items-center justify-between ${isInCart ? "w-full" : ""} md:p-4 p-2`}>
-                  <div className={`flex items-center gap-4 w-full ${isInCart ? "justify-between" : "justify-end"}`}>
-                    {isInCart && (
-                      <div>${product.price * quantity}</div>
-                    )}
+                <div
+                  className={`flex items-center justify-between ${
+                    isInCart ? "w-full" : ""
+                  } md:p-4 p-2`}
+                >
+                  <div
+                    className={`flex items-center gap-4 w-full ${
+                      isInCart ? "justify-between" : "justify-end"
+                    }`}
+                  >
+                    {isInCart && <div>${product.price * quantity}</div>}
 
                     <div className="border rounded-2xl flex justify-center items-center">
                       <div className="flex items-center justify-center gap-2 p-1">
@@ -170,9 +180,7 @@ export default function AddToCartModal({
                         >
                           −
                         </button>
-                        <span className="px-3 py-1 rounded">
-                          {quantity}
-                        </span>
+                        <span className="px-3 py-1 rounded">{quantity}</span>
                         <button
                           onClick={handleIncrease}
                           className="px-2 py-1 rounded text-lg cursor-pointer"

@@ -13,7 +13,7 @@ export const Gallery = () => {
   const images = data?.data?.map((item) =>
     item.imagePath
       ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${item.imagePath}`
-      : "/placeholder.png"
+      : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
   );
 
   return (

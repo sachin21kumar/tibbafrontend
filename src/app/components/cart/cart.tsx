@@ -80,7 +80,7 @@ export default function CartPage() {
                       src={
                         item.productId.imagePath
                           ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${item.productId.imagePath}`
-                          : "/placeholder.png"
+                          : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
                       }
                       alt={item.productId.name}
                       className="w-[42px] h-[42px]
