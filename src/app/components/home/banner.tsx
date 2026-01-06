@@ -2,21 +2,21 @@ export const Banner = () => {
   return (
     <section className="relative h-[calc(100vh-90px)] w-full overflow-hidden">
       {/* Background Images */}
-      <div className="absolute inset-0 hero-img-1">
+      <div className="absolute inset-0">
         <img
-          src="/hero-1.jpg"
+          src="/herro-slide-1.jpg.webp"
           alt="Restaurant Dish"
           className="h-full w-full object-cover"
         />
       </div>
 
-      <div className="absolute inset-0 hero-img-2">
+      {/* <div className="absolute inset-0 hero-img-2">
         <img
           src="/hero-2.jpg"
           alt="Restaurant Ambience"
           className="h-full w-full object-cover"
         />
-      </div>
+      </div> */}
 
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/40 z-10" />

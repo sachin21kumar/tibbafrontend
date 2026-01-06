@@ -201,3 +201,22 @@ p{
     z-index: -1;
     opacity: .15;
 }
+
+.leaflet-container .leaflet-marker-pane img {
+    filter: sepia(1);
+}
+
+.leaflet-container {
+    background: #ddd;
+    outline-offset: 1px;
+    z-index: 9;
+}
+
+.leaflet-bottom {
+    display: none;
+}
+
+.leaflet-layer{
+    filter: grayscale(75%);
+}
+

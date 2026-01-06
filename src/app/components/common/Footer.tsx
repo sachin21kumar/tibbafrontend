@@ -29,11 +29,12 @@ export const Footer = () => {
             </div>
 
             <div className="mt-5 sm:mt-6 text-sm font-[system-ui] leading-relaxed">
-              ١٥ Abu Hail St - Hor Al Anz East - Dubai
+              Al Qusais, Dubai, UAE <br className="sm:hidden" />
+              Head Office
             </div>
           </div>
 
-          <div className="mt-2 text-[#D1A054]">+39 02 98765432</div>
+          <div className="mt-2 text-[#D1A054]">+971 XX XXX XXXX</div>
 
             <span className="open-close-signboard">Open until 10:00 pm</span>
 

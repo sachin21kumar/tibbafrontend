@@ -29,10 +29,8 @@ export default function Hero() {
       <BestSeller/>
       <LatestNews/>
       <Testimonials/>
-      <div className="mb-20">
 
       <Location/>
-      </div>
     </div>
   );
 }
