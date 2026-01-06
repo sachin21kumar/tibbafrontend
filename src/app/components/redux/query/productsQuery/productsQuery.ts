@@ -52,7 +52,7 @@ export const productApi = createApi({
         categoryId,
         name, // <-- added
         page = 1,
-        limit = 9,
+        limit = 100,
         sortBy = "price",
         order = "asc",
       }) => {
@@ -61,8 +61,8 @@ export const productApi = createApi({
         if (name) params.append("name", name); // <-- append name filter
         params.append("page", page.toString());
         params.append("limit", limit.toString());
-        params.append("sortBy", sortBy);
-        params.append("order", order);
+        // params.append("sortBy", sortBy);
+        // params.append("order", order);
         return `product?${params.toString()}`;
       },
       providesTags: ["Product"],

@@ -6,10 +6,10 @@ import { useAppDispatch } from "../redux/hook";
 import { useGetLocationByIdQuery } from "../redux/query/locationsQuery/location.query";
 
 export const RestaurantCard = ({ order }) => {
-  console.log("onBoarding", order?.location?._id);
-  const { data: location, isLoading } = useGetLocationByIdQuery(
-    order?.location?._id
-  );
+ const locationId = order?.location?._id;
+const { data: location, isLoading } = useGetLocationByIdQuery(locationId, {
+  skip: !locationId, // skip the query if id is undefined
+});
   const dispatch = useAppDispatch();
   const [selectedOption, setSelectedOption] = useState<"delivery" | "pickup">(
     "delivery"

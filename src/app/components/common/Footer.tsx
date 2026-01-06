@@ -29,8 +29,7 @@ export const Footer = () => {
             </div>
 
             <div className="mt-5 sm:mt-6 text-sm font-[system-ui] leading-relaxed">
-              Via Monte Napoleone 10 <br className="sm:hidden" />
-              20121 Milan, Italy
+              ١٥ Abu Hail St - Hor Al Anz East - Dubai
             </div>
           </div>
 
