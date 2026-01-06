@@ -34,13 +34,16 @@ export default function Hero() {
   return (
     <div>
       <Banner />
-      <DeliveryService />
-      <ImageSlider />
-      <MenuSection />
+      {/* <DeliveryService /> */}
+      {/* <ImageSlider /> */}
+      {/* <MenuSection /> */}
+      <div className="xl:py-25 py-20">
+
       <FreeDelivery />
-      <BestSeller/>
-      <LatestNews/>
-      <Testimonials/>
+      </div>
+      {/* <BestSeller/> */}
+      {/* <LatestNews/> */}
+      {/* <Testimonials/> */}
 
       <Location/>
     </div>
