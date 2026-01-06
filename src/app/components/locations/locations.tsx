@@ -1,8 +1,18 @@
 "use client";
+import dynamic from "next/dynamic";
 import { useGetLocationsQuery } from "../redux/query/locationsQuery/location.query";
 import { useRouter } from "next/navigation";
-import { Location } from "../home/locations";
-
+const Location = dynamic(
+  () => import("../home/locations").then((mod) => mod.Location),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-[45vh] flex items-center justify-center text-gray-500">
+        Loading map...
+      </div>
+    ),
+  }
+);
 interface Location {
   id: number;
   name: string;

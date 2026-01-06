@@ -3,7 +3,18 @@
 import { FaMapMarkerAlt, FaClock, FaPhoneAlt } from "react-icons/fa";
 import { MdOutlinePhoneEnabled } from "react-icons/md";
 import ContactForm from "../locations/locationForm";
-import { Location } from "../home/locations";
+import dynamic from "next/dynamic";
+const Location = dynamic(
+  () => import("../home/locations").then((mod) => mod.Location),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-[45vh] flex items-center justify-center text-gray-500">
+        Loading map...
+      </div>
+    ),
+  }
+);
 
 export const Contact = () => {
   const infoCards = [

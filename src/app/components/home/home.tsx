@@ -6,10 +6,22 @@ import { BestSeller } from "./bestSeller";
 import { FreeDelivery } from "./delivery";
 import { DeliveryService } from "./deliveryService";
 import { LatestNews } from "./latestNews";
-import { Location } from "./locations";
+
+const Location = dynamic(
+  () => import("./locations").then((mod) => mod.Location),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-[45vh] flex items-center justify-center text-gray-500">
+        Loading map...
+      </div>
+    ),
+  }
+);
 import MenuSection from "./menuSection";
 import ImageSlider from "./slider";
 import Testimonials from "./testimonial";
+import dynamic from "next/dynamic";
 
 export default function Hero() {
   useEffect(() => {
