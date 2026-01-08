@@ -4,12 +4,13 @@ import { useState } from "react";
 import { setOrderType } from "../redux/slices/orderSlice";
 import { useAppDispatch } from "../redux/hook";
 import { useGetLocationByIdQuery } from "../redux/query/locationsQuery/location.query";
+import Image from "next/image";
 
 export const RestaurantCard = ({ order }) => {
- const locationId = order?.location?._id;
-const { data: location, isLoading } = useGetLocationByIdQuery(locationId, {
-  skip: !locationId, // skip the query if id is undefined
-});
+  const locationId = order?.location?._id;
+  const { data: location, isLoading } = useGetLocationByIdQuery(locationId, {
+    skip: !locationId, // skip the query if id is undefined
+  });
   const dispatch = useAppDispatch();
   const [selectedOption, setSelectedOption] = useState<"delivery" | "pickup">(
     "delivery"
@@ -18,15 +19,19 @@ const { data: location, isLoading } = useGetLocationByIdQuery(locationId, {
   return (
     <div className="flex flex-col xl:flex-row gap-5 rounded-lg overflow-hidden my-6 mx-4">
       <div className="relative w-full xl:w-auto">
-        <img
-          src={
-            location?.imagePath
-              ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location.imagePath}`
-              : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
-          }
-          alt="Restaurant Food"
-          className="w-full xl:w-[868px] h-48 sm:h-64 xl:h-[395px] object-cover"
-        />
+        <div className="relative w-full xl:w-[868px] h-48 sm:h-64 xl:h-[395px]">
+          <Image
+            src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location?.imagePath}`}
+            alt="Restaurant Food"
+            // fill
+            width={100}
+            height={100}
+            unoptimized
+            className="w-full xl:w-[868px] h-48 sm:h-64 xl:h-[395px] object-cover"
+          />
+
+          
+        </div>
       </div>
       <div className="p-4 flex flex-col gap-4">
         <div>
