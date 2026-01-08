@@ -31,7 +31,7 @@ export default function LocationCard() {
         <div
           className="w-full h-64 sm:h-80 md:h-100 bg-cover bg-center flex items-center justify-center px-4"
           style={{
-            backgroundImage: `url('/locations.jpg')`,
+            backgroundImage: `url('/locations.webp')`,
           }}
         >
           <h1 className="text-white text-2xl sm:text-3xl md:text-5xl font-cinzel bg-white/10 border border-white/32 backdrop-blur-[20px] px-4 sm:px-6 py-3 sm:py-5 text-center">

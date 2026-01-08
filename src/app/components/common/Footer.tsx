@@ -34,21 +34,21 @@ export const Footer = () => {
             </div>
           </div>
 
-          <div className="mt-2 text-[#D1A054]">+971 XX XXX XXXX</div>
+          <div className="mt-2 text-[#D1A054]">
+            +971 4 2578585 , +971 4 2578584
+          </div>
 
-            <span className="open-close-signboard">Open until 10:00 pm</span>
-
+          <span className="open-close-signboard">Open until 10:00 pm</span>
         </div>
 
         {/* RIGHT – Follow Us */}
         <div className="text-center xl:text-right">
           <div className="w-fit ml-auto flex flex-col justify-end">
+            <h3 className="hidden xl:block uppercase tracking-widest text-[18px]">
+              Follow Us
+            </h3>
 
-          <h3 className="hidden xl:block uppercase tracking-widest text-[18px]">
-            Follow Us
-          </h3>
-
-          <div className="hidden xl:block mt-2 h-[1px]  sm:w-[345px] bg-gradient-to-l from-[#D1A054] to-transparent mx-auto xl:ml-auto" />
+            <div className="hidden xl:block mt-2 h-[1px]  sm:w-[345px] bg-gradient-to-l from-[#D1A054] to-transparent mx-auto xl:ml-auto" />
           </div>
 
           <div className="md:mt-6 flex justify-center xl:justify-end gap-4">

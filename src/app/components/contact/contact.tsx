@@ -21,7 +21,7 @@ export const Contact = () => {
     {
       icon: <FaMapMarkerAlt />,
       title: "ADDRESS",
-      text: "123 Main Street, Uni 21, New York City",
+      text: "Al Qusais, Dubai, UAE Head Office",
     },
     {
       icon: <FaClock />,
@@ -31,7 +31,7 @@ export const Contact = () => {
     {
       icon: <MdOutlinePhoneEnabled />,
       title: "PHONE",
-      text: "+38 (012) 34 56 789",
+      text: "+971 4 2578585 , +971 4 2578584",
     },
   ];
   return (
