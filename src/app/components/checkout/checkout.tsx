@@ -70,7 +70,6 @@ export const CheckoutPage = () => {
 
   const fillAddressFields = (feature: any) => {
     const props = feature.properties;
-    console.log(props, "props");
     setValue("address", props.formatted, { shouldDirty: true });
 
     // setValue("address", props.address_line1 || "");

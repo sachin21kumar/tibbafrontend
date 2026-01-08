@@ -31,7 +31,6 @@ export const Gallery = () => {
           : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
       );
   }, [productRes, categoryRes]);
-console.log(popularMealImages,"popularMealImages")
   return (
     <>
       {/* Header */}

@@ -14,7 +14,7 @@ export const Footer = () => {
             <span className="font-semibold">
               Various Business Lunches Offer
             </span>
-            <div>Monday to Sunday: 12:00 - 14:00</div>
+            <div>Monday to Sunday: 11:00 - 24:00</div>
           </div>
         </div>
 
@@ -29,8 +29,7 @@ export const Footer = () => {
             </div>
 
             <div className="mt-5 sm:mt-6 text-sm font-[system-ui] leading-relaxed">
-              Al Qusais, Dubai, UAE <br className="sm:hidden" />
-              Head Office
+              Al Qusais, Dubai, UAE Main Branch
             </div>
           </div>
 

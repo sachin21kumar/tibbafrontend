@@ -71,7 +71,6 @@ export default function MenuPage() {
   >({});
 
   const order = useAppSelector((state) => state.order);
-  console.log(order, "order++++");
    useEffect(() => {
     const savedLocationId = Cookies.get("selectedLocationId");
     if (savedLocationId && !order.location) {

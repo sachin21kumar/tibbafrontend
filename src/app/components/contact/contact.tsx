@@ -21,12 +21,12 @@ export const Contact = () => {
     {
       icon: <FaMapMarkerAlt />,
       title: "ADDRESS",
-      text: "Al Qusais, Dubai, UAE Head Office",
+      text: "Al Qusais, Dubai, UAE Main Branch",
     },
     {
       icon: <FaClock />,
       title: "OPENING HOURS",
-      text: "Mon - Fri: 08:00 - 22:00\nSat - Sun: 10:00 - 23:00",
+      text: "Mon - Fri: 11:00 - 24:00\nSat - Sun: 11:00 - 24:00",
     },
     {
       icon: <MdOutlinePhoneEnabled />,

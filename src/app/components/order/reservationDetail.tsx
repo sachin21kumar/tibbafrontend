@@ -71,7 +71,6 @@ export default function ReservationDetails() {
       reset();
       toast.success("Reservation completed successfully");
 
-      console.log("Reservation saved:", res.data);
     } catch (err: any) {
       toast.error(
         err?.response?.data?.message || "Failed to complete reservation"

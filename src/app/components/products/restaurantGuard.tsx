@@ -15,7 +15,6 @@ export const RestaurantCard = ({ order }) => {
   const [selectedOption, setSelectedOption] = useState<"delivery" | "pickup">(
     "delivery"
   );
-  console.log(location, "datadata");
   return (
     <div className="flex flex-col xl:flex-row gap-5 rounded-lg overflow-hidden my-6 mx-4">
       <div className="relative w-full xl:w-auto">
@@ -29,8 +28,6 @@ export const RestaurantCard = ({ order }) => {
             unoptimized
             className="w-full xl:w-[868px] h-48 sm:h-64 xl:h-[395px] object-cover"
           />
-
-          
         </div>
       </div>
       <div className="p-4 flex flex-col gap-4">
@@ -84,9 +81,10 @@ export const RestaurantCard = ({ order }) => {
           {selectedOption === "delivery" ? (
             <div>
               <p className="text-xs sm:text-sm xl:text-sm text-gray-500 !font-[system-ui]">
-                Delivery fee (26 km):{" "}
-                <span className="line-through">₨ 11.00</span> FREE
+                Delivery fee (20 km):{" "}
+                <span className="line-through">د.إ 11.00</span> FREE
               </p>
+
               <p className="text-xs sm:text-sm xl:text-sm font-semibold !font-[system-ui] text-white bg-[#D1A054] inline-block px-2 py-1 mt-1 rounded">
                 Unlimited FREE delivery. Try it for free!
               </p>
