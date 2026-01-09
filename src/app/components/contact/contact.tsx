@@ -39,7 +39,7 @@ export const Contact = () => {
       <div
         className="w-full h-48 sm:h-56 md:h-100 bg-cover bg-center flex items-center justify-center"
         style={{
-          backgroundImage: `url('/header.jpg')`,
+          backgroundImage: `url('/header.webp')`,
         }}
       >
         <h1 className="text-white text-2xl sm:text-3xl md:text-5xl font-cinzel bg-white/10 border-white/32 backdrop-blur-[20px] px-4 sm:px-5 md:px-6 py-4 sm:py-5 md:py-7">

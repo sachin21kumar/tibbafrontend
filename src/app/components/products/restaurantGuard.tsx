@@ -22,12 +22,11 @@ export const RestaurantCard = ({ order }) => {
           <Image
             src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location?.imagePath}`}
             alt="Restaurant Food"
-            // fill
-            width={100}
-            height={100}
-            unoptimized
+            width={868}
+            height={395}
             loading="lazy"
-            className="w-full xl:w-[868px] h-48 sm:h-64 xl:h-[395px] object-cover"
+            unoptimized
+            className="w-full h-48 sm:h-64 xl:h-[395px] object-cover"
           />
         </div>
       </div>

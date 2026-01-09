@@ -36,7 +36,7 @@ export const Gallery = () => {
       {/* Header */}
       <div
         className="w-full h-40 sm:h-48 md:h-56 xl:h-100 bg-cover bg-center flex items-center justify-center"
-        style={{ backgroundImage: `url('/header.jpg')` }}
+        style={{ backgroundImage: `url('/header.webp')` }}
       >
         <h1 className="text-white text-3xl font-cinzel bg-white/10 backdrop-blur-xl px-6 py-4">
           Gallery

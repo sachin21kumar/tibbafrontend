@@ -76,7 +76,7 @@ export default function OpenTable() {
       <div
         className="w-full h-64 md:h-100 bg-cover bg-center flex items-center justify-center"
         style={{
-          backgroundImage: `url('/header.jpg')`,
+          backgroundImage: `url('/header.webp')`,
         }}
       >
         <h1 className="text-white text-4xl md:text-5xl font-cinzel bg-white/10 border-white/32 backdrop-blur-[20px] px-6 py-5">
