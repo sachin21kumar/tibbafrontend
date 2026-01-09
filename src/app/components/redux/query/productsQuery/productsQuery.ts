@@ -52,7 +52,7 @@ export const productApi = createApi({
         categoryId,
         name, // <-- added
         page = 1,
-        limit = 100,
+        limit = 500,
         sortBy = "price",
         order = "asc",
       }) => {
