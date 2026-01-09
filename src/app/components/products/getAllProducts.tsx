@@ -15,6 +15,7 @@ import { RestaurantCard } from "./restaurantGuard";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { setLocation } from "../redux/slices/orderSlice";
 import Cookies from "js-cookie";
+import Image from "next/image";
 function useDebounce<T>(value: T, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
@@ -288,13 +289,14 @@ export default function MenuPage() {
                           </span>
                         </div>
                         <div className="relative w-[140px] h-[120px] flex-shrink-0">
-                          <img
+                          <Image
                             src={
                               product.imagePath
                                 ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
                                 : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
                             }
                             alt={product.name}
+                            loading="lazy"
                             className="w-full h-full object-cover rounded-xl"
                           />
                           {!cartItem && (
