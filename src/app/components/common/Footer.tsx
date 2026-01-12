@@ -14,7 +14,7 @@ export const Footer = () => {
             <span className="font-semibold">
               Various Business Lunches Offer
             </span>
-            <div>Monday to Sunday: 11:00 - 24:00</div>
+            <div>Monday to Sunday: 11:00 Am Onwards</div>
           </div>
         </div>
 
