@@ -26,7 +26,7 @@ export const RestaurantCard = ({ order }) => {
             height={395}
             loading="lazy"
             unoptimized
-            className="w-full h-48 sm:h-64 xl:h-[395px] object-cover"
+            className="w-full h-48 sm:h-64 xl:h-full object-cover"
           />
         </div>
       </div>
