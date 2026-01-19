@@ -48,7 +48,7 @@ export default function LocationsGrid() {
 
                 <div className="flex items-center gap-3 text-gray-600">
                   <img src="/phoneIcon.png" />
-                  <span>{loc.mobileNumber}</span>
+                  <a href={`tel:${loc.mobileNumber}`}>{loc.mobileNumber}</a>
                 </div>
               </div>
             </div>
