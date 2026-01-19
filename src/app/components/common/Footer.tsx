@@ -37,7 +37,7 @@ export const Footer = () => {
             +971 4 2578585 , +971 4 2578584
           </div>
 
-          <span className="open-close-signboard">Open until 10:00 pm</span>
+          <span className="open-close-signboard">Open until 12:00 AM</span>
         </div>
 
         {/* RIGHT – Follow Us */}
@@ -66,7 +66,7 @@ export const Footer = () => {
       {/* Bottom bar */}
       <div className="border-t border-white/10 mt-10 xl:mt-12 py-5 xl:py-6">
         <div className="text-center xl:text-right text-[9px] sm:text-sm text-white/60 max-w-[1508px] mx-auto px-4 sm:px-6">
-          Copyright © {new Date().getFullYear()} Cristiano. All rights reserved.
+          © {new Date().getFullYear()} Tibba. All rights reserved.
         </div>
       </div>
     </footer>

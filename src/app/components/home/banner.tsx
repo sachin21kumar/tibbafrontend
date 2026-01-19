@@ -1,4 +1,10 @@
+"use client"
+
+
+import { useRouter } from "next/navigation";
+
 export const Banner = () => {
+  const router=useRouter()
   return (
     <section className="relative h-[calc(100vh-90px)] w-full overflow-hidden">
       {/* Background Images */}
@@ -49,8 +55,8 @@ export const Banner = () => {
             <div className="inline-flex flex-col items-center w-fit sm:w-auto mt-7">
               <div className="h-px w-full sm:w-full bg-gradient-to-r from-transparent via-[#d1a054] to-transparent mb-2 sm:mb-3" />
 
-              <button className="px-4 sm:px-8 py-2  text-xs sm:text-sm tracking-widest hover:text-[#d1a054] transition cursor-pointer whitespace-nowrap">
-                OUR MENU
+              <button className="px-4 sm:px-8 py-2  text-xs sm:text-sm tracking-widest hover:text-[#d1a054] transition cursor-pointer whitespace-nowrap" onClick={()=>router.push("/onlineordering")}>
+                online ordering
               </button>
 
               <div className="h-px w-full sm:w-full bg-gradient-to-r from-transparent via-[#d1a054] to-transparent mt-2 sm:mt-3" />

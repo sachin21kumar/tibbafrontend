@@ -64,7 +64,7 @@ export default function ProductList() {
             )}
 
             <h2 className="mt-3 font-semibold">{product.name}</h2>
-            <span className="text-gray-600">₹ {product.price}</span>
+            <span className="text-gray-600">د.إ  {product.price}</span>
 
             <div className="mt-4 flex gap-3">
               <Link

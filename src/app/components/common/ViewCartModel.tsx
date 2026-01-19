@@ -100,7 +100,7 @@ export default function ViewCartModal({ isOpen, onClose, cart }: ViewCartModalPr
                           >
                             +
                           </button>
-                          <span className="ml-4 font-medium">${item.productId.price}</span>
+                          <span className="ml-4 font-medium">د.إ {item.productId.price}</span>
                         </div>
                       </div>
 
@@ -123,7 +123,7 @@ export default function ViewCartModal({ isOpen, onClose, cart }: ViewCartModalPr
               {cart?.items?.length > 0 && (
                 <div className="p-6 border-t border-t-gray-200">
                   <p className="mb-4 text-center text-[1.5rem] font-allura">
-                    Subtotal: <span className="text-[1.5rem]">${cart?.totalPrice ?? 0}</span>
+                    Subtotal: <span className="text-[1.5rem]">د.إ {cart?.totalPrice ?? 0}</span>
                   </p>
                   <button
                     className="w-full rounded-full bg-[#d1a054] py-4 text-lg font-medium text-white shadow-md cursor-pointer hover:opacity-90"

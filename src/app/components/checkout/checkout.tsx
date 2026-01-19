@@ -1,8 +1,7 @@
 "use client";
 
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useGetCartQuery } from "../redux/query/cartQuery/cart.query";
-import { stripePromise } from "@/app/lib/stripe";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
@@ -14,17 +13,13 @@ import {
 import { useRef, useState } from "react";
 
 type CheckoutFormValues = {
-  firstName: string;
-  lastName: string;
-  company?: string;
-  country: string;
+  fullName: string;
   address: string;
-  city: string;
-  state: string;
-  pinCode: string;
-  phone: number;
   email: string;
+  phone: string;
   deliveryType: string;
+  buildingName: string;
+  paymentMethod: "stripe" | "cod";
 };
 
 export const CheckoutPage = () => {
@@ -33,55 +28,56 @@ export const CheckoutPage = () => {
     useCreateCheckoutMutation();
   const { data: cart, isLoading, isError } = useGetCartQuery();
   const [confirmPayment] = useConfirmPaymentMutation();
-  const [addressSuggestions, setAddressSuggestions] = useState<any[]>([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
   const [customerLatLng, setCustomerLatLng] = useState<any>(null);
+  const [addressValidationError, setAddressValidationError] = useState<
+    string | null
+  >(null);
+  const [isAddressValid, setIsAddressValid] = useState<boolean>(false);
   const stripe = useStripe();
   const elements = useElements();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitted },
-    setValue,
-    control,
     reset,
-  } = useForm<CheckoutFormValues>();
+    watch,
+    getValues,
+  } = useForm<CheckoutFormValues>({
+    defaultValues: {
+      paymentMethod: "stripe",
+    },
+  });
 
-  const addressInputRef = useRef<HTMLInputElement>(null);
+  const paymentMethod = watch("paymentMethod");
 
-  // Fetch suggestions from Geoapify
-  const fetchAddressSuggestions = async (query: string) => {
-    if (!query) {
-      setAddressSuggestions([]);
-      return;
-    }
+  const validateAddressWithBackend = async (fullAddress: string) => {
     try {
       const res = await fetch(
-        `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(
-          query
-        )}&apiKey=ac63444c18184111a08af727096f783f`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/address-validate`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ address: fullAddress }),
+        },
       );
+
       const data = await res.json();
-      setAddressSuggestions(data.features || []);
-    } catch (err) {
-      console.error("Geoapify fetch error:", err);
-    }
-  };
 
-  const fillAddressFields = (feature: any) => {
-    const props = feature.properties;
-    setValue("address", props.formatted, { shouldDirty: true });
+      if (!data.valid) {
+        setIsAddressValid(false);
+        setAddressValidationError(
+          data.message || "Please include city or state name",
+        );
+        return false;
+      }
 
-    // setValue("address", props.address_line1 || "");
-    setValue("city", props.city || props.county || "");
-    setValue("state", props.state || "");
-    setValue("pinCode", props.postcode || "");
-    setValue(
-      "country",
-      props.country_code?.toLowerCase() || "United States (US)"
-    );
-    if (props.lat && props.lon) {
-      setCustomerLatLng({ lat: props.lat, lng: props.lon });
+      setIsAddressValid(true);
+      setAddressValidationError(null);
+      return true;
+    } catch {
+      setIsAddressValid(false);
+      setAddressValidationError("Address validation failed");
+      return false;
     }
   };
 
@@ -91,23 +87,74 @@ export const CheckoutPage = () => {
       return;
     }
 
-    try {
-      const payload = {
-        ...data,
-        locationId: cart?.locationId || null, // <-- pass locationId from cart
-        addressLatLng: customerLatLng,
-      };
-      const res: any = await checkout(payload).unwrap();
+    if (data.deliveryType === "delivery" && !isAddressValid) {
+      toast.error("Please enter a valid address with city or state");
+      return;
+    }
 
+    let latLng = customerLatLng;
+
+    const geocodeAddress = async (address: string) => {
+      try {
+        const res = await fetch(
+          `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+            address,
+          )}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`,
+        );
+
+        const data = await res.json();
+
+        if (data.status === "OK" && data.results.length > 0) {
+          return data.results[0].geometry.location;
+        }
+        return null;
+      } catch {
+        return null;
+      }
+    };
+
+    if (data.deliveryType === "delivery") {
+      const fullAddress = `${data.buildingName}, ${data.address}`;
+      const geo = await geocodeAddress(fullAddress);
+
+      if (!geo) {
+        toast.error("Unable to locate your address.");
+        return;
+      }
+
+      latLng = geo;
+      setCustomerLatLng(geo);
+    }
+
+    try {
+      const payload: any = {
+        ...data,
+        locationId: cart?.locationId || null,
+        addressLatLng: latLng,
+      };
+
+      const res: any = await checkout(payload).unwrap();
       const { clientSecret, orderId } = res;
 
       if (!orderId) {
-        toast.error("Failed to get order ID. Please try again.");
+        toast.error("Failed to get order ID.");
         return;
       }
+      if (data.paymentMethod === "cod") {
+        Cookies.remove("selectedLocationId");
+        toast.success("Order placed successfully!");
+        await confirmPayment({ orderId }).unwrap();
+        window.location.href = `/order-success?orderId=${orderId}`;
+        return;
+      }
+      if (!stripe || !elements) {
+        toast.error("Stripe not loaded");
+        return;
+      }
+
       const card = elements.getElement(CardElement);
       if (!card) {
-        toast.error("Card element not found. Please try again.");
+        toast.error("Card input not found");
         return;
       }
 
@@ -115,39 +162,25 @@ export const CheckoutPage = () => {
         payment_method: {
           card,
           billing_details: {
-            name: `${data.firstName} ${data.lastName}`,
+            name: data.fullName,
             email: data.email,
-            address: {
-              line1: data.address,
-              city: data.city,
-              state: data.state,
-              postal_code: data.pinCode,
-              country: data?.country,
-            },
-            phone: data.phone.toString(),
+            phone: data.phone,
+            address: { line1: data.address },
           },
         },
       });
 
       if (paymentResult.error) {
-        toast.error("Payment failed: " + paymentResult.error.message);
+        toast.error(paymentResult.error.message);
       } else if (paymentResult.paymentIntent?.status === "succeeded") {
         Cookies.remove("selectedLocationId");
         toast.success("Payment successful!");
         reset();
-
-        if (orderId) {
-          try {
-            await confirmPayment({ orderId }).unwrap();
-          } catch (err) {
-            console.error("Failed to confirm payment:", err);
-            toast.error("Failed to confirm payment");
-          }
-        }
+        await confirmPayment({ orderId }).unwrap();
         window.location.href = `/order-success?orderId=${orderId}`;
       }
     } catch (error: any) {
-      toast.error(error?.data?.message || "Payment failed. Please try again.");
+      toast.error(error?.data?.message || "Payment failed.");
     }
   };
 
@@ -155,7 +188,7 @@ export const CheckoutPage = () => {
 
   const subtotal = items.reduce(
     (sum: number, item: any) => sum + item.productId.price * item.quantity,
-    0
+    0,
   );
   return (
     <div className="max-w-[1200px] mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-[1fr_430px] gap-16">
@@ -222,195 +255,76 @@ export const CheckoutPage = () => {
 
           <div>
             <label className="text-xs uppercase tracking-wider ">
-              First Name <span className="text-red-500">*</span>
+              Full Name <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
-              {...register("firstName", {
+              {...register("fullName", {
                 required: "First name is required",
               })}
               className={`w-full border-b focus:outline-none py-2 ${
-                isSubmitted && errors.firstName
+                isSubmitted && errors.fullName
                   ? "border-red-500"
                   : "border-gray-300"
               }`}
             />
-            {isSubmitted && errors.firstName && (
+            {isSubmitted && errors.fullName && (
               <span className="text-xs text-red-500 mt-1">
-                {errors.firstName.message}
+                {errors.fullName.message}
               </span>
             )}
           </div>
-
-          <div>
-            <label className="text-xs uppercase tracking-wider ">
-              Last Name <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              {...register("lastName", {
-                required: "Last name is required",
-              })}
-              className={`w-full border-b focus:outline-none py-2 ${
-                isSubmitted && errors.lastName
-                  ? "border-red-500"
-                  : "border-gray-300"
-              }`}
-            />
-            {isSubmitted && errors.lastName && (
-              <span className="text-xs text-red-500 mt-1">
-                {errors.lastName.message}
-              </span>
-            )}
-          </div>
-
           <div>
             <label className="text-xs uppercase tracking-wider text-gray-500">
-              Company Name (optional)
+              Building Name <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
-              {...register("company")}
-              className="w-full border-b border-gray-300 focus:outline-none py-2"
+              {...register("buildingName", {
+                required: "Building Name is required",
+              })}
+              className={`w-full border-b focus:outline-none py-2 ${
+                isSubmitted && errors.buildingName
+                  ? "border-red-500"
+                  : "border-gray-300"
+              }`}
             />
+            {isSubmitted && errors.buildingName && (
+              <span className="text-xs text-red-500 mt-1">
+                {errors.buildingName.message}
+              </span>
+            )}
           </div>
-
           <div className="relative">
             <label className="text-xs uppercase tracking-wider text-gray-500">
-              Street Address <span className="text-red-500">*</span>
-            </label>
-           <Controller
-  name="address"
-  control={control}
-  rules={{ required: "Street address is required" }}
-  render={({ field }) => (
-    <input
-      {...field}
-      ref={addressInputRef}
-      onChange={(e) => {
-        field.onChange(e);
-        fetchAddressSuggestions(e.target.value);
-        setShowSuggestions(true);
-      }}
-      className={`w-full border-b focus:outline-none py-2 ${
-        isSubmitted && errors.address
-          ? "border-red-500"
-          : "border-gray-300"
-      }`}
-      autoComplete="off"
-    />
-  )}
-/>
-
-            {isSubmitted && errors.address && (
-              <span className="text-xs text-red-500 mt-1">
-                {errors.address.message}
-              </span>
-            )}
-
-            {showSuggestions && addressSuggestions.length > 0 && (
-              <ul className="absolute z-50 w-full bg-white border border-gray-300 rounded-md mt-1 max-h-60 overflow-auto shadow-lg">
-                {addressSuggestions.map((item, idx) => (
-                  <li
-                    key={idx}
-                    onClick={() => {
-                      fillAddressFields(item);
-                      setShowSuggestions(false);
-                    }}
-                    className="px-3 py-2 cursor-pointer hover:bg-gray-100 text-sm"
-                  >
-                    {item.properties.formatted}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-          <div>
-            <label className="text-xs uppercase tracking-wider text-gray-500">
-              Country / Region <span className="text-red-500">*</span>
+              Flat Address <span className="text-red-500">*</span>
             </label>
             <input
-              type="text"
-              {...register("country", {
-                required: "Country is required",
+              {...register("address", {
+                required: "Flat address is required",
               })}
               className={`w-full border-b focus:outline-none py-2 ${
-                isSubmitted && errors.country
+                isSubmitted && errors.address
                   ? "border-red-500"
                   : "border-gray-300"
               }`}
+              placeholder="Flat / Apartment / City / State"
+              onBlur={async (e) => {
+                const building = getValues("buildingName") || "";
+                const fullAddress = `${building}, ${e.target.value}`;
+                if (e.target.value.length > 3) {
+                  await validateAddressWithBackend(fullAddress);
+                }
+              }}
             />
-            {isSubmitted && errors.country && (
-              <span className="text-xs text-red-500 mt-1">
-                {errors.country.message}
-              </span>
-            )}
-          </div>
-          <div>
-            <label className="text-xs uppercase tracking-wider text-gray-500">
-              Town / City <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              {...register("city", {
-                required: "City is required",
-              })}
-              className={`w-full border-b focus:outline-none py-2 ${
-                isSubmitted && errors.city
-                  ? "border-red-500"
-                  : "border-gray-300"
-              }`}
-            />
-            {isSubmitted && errors.city && (
-              <span className="text-xs text-red-500 mt-1">
-                {errors.city.message}
+
+            {addressValidationError && (
+              <span className="text-xs text-red-500 mt-1 block">
+                {addressValidationError}
               </span>
             )}
           </div>
 
-          <div>
-            <label className="text-xs uppercase tracking-wider text-gray-500">
-              State <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              {...register("state", {
-                required: "State is required",
-              })}
-              className={`w-full border-b focus:outline-none py-2 ${
-                isSubmitted && errors.state
-                  ? "border-red-500"
-                  : "border-gray-300"
-              }`}
-            />
-            {isSubmitted && errors.state && (
-              <span className="text-xs text-red-500 mt-1">
-                {errors.state.message}
-              </span>
-            )}
-          </div>
-
-          <div>
-            <label className="text-xs uppercase tracking-wider text-gray-500">
-              Pin code <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              {...register("pinCode", {
-                required: "Pin code is required",
-              })}
-              className={`w-full border-b focus:outline-none py-2 ${
-                isSubmitted && errors.pinCode
-                  ? "border-red-500"
-                  : "border-gray-300"
-              }`}
-            />
-            {isSubmitted && errors.pinCode && (
-              <span className="text-xs text-red-500 mt-1">
-                {errors.pinCode.message}
-              </span>
-            )}
-          </div>
           <div>
             <label className="text-xs uppercase tracking-wider text-gray-500">
               Phone <span className="text-red-500">*</span>
@@ -454,32 +368,32 @@ export const CheckoutPage = () => {
               </span>
             )}
           </div>
-
-          <div className="mt-16">
-            <h3 className="text-2xl font-normal tracking-wide border-b border-b-[#d1a054] pb-2">
-              ADDITIONAL INFORMATION
-            </h3>
-
-            <div className="mt-10">
-              <label className="block text-xs uppercase tracking-wider text-gray-500 mb-2">
-                Order Notes (optional)
+          <label className="text-xs uppercase tracking-wider text-gray-500">Payment Method:</label>
+          <div className="flex gap-3 py-3">
+            {[
+              { id: "stripe", label: "CARD PAYMENT" },
+              { id: "cod", label: "CASH ON DELIVERY" },
+            ].map((p) => (
+              <label key={p.id} className="cursor-pointer">
+                <input
+                  type="radio"
+                  value={p.id}
+                  {...register("paymentMethod")}
+                  className="hidden peer"
+                />
+                <div
+                  className="px-5 py-2 rounded-full border text-sm font-semibold
+                  peer-checked:bg-[#d1a054]
+                  peer-checked:text-white
+                  peer-checked:border-[#d1a054]
+                  bg-white text-gray-700 border-gray-300"
+                >
+                  {p.label}
+                </div>
               </label>
-
-              <textarea
-                rows={3}
-                className="w-full border-b border-gray-300 focus:outline-none resize-none"
-              />
-            </div>
-
-            <div className="mt-10 flex items-start gap-3">
-              <input type="checkbox" className="mt-[2px] accent-gray-600" />
-
-              <label className="text-xs uppercase tracking-wider text-gray-500 leading-relaxed">
-                Yes, I'm ok with you sending me additional newsletter and email
-                content (optional)
-              </label>
-            </div>
+            ))}
           </div>
+          
 
           <button type="submit" hidden />
         </form>
@@ -515,7 +429,7 @@ export const CheckoutPage = () => {
                       {item.productId.name} × {item.quantity}
                     </td>
                     <td className="py-3 text-right">
-                      ${(item.productId.price * item.quantity).toFixed(2)}
+                     د.إ {(item.productId.price * item.quantity).toFixed(2)}
                     </td>
                   </tr>
                 ))
@@ -524,7 +438,7 @@ export const CheckoutPage = () => {
               <tr>
                 <th className="py-[12px] font-bold text-left">SUBTOTAL</th>
                 <td className="py-[12px] text-[#d1a054] text-base text-left">
-                  ${subtotal.toFixed(2)}
+                  د.إ {subtotal.toFixed(2)}
                 </td>
               </tr>
 
@@ -538,7 +452,7 @@ export const CheckoutPage = () => {
               <tr>
                 <th className="pt-2 font-semibold text-lg text-left">TOTAL</th>
                 <td className="pt-2 text-2xl text-[#d1a054] text-left">
-                  ${subtotal.toFixed(2)}
+                  د.إ {subtotal.toFixed(2)}
                 </td>
               </tr>
             </tbody>
@@ -550,27 +464,33 @@ export const CheckoutPage = () => {
             </span>
           </div>
         )}
-        {items?.length > 0 && (
+
           <>
-            <div className="border border-dashed border-gray-300 rounded-lg p-4 text-sm text-gray-600 mt-6 text-center">
-              <CardElement
-                options={{
-                  style: {
-                    base: {
-                      fontSize: "14px",
-                      color: "#374151",
-                      fontFamily: "system-ui, sans-serif",
-                      "::placeholder": {
-                        color: "#9ca3af",
+            {items?.length > 0 && (
+              <>
+              {paymentMethod === "stripe" && (
+                <div className="border border-dashed border-gray-300 rounded-lg p-4 text-sm text-gray-600 mt-6 text-center">
+                  <CardElement
+                    options={{
+                      style: {
+                        base: {
+                          fontSize: "14px",
+                          color: "#374151",
+                          fontFamily: "system-ui, sans-serif",
+                          "::placeholder": {
+                            color: "#9ca3af",
+                          },
+                        },
+                        invalid: {
+                          color: "#ef4444",
+                        },
                       },
-                    },
-                    invalid: {
-                      color: "#ef4444",
-                    },
-                  },
-                }}
-              />
-            </div>
+                    }}
+                  />
+                </div>
+              )}
+              </>
+              )}
 
             <div className="py-4">
               <div className="text-xs text-gray-500 font-[system-ui] leading-tight">
@@ -594,7 +514,6 @@ export const CheckoutPage = () => {
               {checkoutLoading ? "Placing...." : "PLACE ORDER"}
             </button>
           </>
-        )}
       </div>
     </div>
   );

@@ -1,11 +1,8 @@
-"use client"
+"use client";
 
 import { useEffect } from "react";
 import { Banner } from "./banner";
-import { BestSeller } from "./bestSeller";
 import { FreeDelivery } from "./delivery";
-import { DeliveryService } from "./deliveryService";
-import { LatestNews } from "./latestNews";
 
 const Location = dynamic(
   () => import("./locations").then((mod) => mod.Location),
@@ -16,36 +13,25 @@ const Location = dynamic(
         Loading map...
       </div>
     ),
-  }
+  },
 );
-import MenuSection from "./menuSection";
-import ImageSlider from "./slider";
-import Testimonials from "./testimonial";
 import dynamic from "next/dynamic";
 
 export default function Hero() {
   useEffect(() => {
-  document.documentElement.style.overflowX = "hidden";
-  return () => {
-    document.documentElement.style.overflowX = "";
-  };
-}, []);
+    document.documentElement.style.overflowX = "hidden";
+    return () => {
+      document.documentElement.style.overflowX = "";
+    };
+  }, []);
 
   return (
     <div>
       <Banner />
-      {/* <DeliveryService /> */}
-      {/* <ImageSlider /> */}
-      {/* <MenuSection /> */}
       <div className="xl:py-25 py-20">
-
-      <FreeDelivery />
+        <FreeDelivery />
       </div>
-      {/* <BestSeller/> */}
-      {/* <LatestNews/> */}
-      {/* <Testimonials/> */}
-
-      <Location/>
+      <Location />
     </div>
   );
 }

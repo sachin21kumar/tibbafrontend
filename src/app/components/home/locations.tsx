@@ -5,7 +5,6 @@ import "leaflet/dist/leaflet.css";
 import L, { LatLngExpression } from "leaflet";
 import { useGetLocationsQuery } from "../redux/query/locationsQuery/location.query";
 
-// Fix default icon
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: "/marker-icon-2x.png",
@@ -13,7 +12,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "/marker-shadow.png",
 });
 
-// FitBounds helper
 const FitBounds = ({ locations }: any) => {
   const map = useMap();
 
@@ -38,7 +36,6 @@ export const Location = () => {
     );
   }
 
-  // Filter valid locations
   const validLocations = locations.filter(
     (loc): loc is any =>
       loc.lat !== undefined && loc.lng !== undefined

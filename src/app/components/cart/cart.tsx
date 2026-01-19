@@ -93,7 +93,7 @@ export default function CartPage() {
                   </td>
 
                   <td className="text-gray-700 px-4 sm:px-8 py-4 whitespace-nowrap">
-                    ${item.productId.price.toFixed(2)}
+                    د.إ {item.productId.price.toFixed(2)}
                   </td>
 
                   <td className="px-4 sm:px-8 py-4">
@@ -126,7 +126,7 @@ export default function CartPage() {
                   </td>
 
                   <td className="text-gray-800 whitespace-nowrap px-4 sm:px-8 py-4">
-                    ${(item.productId.price * item.quantity).toFixed(2)}
+                    د.إ {(item.productId.price * item.quantity).toFixed(2)}
                     <button
                       disabled={isRemoving}
                       onClick={() => handleRemove(item.productId._id)}
@@ -151,7 +151,7 @@ export default function CartPage() {
 
             <div className="flex justify-between mb-2 py-[12px]">
               <span className="font-bold text-[#1b2024]">Subtotal</span>
-              <span className="text-[#d1a054]">${subtotal.toFixed(2)}</span>
+              <span className="text-[#d1a054]">د.إ {subtotal.toFixed(2)}</span>
             </div>
 
             <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-5 mb-4 py-[12px]">
@@ -163,7 +163,7 @@ export default function CartPage() {
 
             <div className="flex justify-between text-lg font-semibold pb-[12px] pt-2 mb-4">
               <span>Total</span>
-              <span className="text-[#d1a054]">${total.toFixed(2)}</span>
+              <span className="text-[#d1a054]">د.إ {total.toFixed(2)}</span>
             </div>
 
             <button

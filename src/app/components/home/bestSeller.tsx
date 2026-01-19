@@ -79,7 +79,7 @@ export const BestSeller = () => {
 
                     <div className="flex items-center justify-between">
                       <span className="mt-2 font-semibold text-[#d1a054] text-lg">
-                        ${product.price}
+                        د.إ {product.price}
                       </span>
 
                       {cartItem ? (

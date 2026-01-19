@@ -285,7 +285,7 @@ export default function MenuPage() {
                             {getProductName(product.name)}
                           </h3>
                           <span className="text-[16px] font-semibold text-gray-800">
-                            ${product.price}
+                            د.إ {product.price}
                           </span>
                         </div>
                         <div className="relative w-[140px] h-[120px] flex-shrink-0">
@@ -385,7 +385,7 @@ export default function MenuPage() {
                                     {getProductName(product.name)}
                                   </h3>
                                   <span className="text-[18px] font-[system-ui] font-medium text-[252525]">
-                                    ${product.price}
+                                    د.إ {product.price}
                                   </span>
                                 </div>
                                 <div className="relative w-[140px] h-[120px] flex-shrink-0">

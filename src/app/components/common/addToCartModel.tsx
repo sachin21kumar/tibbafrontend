@@ -170,7 +170,7 @@ export default function AddToCartModal({
                       isInCart ? "justify-between" : "justify-end"
                     }`}
                   >
-                    {isInCart && <div>${product.price * quantity}</div>}
+                    {isInCart && <div>د.إ {product.price * quantity}</div>}
 
                     <div className="border rounded-2xl flex justify-center items-center">
                       <div className="flex items-center justify-center gap-2 p-1">
@@ -197,7 +197,7 @@ export default function AddToCartModal({
                     className="bg-[#D1A054] text-white text-[14px] md:text-[20px] md:px-15 px-2 py-3 rounded-lg font-medium hover:opacity-90 cursor-pointer"
                     onClick={handleAddToCart}
                   >
-                    Add item | ${product.price * quantity}
+                    Add item | د.إ {product.price * quantity}
                   </button>
                 )}
               </div>

@@ -163,8 +163,7 @@ export default function AdminOrdersPage() {
                   </td>
 
                   <td className="px-4 py-3 text-sm text-gray-600 leading-snug">
-                    {order.address}, {order.city}, {order.state},{" "}
-                    {order.pinCode}
+                    {order.address}
                   </td>
 
                   <td className="px-4 py-3 text-sm text-gray-700">

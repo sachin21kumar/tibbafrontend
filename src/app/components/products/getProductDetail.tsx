@@ -57,7 +57,7 @@ export default function ProductDetail() {
         {/* Price & Actions */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0 mt-6">
           <span className="text-2xl font-semibold text-[#d1a054]">
-            ${product.price.toFixed(2)}
+            د.إ {product.price.toFixed(2)}
           </span>
 
           <div className="flex items-center border rounded-full">

@@ -186,7 +186,7 @@ const Navbar = () => {
             )}
 
             <span className="ml-2 hidden xl:block">
-              {cart?.totalPrice ? `$${cart.totalPrice}` : "$0.00"}
+              {cart?.totalPrice ? `د.إ ${cart.totalPrice}` : "$0.00"}
             </span>
           </div>
         </div>
