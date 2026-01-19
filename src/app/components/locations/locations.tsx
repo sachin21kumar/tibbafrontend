@@ -11,7 +11,7 @@ const Location = dynamic(
         Loading map...
       </div>
     ),
-  }
+  },
 );
 interface Location {
   id: number;
@@ -70,7 +70,10 @@ export default function LocationCard() {
                   </div>
                   <div className="flex items-center gap-3 text-gray-600 mb-4">
                     <img src="/phoneIcon.png" alt="Phone Icon" />
-                    <span>{location.mobileNumber}</span>
+                    <a href={`tel:${location.mobileNumber}`}>
+                      {location.mobileNumber}
+                    </a>
+
                   </div>
                 </div>
                 <a

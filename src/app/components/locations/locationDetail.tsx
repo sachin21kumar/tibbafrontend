@@ -104,7 +104,9 @@ export default function LocationDetails() {
                   <img src="/phonetrans.png" alt="Phone Icon" />
                 </div>
                 <span className="text-gray-700 font-medium">
-                  {location?.mobileNumber}
+                   <a href={`tel:${location.mobileNumber}`}>
+                      {location.mobileNumber}
+                    </a>
                 </span>
               </div>
             </div>

@@ -34,7 +34,8 @@ export const Footer = () => {
           </div>
 
           <div className="mt-2 text-[#D1A054]">
-            +971 4 2578585 , +971 4 2578584
+            <a href="tel:+97142578585">+971 4 2578585</a>,{" "}
+            <a href="tel:+97142578584">+971 4 2578584</a>
           </div>
 
           <span className="open-close-signboard">Open until 12:00 AM</span>
