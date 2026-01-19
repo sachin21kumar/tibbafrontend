@@ -290,7 +290,7 @@ export default function MenuPage() {
                         </div>
                         <div className="relative w-[140px] h-[120px] flex-shrink-0">
                           <Image
-                            src={
+                             src={
                               product.imagePath
                                 ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
                                 : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
