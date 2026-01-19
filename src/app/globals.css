@@ -44,9 +44,9 @@ body {
 }
 
 /* Optional UX polish */
-::selection {
+/* ::selection {
   background-color: aliceblue;
-}
+} */
 
 p{
   font-family: "allura";

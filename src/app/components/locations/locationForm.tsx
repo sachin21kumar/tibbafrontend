@@ -133,7 +133,7 @@ export default function ContactForm() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="rounded-full bg-[#12171a] px-12 py-4 text-sm tracking-widest text-white transition hover:bg-black disabled:opacity-60"
+              className="rounded-full bg-[#12171a] cursor-pointer px-12 py-4 text-sm tracking-widest text-white transition hover:bg-black disabled:opacity-60"
             >
               {isSubmitting ? "SENDING..." : "BOOK A TABLE"}
             </button>

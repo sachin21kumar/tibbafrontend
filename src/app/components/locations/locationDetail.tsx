@@ -70,7 +70,7 @@ export default function LocationDetails() {
         }}
       >
         <h1 className="text-white text-2xl sm:text-3xl md:text-5xl font-cinzel bg-white/10 border border-white/32 backdrop-blur-[20px] px-4 sm:px-6 py-3 sm:py-4">
-          Closed until 9:00 am
+          Open until {location?.operation_hours?.slice(7)}
         </h1>
       </div>
 
@@ -86,7 +86,7 @@ export default function LocationDetails() {
                 <div className="h-px mx-auto bg-gradient-to-l from-transparent to-[#d1a054]" />
               </div>
 
-              <p className="text-gray-600 font-[system-ui] leading-relaxed">
+              <p className="text-gray-600 !font-[system-ui] leading-relaxed">
                 {location?.description}
               </p>
 
