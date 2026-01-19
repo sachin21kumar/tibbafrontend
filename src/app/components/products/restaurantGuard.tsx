@@ -18,7 +18,7 @@ export const RestaurantCard = ({ order }) => {
   return (
     <div className="flex flex-col xl:flex-row gap-5 rounded-lg overflow-hidden my-6 mx-4">
       <div className="relative w-full xl:w-auto">
-        <div className="relative w-full xl:w-[868px] h-48 sm:h-64 xl:h-full">
+        <div className="relative w-full xl:w-[868px] h-full">
           <Image
             src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location?.imagePath}`}
             alt="Restaurant Food"
@@ -26,7 +26,7 @@ export const RestaurantCard = ({ order }) => {
             height={395}
             loading="lazy"
             unoptimized
-            className="w-full h-48 sm:h-64 xl:h-full object-cover"
+            className="w-full h-full object-cover"
           />
         </div>
       </div>
