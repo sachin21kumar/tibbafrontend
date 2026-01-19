@@ -289,15 +289,14 @@ export default function MenuPage() {
                           </span>
                         </div>
                         <div className="relative w-[140px] h-[120px] flex-shrink-0">
-                          <Image
+                          <img
                              src={
-                              product.imagePath
-                                ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
-                                : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
-                            }
-                            alt={product.name}
-                            loading="lazy"
-                            className="w-full h-full object-cover rounded-xl"
+                                      product.imagePath
+                                        ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
+                                        : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
+                                    }
+                                    alt={product.name}
+                                    className="w-full h-full object-cover rounded-xl"
                           />
                           {!cartItem && (
                             <button
