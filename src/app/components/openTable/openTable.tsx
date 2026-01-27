@@ -85,10 +85,10 @@ export default function OpenTable() {
       </div>
       <div className="w-full p-8 mx-auto">
         <div className="text-center mb-8 grid justify-center">
-          <p className="text-[#d1a054] italic text-[26px] font-[system-ui] border-b border-b-black w-[282px]">
+          <p className="text-[#d1a054] italic text-[26px] font-[system-ui] border-b border-b-[#d1a054] w-[282px]">
             Open Table
           </p>
-          <h1 className="text-3xl mt-1 border-b border-gray-300 inline-block pb-2">
+          <h1 className="text-3xl mt-1 border-b border-[#d1a054] text-[#d1a054] inline-block pb-2">
             RESERVATION
           </h1>
         </div>
@@ -97,10 +97,10 @@ export default function OpenTable() {
           <div className="max-w-[1288px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
             {/* DATE */}
             <div className="flex flex-col">
-              <label className="text-[#1b2024] text-[12px] mb-1">DATE</label>
+              <label className="text-[#d1a054] text-[12px] mb-1">DATE</label>
               <input
                 type="date"
-                className="border-b border-gray-300 py-2 bg-transparent focus:outline-none"
+                className="border-b border-[#d1a054] text-[#d1a054] py-2 bg-transparent focus:outline-none"
                 {...register("date", { required: "Date is required" })}
               />
               {errors.date && (
@@ -112,9 +112,9 @@ export default function OpenTable() {
 
             {/* TIME */}
             <div className="flex flex-col">
-              <label className="text-[#1b2024] text-[12px]">TIME</label>
+              <label className="text-[#d1a054] text-[12px]">TIME</label>
               <select
-                className="border-b border-gray-300 py-2 bg-transparent focus:outline-none"
+                className="border-b border-[#d1a054] text-[#d1a054] py-2 bg-transparent focus:outline-none"
                 {...register("time", { required: "Time is required" })}
               >
                 {generateTimeSlots().map((time) => (
@@ -132,9 +132,9 @@ export default function OpenTable() {
 
             {/* GUESTS */}
             <div className="flex flex-col">
-              <label className="text-[#1b2024] text-[12px]">GUEST NUMBER</label>
+              <label className="text-[#d1a054] text-[12px] ">GUEST NUMBER</label>
               <select
-                className="border-b border-gray-300 py-2 bg-transparent focus:outline-none"
+                className="border-b border-[#d1a054] text-[#d1a054] py-2 bg-transparent focus:outline-none"
                 {...register("guests", { required: "Guests required" })}
               >
                 {Array.from({ length: 9 }, (_, i) => (
@@ -161,7 +161,7 @@ export default function OpenTable() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="hover:bg-white hover:text-black hover:border-gray-300 hover:border bg-gray-900 text-white py-3 px-8 rounded-full hover:bg-gray-800 cursor-pointer transition disabled:opacity-50"
+                className="hover:bg-white hover:text-[#d1a054] hover:border-[#d1a054] hover:border bg-gray-900 text-white py-3 px-8 rounded-full hover:bg-gray-800 cursor-pointer transition disabled:opacity-50"
               >
                 {isSubmitting ? "BOOKING..." : "FIND A TABLE"}
               </button>

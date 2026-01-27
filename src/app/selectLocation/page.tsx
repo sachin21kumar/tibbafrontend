@@ -39,10 +39,10 @@ export default function SelectLocationPage() {
       <div className="w-full max-w-xl">
         {/* Header */}
         <div className="mb-6 text-center">
-          <h1 className="text-2xl font-semibold text-gray-900">
+          <h1 className="text-2xl font-semibold text-[#d1a054]">
             Choose a Restaurant Location
           </h1>
-          <span className="text-sm text-gray-500 mt-1">
+          <span className="text-sm text-[#7A4A2E] mt-1">
             Select the nearest outlet to view the menu
           </span>
         </div>
@@ -61,7 +61,7 @@ export default function SelectLocationPage() {
                   bg-white border rounded-xl px-4 py-4 text-left
                   hover:border-[#d1a054] hover:shadow-sm
                   transition-all cursor-pointer group
-                  ${isSelected ? "border-[#d1a054] shadow-md bg-[#fff7eb]" : "border-gray-200"}
+                  ${isSelected ? "border-[#d1a054] shadow-md bg-[#fff7eb]" : "border-[#e1d4c3]"}
                 `}
               >
                 <div className="flex items-center gap-3">
@@ -70,14 +70,14 @@ export default function SelectLocationPage() {
                   </div>
 
                   <div>
-                    <h3 className="font-medium text-gray-900">{loc.name}</h3>
+                    <h3 className="font-medium text-[#7A4A2E]">{loc.name}</h3>
                     {loc.area && (
-                      <span className="text-xs text-gray-500">{loc.area}</span>
+                      <span className="text-xs text-[#5C3A26]">{loc.area}</span>
                     )}
                   </div>
                 </div>
 
-                <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-[#d1a054]" />
+                <ChevronRight className="w-5 h-5 text-[#d1a054] group-hover:text-[#d1a054]" />
               </button>
             );
           })}

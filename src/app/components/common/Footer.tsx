@@ -24,7 +24,7 @@ export const Footer = () => {
             Tibba Restaurant
           </h3>
           <div className="w-fit m-auto">
-            <div className="h-[9px] tracking-[4px] text-[8px] text-black bg-[radial-gradient(circle,_#d1a054_20%,_transparent_100%)] mx-auto">
+            <div className="h-[9px] tracking-[4px] text-[8px] text-white bg-[radial-gradient(circle,_#d1a054_20%,_transparent_100%)] mx-auto">
               Restaurant
             </div>
 

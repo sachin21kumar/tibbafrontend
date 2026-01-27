@@ -30,7 +30,7 @@ export const Location = () => {
 
   if (!locations || locations.length === 0) {
     return (
-      <div className="w-full h-[45vh] flex items-center justify-center text-gray-500">
+      <div className="w-full h-[45vh] flex items-center justify-center text-[#7a4a2e]">
         Location map not available
       </div>
     );
@@ -43,7 +43,7 @@ export const Location = () => {
 
   if (validLocations.length === 0) {
     return (
-      <div className="w-full h-[45vh] flex items-center justify-center text-gray-500">
+      <div className="w-full h-[45vh] flex items-center justify-center text-[#7a4a2e]">
         No valid locations to display
       </div>
     );

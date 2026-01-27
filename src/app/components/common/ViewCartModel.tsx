@@ -64,27 +64,27 @@ export default function ViewCartModal({ isOpen, onClose, cart }: ViewCartModalPr
           >
             <Dialog.Panel className="w-full max-w-2xl rounded-2xl bg-white shadow-xl flex flex-col max-h-[90vh]">
               {/* Header */}
-              <div className="relative border-b p-6 text-center border-b-gray-200">
-                <h2 className="sm:text-[34px] text-[20px] tracking-wide">View Order</h2>
+              <div className="relative border-b p-6 text-center border-b-[#d1a054]">
+                <h2 className="sm:text-[34px] text-[20px] tracking-wide text-[#d1a054]">View Order</h2>
                 <button
                   onClick={onClose}
                   className="absolute right-6 top-6 font-[300] hover:text-black cursor-pointer"
                 >
-                  <X size={32} className="font-semibold text-gray-500" />
+                  <X size={32} className="font-semibold text-[#7a4a2e]" />
                 </button>
               </div>
 
               {/* Scrollable Items */}
               {cart?.items?.length > 0 ? (
-                <div className="divide-y divide-gray-200 overflow-y-auto px-6 py-4 flex-1 max-h-[60vh] sm:max-h-[70vh]">
+                <div className="divide-y divide-[#d1a054] overflow-y-auto px-6 py-4 flex-1 max-h-[60vh] sm:max-h-[70vh]">
                   {cart.items.map((item: any) => (
                     <div
                       key={item.productId._id}
-                      className="flex items-center justify-between py-4 border-b border-b-gray-200"
+                      className="flex items-center justify-between py-4 border-b border-b-[#d1a054]"
                     >
                       <div>
-                        <h3 className="text-lg">{item.productId.name}</h3>
-                        <div className="mt-2 flex items-center gap-4 text-sm">
+                        <h3 className="text-lg text-[#7a4a2e]">{item.productId.name}</h3>
+                        <div className="mt-2 flex items-center gap-4 text-sm text-[#7a4a2e]">
                           <button
                             onClick={() => handleDecrease(item.productId._id, item.quantity)}
                             className="text-xl cursor-pointer"
@@ -106,7 +106,7 @@ export default function ViewCartModal({ isOpen, onClose, cart }: ViewCartModalPr
 
                       <button
                         onClick={() => handleRemove(item.productId._id)}
-                        className="text-gray-400 hover:text-gray-600 cursor-pointer"
+                        className="text-red-500 hover:text-red-500 cursor-pointer"
                       >
                         <Trash2 size={18} />
                       </button>
@@ -114,15 +114,15 @@ export default function ViewCartModal({ isOpen, onClose, cart }: ViewCartModalPr
                   ))}
                 </div>
               ) : (
-                <span className="p-6 text-center w-full flex items-center justify-center font-[system-ui] text-gray-700">
+                <span className="p-6 text-center w-full flex items-center justify-center text-[#7a4a2e] font-[system-ui] text-[#7a4a2e]">
                   No products in the cart.
                 </span>
               )}
 
               {/* Footer / Checkout */}
               {cart?.items?.length > 0 && (
-                <div className="p-6 border-t border-t-gray-200">
-                  <p className="mb-4 text-center text-[1.5rem] font-allura">
+                <div className="p-6 border-t border-t-[#d1a054]">
+                  <p className="mb-4 text-center text-[1.5rem] font-allura text-[#7a4a2e]">
                     Subtotal: <span className="text-[1.5rem]">د.إ {cart?.totalPrice ?? 0}</span>
                   </p>
                   <button

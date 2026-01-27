@@ -85,13 +85,13 @@ export default function AdminCategory() {
       <h2 className="text-xl font-semibold mb-4">Categories</h2>
 
       <div className="overflow-x-auto">
-        <table className="w-full border border-gray-200 rounded-lg">
-          <thead className="bg-gray-100">
+        <table className="w-full border border-[#d1a054] rounded-lg">
+          <thead className="bg-[#f9f5f0]">
             <tr>
-              <th className="p-3 border">#</th>
-              <th className="p-3 border">Category Name</th>
-              <th className="p-3 border">Category ID</th>
-              <th className="p-3 border text-center">Actions</th>
+              <th className="p-3 border border-[#d1a054]">#</th>
+              <th className="p-3 border border-[#d1a054] text-[#7a4a2e]">Category Name</th>
+              <th className="p-3 border border-[#d1a054] text-[#7a4a2e]">Category ID</th>
+              <th className="p-3 border border-[#d1a054] text-center text-[#7a4a2e]">Actions</th>
             </tr>
           </thead>
 
@@ -99,9 +99,9 @@ export default function AdminCategory() {
             {category?.data?.length ? (
               category.data.map((item, index) => (
                 <tr key={item._id} className="hover:bg-gray-50">
-                  <td className="p-3 border">{index + 1}</td>
+                  <td className="p-3 border border-[#d1a054] text-[#7a4a2e]">{index + 1}</td>
 
-                  <td className="p-3 border">
+                  <td className="p-3 border border-[#d1a054] text-[#7a4a2e]">
                     {editId === item._id ? (
                       <input
                         value={title}
@@ -113,23 +113,23 @@ export default function AdminCategory() {
                     )}
                   </td>
 
-                  <td className="p-3 border text-sm text-gray-600">
+                  <td className="p-3 border border-[#d1a054] text-[#7a4a2e]">
                     {item._id}
                   </td>
 
-                  <td className="p-3 border text-center space-x-2">
+                  <td className="p-3 border border-[#d1a054] text-center space-x-2">
                     {editId === item._id ? (
                       <>
                         <button
                           disabled={isUpdating}
                           onClick={() => handleUpdate(item._id)}
-                          className="px-3 py-1 text-sm bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-60"
+                          className="px-3 py-1 text-sm bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-60 cursor-pointer"
                         >
                           Save
                         </button>
                         <button
                           onClick={() => setEditId(null)}
-                          className="px-3 py-1 text-sm bg-gray-400 text-white rounded hover:bg-gray-500"
+                          className="px-3 py-1 text-sm bg-gray-400 text-white rounded hover:bg-gray-500 cursor-pointer"
                         >
                           Cancel
                         </button>
@@ -159,7 +159,7 @@ export default function AdminCategory() {
               ))
             ) : (
               <tr>
-                <td colSpan={4} className="p-4 text-center text-gray-500">
+                <td colSpan={4} className="p-4 text-center text-[#7a4a2e]">
                   No categories found
                 </td>
               </tr>

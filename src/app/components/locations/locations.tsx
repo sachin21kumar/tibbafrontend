@@ -58,17 +58,17 @@ export default function LocationCard() {
 
               <div className="md:w-1/2 p-8  flex flex-col justify-center">
                 <div className="w-fit">
-                  <h2 className="text-[20px] md:text-3xl text-[#252525] font-regular md:mb-4">
+                  <h2 className="text-[20px] md:text-3xl text-[#d1a054] font-regular md:mb-4">
                     {location.name}
                   </h2>
                   <div className="bg-gradient-to-r from-[#D1A054] to-[#D1A054]/0 ... h-[1px]"></div>
                 </div>
                 <div className="md:py-auto pt-5">
-                  <div className="flex items-center gap-3 text-gray-600 mb-2 mt-3">
+                  <div className="flex items-center gap-3 text-[#7a4a2e] mb-2 mt-3">
                     <img src="/location.png" alt="Location Icon" />
                     <span>{location.location}</span>
                   </div>
-                  <div className="flex items-center gap-3 text-gray-600 mb-4">
+                  <div className="flex items-center gap-3 text-[#7a4a2e] mb-4">
                     <img src="/phoneIcon.png" alt="Phone Icon" />
                     <a href={`tel:${location.mobileNumber}`}>
                       {location.mobileNumber}
@@ -78,7 +78,7 @@ export default function LocationCard() {
                 </div>
                 <a
                   href={`/locations/${location._id}`}
-                  className="mt-6 w-fit text-[#252525] font-regular hover:text-yellow-600"
+                  className="mt-6 w-fit text-[#d1a054] font-regular hover:text-yellow-600"
                 >
                   More Details
                 </a>

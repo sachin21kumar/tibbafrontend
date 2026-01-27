@@ -49,7 +49,7 @@ export const Gallery = () => {
           ? Array.from({ length: 6 }).map((_, i) => (
               <div
                 key={i}
-                className="w-full h-40 sm:h-56 lg:h-64 bg-gray-200 animate-pulse rounded-lg"
+                className="w-full h-40 sm:h-56 lg:h-64 bg-[#d1a054] animate-pulse rounded-lg"
               />
             ))
           : popularMealImages.map((src, i) => (

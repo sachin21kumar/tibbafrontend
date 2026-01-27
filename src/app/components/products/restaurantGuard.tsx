@@ -13,7 +13,7 @@ export const RestaurantCard = ({ order }) => {
   });
   const dispatch = useAppDispatch();
   const [selectedOption, setSelectedOption] = useState<"delivery" | "pickup">(
-    "delivery"
+    "delivery",
   );
   return (
     <div className="flex flex-col xl:flex-row gap-5 rounded-lg overflow-hidden my-6 mx-4">
@@ -32,18 +32,18 @@ export const RestaurantCard = ({ order }) => {
       </div>
       <div className="p-4 flex flex-col gap-4">
         <div>
-          <h2 className="text-[20px] sm:text-[22px] xl:text-[24px]">
+          <h2 className="text-[20px] sm:text-[22px] xl:text-[24px] text-[#d1a054]">
             {location?.name}
           </h2>
 
           <div className="flex flex-wrap gap-x-5 gap-y-1">
-            <p className="text-gray-600 text-sm mt-1 !font-[system-ui]">
+            <p className="text-sm mt-1 !font-[system-ui] text-[#7A4A2E]">
               {location?.area} {location?.location}
             </p>
           </div>
         </div>
 
-        <div className="border border-gray-200 p-3 rounded-lg bg-gray-50">
+        <div className="border border-[#d1a054] p-3 rounded-lg bg-gray-50">
           <div className="flex gap-2 sm:gap-3 flex-nowrap mb-2">
             <button
               className={`px-3 py-1.5 text-xs sm:text-sm xl:px-4 xl:py-2 xl:text-base
@@ -51,7 +51,7 @@ export const RestaurantCard = ({ order }) => {
       ${
         selectedOption === "delivery"
           ? "bg-[#D1A054] text-white hover:bg-[#b9893f]"
-          : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-100"
+          : "bg-white border border-[#d1a054] text-[#7A4A2E] hover:bg-gray-100"
       }`}
               onClick={() => {
                 setSelectedOption("delivery");
@@ -67,7 +67,7 @@ export const RestaurantCard = ({ order }) => {
       ${
         selectedOption === "pickup"
           ? "bg-[#D1A054] text-white hover:bg-[#b9893f]"
-          : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-100"
+          : "bg-white border border-[#d1a054] text-[#7A4A2E] hover:bg-gray-100"
       }`}
               onClick={() => {
                 setSelectedOption("pickup");
@@ -80,7 +80,7 @@ export const RestaurantCard = ({ order }) => {
 
           {selectedOption === "delivery" ? (
             <div>
-              <p className="text-xs sm:text-sm xl:text-sm text-gray-500 !font-[system-ui]">
+              <p className="text-xs sm:text-sm xl:text-sm text-[#7A4A2E] !font-[system-ui]">
                 Delivery fee (10 km):{" "}
                 <span className="line-through">د.إ 11.00</span> FREE
               </p>
@@ -90,7 +90,7 @@ export const RestaurantCard = ({ order }) => {
               </p>
             </div>
           ) : (
-            <p className="text-xs sm:text-sm xl:text-sm text-gray-500 !font-[system-ui]">
+            <p className="text-xs sm:text-sm xl:text-sm text-[#7A4A2E] !font-[system-ui]">
               Pickup available - 10% off your order!
             </p>
           )}

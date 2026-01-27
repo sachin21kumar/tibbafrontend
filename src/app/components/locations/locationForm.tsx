@@ -39,13 +39,13 @@ export default function ContactForm() {
             Send Us a Message
           </p>
 
-          <div className="h-px w-[200px] sm:w-[260px] lg:w-[330px] mx-auto bg-gradient-to-r from-transparent via-black to-transparent" />
+          <div className="h-px w-[200px] sm:w-[260px] lg:w-[330px] mx-auto bg-gradient-to-r from-transparent via-[#d1a054] to-transparent" />
 
-          <button className="text-[20px] sm:text-[26px] lg:text-[34px] text-black p-[6px] sm:p-[8px] lg:p-[9px] leading-7 font-normal">
+          <button className="text-[20px] sm:text-[26px] lg:text-[34px] text-[#d1a054] p-[6px] sm:p-[8px] lg:p-[9px] leading-7 font-normal">
             CONTACT FORM
           </button>
 
-          <div className="h-px w-[200px] sm:w-[260px] lg:w-[330px] mx-auto bg-gradient-to-r from-transparent via-black to-transparent" />
+          <div className="h-px w-[200px] sm:w-[260px] lg:w-[330px] mx-auto bg-gradient-to-r from-transparent via-[#d1a054] to-transparent" />
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 mt-10">
@@ -53,13 +53,13 @@ export default function ContactForm() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {/* Name */}
             <div>
-              <label className="block text-xs uppercase tracking-widest text-gray-500">
+              <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
                 Your Name
               </label>
               <input
                 {...register("name", { required: "Name is required" })}
-                className={`w-full border-b bg-transparent outline-none font-serif
-                  ${errors.name ? "border-red-500" : "border-gray-400"}
+                className={`w-full border-b bg-transparent text-[#9B7A63] outline-none font-serif
+                  ${errors.name ? "border-red-500" : "border-[#d1a054]"}
                 `}
               />
               {errors.name && (
@@ -71,7 +71,7 @@ export default function ContactForm() {
 
             {/* Email */}
             <div>
-              <label className="block text-xs uppercase tracking-widest text-gray-500">
+              <label className="block text-xs uppercase tracking-widest text-[#3E2415] ">
                 Your Email
               </label>
               <input
@@ -83,8 +83,8 @@ export default function ContactForm() {
                     message: "Invalid email address",
                   },
                 })}
-                className={`w-full border-b bg-transparent outline-none font-serif
-                  ${errors.email ? "border-red-500" : "border-gray-400"}
+                className={`w-full border-b bg-transparent outline-none  text-[#9B7A63] font-serif
+                  ${errors.email ? "border-red-500" : "border-[#d1a054]"}
                 `}
               />
               {errors.email && (
@@ -96,7 +96,7 @@ export default function ContactForm() {
 
             {/* Phone */}
             <div>
-              <label className="block text-xs uppercase tracking-widest text-gray-500">
+              <label className="block text-xs uppercase tracking-widest text-[#3E2415]">
                 Your Phone
               </label>
               <input
@@ -104,8 +104,8 @@ export default function ContactForm() {
                 {...register("phone", {
                   required: "Phone number is required",
                 })}
-                className={`w-full border-b bg-transparent outline-none font-serif
-                  ${errors.phone ? "border-red-500" : "border-gray-400"}
+                className={`w-full border-b text-[#9B7A63] bg-transparent outline-none font-serif
+                  ${errors.phone ? "border-red-500" : "border-[#d1a054]"}
                 `}
               />
               {errors.phone && (
@@ -118,13 +118,13 @@ export default function ContactForm() {
 
           {/* Message */}
           <div className="m-0">
-            <label className="block text-xs uppercase tracking-widest text-gray-500">
+            <label className="block text-xs  uppercase tracking-widest text-[#3E2415]">
               Your Message
             </label>
             <textarea
               rows={1}
               {...register("message")}
-              className="w-full resize-none border-b border-gray-400 bg-transparent outline-none font-serif"
+              className="w-full resize-none  border-b text-[#9B7A63] border-[#d1a054] bg-transparent outline-none font-serif"
             />
           </div>
 
@@ -133,7 +133,7 @@ export default function ContactForm() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="rounded-full bg-[#12171a] cursor-pointer px-12 py-4 text-sm tracking-widest text-white transition hover:bg-white hover:border-black hover:border hover:text-black disabled:opacity-60 hover:-translate-y-[3px]
+              className="rounded-full bg-[#12171a] cursor-pointer px-12 py-4 text-sm tracking-widest text-white transition hover:bg-white hover:border-[#d1a054] hover:border hover:text-[#d1a054] disabled:opacity-60 hover:-translate-y-[3px]
     hover:shadow-[0_0_6px_rgba(0,0,0,0.15)]
     transition-all
     duration-200"
@@ -143,7 +143,7 @@ export default function ContactForm() {
 
             {/* ✅ Success Message */}
             {success && (
-              <div className="text-sm border-t mt-5 border-b p-4 border-green-600 font-[system-ui] w-full text-center">
+              <div className="text-sm border-t mt-5 border-b p-4 border-green-600 text-[#d1a054] font-[system-ui] w-full text-center">
                 Thank you for your message. It has been sent.
               </div>
             )}

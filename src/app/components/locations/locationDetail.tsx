@@ -80,13 +80,13 @@ export default function LocationDetails() {
             {/* Info Section */}
             <div className="lg:col-span-2 space-y-8 xl:py-20 py-10">
               <div className="w-fit">
-                <h1 className="md:text-4xl text-[28px] tracking-wide text-[#1B2024] pb-2 w-fit text-gray-900">
+                <h1 className="md:text-4xl text-[28px] tracking-wide text-[#d1a054] pb-2 w-fit">
                   {location?.name}
                 </h1>
                 <div className="h-px mx-auto bg-gradient-to-l from-transparent to-[#d1a054]" />
               </div>
 
-              <p className="text-gray-600 !font-[system-ui] leading-relaxed">
+              <p className="text-[#7a4a2e] !font-[system-ui] leading-relaxed">
                 {location?.description}
               </p>
 
@@ -95,7 +95,7 @@ export default function LocationDetails() {
                 <div className="min-w-[40px] h-[40px] rounded-[63%_37%_30%_70%_/_50%_45%_55%_50%] bg-[#d1a054] text-white flex items-center justify-center text-[14px]">
                   <img src="/locationtrans.png" alt="Location Icon" />
                 </div>
-                <span className="text-gray-700">{location?.location}</span>
+                <span className="text-[#7a4a2e]">{location?.location}</span>
               </div>
 
               {/* Phone */}
@@ -103,7 +103,7 @@ export default function LocationDetails() {
                 <div className="min-w-[40px] h-[40px] rounded-[63%_37%_30%_70%_/_50%_45%_55%_50%] bg-[#d1a054] text-white flex items-center justify-center text-[14px]">
                   <img src="/phonetrans.png" alt="Phone Icon" />
                 </div>
-                <span className="text-gray-700 font-medium">
+                <span className="text-[#7a4a2e] font-medium">
                    <a href={`tel:${location.mobileNumber}`}>
                       {location.mobileNumber}
                     </a>
@@ -125,8 +125,8 @@ export default function LocationDetails() {
                   return (
                     <li
                       key={day}
-                      className={`flex justify-between py-3 px-3 text-gray-700 ${
-                        isToday ? "border-b border-t border-[#d1a054]" : ""
+                      className={`flex justify-between py-3 px-3 text-[#7a4a2e] ${
+                        isToday ? "border-b border-t border-[#d1a054] text-[#d1a054]" : ""
                       }`}
                     >
                       <span className="font-medium text-[14px]">{day}</span>
@@ -146,7 +146,7 @@ export default function LocationDetails() {
 
         {/* React-Leaflet Map */}
         <div className="mt-15">
-          <div className="w-full xl:h-[364px] h-[329px] overflow-hidden border border-gray-200">
+          <div className="w-full xl:h-[364px] h-[329px] overflow-hidden border border-[#d1a054]">
             {validLocation.length > 0 ? (
               <MapContainer
                 {...({
@@ -166,7 +166,7 @@ export default function LocationDetails() {
                 <FitBounds locations={validLocation} />
               </MapContainer>
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-gray-500">
+              <div className="w-full h-full flex items-center justify-center text-[#7a4a2e]">
                 Location map not available
               </div>
             )}

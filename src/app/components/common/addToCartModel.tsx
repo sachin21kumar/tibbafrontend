@@ -114,14 +114,14 @@ export default function AddToCartModal({
                     alt={product.name}
                     className="w-16 h-16 rounded-lg object-cover"
                   />
-                  <span className="font-bold font-sans">{product.name}</span>
+                  <span className="font-bold font-sans text-[#7a4a2e]">{product.name}</span>
                 </div>
 
                 {!isInCart && (
-                  <div className="relative p-6 border-gray-200 text-center">
+                  <div className="relative p-6 border-[#d1a054] text-center">
                     <button
                       onClick={onClose}
-                      className="absolute right-4 top-4 text-gray-500 hover:text-black cursor-pointer"
+                      className="absolute right-4 top-4 text-[#7a4a2e] hover:text-[#7a4a2e] cursor-pointer"
                     >
                       <svg
                         width="28"
@@ -133,14 +133,14 @@ export default function AddToCartModal({
                         <rect width="28" height="28" rx="14" fill="#F4F6FA" />
                         <path
                           d="M19 9L9 19"
-                          stroke="#3A3838"
+                          stroke="#d1a054"
                           strokeWidth="2"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
                         <path
                           d="M9 9L19 19"
-                          stroke="#3A3838"
+                          stroke="#d1a054"
                           strokeWidth="2"
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -151,14 +151,14 @@ export default function AddToCartModal({
                 )}
               </div>
 
-              <div className="border-b border-b-gray-200 h-[1px] w-full"></div>
+              <div className="border-b border-b-[#d1a054] h-[1px] w-full"></div>
 
               <div
                 className={`p-4 flex ${
                   !isInCart
                     ? "md:justify-end justify-center"
                     : "justify-between"
-                } items-center border-t mt-13 border-gray-200`}
+                } items-center border-t mt-13 border-[#d1a054]`}
               >
                 <div
                   className={`flex items-center justify-between ${
@@ -166,24 +166,24 @@ export default function AddToCartModal({
                   } md:p-4 p-2`}
                 >
                   <div
-                    className={`flex items-center gap-4 w-full ${
+                    className={`flex items-center text-[#7a4a2e] gap-4 w-full ${
                       isInCart ? "justify-between" : "justify-end"
                     }`}
                   >
                     {isInCart && <div>د.إ {product.price * quantity}</div>}
 
-                    <div className="border rounded-2xl flex justify-center items-center">
+                    <div className="border border-[#7a4a2e] rounded-2xl flex justify-center items-center">
                       <div className="flex items-center justify-center gap-2 p-1">
                         <button
                           onClick={handleDecrease}
-                          className="px-2 py-1 rounded text-lg cursor-pointer"
+                          className="px-2 py-1 rounded text-lg cursor-pointer text-[#7a4a2e]"
                         >
                           −
                         </button>
-                        <span className="px-3 py-1 rounded">{quantity}</span>
+                        <span className="px-3 py-1 rounded text-[#7a4a2e]">{quantity}</span>
                         <button
                           onClick={handleIncrease}
-                          className="px-2 py-1 rounded text-lg cursor-pointer"
+                          className="px-2 py-1 rounded text-lg cursor-pointer text-[#7a4a2e]"
                         >
                           +
                         </button>

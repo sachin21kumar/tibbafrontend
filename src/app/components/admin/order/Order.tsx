@@ -121,7 +121,7 @@ export default function AdminOrdersPage() {
         <select
           value={selectedLocation}
           onChange={(e) => setSelectedLocation(e.target.value)}
-          className="border px-3 py-2 rounded w-full sm:w-auto text-ellipsis xl:text-[16px] text-[10px] overflow-hidden whitespace-nowrap"
+          className="border px-3 py-2 rounded w-full sm:w-auto text-[#7a4a2e] focus:outline-none focus:ring-2 focus:ring-[#d1a054] text-ellipsis xl:text-[16px] text-[10px] overflow-hidden whitespace-nowrap"
         >
           <option value="">All Locations</option>
           {locations?.map((loc: any) => (
@@ -133,10 +133,10 @@ export default function AdminOrdersPage() {
       </div>
 
       <div className="hidden xl:block">
-        <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+        <div className="overflow-x-auto rounded-xl border border-[#d1a054] shadow-sm">
           <table className="w-full border-collapse text-left">
             <thead className="bg-gray-50 sticky top-0 z-10">
-              <tr className="text-xs font-semibold uppercase tracking-wider text-gray-600">
+              <tr className="text-xs font-semibold uppercase tracking-wider text-[#7a4a2e]">
                 <th className="px-4 py-3 border-b">Order ID</th>
                 <th className="px-4 py-3 border-b">Customer</th>
                 <th className="px-4 py-3 border-b">Address</th>
@@ -148,30 +148,30 @@ export default function AdminOrdersPage() {
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-[#eaeaea]">
               {orders.map((order) => (
                 <tr
                   key={order._id}
                   className="hover:bg-gray-50 transition-colors"
                 >
-                  <td className="px-4 py-3 text-sm font-mono text-gray-600">
+                  <td className="px-4 py-3 text-sm font-mono text-[#7a4a2e]">
                     {order._id}
                   </td>
 
-                  <td className="px-4 py-3 text-sm font-medium text-gray-800">
+                  <td className="px-4 py-3 text-sm font-medium text-[#7a4a2e]">
                     {order.firstName} {order.lastName}
                   </td>
 
-                  <td className="px-4 py-3 text-sm text-gray-600 leading-snug">
+                  <td className="px-4 py-3 text-sm text-[#7a4a2e] leading-snug">
                     {order.address}
                   </td>
 
-                  <td className="px-4 py-3 text-sm text-gray-700">
+                  <td className="px-4 py-3 text-sm text-[#7a4a2e]">
                     {order.phone}
                   </td>
 
                   <td className="px-4 py-3 text-sm">
-                    <span className="inline-flex items-center px-2 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-medium">
+                    <span className="inline-flex items-center px-2 py-1 rounded-full bg-[#d1a054] text-[#7a4a2e] text-xs font-medium">
                       {order.status}
                     </span>
                   </td>
@@ -204,7 +204,7 @@ export default function AdminOrdersPage() {
                         onChange={(e) =>
                           handleChange(order._id, "OrderStatus", e.target.value)
                         }
-                        className="border border-gray-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#d1a054]"
+                        className="border border-[#d1a054] rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#d1a054]"
                       >
                         {statusOptions.map((s) => (
                           <option key={s} value={s}>
@@ -220,7 +220,7 @@ export default function AdminOrdersPage() {
                         onChange={(e) =>
                           handleChange(order._id, "driverName", e.target.value)
                         }
-                        className="border border-gray-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#d1a054]"
+                        className="border border-[#d1a054] rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#d1a054]"
                       />
 
                       <input
@@ -230,12 +230,12 @@ export default function AdminOrdersPage() {
                         onChange={(e) =>
                           handleChange(order._id, "driverPhone", e.target.value)
                         }
-                        className="border border-gray-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#d1a054]"
+                        className="border border-[#d1a054] rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#d1a054]"
                       />
 
                       <button
                         type="submit"
-                        className="mt-1 bg-[#d1a054] hover:opacity-90 transition text-white px-3 py-1.5 rounded-md text-xs font-semibold tracking-wide"
+                        className="mt-1 bg-[#d1a054] hover:opacity-90 transition text-white px-3 py-1.5 rounded-md text-xs font-semibold tracking-wide cursor-pointer"
                       >
                         Update
                       </button>

@@ -39,7 +39,7 @@ export const AddCategory = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="w-full max-w-md bg-white rounded-xl shadow-md p-6 space-y-4"
       >
-        <h2 className="text-xl font-semibold text-center text-gray-800">
+        <h2 className="text-xl font-semibold text-center text-[#7a4a2e]">
           Add Category
         </h2>
 
@@ -47,7 +47,7 @@ export const AddCategory = () => {
           <input
             type="text"
             placeholder="Category Title"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 text-[#7a4a2e] !font-[system-ui] focus:ring-[#d1a054]"
             {...register("title", {
               required: "Title is required",
               validate: (v) =>

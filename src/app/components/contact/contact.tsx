@@ -9,7 +9,7 @@ const Location = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="w-full h-[45vh] flex items-center justify-center text-gray-500">
+      <div className="w-full h-[45vh] flex items-center justify-center text-[#7a4a2e]">
         Loading map...
       </div>
     ),
@@ -56,19 +56,19 @@ export const Contact = () => {
       <div className="max-w-[1288px] mx-auto pt-15">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-[26px]  text-[#d1a054] leading-[0.7]">Visit Us</p>
-          <div className="h-px w-[300px] mx-auto bg-gradient-to-r from-transparent via-black to-transparent" />
+          <div className="h-px w-[300px] mx-auto bg-gradient-to-r from-transparent via-[#d1a054] to-transparent" />
 
-          <button className="text-lg text-black p-[8px] leading-7 text-[34px] font-normal">
+          <button className="text-lg text-[#d1a054] p-[8px] leading-7 text-[34px] font-normal">
             Our Location
           </button>
-          <div className="h-px w-[300px] mx-auto bg-gradient-to-r from-transparent via-black to-transparent" />
+          <div className="h-px w-[300px] mx-auto bg-gradient-to-r from-transparent via-[#d1a054] to-transparent" />
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 mt-5 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="max-w-7xl mx-auto px-4 mt-5 grid grid-cols-1 md:grid-cols-3 gap-6 ">
           {infoCards.map((card, index) => (
             <div
               key={index}
-              className="relative bg-white border border-gray-200 rounded-lg p-8 text-center shadow-sm"
+              className="relative bg-[#7f7f7f0d] border border-[#d1a054] rounded-lg p-8 text-center shadow-sm"
             >
               {/* Icon badge */}
               <div
@@ -93,8 +93,8 @@ export const Contact = () => {
               </div>
 
               {/* Card content */}
-              <h3 className="mt-8 text-[20px]">{card.title}</h3>
-              <p className="mt-2 text-[#1B2024] font-light !font-[system-ui] whitespace-pre-line">
+              <h3 className="mt-8 text-[20px] text-[#d1a054]">{card.title}</h3>
+              <p className="mt-2 text-[#7A4A2E] font-light !font-[system-ui] whitespace-pre-line">
                 {card.text}
               </p>
             </div>

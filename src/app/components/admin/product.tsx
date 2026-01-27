@@ -53,7 +53,7 @@ export default function ProductList() {
         {data?.data?.map((product) => (
           <div
             key={product._id}
-            className="border border-gray-300 rounded-lg shadow p-4 hover:shadow-md transition"
+            className="border border-[#d1a054] rounded-lg shadow p-4 hover:shadow-md transition"
           >
             {product.imagePath && (
               <img
@@ -63,8 +63,8 @@ export default function ProductList() {
               />
             )}
 
-            <h2 className="mt-3 font-semibold">{product.name}</h2>
-            <span className="text-gray-600">د.إ  {product.price}</span>
+            <h2 className="mt-3 font-semibold text-[#7a4a2e]">{product.name}</h2>
+            <span className="text-[#d1a054]">د.إ  {product.price}</span>
 
             <div className="mt-4 flex gap-3">
               <Link

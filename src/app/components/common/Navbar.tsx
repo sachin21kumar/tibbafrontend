@@ -122,7 +122,7 @@ const Navbar = () => {
               </div>
 
               {locationsOpen && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 bg-black p-4 rounded-lg min-w-[300px] grid gap-2">
+                <div className="absolute top-full left-1/2 -translate-x-1/2 bg-[#141617] p-4 rounded-lg min-w-[300px] grid gap-2">
                   {locations?.slice(0, 3)?.map((loc: Location) => (
                     <div
                       key={loc._id}

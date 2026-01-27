@@ -246,8 +246,8 @@ export default function MenuPage() {
                     onClick={() => scrollToCategory(cat._id)}
                     className={`cursor-pointer px-3 py-2 text-sm transition ${
                       activeCategory === cat._id
-                        ? "border-l-3 border-l-[#D1A054] font-bold"
-                        : "text-[#313131] font-semibold hover:text-[#d1a054]"
+                        ? "border-l-3 border-l-[#D1A054] font-bold text-[#d1a054]"
+                        : "text-[#7A4A2E] font-semibold hover:text-[#d1a054]"
                     }`}
                   >
                     {cat.title}
@@ -259,7 +259,7 @@ export default function MenuPage() {
 
           <main className="flex-1">
             {debouncedSearch && filteredProducts.length > 0 && (
-              <h2 className="text-2xl font-semibold mb-6">Search results</h2>
+              <h2 className="text-2xl font-semibold mb-6 text-[#d1a054]">Search results</h2>
             )}
             <div
               className={
@@ -276,7 +276,7 @@ export default function MenuPage() {
                       >
                         <div className="flex-1 pr-6">
                           <h3
-                            className="font-semibold text-lg text-gray-800"
+                            className="font-semibold text-lg text-[#252525]"
                             onClick={() => {
                               setSelectedProductId(product._id);
                               setOpen(true);
@@ -284,7 +284,7 @@ export default function MenuPage() {
                           >
                             {getProductName(product.name)}
                           </h3>
-                          <span className="text-[16px] font-semibold text-gray-800">
+                          <span className="text-[16px] font-semibold text-[#252525]">
                             د.إ {product.price}
                           </span>
                         </div>
@@ -362,7 +362,7 @@ export default function MenuPage() {
                         }}
                         className="mb-12 scroll-mt-32"
                       >
-                        <h2 className="text-2xl text-[#252525] mb-6 font-regular">
+                        <h2 className="text-2xl text-[#d1a054] mb-6 font-regular">
                           {category.title}
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -375,7 +375,7 @@ export default function MenuPage() {
                               >
                                 <div className="flex-1 pr-6">
                                   <h3
-                                    className="font-regular text-lg text-gray-800"
+                                    className="font-regular text-lg text-[#252525]"
                                     onClick={() => {
                                       setSelectedProductId(product._id);
                                       setOpen(true);

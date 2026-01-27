@@ -197,9 +197,9 @@ export const CheckoutPage = () => {
           BILLING & SHIPPING
         </h3>
 
-        <form className="space-y-10" onSubmit={handleSubmit(onSubmit)}>
+        <form className="space-y-10 "  onSubmit={handleSubmit(onSubmit)}>
           <div className="w-full">
-            <label className="text-xs uppercase tracking-wider text-gray-500 mb-2 block">
+            <label className="text-xs uppercase tracking-wider text-[#7a4a2e] mb-2 block">
               Delivery Type <span className="text-red-500">*</span>
             </label>
 
@@ -215,11 +215,11 @@ export const CheckoutPage = () => {
                   className="hidden peer"
                 />
                 <div
-                  className="px-5 py-2 rounded-full border text-sm font-semibold transition
+                  className="px-5 py-2 rounded-full border border-[#d1a054] text-sm font-semibold transition
         peer-checked:bg-[#d1a054]
         peer-checked:text-white
         peer-checked:border-[#d1a054]
-        bg-white text-gray-700 border-gray-300"
+        bg-white text-[#7a4a2e]"
                 >
                   DELIVERY
                 </div>
@@ -239,7 +239,7 @@ export const CheckoutPage = () => {
         peer-checked:bg-[#d1a054]
         peer-checked:text-white
         peer-checked:border-[#d1a054]
-        bg-white text-gray-700 border-gray-300"
+        bg-white text-[#7a4a2e] border-[#d1a054]"
                 >
                   PICKUP
                 </div>
@@ -253,8 +253,8 @@ export const CheckoutPage = () => {
             )}
           </div>
 
-          <div>
-            <label className="text-xs uppercase tracking-wider ">
+          <div >
+            <label className="text-xs uppercase tracking-wider text-[#7a4a2e]">
               Full Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -262,10 +262,10 @@ export const CheckoutPage = () => {
               {...register("fullName", {
                 required: "First name is required",
               })}
-              className={`w-full border-b focus:outline-none py-2 ${
+              className={`w-full border-b text-[#7a4a2e] !font-[system-ui] focus:outline-none py-2 ${
                 isSubmitted && errors.fullName
                   ? "border-red-500"
-                  : "border-gray-300"
+                  : "border-[#d1a054]"
               }`}
             />
             {isSubmitted && errors.fullName && (
@@ -275,7 +275,7 @@ export const CheckoutPage = () => {
             )}
           </div>
           <div>
-            <label className="text-xs uppercase tracking-wider text-gray-500">
+            <label className="text-xs uppercase tracking-wider text-[#7a4a2e]">
               Building Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -283,10 +283,10 @@ export const CheckoutPage = () => {
               {...register("buildingName", {
                 required: "Building Name is required",
               })}
-              className={`w-full border-b focus:outline-none py-2 ${
+              className={`w-full border-b text-[#7a4a2e] !font-[system-ui] focus:outline-none py-2 ${
                 isSubmitted && errors.buildingName
                   ? "border-red-500"
-                  : "border-gray-300"
+                  : "border-[#d1a054]"
               }`}
             />
             {isSubmitted && errors.buildingName && (
@@ -296,17 +296,17 @@ export const CheckoutPage = () => {
             )}
           </div>
           <div className="relative">
-            <label className="text-xs uppercase tracking-wider text-gray-500">
+            <label className="text-xs uppercase tracking-wider text-[#7a4a2e]">
               Flat Address <span className="text-red-500">*</span>
             </label>
             <input
               {...register("address", {
                 required: "Flat address is required",
               })}
-              className={`w-full border-b focus:outline-none py-2 ${
+              className={`w-full border-b text-[#7a4a2e] !font-[system-ui] focus:outline-none py-2 ${
                 isSubmitted && errors.address
                   ? "border-red-500"
-                  : "border-gray-300"
+                  : "border-[#d1a054]"
               }`}
               placeholder="Flat / Apartment / City / State"
               onBlur={async (e) => {
@@ -326,7 +326,7 @@ export const CheckoutPage = () => {
           </div>
 
           <div>
-            <label className="text-xs uppercase tracking-wider text-gray-500">
+            <label className="text-xs uppercase tracking-wider text-[#7a4a2e]">
               Phone <span className="text-red-500">*</span>
             </label>
             <input
@@ -334,10 +334,10 @@ export const CheckoutPage = () => {
               {...register("phone", {
                 required: "Phone is required",
               })}
-              className={`w-full border-b focus:outline-none py-2 ${
+              className={`w-full border-b text-[#7a4a2e] !font-[system-ui] focus:outline-none py-2 ${
                 isSubmitted && errors.phone
                   ? "border-red-500"
-                  : "border-gray-300"
+                  : "border-[#d1a054]"
               }`}
             />
             {isSubmitted && errors.phone && (
@@ -348,7 +348,7 @@ export const CheckoutPage = () => {
           </div>
 
           <div>
-            <label className="text-xs uppercase tracking-wider text-gray-500">
+            <label className="text-xs uppercase tracking-wider text-[`#7a4a2e]">
               Email <span className="text-red-500">*</span>
             </label>
             <input
@@ -356,10 +356,10 @@ export const CheckoutPage = () => {
               {...register("email", {
                 required: "Email is required",
               })}
-              className={`w-full border-b focus:outline-none py-2 ${
+              className={`w-full border-b text-[#7a4a2e] !font-[system-ui] focus:outline-none py-2 ${
                 isSubmitted && errors.email
                   ? "border-red-500"
-                  : "border-gray-300"
+                  : "border-[#d1a054]"
               }`}
             />
             {isSubmitted && errors.email && (
@@ -368,7 +368,7 @@ export const CheckoutPage = () => {
               </span>
             )}
           </div>
-          <label className="text-xs uppercase tracking-wider text-gray-500">Payment Method:</label>
+          <label className="text-xs uppercase tracking-wider text-[#7a4a2e]">Payment Method:</label>
           <div className="flex gap-3 py-3">
             {[
               { id: "stripe", label: "CARD PAYMENT" },
@@ -386,7 +386,7 @@ export const CheckoutPage = () => {
                   peer-checked:bg-[#d1a054]
                   peer-checked:text-white
                   peer-checked:border-[#d1a054]
-                  bg-white text-gray-700 border-gray-300"
+                  bg-white text-[#7a4a2e] border-[#d1a054]"
                 >
                   {p.label}
                 </div>
@@ -399,23 +399,23 @@ export const CheckoutPage = () => {
         </form>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-xl shadow-lg p-[40px] h-fit sticky top-30">
-        <h3 className="font-normal text-2xl mb-6 border-b border-b-[#d1a054]">
+      <div className="bg-white border border-[#d1a054] rounded-xl shadow-lg p-[40px] h-fit sticky top-30">
+        <h3 className="font-normal text-2xl mb-6 border-b border-b-[#d1a054] text-[#7a4a2e]">
           YOUR ORDER
         </h3>
         {items?.length > 0 ? (
           <table className="w-full text-sm border-collapse">
             <thead>
-              <tr className="border-b border-b-gray-300">
-                <th className="text-left font-bold pb-3">PRODUCT</th>
-                <th className="text-right font-bold pb-3">SUBTOTAL</th>
+              <tr className="border-b border-b-[#d1a054]">
+                <th className="text-left font-bold pb-3 text-[#7a4a2e]">PRODUCT</th>
+                <th className="text-right font-bold pb-3 text-[#7a4a2e]">SUBTOTAL</th>
               </tr>
             </thead>
 
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan={2} className="py-6 text-center text-gray-500">
+                  <td colSpan={2} className="py-6 text-center text-[#7a4a2e]">
                     Loading cart...
                   </td>
                 </tr>
@@ -423,12 +423,12 @@ export const CheckoutPage = () => {
                 items.map((item: any) => (
                   <tr
                     key={item.productId._id}
-                    className="border-b border-b-gray-300"
+                    className="border-b border-b-[#d1a054]"
                   >
-                    <td className="py-3 font-[system-ui] text-gray-500 w-[175px]">
+                    <td className="py-3 font-[system-ui] text-[#7a4a2e] w-[175px]">
                       {item.productId.name} × {item.quantity}
                     </td>
-                    <td className="py-3 text-right">
+                    <td className="py-3 text-right text-[#7a4a2e] ">
                      د.إ {(item.productId.price * item.quantity).toFixed(2)}
                     </td>
                   </tr>
@@ -436,21 +436,21 @@ export const CheckoutPage = () => {
               )}
 
               <tr>
-                <th className="py-[12px] font-bold text-left">SUBTOTAL</th>
-                <td className="py-[12px] text-[#d1a054] text-base text-left">
+                <th className="py-[12px] font-bold text-left text-[#7a4a2e]">SUBTOTAL</th>
+                <td className="py-[12px] text-[#d1a054] text-base text-left ">
                   د.إ {subtotal.toFixed(2)}
                 </td>
               </tr>
 
               <tr>
-                <th className="py-2 font-bold text-left">SHIPPING</th>
-                <td className="py-2 text-gray-500 text-left font-[system-ui]">
+                <th className="py-2 font-bold text-left text-[#7a4a2e]">SHIPPING</th>
+                <td className="py-2 text-[#7a4a2e] text-left font-[system-ui]">
                   Enter your address to view shipping options.
                 </td>
               </tr>
 
               <tr>
-                <th className="pt-2 font-semibold text-lg text-left">TOTAL</th>
+                <th className="pt-2 font-semibold text-lg text-left text-[#7a4a2e]">TOTAL</th>
                 <td className="pt-2 text-2xl text-[#d1a054] text-left">
                   د.إ {subtotal.toFixed(2)}
                 </td>
@@ -459,7 +459,7 @@ export const CheckoutPage = () => {
           </table>
         ) : (
           <div className="w-full">
-            <span className="text-center py-6 flex justify-center text-center w-full text-gray-500">
+            <span className="text-center py-6 flex justify-center text-center w-full text-[#7a4a2e]">
               Your cart is empty
             </span>
           </div>
@@ -469,13 +469,13 @@ export const CheckoutPage = () => {
             {items?.length > 0 && (
               <>
               {paymentMethod === "stripe" && (
-                <div className="border border-dashed border-gray-300 rounded-lg p-4 text-sm text-gray-600 mt-6 text-center">
+                <div className="border border-dashed border-[#d1a054] rounded-lg p-4 text-sm text-[#7a4a2e] mt-6 text-center">
                   <CardElement
                     options={{
                       style: {
                         base: {
                           fontSize: "14px",
-                          color: "#374151",
+                          color: "#7a4a2e",
                           fontFamily: "system-ui, sans-serif",
                           "::placeholder": {
                             color: "#9ca3af",
@@ -493,7 +493,7 @@ export const CheckoutPage = () => {
               )}
 
             <div className="py-4">
-              <div className="text-xs text-gray-500 font-[system-ui] leading-tight">
+              <div className="text-xs text-[#7a4a2e] font-[system-ui] leading-tight">
                 Your personal data will be used to process your order, support
                 your experience throughout this website, and for other purposes
                 described in our{" "}

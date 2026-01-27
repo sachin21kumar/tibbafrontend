@@ -50,7 +50,7 @@ export const AddProduct = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="w-full max-w-md bg-white rounded-xl shadow-md p-6 space-y-4"
       >
-        <h2 className="text-xl font-semibold text-center text-gray-800">
+        <h2 className="text-xl font-semibold text-center text-[#d1a054]">
           Add Product
         </h2>
 
@@ -59,7 +59,7 @@ export const AddProduct = () => {
           <input
             type="text"
             placeholder="Product Name"
-            className="w-full border rounded-lg px-3 py-2"
+            className="w-full border border-[#d1a054] !font-[system-ui] text-[#7a4a2e] focus:outline-none focus:ring-1 focus:ring-[#d1a054] rounded-lg px-3 py-2"
             {...register("name", {
               required: "Name is required",
               minLength: { value: 2, message: "Minimum 2 characters" },
@@ -77,7 +77,7 @@ export const AddProduct = () => {
           <input
             type="number"
             placeholder="Price"
-            className="w-full border rounded-lg px-3 py-2"
+            className="w-full border rounded-lg px-3 py-2 !font-[system-ui] text-[#7a4a2e] focus:outline-none focus:ring-1 focus:ring-[#d1a054]"
             {...register("price", {
               required: "Price is required",
               min: { value: 1, message: "Price must be greater than 0" },
@@ -96,7 +96,7 @@ export const AddProduct = () => {
           <input
             type="text"
             placeholder="Category ID"
-            className="w-full border rounded-lg px-3 py-2"
+            className="w-full border rounded-lg px-3 py-2 !font-[system-ui] text-[#7a4a2e] focus:outline-none focus:ring-1 focus:ring-[#d1a054]"
             {...register("categoryId", {
               required: "Category ID is required",
             })}
@@ -112,7 +112,7 @@ export const AddProduct = () => {
         <textarea
           placeholder="Description (optional)"
           rows={3}
-          className="w-full border rounded-lg px-3 py-2 resize-none"
+          className="w-full border rounded-lg px-3 py-2 resize-none !font-[system-ui] text-[#7a4a2e] focus:outline-none focus:ring-1 focus:ring-[#d1a054]"
           {...register("description")}
         />
 
@@ -124,6 +124,7 @@ export const AddProduct = () => {
             {...register("image", {
               required: "Product Image is required",
             })}
+            className="text-[#7a4a2e] cursor-pointer w-full"
           />
           {errors.image && (
             <span className="text-red-500 text-sm">
@@ -135,7 +136,7 @@ export const AddProduct = () => {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-[#d1a054] text-white py-2 rounded-lg disabled:opacity-70"
+          className="w-full bg-[#d1a054] text-white py-2 cursor-pointer rounded-lg disabled:opacity-70"
         >
           {isLoading ? "Saving..." : "Add Product"}
         </button>

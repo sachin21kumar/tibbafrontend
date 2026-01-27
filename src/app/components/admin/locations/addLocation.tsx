@@ -61,12 +61,12 @@ export const AddLocation = () => {
         {/* Heading */}
         <div className="text-center mb-20">
           <div className="flex justify-center">
-            <p className="font-[allura] text-[#d1a054] text-2xl mb-2 border-b border-black w-[380px]">
+            <p className="font-[allura] text-[#d1a054] text-2xl mb-2 border-b border-[#d1a054] w-[380px]">
               Manage Branches
             </p>
           </div>
           <div className="flex justify-center">
-            <h2 className="text-4xl tracking-widest border-b border-black w-[380px]">
+            <h2 className="text-4xl tracking-widest border-b border-[#d1a054] text-[#d1a054] w-[380px]">
               ADD LOCATION
             </h2>
           </div>
@@ -78,13 +78,13 @@ export const AddLocation = () => {
           {/* Name + Area */}
           <div className="grid md:grid-cols-2 gap-12">
             <div>
-              <label className="block text-xs uppercase tracking-widest text-gray-500">
+              <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
                 Location Name *
               </label>
               <input
                 {...register("name", { required: "Name is required" })}
-                className={`w-full border-b bg-transparent outline-none
-                  ${errors.name ? "border-red-500" : "border-gray-400"}`}
+                className={`w-full border-b text-[#7A4A2E] !font-[system-ui] bg-transparent outline-none
+                  ${errors.name ? "border-red-500" : "border-[#d1a054]"}`}
               />
               {errors.name && (
                 <span className="text-xs text-red-500">{errors.name.message}</span>
@@ -92,13 +92,13 @@ export const AddLocation = () => {
             </div>
 
             <div>
-              <label className="block text-xs uppercase tracking-widest text-gray-500">
+              <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
                 Area *
               </label>
               <input
                 {...register("area", { required: "Area is required" })}
-                className={`w-full border-b bg-transparent outline-none
-                  ${errors.area ? "border-red-500" : "border-gray-400"}`}
+                className={`w-full border-b text-[#7A4A2E] !font-[system-ui] bg-transparent outline-none
+                  ${errors.area ? "border-red-500" : "border-[#d1a054]"}`}
               />
               {errors.area && (
                 <span className="text-xs text-red-500">{errors.area.message}</span>
@@ -108,13 +108,13 @@ export const AddLocation = () => {
 
           {/* Address */}
           <div>
-            <label className="block text-xs uppercase tracking-widest text-gray-500">
+            <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
               Location / Address *
             </label>
             <input
               {...register("location", { required: "Location is required" })}
-              className={`w-full border-b bg-transparent outline-none
-                ${errors.location ? "border-red-500" : "border-gray-400"}`}
+              className={`w-full border-b text-[#7A4A2E] !font-[system-ui] bg-transparent outline-none
+                ${errors.location ? "border-red-500" : "border-[#d1a054]"}`}
             />
             {errors.location && (
               <span className="text-xs text-red-500">{errors.location.message}</span>
@@ -123,14 +123,14 @@ export const AddLocation = () => {
 
           {/* Description */}
           <div>
-            <label className="block text-xs uppercase tracking-widest text-gray-500">
+            <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
               Description *
             </label>
             <textarea
               rows={1}
               {...register("description", { required: "Description is required" })}
-              className={`w-full resize-none border-b bg-transparent outline-none
-                ${errors.description ? "border-red-500" : "border-gray-400"}`}
+              className={`w-full resize-none border-b text-[#7A4A2E] !font-[system-ui] bg-transparent outline-none
+                ${errors.description ? "border-red-500" : "border-[#d1a054]"}`}
             />
             {errors.description && (
               <span className="text-xs text-red-500">
@@ -142,20 +142,20 @@ export const AddLocation = () => {
           {/* Contact Info */}
           <div className="grid md:grid-cols-3 gap-12">
             <div>
-              <label className="block text-xs uppercase tracking-widest text-gray-500">
+              <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
                 Operation Hours *
               </label>
               <input
                 {...register("operation_hours", {
                   required: "Operation hours required",
                 })}
-                className={`w-full border-b bg-transparent outline-none
-                  ${errors.operation_hours ? "border-red-500" : "border-gray-400"}`}
+                className={`w-full border-b text-[#7A4A2E] !font-[system-ui] bg-transparent outline-none
+                  ${errors.operation_hours ? "border-red-500" : "border-[#d1a054]"}`}
               />
             </div>
 
             <div>
-              <label className="block text-xs uppercase tracking-widest text-gray-500">
+              <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
                 Branch Email *
               </label>
               <input
@@ -164,26 +164,26 @@ export const AddLocation = () => {
                   required: "Email is required",
                   pattern: { value: /^\S+@\S+$/i, message: "Invalid email" },
                 })}
-                className={`w-full border-b bg-transparent outline-none
-                  ${errors.branchEmail ? "border-red-500" : "border-gray-400"}`}
+                className={`w-full border-b text-[#7A4A2E] !font-[system-ui] bg-transparent outline-none
+                  ${errors.branchEmail ? "border-red-500" : "border-[#d1a054]"}`}
               />
             </div>
 
             <div>
-              <label className="block text-xs uppercase tracking-widest text-gray-500">
+              <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
                 Telephone *
               </label>
               <input
                 {...register("telephone", { required: "Telephone is required" })}
-                className={`w-full border-b bg-transparent outline-none
-                  ${errors.telephone ? "border-red-500" : "border-gray-400"}`}
+                className={`w-full border-b text-[#7A4A2E] !font-[system-ui] bg-transparent outline-none
+                  ${errors.telephone ? "border-red-500" : "border-[#d1a054]"}`}
               />
             </div>
           </div>
 
           {/* Mobile */}
           <div>
-            <label className="block text-xs uppercase tracking-widest text-gray-500">
+            <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
               Mobile Number *
             </label>
             <input
@@ -191,50 +191,50 @@ export const AddLocation = () => {
                 required: "Mobile number required",
                 minLength: { value: 10, message: "Minimum 10 digits" },
               })}
-              className={`w-full border-b bg-transparent outline-none
-                ${errors.mobileNumber ? "border-red-500" : "border-gray-400"}`}
+              className={`w-full border-b text-[#7A4A2E] !font-[system-ui] bg-transparent outline-none
+                ${errors.mobileNumber ? "border-red-500" : "border-[#d1a054]"}`}
             />
           </div>
 
           {/* ✅ LAT / LNG */}
           <div className="grid md:grid-cols-2 gap-12">
             <div>
-              <label className="block text-xs uppercase tracking-widest text-gray-500">
+              <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
                 Latitude *
               </label>
               <input
                 type="number"
                 step="any"
                 {...register("lat", { required: "Latitude is required" })}
-                className={`w-full border-b bg-transparent outline-none
-                  ${errors.lat ? "border-red-500" : "border-gray-400"}`}
+                className={`w-full border-b text-[#7A4A2E] !font-[system-ui] bg-transparent outline-none
+                  ${errors.lat ? "border-red-500" : "border-[#d1a054]"}`}
               />
             </div>
 
             <div>
-              <label className="block text-xs uppercase tracking-widest text-gray-500">
+              <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
                 Longitude *
               </label>
               <input
                 type="number"
                 step="any"
                 {...register("lng", { required: "Longitude is required" })}
-                className={`w-full border-b bg-transparent outline-none
-                  ${errors.lng ? "border-red-500" : "border-gray-400"}`}
+                className={`w-full border-b text-[#7A4A2E] !font-[system-ui] bg-transparent outline-none
+                  ${errors.lng ? "border-red-500" : "border-[#d1a054]"}`}
               />
             </div>
           </div>
 
           {/* ✅ IMAGE */}
           <div>
-            <label className="block text-xs uppercase tracking-widest text-gray-500">
+            <label className="block text-xs uppercase tracking-widest cursor-pointer text-[#7A4A2E]">
               Location Image *
             </label>
             <input
               type="file"
               accept="image/*"
               {...register("image", { required: "Image is required" })}
-              className="mt-2 block w-full text-sm"
+              className="mt-2 block text-[#7A4A2E] cursor-pointer w-full text-sm"
             />
             {errors.image && (
               <span className="text-xs text-red-500">{errors.image.message}</span>
@@ -246,7 +246,10 @@ export const AddLocation = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="rounded-full bg-[#12171a] px-14 py-4 text-sm tracking-widest text-white transition hover:bg-black disabled:opacity-50"
+              className="rounded-full bg-[#12171a] cursor-pointer px-12 py-4 text-sm tracking-widest text-white transition hover:bg-white hover:border-[#d1a054] hover:border hover:text-[#d1a054] disabled:opacity-60 hover:-translate-y-[3px]
+    hover:shadow-[0_0_6px_rgba(0,0,0,0.15)]
+    transition-all
+    duration-200"
             >
               {isLoading ? "SAVING..." : "ADD LOCATION"}
             </button>

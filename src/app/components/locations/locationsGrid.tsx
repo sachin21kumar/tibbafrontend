@@ -35,18 +35,18 @@ export default function LocationsGrid() {
               </div>
               <div className="md:p-8 p-4 space-y-6 cursor-pointer">
                 <h3
-                  className="md:text-[20px] text-[16px] text-gray-900 leading-snug"
+                  className="md:text-[20px] text-[16px] text-[#7a4a2e] leading-snug"
                   onClick={() => router.push(`/locations/${loc?._id}`)}
                 >
                   {loc.name}
                 </h3>
 
-                <div className="flex items-start gap-3 text-gray-600">
+                <div className="flex items-start gap-3 text-[#7a4a2e]">
                   <img src="/location.png" />
                   <span>{loc.location}</span>
                 </div>
 
-                <div className="flex items-center gap-3 text-gray-600">
+                <div className="flex items-center gap-3 text-[#7a4a2e]">
                   <img src="/phoneIcon.png" />
                   <a href={`tel:${loc.mobileNumber}`}>{loc.mobileNumber}</a>
                 </div>

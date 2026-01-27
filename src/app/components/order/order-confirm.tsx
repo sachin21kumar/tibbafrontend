@@ -40,11 +40,11 @@ export default function OrderSuccessPage() {
           </svg>
         </div>
 
-        <h1 className="text-2xl font-bold text-gray-800 mb-4">
+        <h1 className="text-2xl font-bold text-[#d1a054] mb-4">
           Thank you for your order!
         </h1>
 
-        <p className="text-gray-600 mb-6">
+        <p className="text-[#7a4a2e] !font-[system-ui] mb-6">
           Your payment was successful and your order is being processed. You
           will receive an email confirmation shortly.
         </p>
@@ -56,7 +56,7 @@ export default function OrderSuccessPage() {
           Continue Shopping
         </Link>
 
-        <div className="mt-6 text-sm text-gray-500">
+        <div className="mt-6 text-sm text-[#7a4a2e]">
           Need help?{" "}
           <Link
             href="/contact"

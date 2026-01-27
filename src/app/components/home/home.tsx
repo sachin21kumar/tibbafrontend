@@ -9,7 +9,7 @@ const Location = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="w-full h-[45vh] flex items-center justify-center text-gray-500">
+      <div className="w-full h-[45vh] flex items-center justify-center text-[#7a4a2e]">
         Loading map...
       </div>
     ),

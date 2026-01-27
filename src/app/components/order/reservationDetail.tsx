@@ -100,32 +100,32 @@ export default function ReservationDetails() {
           </div>
         </div>
 
-        <h2 className="text-xl font-semibold font-[system-ui] mb-4">
+        <h2 className="text-xl font-semibold font-[system-ui] text-[#d1a054] mb-4">
           You’re almost done!
         </h2>
 
         <div className="flex gap-4 mb-4">
           <div className="w-14 h-14 bg-gray-200 rounded md:block hidden"></div>
           <div>
-            <h3 className="font-semibold">Max Restaurant</h3>
-            <div className="text-sm text-gray-600">
+            <h3 className="font-semibold text-[#d1a054]">Max Restaurant</h3>
+            <div className="text-sm text-[#7a4a2e]">
               {date} · {time} · {guests} people (Standard seating)
             </div>
           </div>
         </div>
 
-        <div className="bg-blue-50 text-sm p-3 rounded mb-4">
+        <div className="bg-blue-50 text-sm text-[#7a4a2e] p-3 rounded mb-4">
           We’re holding this table for you for{" "}
           <strong>{formatTime(timeLeft)}</strong>
         </div>
 
-        <h4 className="font-semibold mb-3">Diner details</h4>
+        <h4 className="font-semibold mb-3 text-[#d1a054]">Diner details</h4>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <input
-                className="border border-gray-300 p-3 rounded w-full"
+                className="border border-[#d1a054] focus:ring-[#d1a054] focus:outline-none text-[#7a4a2e] !font-[system-ui] p-3 rounded w-full"
                 placeholder="First name"
                 {...register("firstName", {
                   required: "First name is required",
@@ -140,7 +140,7 @@ export default function ReservationDetails() {
 
             <div>
               <input
-                className="border border-gray-300 p-3 rounded w-full"
+                className="border border-[#d1a054] focus:ring-[#d1a054] focus:outline-none text-[#7a4a2e] !font-[system-ui] p-3 rounded w-full"
                 placeholder="Last name"
                 {...register("lastName", { required: "Last name is required" })}
               />
@@ -153,7 +153,7 @@ export default function ReservationDetails() {
 
             <div>
               <input
-                className="border border-gray-300 p-3 rounded w-full"
+                className="border border-[#d1a054] focus:ring-[#d1a054] focus:outline-none text-[#7a4a2e] !font-[system-ui] p-3 rounded w-full"
                 placeholder="Phone number"
                 {...register("phone", { required: "Phone number is required" })}
               />
@@ -166,7 +166,7 @@ export default function ReservationDetails() {
 
             <div>
               <input
-                className="border border-gray-300 p-3 rounded w-full"
+                className="border border-[#d1a054] focus:ring-[#d1a054] focus:outline-none text-[#7a4a2e] !font-[system-ui] p-3 rounded w-full"
                 placeholder="Email"
                 type="email"
                 {...register("email", {
@@ -185,7 +185,7 @@ export default function ReservationDetails() {
             </div>
 
             <select
-              className="border border-gray-300 p-3 rounded md:col-span-2"
+              className="border border-[#d1a054] focus:ring-[#d1a054] focus:outline-none text-[#7a4a2e] !font-[system-ui] p-3 rounded md:col-span-2"
               {...register("occasion")}
             >
               <option>Select an occasion (optional)</option>
@@ -194,7 +194,7 @@ export default function ReservationDetails() {
             </select>
 
             <textarea
-              className="border p-3 border-gray-300 rounded md:col-span-2"
+              className="border p-3 border-[#d1a054] focus:ring-[#d1a054] focus:outline-none rounded md:col-span-2"
               placeholder="Add a special request (optional)"
               maxLength={75}
               {...register("request")}
@@ -202,17 +202,17 @@ export default function ReservationDetails() {
           </div>
 
           <div className="mt-4 space-y-2 text-sm">
-            <label className="flex items-center gap-2">
+            <label className="flex items-center gap-2 text-[#7a4a2e]">
               <input type="checkbox" {...register("offers")} />
               Sign me up to receive dining offers from this restaurant.
             </label>
 
-            <label className="flex items-center gap-2">
+            <label className="flex items-center gap-2 text-[#7a4a2e]">
               <input type="checkbox" {...register("opentableEmails")} />
               Receive OpenTable updates by email.
             </label>
 
-            <label className="flex items-center gap-2">
+            <label className="flex items-center gap-2 text-[#7a4a2e]">
               <input type="checkbox" {...register("smsUpdates")} />
               Get text reminders about my reservation.
             </label>
@@ -221,7 +221,7 @@ export default function ReservationDetails() {
           <div className="py-6">
             <button
               type="submit"
-              className="bg-[#da3743] py-3 w-full rounded-sm text-white font-bold"
+              className="bg-[#d1a054] cursor-pointer py-3 w-full rounded-sm text-white font-bold"
             >
               Complete Reservation
             </button>
