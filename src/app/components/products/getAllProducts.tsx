@@ -375,7 +375,7 @@ export default function MenuPage() {
                               >
                                 <div className="flex-1 pr-6">
                                   <h3
-                                    className="font-regular text-lg text-[#252525]"
+                                    className="font-regular text-lg text-[#d1a054]"
                                     onClick={() => {
                                       setSelectedProductId(product._id);
                                       setOpen(true);
@@ -383,7 +383,7 @@ export default function MenuPage() {
                                   >
                                     {getProductName(product.name)}
                                   </h3>
-                                  <span className="text-[18px] font-[system-ui] font-medium text-[252525]">
+                                  <span className="text-[18px] font-[system-ui] font-medium text-[#d1a054]">
                                     د.إ {product.price}
                                   </span>
                                 </div>
