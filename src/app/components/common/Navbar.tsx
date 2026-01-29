@@ -50,9 +50,6 @@ const Navbar = () => {
   const mobileNavHover = "hover:after:w-full";
   const mobileNavActive = "after:w-full";
 
-
-  
-
   return (
     <nav className="bg-[#141617] text-white sticky top-0 z-50 py-3">
       <div className="px-4 sm:px-6 lg:px-8">
@@ -211,8 +208,8 @@ const Navbar = () => {
                       ? mobileNavActive
                       : mobileNavHover
                     : pathname.startsWith(item.path)
-                    ? mobileNavActive
-                    : mobileNavHover
+                      ? mobileNavActive
+                      : mobileNavHover
                 } text-[18px]`}
                 onClick={() => {
                   navigate.push(item.path);
@@ -224,14 +221,18 @@ const Navbar = () => {
             ))}
 
             <p className="text-[16px] mt-[35px] !font-[cinzel]">
-              Closed until 8:00 am
+              Closed until 12:00 am
             </p>
 
             <p className="text-[14px] !font-[system-ui]">
-              ١٥ Abu Hail St - Hor Al Anz East - Dubai
+              Al Qusais, Dubai, UAE Main Branch
             </p>
 
-            <p className="text-[14px] !font-[system-ui]">04 222 1822</p>
+            <p className="text-[14px] !font-[system-ui]">
+              {" "}
+              <a href="tel:+97142578585">+971 4 2578585</a>,{" "}
+              <a href="tel:+97142578584">+971 4 2578584</a>
+            </p>
 
             <div className="mt-2 flex justify-center xl:justify-end gap-4">
               {[FaFacebookF, FaInstagram, FaTripadvisor].map((Icon, i) => (
