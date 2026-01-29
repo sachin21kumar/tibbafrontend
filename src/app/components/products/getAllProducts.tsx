@@ -39,6 +39,10 @@ export default function MenuPage() {
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null,
   );
+  const [visibleCount, setVisibleCount] = useState(4);
+  const [searchVisibleCount, setSearchVisibleCount] = useState(6);
+  const [showAllCategories, setShowAllCategories] = useState(false);
+
   const [activeCategory, setActiveCategory] = useState<string>("");
   const [search, setSearch] = useState<string>("");
   const debouncedSearch = useDebounce(search, 300);
@@ -70,8 +74,27 @@ export default function MenuPage() {
   const mobileCategoryButtonRefs = useRef<
     Record<string, HTMLButtonElement | null>
   >({});
+  useEffect(() => {
+    if (debouncedSearch) {
+      setSearchVisibleCount(6);
+    }
+  }, [debouncedSearch]);
 
   const order = useAppSelector((state) => state.order);
+  useEffect(() => {
+    const onScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >=
+        document.body.offsetHeight - 300
+      ) {
+        setVisibleCount((v) => v + 8);
+        setShowAllCategories(true);
+      }
+    };
+
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
   useEffect(() => {
     const savedLocationId = Cookies.get("selectedLocationId");
     if (savedLocationId && !order.location) {
@@ -269,195 +292,203 @@ export default function MenuPage() {
               }
             >
               {debouncedSearch
-                ? filteredProducts.map((product) => {
-                    const cartItem = getCartItem(product._id);
-                    return (
-                      <div
-                        key={product._id}
-                        className="flex justify-between cursor-pointer items-center bg-white rounded-2xl p-5 border border-gray-200 hover:border-gray-400 transition font-sans"
-                      >
-                        <div className="flex-1 pr-6">
-                          <h3
-                            className="font-semibold text-lg text-[#56381D]"
-                            onClick={() => {
-                              setSelectedProductId(product._id);
-                              setOpen(true);
-                            }}
-                          >
-                            {getProductName(product.name)}
-                          </h3>
-                          <span className="text-[16px] font-semibold text-[#56381D]">
-                            د.إ {product.price}
-                          </span>
-                        </div>
-                        <div className="relative w-[140px] h-[120px] flex-shrink-0">
-                          <Image
-                            src={
-                              product.imagePath
-                                ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
-                                : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
-                            }
-                            alt={product.name}
-                            fill
-                            className="object-cover rounded-xl"
-                            sizes="140px"
-                            priority
-                          />
-                          {!cartItem && (
-                            <button
-                              onClick={() =>
-                                addToCart({
-                                  productId: product._id,
-                                  quantity: 1,
-                                  locationId: order?.location?._id,
-                                })
-                              }
-                              className="absolute bottom-2 right-2 cursor-pointer w-9 h-9 bg-white border rounded-lg flex items-center justify-center text-[#56381D] text-xl shadow"
+                ? filteredProducts
+                    .slice(0, searchVisibleCount)
+                    .map((product) => {
+                      const cartItem = getCartItem(product._id);
+                      return (
+                        <div
+                          key={product._id}
+                          className="flex justify-between cursor-pointer items-center bg-white rounded-2xl p-5 border border-gray-200 hover:border-gray-400 transition font-sans"
+                        >
+                          <div className="flex-1 pr-6">
+                            <h3
+                              className="font-semibold text-lg text-[#56381D]"
+                              onClick={() => {
+                                setSelectedProductId(product._id);
+                                setOpen(true);
+                              }}
                             >
-                              +
-                            </button>
-                          )}
-                          {cartItem && (
-                            <div className="border border-[#56381D] rounded-2xl flex justify-center items-center absolute bottom-2 right-2 bg-white">
-                              <div className="flex items-center justify-center gap-2 p-1">
-                                <button
-                                  onClick={() =>
-                                    handleDecrease(
-                                      product._id,
-                                      cartItem.quantity,
-                                    )
-                                  }
-                                  className="px-2 py-1 rounded text-[#56381D] text-lg cursor-pointer"
-                                >
-                                  −
-                                </button>
-                                <span className="px-3 py-1 rounded font-bold text-[#56381D]">
-                                  {cartItem.quantity}
-                                </span>
-                                <button
-                                  onClick={() =>
-                                    handleIncrease(
-                                      product._id,
-                                      cartItem.quantity,
-                                    )
-                                  }
-                                  className="px-2 py-1 rounded text-lg cursor-pointer text-[#56381D]"
-                                >
-                                  +
-                                </button>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })
-                : sortedCategories.map((category) => {
-                    const categoryProducts = products.filter(
-                      (p) => p.categoryId === category._id,
-                    );
-                    if (!categoryProducts.length) return null;
-
-                    return (
-                      <section
-                        id={category._id}
-                        key={category._id}
-                        ref={(el) => {
-                          categoryRefs.current[category._id] = el ?? null;
-                        }}
-                        className="mb-12 scroll-mt-32"
-                      >
-                        <h2 className="text-2xl text-[#56381D] mb-6 font-regular">
-                          {category.title}
-                        </h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          {categoryProducts.map((product) => {
-                            const cartItem = getCartItem(product._id);
-                            return (
-                              <div
-                                key={product._id}
-                                className="flex justify-between cursor-pointer items-center bg-white rounded-2xl p-5 border border-gray-200 hover:border-gray-400 transition"
+                              {getProductName(product.name)}
+                            </h3>
+                            <span className="text-[16px] font-semibold text-[#56381D]">
+                              د.إ {product.price}
+                            </span>
+                          </div>
+                          <div className="relative w-[140px] h-[120px] flex-shrink-0">
+                            <Image
+                              src={
+                                product.imagePath
+                                  ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
+                                  : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
+                              }
+                              alt={product.name}
+                              fill
+                              className="object-cover rounded-xl"
+                              sizes="140px"
+                              priority
+                            />
+                            {!cartItem && (
+                              <button
+                                onClick={() =>
+                                  addToCart({
+                                    productId: product._id,
+                                    quantity: 1,
+                                    locationId: order?.location?._id,
+                                  })
+                                }
+                                className="absolute bottom-2 right-2 cursor-pointer w-9 h-9 bg-white border rounded-lg flex items-center justify-center text-[#56381D] text-xl shadow"
                               >
-                                <div className="flex-1 pr-6">
-                                  <h3
-                                    className="font-regular text-lg text-[#56381D]"
-                                    onClick={() => {
-                                      setSelectedProductId(product._id);
-                                      setOpen(true);
-                                    }}
-                                  >
-                                    {getProductName(product.name)}
-                                  </h3>
-                                  <span className="text-[18px] font-[system-ui] font-medium text-[#56381D]">
-                                    د.إ {product.price}
-                                  </span>
-                                </div>
-                                <div className="relative w-[140px] h-[120px] flex-shrink-0">
-                                  <Image
-                                    src={
-                                      product.imagePath
-                                        ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
-                                        : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
+                                +
+                              </button>
+                            )}
+                            {cartItem && (
+                              <div className="border border-[#56381D] rounded-2xl flex justify-center items-center absolute bottom-2 right-2 bg-white">
+                                <div className="flex items-center justify-center gap-2 p-1">
+                                  <button
+                                    onClick={() =>
+                                      handleDecrease(
+                                        product._id,
+                                        cartItem.quantity,
+                                      )
                                     }
-                                    alt={product.name}
-                                    fill
-                                    className="object-cover rounded-xl"
-                                    sizes="140px"
-                                    priority
-                                  />
-                                  {!cartItem && (
-                                    <button
-                                      onClick={() =>
-                                        addToCart({
-                                          productId: product._id,
-                                          quantity: 1,
-                                          locationId: order?.location?._id,
-                                        })
-                                      }
-                                      className="absolute bottom-2 right-2 cursor-pointer w-9 h-9 bg-white border rounded-lg flex items-center justify-center text-[#56381D] text-xl shadow"
-                                    >
-                                      +
-                                    </button>
-                                  )}
-                                  {cartItem && (
-                                    <div className="border border-[#56381D] rounded-2xl flex justify-center items-center absolute bottom-2 right-2 bg-white">
-                                      <div className="flex items-center justify-center gap-2 p-1">
+                                    className="px-2 py-1 rounded text-[#56381D] text-lg cursor-pointer"
+                                  >
+                                    −
+                                  </button>
+                                  <span className="px-3 py-1 rounded font-bold text-[#56381D]">
+                                    {cartItem.quantity}
+                                  </span>
+                                  <button
+                                    onClick={() =>
+                                      handleIncrease(
+                                        product._id,
+                                        cartItem.quantity,
+                                      )
+                                    }
+                                    className="px-2 py-1 rounded text-lg cursor-pointer text-[#56381D]"
+                                  >
+                                    +
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })
+                : sortedCategories
+                    .filter((cat) =>
+                      showAllCategories ? true : cat.title === "Popular Meals",
+                    )
+                    .map((category) => {
+                      const categoryProducts = products.filter(
+                        (p) => p.categoryId === category._id,
+                      );
+                      if (!categoryProducts.length) return null;
+
+                      return (
+                        <section
+                          id={category._id}
+                          key={category._id}
+                          ref={(el) => {
+                            categoryRefs.current[category._id] = el ?? null;
+                          }}
+                          className="mb-12 scroll-mt-32"
+                        >
+                          <h2 className="text-2xl text-[#56381D] mb-6 font-regular">
+                            {category.title}
+                          </h2>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {categoryProducts
+                              .slice(0, visibleCount) // ✅ AMAZON STYLE
+                              .map((product) => {
+                                const cartItem = getCartItem(product._id);
+                                return (
+                                  <div
+                                    key={product._id}
+                                    className="flex justify-between cursor-pointer items-center bg-white rounded-2xl p-5 border border-gray-200 hover:border-gray-400 transition"
+                                  >
+                                    <div className="flex-1 pr-6">
+                                      <h3
+                                        className="font-regular text-lg text-[#56381D]"
+                                        onClick={() => {
+                                          setSelectedProductId(product._id);
+                                          setOpen(true);
+                                        }}
+                                      >
+                                        {getProductName(product.name)}
+                                      </h3>
+                                      <span className="text-[18px] font-[system-ui] font-medium text-[#56381D]">
+                                        د.إ {product.price}
+                                      </span>
+                                    </div>
+                                    <div className="relative w-[140px] h-[120px] flex-shrink-0">
+                                      <Image
+                                        src={
+                                          product.imagePath
+                                            ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
+                                            : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
+                                        }
+                                        alt={product.name}
+                                        fill
+                                        className="object-cover rounded-xl"
+                                        sizes="140px"
+                                        priority
+                                      />
+                                      {!cartItem && (
                                         <button
                                           onClick={() =>
-                                            handleDecrease(
-                                              product._id,
-                                              cartItem.quantity,
-                                            )
+                                            addToCart({
+                                              productId: product._id,
+                                              quantity: 1,
+                                              locationId: order?.location?._id,
+                                            })
                                           }
-                                          className="px-2 py-1 rounded text-[#56381D] text-lg cursor-pointer"
-                                        >
-                                          −
-                                        </button>
-                                        <span className="px-3 py-1 rounded font-bold text-[#56381D]">
-                                          {cartItem.quantity}
-                                        </span>
-                                        <button
-                                          onClick={() =>
-                                            handleIncrease(
-                                              product._id,
-                                              cartItem.quantity,
-                                            )
-                                          }
-                                          className="px-2 py-1 rounded text-lg cursor-pointer text-[#56381D]"
+                                          className="absolute bottom-2 right-2 cursor-pointer w-9 h-9 bg-white border rounded-lg flex items-center justify-center text-[#56381D] text-xl shadow"
                                         >
                                           +
                                         </button>
-                                      </div>
+                                      )}
+                                      {cartItem && (
+                                        <div className="border border-[#56381D] rounded-2xl flex justify-center items-center absolute bottom-2 right-2 bg-white">
+                                          <div className="flex items-center justify-center gap-2 p-1">
+                                            <button
+                                              onClick={() =>
+                                                handleDecrease(
+                                                  product._id,
+                                                  cartItem.quantity,
+                                                )
+                                              }
+                                              className="px-2 py-1 rounded text-[#56381D] text-lg cursor-pointer"
+                                            >
+                                              −
+                                            </button>
+                                            <span className="px-3 py-1 rounded font-bold text-[#56381D]">
+                                              {cartItem.quantity}
+                                            </span>
+                                            <button
+                                              onClick={() =>
+                                                handleIncrease(
+                                                  product._id,
+                                                  cartItem.quantity,
+                                                )
+                                              }
+                                              className="px-2 py-1 rounded text-lg cursor-pointer text-[#56381D]"
+                                            >
+                                              +
+                                            </button>
+                                          </div>
+                                        </div>
+                                      )}
                                     </div>
-                                  )}
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </section>
-                    );
-                  })}
+                                  </div>
+                                );
+                              })}
+                          </div>
+                        </section>
+                      );
+                    })}
             </div>
           </main>
         </div>
