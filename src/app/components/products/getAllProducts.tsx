@@ -34,10 +34,10 @@ interface Category {
 
 export default function MenuPage() {
   const router = useRouter();
-   const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
-    null
+    null,
   );
   const [activeCategory, setActiveCategory] = useState<string>("");
   const [search, setSearch] = useState<string>("");
@@ -72,7 +72,7 @@ export default function MenuPage() {
   >({});
 
   const order = useAppSelector((state) => state.order);
-   useEffect(() => {
+  useEffect(() => {
     const savedLocationId = Cookies.get("selectedLocationId");
     if (savedLocationId && !order.location) {
       dispatch(setLocation({ _id: savedLocationId } as any));
@@ -108,11 +108,11 @@ export default function MenuPage() {
           setActiveCategory(visibleEntries[0].target.id);
         }
       },
-      { root: null, rootMargin: "-100px 0px -70% 0px", threshold: 0 }
+      { root: null, rootMargin: "-100px 0px -70% 0px", threshold: 0 },
     );
 
     Object.values(categoryRefs.current).forEach(
-      (el) => el && observer.observe(el)
+      (el) => el && observer.observe(el),
     );
     return () => observer.disconnect();
   }, [categories, products, debouncedSearch]);
@@ -155,7 +155,7 @@ export default function MenuPage() {
 
   const filteredProducts = useMemo(() => {
     return products.filter((p) =>
-      p.name.toLowerCase().includes(debouncedSearch.toLowerCase())
+      p.name.toLowerCase().includes(debouncedSearch.toLowerCase()),
     );
   }, [products, debouncedSearch]);
 
@@ -189,7 +189,7 @@ export default function MenuPage() {
 
   return (
     <>
-      <RestaurantCard order={order}/>
+      <RestaurantCard order={order} />
       {!debouncedSearch && (
         <div className="xl:hidden sticky top-[88px] z-40 bg-white border-t border-b border-gray-300">
           <div
@@ -208,13 +208,13 @@ export default function MenuPage() {
                 <span
                   className={`${
                     activeCategory === cat._id
-                      ? "text-[#d1a054]"
+                      ? "text-[#56381D]"
                       : "text-gray-700"
                   }`}
                 >
                   {cat.title}
                   {activeCategory === cat._id && (
-                    <span className="absolute -bottom-2 left-0 bottom-0 w-full h-[2px] bg-[#d1a054] rounded-full" />
+                    <span className="absolute -bottom-2 left-0 bottom-0 w-full h-[2px] bg-[#56381D] rounded-full" />
                   )}
                 </span>
               </button>
@@ -246,8 +246,8 @@ export default function MenuPage() {
                     onClick={() => scrollToCategory(cat._id)}
                     className={`cursor-pointer px-3 py-2 text-sm transition ${
                       activeCategory === cat._id
-                        ? "border-l-3 border-l-[#D1A054] font-bold text-[#d1a054]"
-                        : "text-[#7A4A2E] font-semibold hover:text-[#d1a054]"
+                        ? "border-l-3 border-l-[#56381D] font-bold text-[#56381D]"
+                        : "text-[#7A4A2E] font-semibold hover:text-[#56381D]"
                     }`}
                   >
                     {cat.title}
@@ -259,7 +259,9 @@ export default function MenuPage() {
 
           <main className="flex-1">
             {debouncedSearch && filteredProducts.length > 0 && (
-              <h2 className="text-2xl font-semibold mb-6 text-[#d1a054]">Search results</h2>
+              <h2 className="text-2xl font-semibold mb-6 text-[#56381D]">
+                Search results
+              </h2>
             )}
             <div
               className={
@@ -276,7 +278,7 @@ export default function MenuPage() {
                       >
                         <div className="flex-1 pr-6">
                           <h3
-                            className="font-semibold text-lg text-[#252525]"
+                            className="font-semibold text-lg text-[#56381D]"
                             onClick={() => {
                               setSelectedProductId(product._id);
                               setOpen(true);
@@ -284,19 +286,22 @@ export default function MenuPage() {
                           >
                             {getProductName(product.name)}
                           </h3>
-                          <span className="text-[16px] font-semibold text-[#252525]">
+                          <span className="text-[16px] font-semibold text-[#56381D]">
                             د.إ {product.price}
                           </span>
                         </div>
                         <div className="relative w-[140px] h-[120px] flex-shrink-0">
-                          <img
-                             src={
-                                      product.imagePath
-                                        ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
-                                        : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
-                                    }
-                                    alt={product.name}
-                                    className="w-full h-full object-cover rounded-xl"
+                          <Image
+                            src={
+                              product.imagePath
+                                ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
+                                : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
+                            }
+                            alt={product.name}
+                            fill
+                            className="object-cover rounded-xl"
+                            sizes="140px"
+                            priority
                           />
                           {!cartItem && (
                             <button
@@ -307,36 +312,36 @@ export default function MenuPage() {
                                   locationId: order?.location?._id,
                                 })
                               }
-                              className="absolute bottom-2 right-2 cursor-pointer w-9 h-9 bg-white border rounded-lg flex items-center justify-center text-[#d1a054] text-xl shadow"
+                              className="absolute bottom-2 right-2 cursor-pointer w-9 h-9 bg-white border rounded-lg flex items-center justify-center text-[#56381D] text-xl shadow"
                             >
                               +
                             </button>
                           )}
                           {cartItem && (
-                            <div className="border border-[#d1a054] rounded-2xl flex justify-center items-center absolute bottom-2 right-2 bg-white">
+                            <div className="border border-[#56381D] rounded-2xl flex justify-center items-center absolute bottom-2 right-2 bg-white">
                               <div className="flex items-center justify-center gap-2 p-1">
                                 <button
                                   onClick={() =>
                                     handleDecrease(
                                       product._id,
-                                      cartItem.quantity
+                                      cartItem.quantity,
                                     )
                                   }
-                                  className="px-2 py-1 rounded text-[#d1a054] text-lg cursor-pointer"
+                                  className="px-2 py-1 rounded text-[#56381D] text-lg cursor-pointer"
                                 >
                                   −
                                 </button>
-                                <span className="px-3 py-1 rounded font-bold text-[#d1a054]">
+                                <span className="px-3 py-1 rounded font-bold text-[#56381D]">
                                   {cartItem.quantity}
                                 </span>
                                 <button
                                   onClick={() =>
                                     handleIncrease(
                                       product._id,
-                                      cartItem.quantity
+                                      cartItem.quantity,
                                     )
                                   }
-                                  className="px-2 py-1 rounded text-lg cursor-pointer text-[#d1a054]"
+                                  className="px-2 py-1 rounded text-lg cursor-pointer text-[#56381D]"
                                 >
                                   +
                                 </button>
@@ -349,7 +354,7 @@ export default function MenuPage() {
                   })
                 : sortedCategories.map((category) => {
                     const categoryProducts = products.filter(
-                      (p) => p.categoryId === category._id
+                      (p) => p.categoryId === category._id,
                     );
                     if (!categoryProducts.length) return null;
 
@@ -362,7 +367,7 @@ export default function MenuPage() {
                         }}
                         className="mb-12 scroll-mt-32"
                       >
-                        <h2 className="text-2xl text-[#d1a054] mb-6 font-regular">
+                        <h2 className="text-2xl text-[#56381D] mb-6 font-regular">
                           {category.title}
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -375,7 +380,7 @@ export default function MenuPage() {
                               >
                                 <div className="flex-1 pr-6">
                                   <h3
-                                    className="font-regular text-lg text-[#d1a054]"
+                                    className="font-regular text-lg text-[#56381D]"
                                     onClick={() => {
                                       setSelectedProductId(product._id);
                                       setOpen(true);
@@ -383,19 +388,22 @@ export default function MenuPage() {
                                   >
                                     {getProductName(product.name)}
                                   </h3>
-                                  <span className="text-[18px] font-[system-ui] font-medium text-[#d1a054]">
+                                  <span className="text-[18px] font-[system-ui] font-medium text-[#56381D]">
                                     د.إ {product.price}
                                   </span>
                                 </div>
                                 <div className="relative w-[140px] h-[120px] flex-shrink-0">
-                                  <img
+                                  <Image
                                     src={
                                       product.imagePath
                                         ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
                                         : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
                                     }
                                     alt={product.name}
-                                    className="w-full h-full object-cover rounded-xl"
+                                    fill
+                                    className="object-cover rounded-xl"
+                                    sizes="140px"
+                                    priority
                                   />
                                   {!cartItem && (
                                     <button
@@ -406,36 +414,36 @@ export default function MenuPage() {
                                           locationId: order?.location?._id,
                                         })
                                       }
-                                      className="absolute bottom-2 right-2 cursor-pointer w-9 h-9 bg-white border rounded-lg flex items-center justify-center text-[#d1a054] text-xl shadow"
+                                      className="absolute bottom-2 right-2 cursor-pointer w-9 h-9 bg-white border rounded-lg flex items-center justify-center text-[#56381D] text-xl shadow"
                                     >
                                       +
                                     </button>
                                   )}
                                   {cartItem && (
-                                    <div className="border border-[#d1a054] rounded-2xl flex justify-center items-center absolute bottom-2 right-2 bg-white">
+                                    <div className="border border-[#56381D] rounded-2xl flex justify-center items-center absolute bottom-2 right-2 bg-white">
                                       <div className="flex items-center justify-center gap-2 p-1">
                                         <button
                                           onClick={() =>
                                             handleDecrease(
                                               product._id,
-                                              cartItem.quantity
+                                              cartItem.quantity,
                                             )
                                           }
-                                          className="px-2 py-1 rounded text-[#d1a054] text-lg cursor-pointer"
+                                          className="px-2 py-1 rounded text-[#56381D] text-lg cursor-pointer"
                                         >
                                           −
                                         </button>
-                                        <span className="px-3 py-1 rounded font-bold text-[#d1a054]">
+                                        <span className="px-3 py-1 rounded font-bold text-[#56381D]">
                                           {cartItem.quantity}
                                         </span>
                                         <button
                                           onClick={() =>
                                             handleIncrease(
                                               product._id,
-                                              cartItem.quantity
+                                              cartItem.quantity,
                                             )
                                           }
-                                          className="px-2 py-1 rounded text-lg cursor-pointer text-[#d1a054]"
+                                          className="px-2 py-1 rounded text-lg cursor-pointer text-[#56381D]"
                                         >
                                           +
                                         </button>

@@ -24,15 +24,15 @@ export const RestaurantCard = ({ order }) => {
             alt="Restaurant Food"
             width={868}
             height={395}
-            loading="lazy"
-            unoptimized
+            priority
+            sizes="(max-width: 768px) 100vw, 868px"
             className="w-full h-full object-cover"
           />
         </div>
       </div>
       <div className="p-4 flex flex-col gap-4">
         <div>
-          <h2 className="text-[20px] sm:text-[22px] xl:text-[24px] text-[#d1a054]">
+          <h2 className="text-[20px] sm:text-[22px] xl:text-[24px] text-[#56381D]">
             {location?.name}
           </h2>
 
@@ -43,15 +43,15 @@ export const RestaurantCard = ({ order }) => {
           </div>
         </div>
 
-        <div className="border border-[#d1a054] p-3 rounded-lg bg-gray-50">
+        <div className="border border-[#56381D] p-3 rounded-lg bg-gray-50">
           <div className="flex gap-2 sm:gap-3 flex-nowrap mb-2">
             <button
               className={`px-3 py-1.5 text-xs sm:text-sm xl:px-4 xl:py-2 xl:text-base
       rounded-full font-semibold transition cursor-pointer whitespace-nowrap
       ${
         selectedOption === "delivery"
-          ? "bg-[#D1A054] text-white hover:bg-[#b9893f]"
-          : "bg-white border border-[#d1a054] text-[#7A4A2E] hover:bg-gray-100"
+          ? "bg-[#56381D] text-white hover:bg-[#b9893f]"
+          : "bg-white border border-[#56381D] text-[#7A4A2E] hover:bg-gray-100"
       }`}
               onClick={() => {
                 setSelectedOption("delivery");
@@ -66,8 +66,8 @@ export const RestaurantCard = ({ order }) => {
       rounded-full font-semibold transition cursor-pointer whitespace-nowrap
       ${
         selectedOption === "pickup"
-          ? "bg-[#D1A054] text-white hover:bg-[#b9893f]"
-          : "bg-white border border-[#d1a054] text-[#7A4A2E] hover:bg-gray-100"
+          ? "bg-[#56381D] text-white hover:bg-[#b9893f]"
+          : "bg-white border border-[#56381D] text-[#7A4A2E] hover:bg-gray-100"
       }`}
               onClick={() => {
                 setSelectedOption("pickup");
@@ -85,7 +85,7 @@ export const RestaurantCard = ({ order }) => {
                 <span className="line-through">د.إ 11.00</span> FREE
               </p>
 
-              <p className="text-xs sm:text-sm xl:text-sm font-semibold !font-[system-ui] text-white bg-[#D1A054] inline-block px-2 py-1 mt-1 rounded">
+              <p className="text-xs sm:text-sm xl:text-sm font-semibold !font-[system-ui] text-white bg-[#56381D] inline-block px-2 py-1 mt-1 rounded">
                 Unlimited FREE delivery. Try it for free!
               </p>
             </div>
