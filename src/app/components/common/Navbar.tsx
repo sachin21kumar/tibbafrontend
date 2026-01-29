@@ -51,7 +51,7 @@ const Navbar = () => {
   const mobileNavActive = "after:w-full";
 
   return (
-    <nav className="bg-[#141617] text-white sticky top-0 z-50 py-3">
+    <nav className="bg-[#56381D] text-white sticky top-0 z-50 py-3">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between lg:justify-around">
           <div className="lg:hidden">
@@ -119,7 +119,7 @@ const Navbar = () => {
               </div>
 
               {locationsOpen && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 bg-[#141617] p-4 rounded-lg min-w-[300px] grid gap-2">
+                <div className="absolute top-full left-1/2 -translate-x-1/2 bg-[#56381D] p-4 rounded-lg min-w-[300px] grid gap-2">
                   {locations?.slice(0, 3)?.map((loc: Location) => (
                     <div
                       key={loc._id}
@@ -147,7 +147,7 @@ const Navbar = () => {
               </div>
 
               {reservationOpen && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 bg-black p-4 rounded-lg min-w-[200px]">
+                <div className="absolute top-full bg-[#56381D] left-1/2 -translate-x-1/2 p-4 rounded-lg min-w-[200px]">
                   <div
                     onClick={() => navigate.push("/opentable")}
                     className="text-sm py-2 hover:text-[#d1a054] cursor-pointer"
@@ -190,7 +190,7 @@ const Navbar = () => {
       </div>
 
       {mobileOpen && (
-        <div className="lg:hidden bg-[#141617] border-t border-white/10">
+        <div className="lg:hidden bg-[#56381D] border-t border-white/10">
           <div className="flex flex-col px-8 py-7 space-y-4 items-start h-[calc(100vh-88px)]">
             {[
               { label: "Home", path: "/" },

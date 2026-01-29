@@ -2,7 +2,7 @@ import { FaFacebookF, FaInstagram, FaTripadvisor } from "react-icons/fa";
 
 export const Footer = () => {
   return (
-    <footer className="bg-[#1B2024] pt-10 xl:pt-14">
+    <footer className="bg-[#56381D] pt-10 xl:pt-14">
       <div className="max-w-[1508px] mx-auto grid grid-cols-1 xl:grid-cols-3 gap-10 xl:gap-12 text-white px-4 sm:px-6">
         {/* LEFT – Lunch Time (desktop only) */}
         <div className="hidden xl:block text-center xl:text-left">
