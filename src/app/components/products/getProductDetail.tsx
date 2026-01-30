@@ -85,12 +85,7 @@ export default function ProductDetail() {
             </button>
 
             <button
-              onClick={() =>
-                addToCart({
-                  productId: product._id,
-                  quantity,
-                })
-              }
+              
               className="bg-[#d1a054] cursor-pointer hover:opacity-90 text-white font-medium py-3 px-6 rounded-full shadow-md transition-all duration-200 w-full md:w-auto"
             >
               Add to Cart
