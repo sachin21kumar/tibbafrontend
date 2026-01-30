@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Image from "next/image";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 
@@ -31,14 +32,20 @@ export const Gallery = () => {
           : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
       );
   }, [productRes, categoryRes]);
+
   return (
     <>
       {/* Header */}
-      <div
-        className="w-full h-40 sm:h-48 md:h-56 xl:h-100 bg-cover bg-center flex items-center justify-center"
-        style={{ backgroundImage: `url('/header.webp')` }}
-      >
-        <h1 className="text-white text-3xl font-cinzel bg-white/10 backdrop-blur-xl px-6 py-4">
+      <div className="relative w-full h-40 sm:h-48 md:h-56 xl:h-100 flex items-center justify-center">
+        <Image
+          src="/header.webp"
+          alt="Gallery Header"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        <h1 className="relative z-10 text-white text-3xl font-cinzel bg-white/10 backdrop-blur-xl px-6 py-4">
           Gallery
         </h1>
       </div>
@@ -53,16 +60,23 @@ export const Gallery = () => {
               />
             ))
           : popularMealImages.map((src, i) => (
-              <img
+              <div
                 key={i}
-                src={src}
-                alt={`Popular meal ${i + 1}`}
-                className="w-full h-40 sm:h-56 lg:h-64 object-cover rounded-lg shadow-lg cursor-pointer hover:-translate-y-1 transition"
+                className="relative w-full h-40 sm:h-56 lg:h-64 cursor-pointer rounded-lg shadow-lg overflow-hidden hover:-translate-y-1 transition"
                 onClick={() => {
                   setIndex(i);
                   setOpen(true);
                 }}
-              />
+              >
+                <Image
+                  src={src}
+                  alt={`Popular meal ${i + 1}`}
+                  fill
+                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 400px"
+                  className="object-cover"
+                  loading="lazy"
+                />
+              </div>
             ))}
       </div>
 
