@@ -2,6 +2,7 @@
 import dynamic from "next/dynamic";
 import { useGetLocationsQuery } from "../redux/query/locationsQuery/location.query";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 const Location = dynamic(
   () => import("../home/locations").then((mod) => mod.Location),
   {
@@ -28,13 +29,17 @@ export default function LocationCard() {
   return (
     <>
       <div>
-        <div
-          className="w-full h-64 sm:h-80 md:h-100 bg-cover bg-center flex items-center justify-center px-4"
-          style={{
-            backgroundImage: `url('/locations.webp')`,
-          }}
-        >
-          <h1 className="text-white text-2xl sm:text-3xl md:text-5xl font-cinzel bg-white/10 border border-white/32 backdrop-blur-[20px] px-4 sm:px-6 py-3 sm:py-5 text-center">
+        <div className="relative w-full h-64 sm:h-80 md:h-100 flex items-center justify-center px-4 overflow-hidden">
+          <Image
+            src="/locations.webp"
+            alt="Locations"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+
+          <h1 className="relative z-10 text-white text-2xl sm:text-3xl md:text-5xl font-cinzel bg-white/10 border border-white/32 backdrop-blur-[20px] px-4 sm:px-6 py-3 sm:py-5 text-center">
             LOCATIONS
           </h1>
         </div>
@@ -46,13 +51,17 @@ export default function LocationCard() {
               className="flex flex-col md:flex-row border border-gray-300 shadow-md rounded-lg overflow-hidden bg-white"
             >
               <div className="md:w-1/2 relative md:h-64 md:h-auto">
-                <img
+                <Image
                   src={
-                    `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location.imagePath}` ||
-                    "http://mtb.dgh.mybluehost.me/wp-content/uploads/2025/07/Abu-Hail-857x500.webp"
+                    location?.imagePath
+                      ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location.imagePath}`
+                      : "http://mtb.dgh.mybluehost.me/wp-content/uploads/2025/07/Abu-Hail-857x500.webp"
                   }
-                  alt={location.name}
-                  className="object-cover w-full h-full"
+                  alt={location?.name}
+                  fill
+                  priority
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="object-cover"
                 />
               </div>
 
@@ -65,15 +74,24 @@ export default function LocationCard() {
                 </div>
                 <div className="md:py-auto pt-5">
                   <div className="flex items-center gap-3 text-[#7a4a2e] mb-2 mt-3">
-                    <img src="/location.png" alt="Location Icon" />
+                    <Image
+                      src="/location.png"
+                      alt="Location"
+                      width={14}
+                      height={14}
+                    />
                     <span>{location.location}</span>
                   </div>
                   <div className="flex items-center gap-3 text-[#7a4a2e] mb-4">
-                    <img src="/phoneIcon.png" alt="Phone Icon" />
+                    <Image
+                      src="/phoneIcon.png"
+                      alt="Phone"
+                      width={14}
+                      height={14}
+                    />
                     <a href={`tel:${location.mobileNumber}`}>
                       {location.mobileNumber}
                     </a>
-
                   </div>
                 </div>
                 <a

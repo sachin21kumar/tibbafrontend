@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useGetLocationsQuery } from "../redux/query/locationsQuery/location.query";
 import { useRouter } from "next/navigation";
 
@@ -27,9 +28,12 @@ export default function LocationsGrid() {
               className="bg-[#f8f8f8] rounded-2xl shadow-sm hover:shadow-lg transition overflow-hidden"
             >
               <div className="relative md:h-64 w-full">
-                <img
+                <Image
                   src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${loc.imagePath}`}
                   alt={loc.name}
+                  fill
+                  sizes="100vw"
+                  priority
                   className="object-cover h-full"
                 />
               </div>
@@ -42,12 +46,22 @@ export default function LocationsGrid() {
                 </h3>
 
                 <div className="flex items-start gap-3 text-[#7a4a2e]">
-                  <img src="/location.png" />
+                  <Image
+                    src="/location.png"
+                    alt="Location"
+                    width={14}
+                    height={14}
+                  />
                   <span>{loc.location}</span>
                 </div>
 
                 <div className="flex items-center gap-3 text-[#7a4a2e]">
-                  <img src="/phoneIcon.png" />
+                  <Image
+                    src="/phoneIcon.png"
+                    alt="Phone"
+                    width={14}
+                    height={14}
+                  />
                   <a href={`tel:${loc.mobileNumber}`}>{loc.mobileNumber}</a>
                 </div>
               </div>

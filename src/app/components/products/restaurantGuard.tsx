@@ -97,7 +97,13 @@ export const RestaurantCard = ({ order }) => {
         </div>
 
         <div className="py-2">
-          <img src="/offFrame.png" className="w-full sm:w-auto" />
+          <Image
+            src="/offFrame.png"
+            alt="Off Frame"
+            width={800} // safe default, Next.js needs this
+            height={400} // keeps aspect ratio
+            className="w-full sm:w-auto h-auto"
+          />
         </div>
       </div>
     </div>

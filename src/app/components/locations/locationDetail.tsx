@@ -7,6 +7,7 @@ import { useParams } from "next/navigation";
 import { useGetLocationByIdQuery } from "../redux/query/locationsQuery/location.query";
 import LocationForm from "./locationForm";
 import LocationsGrid from "./locationsGrid";
+import Image from "next/image";
 
 const openingHours = [
   "Monday",
@@ -35,7 +36,7 @@ const FitBounds = ({
   const map = useMap();
   if (locations.length > 0) {
     const bounds = L.latLngBounds(
-      locations.map((loc) => [loc.lat, loc.lng] as [number, number])
+      locations.map((loc) => [loc.lat, loc.lng] as [number, number]),
     );
     map.fitBounds(bounds, { padding: [50, 50] });
   }
@@ -62,14 +63,17 @@ export default function LocationDetails() {
 
   return (
     <>
-      {/* Banner */}
-      <div
-        className="w-full h-64 sm:h-80 md:h-100 bg-cover bg-center flex items-center justify-center px-4"
-        style={{
-          backgroundImage: `url(${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location?.imagePath})`,
-        }}
-      >
-        <h1 className="text-white text-2xl sm:text-3xl md:text-5xl font-cinzel bg-white/10 border border-white/32 backdrop-blur-[20px] px-4 sm:px-6 py-3 sm:py-4">
+      <div className="relative w-full h-64 sm:h-80 md:h-100 flex items-center justify-center px-4 overflow-hidden">
+        <Image
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location?.imagePath}`}
+          alt="Location Banner"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+
+        <h1 className="relative z-10 text-white text-2xl sm:text-3xl md:text-5xl font-cinzel bg-white/10 border border-white/32 backdrop-blur-[20px] px-4 sm:px-6 py-3 sm:py-4">
           Open until {location?.operation_hours?.slice(7)}
         </h1>
       </div>
@@ -93,7 +97,12 @@ export default function LocationDetails() {
               {/* Location */}
               <div className="flex items-center gap-4">
                 <div className="min-w-[40px] h-[40px] rounded-[63%_37%_30%_70%_/_50%_45%_55%_50%] bg-[#d1a054] text-white flex items-center justify-center text-[14px]">
-                  <img src="/locationtrans.png" alt="Location Icon" />
+                  <Image
+                    src="/locationtrans.png"
+                    alt="Location Icon"
+                    width={14}
+                    height={14}
+                  />
                 </div>
                 <span className="text-[#7a4a2e]">{location?.location}</span>
               </div>
@@ -101,12 +110,17 @@ export default function LocationDetails() {
               {/* Phone */}
               <div className="flex items-center gap-4">
                 <div className="min-w-[40px] h-[40px] rounded-[63%_37%_30%_70%_/_50%_45%_55%_50%] bg-[#d1a054] text-white flex items-center justify-center text-[14px]">
-                  <img src="/phonetrans.png" alt="Phone Icon" />
+                  <Image
+                    src="/phonetrans.png"
+                    alt="Phone Icon"
+                    width={14}
+                    height={14}
+                  />
                 </div>
                 <span className="text-[#7a4a2e] font-medium">
-                   <a href={`tel:${location.mobileNumber}`}>
-                      {location.mobileNumber}
-                    </a>
+                  <a href={`tel:${location.mobileNumber}`}>
+                    {location.mobileNumber}
+                  </a>
                 </span>
               </div>
             </div>
@@ -126,7 +140,9 @@ export default function LocationDetails() {
                     <li
                       key={day}
                       className={`flex justify-between py-3 px-3 text-[#7a4a2e] ${
-                        isToday ? "border-b border-t border-[#d1a054] text-[#d1a054]" : ""
+                        isToday
+                          ? "border-b border-t border-[#d1a054] text-[#d1a054]"
+                          : ""
                       }`}
                     >
                       <span className="font-medium text-[14px]">{day}</span>
