@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
 import tibbaLogo from "../../../../public/tibba-logo.webp";
 import { useGetCategoryQuery } from "../redux/query/categoryQuery/categoryQuery";
@@ -50,12 +50,38 @@ const Navbar = () => {
   const mobileNavHover = "hover:after:w-full";
   const mobileNavActive = "after:w-full";
 
+  /* =========================
+     MEMOIZED VALUES (ADDED)
+  ========================= */
+
+  const cartCount = useMemo(
+    () => cart?.items?.length ?? 0,
+    [cart?.items]
+  );
+
+  const cartTotal = useMemo(
+    () => (cart?.totalPrice ? `د.إ ${cart.totalPrice}` : ""),
+    [cart?.totalPrice]
+  );
+
+  /* =========================
+     HANDLERS (MEMOIZED)
+  ========================= */
+
+  const toggleMobile = useCallback(() => {
+    setMobileOpen((prev) => !prev);
+  }, []);
+
+  const openCart = useCallback(() => {
+    setOpen(true);
+  }, []);
+
   return (
     <nav className="bg-[#56381D] text-white sticky top-0 z-50 py-3">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between lg:justify-around">
           <div className="lg:hidden">
-            <button onClick={() => setMobileOpen(!mobileOpen)}>
+            <button onClick={toggleMobile}>
               {mobileOpen ? <HiX size={26} /> : <HiMenu size={26} />}
             </button>
           </div>
@@ -161,7 +187,7 @@ const Navbar = () => {
 
           <div
             className="relative cursor-pointer flex items-center"
-            onClick={() => setOpen(true)}
+            onClick={openCart}
           >
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
               <circle fill="white" cx="18.4" cy="12" r="0.9" />
@@ -176,15 +202,13 @@ const Navbar = () => {
               />
             </svg>
 
-            {cart?.items?.length > 0 && (
+            {cartCount > 0 && (
               <span className="absolute md:-top-2 top-4 left-2 bg-[#d1a054] text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
-                {cart.items.length}
+                {cartCount}
               </span>
             )}
 
-            <span className="ml-2 hidden xl:block">
-              {cart?.totalPrice ? `د.إ ${cart.totalPrice}` : ""}
-            </span>
+            <span className="ml-2 hidden xl:block">{cartTotal}</span>
           </div>
         </div>
       </div>
@@ -229,7 +253,6 @@ const Navbar = () => {
             </p>
 
             <p className="text-[14px] !font-[system-ui]">
-              {" "}
               <a href="tel:+97142578585">+971 4 2578585</a>,{" "}
               <a href="tel:+97142578584">+971 4 2578584</a>
             </p>

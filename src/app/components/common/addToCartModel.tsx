@@ -1,8 +1,8 @@
 "use client";
 
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment } from "react";
-import { X } from "lucide-react";
+import { Fragment, useCallback, useEffect, useState } from "react";
+
 import { useRouter } from "next/navigation";
 import {
   useAddToCartMutation,
@@ -25,57 +25,105 @@ export default function AddToCartModal({
   productId,
 }: AddToCartModalProps) {
   const savedLocationId = Cookies.get("selectedLocationId");
-
   const router = useRouter();
+
   const { data: product, isLoading } = useGetProductByIdQuery(productId!, {
     skip: !productId,
   });
+
   const { data: cart } = useGetCartQuery();
-  const [addToCart] = useAddToCartMutation();
-  const [updateCart] = useUpdateCartMutation();
-  const [removeFromCart] = useRemoveFromCartMutation();
+
+  const [addToCart, { isLoading: isAdding }] = useAddToCartMutation();
+  const [updateCart, { isLoading: isUpdating }] = useUpdateCartMutation();
+  const [removeFromCart, { isLoading: isRemoving }] =
+    useRemoveFromCartMutation();
+  const [localQty, setLocalQty] = useState<number>(1);
 
   const cartItem = cart?.items?.find(
-    (item: any) => item.productId?._id === product?._id
+    (item: any) => item.productId?._id === product?._id,
   );
 
   const isInCart = Boolean(cartItem);
+  const quantity = isInCart ? localQty : 1;
 
-  // ✅ quantity is derived per item (NO shared state)
-  const quantity = cartItem?.quantity ?? 1;
+  /* =========================
+     HOOKS MUST BE ABOVE RETURN
+  ========================= */
 
-  if (isLoading || !product) return null;
-
-  const handleAddToCart = () => {
-    if(!savedLocationId){
-      router.push("/selectLocation")
+  const handleAddToCart = useCallback(() => {
+    if (!savedLocationId) {
+      router.push("/selectLocation");
+      return;
     }
-    addToCart({ productId: product._id, quantity,locationId:savedLocationId });
-    onClose();
-  };
+    if (!product || isAdding) return;
 
-  const handleIncrease = () => {
+    addToCart({
+      productId: product._id,
+      quantity,
+      locationId: savedLocationId,
+      product: {
+        name: product.name,
+        price: product.price,
+        imagePath: product.imagePath,
+      },
+    });
+
+    onClose();
+  }, [
+    savedLocationId,
+    isAdding,
+    addToCart,
+    product,
+    quantity,
+    router,
+    onClose,
+  ]);
+
+  const handleIncrease = useCallback(() => {
+    if (!product || isUpdating) return;
+
+    setLocalQty((q) => q + 1); // 🔥 instant UI update
+
     updateCart({
       productId: product._id,
-      quantity: quantity + 1,
+      quantity: localQty + 1,
     });
-  };
+  }, [isUpdating, updateCart, product, localQty]);
 
-  const handleDecrease = () => {
-    if (quantity <= 1) {
+  const handleDecrease = useCallback(() => {
+    if (!product || isUpdating || isRemoving) return;
+
+    if (localQty <= 1) {
+      setLocalQty(1);
       removeFromCart({ productId: product._id });
       onClose();
+      return;
     }
+
+    setLocalQty((q) => q - 1); // 🔥 instant UI update
 
     updateCart({
       productId: product._id,
-      quantity: quantity - 1,
+      quantity: localQty - 1,
     });
-  };
+  }, [
+    isUpdating,
+    isRemoving,
+    localQty,
+    removeFromCart,
+    updateCart,
+    product,
+    onClose,
+  ]);
 
-  const handleRemoveAll = () => {
-    removeFromCart({ productId: product._id });
-  };
+  useEffect(() => {
+    if (cartItem?.quantity) {
+      setLocalQty(cartItem.quantity);
+    }
+  }, [cartItem?.quantity]);
+
+  /* ✅ SAFE EARLY RETURN — AFTER ALL HOOKS */
+  if (isLoading || !product) return null;
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -103,6 +151,7 @@ export default function AddToCartModal({
             leaveTo="opacity-0 scale-95"
           >
             <Dialog.Panel className="min-w-[50%] w-full max-w-md rounded-2xl bg-white shadow-xl overflow-hidden">
+              {/* HEADER */}
               <div className="flex justify-between py-[16px] px-[24px] pb-4">
                 <div className="flex gap-6 items-center">
                   <img
@@ -114,7 +163,9 @@ export default function AddToCartModal({
                     alt={product.name}
                     className="w-16 h-16 rounded-lg object-cover"
                   />
-                  <span className="font-bold font-sans text-[#7a4a2e]">{product.name}</span>
+                  <span className="font-bold text-[#7a4a2e]">
+                    {product.name}
+                  </span>
                 </div>
 
                 {!isInCart && (
@@ -151,8 +202,9 @@ export default function AddToCartModal({
                 )}
               </div>
 
-              <div className="border-b border-b-[#d1a054] h-[1px] w-full"></div>
+              <div className="border-b border-b-[#d1a054] h-[1px] w-full" />
 
+              {/* FOOTER */}
               <div
                 className={`p-4 flex ${
                   !isInCart
@@ -180,7 +232,9 @@ export default function AddToCartModal({
                         >
                           −
                         </button>
-                        <span className="px-3 py-1 rounded text-[#7a4a2e]">{quantity}</span>
+                        <span className="px-3 py-1 rounded text-[#7a4a2e]">
+                          {quantity}
+                        </span>
                         <button
                           onClick={handleIncrease}
                           className="px-2 py-1 rounded text-lg cursor-pointer text-[#7a4a2e]"
@@ -194,8 +248,9 @@ export default function AddToCartModal({
 
                 {!isInCart && (
                   <button
-                    className="bg-[#D1A054] text-white text-[14px] md:text-[20px] md:px-15 px-2 py-3 rounded-lg font-medium hover:opacity-90 cursor-pointer"
                     onClick={handleAddToCart}
+                    disabled={isAdding}
+                    className="bg-[#D1A054] text-white text-[14px] md:text-[20px] md:px-15 px-2 py-3 rounded-lg font-medium hover:opacity-90 cursor-pointer"
                   >
                     Add item | د.إ {product.price * quantity}
                   </button>

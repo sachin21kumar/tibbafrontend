@@ -187,9 +187,11 @@ export const CheckoutPage = () => {
   const items = cart?.items || [];
 
   const subtotal = items.reduce(
-    (sum: number, item: any) => sum + item.productId.price * item.quantity,
+    (sum: number, item: any) =>
+      sum + (item.productId?.price || 0) * item.quantity,
     0,
   );
+
   return (
     <div className="max-w-[1200px] mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-[1fr_430px] gap-16">
       <div>
@@ -197,7 +199,7 @@ export const CheckoutPage = () => {
           BILLING & SHIPPING
         </h3>
 
-        <form className="space-y-10 "  onSubmit={handleSubmit(onSubmit)}>
+        <form className="space-y-10 " onSubmit={handleSubmit(onSubmit)}>
           <div className="w-full">
             <label className="text-xs uppercase tracking-wider text-[#7a4a2e] mb-2 block">
               Delivery Type <span className="text-red-500">*</span>
@@ -253,7 +255,7 @@ export const CheckoutPage = () => {
             )}
           </div>
 
-          <div >
+          <div>
             <label className="text-xs uppercase tracking-wider text-[#7a4a2e]">
               Full Name <span className="text-red-500">*</span>
             </label>
@@ -368,7 +370,9 @@ export const CheckoutPage = () => {
               </span>
             )}
           </div>
-          <label className="text-xs uppercase tracking-wider text-[#7a4a2e]">Payment Method:</label>
+          <label className="text-xs uppercase tracking-wider text-[#7a4a2e]">
+            Payment Method:
+          </label>
           <div className="flex gap-3 py-3">
             {[
               { id: "stripe", label: "CARD PAYMENT" },
@@ -393,7 +397,6 @@ export const CheckoutPage = () => {
               </label>
             ))}
           </div>
-          
 
           <button type="submit" hidden />
         </form>
@@ -407,8 +410,12 @@ export const CheckoutPage = () => {
           <table className="w-full text-sm border-collapse">
             <thead>
               <tr className="border-b border-b-[#d1a054]">
-                <th className="text-left font-bold pb-3 text-[#7a4a2e]">PRODUCT</th>
-                <th className="text-right font-bold pb-3 text-[#7a4a2e]">SUBTOTAL</th>
+                <th className="text-left font-bold pb-3 text-[#7a4a2e]">
+                  PRODUCT
+                </th>
+                <th className="text-right font-bold pb-3 text-[#7a4a2e]">
+                  SUBTOTAL
+                </th>
               </tr>
             </thead>
 
@@ -426,31 +433,40 @@ export const CheckoutPage = () => {
                     className="border-b border-b-[#d1a054]"
                   >
                     <td className="py-3 font-[system-ui] text-[#7a4a2e] w-[175px]">
-                      {item.productId.name} × {item.quantity}
+                      {item.productId?.name || ""} × {item.quantity}
                     </td>
                     <td className="py-3 text-right text-[#7a4a2e] ">
-                     د.إ {(item.productId.price * item.quantity).toFixed(2)}
+                      د.إ{" "}
+                      {((item.productId?.price || 0) * item.quantity).toFixed(
+                        2,
+                      )}
                     </td>
                   </tr>
                 ))
               )}
 
               <tr>
-                <th className="py-[12px] font-bold text-left text-[#7a4a2e]">SUBTOTAL</th>
+                <th className="py-[12px] font-bold text-left text-[#7a4a2e]">
+                  SUBTOTAL
+                </th>
                 <td className="py-[12px] text-[#d1a054] text-base text-left ">
                   د.إ {subtotal.toFixed(2)}
                 </td>
               </tr>
 
               <tr>
-                <th className="py-2 font-bold text-left text-[#7a4a2e]">SHIPPING</th>
+                <th className="py-2 font-bold text-left text-[#7a4a2e]">
+                  SHIPPING
+                </th>
                 <td className="py-2 text-[#7a4a2e] text-left font-[system-ui]">
                   Enter your address to view shipping options.
                 </td>
               </tr>
 
               <tr>
-                <th className="pt-2 font-semibold text-lg text-left text-[#7a4a2e]">TOTAL</th>
+                <th className="pt-2 font-semibold text-lg text-left text-[#7a4a2e]">
+                  TOTAL
+                </th>
                 <td className="pt-2 text-2xl text-[#d1a054] text-left">
                   د.إ {subtotal.toFixed(2)}
                 </td>
@@ -465,9 +481,9 @@ export const CheckoutPage = () => {
           </div>
         )}
 
-          <>
-            {items?.length > 0 && (
-              <>
+        <>
+          {items?.length > 0 && (
+            <>
               {paymentMethod === "stripe" && (
                 <div className="border border-dashed border-[#d1a054] rounded-lg p-4 text-sm text-[#7a4a2e] mt-6 text-center">
                   <CardElement
@@ -489,31 +505,31 @@ export const CheckoutPage = () => {
                   />
                 </div>
               )}
-              </>
-              )}
+            </>
+          )}
 
-            <div className="py-4">
-              <div className="text-xs text-[#7a4a2e] font-[system-ui] leading-tight">
-                Your personal data will be used to process your order, support
-                your experience throughout this website, and for other purposes
-                described in our{" "}
-                <a
-                  className="text-[#d8b07a] underline cursor-pointer hover:no-underline"
-                  href="http://mtb.dgh.mybluehost.me/?page_id=3"
-                  target="_blank"
-                >
-                  privacy policy
-                </a>
-                .
-              </div>
+          <div className="py-4">
+            <div className="text-xs text-[#7a4a2e] font-[system-ui] leading-tight">
+              Your personal data will be used to process your order, support
+              your experience throughout this website, and for other purposes
+              described in our{" "}
+              <a
+                className="text-[#d8b07a] underline cursor-pointer hover:no-underline"
+                href="http://mtb.dgh.mybluehost.me/?page_id=3"
+                target="_blank"
+              >
+                privacy policy
+              </a>
+              .
             </div>
-            <button
-              onClick={handleSubmit(onSubmit)}
-              className="w-full text-xs mt-6 bg-[#d1a054] text-white py-4 rounded-full font-serif tracking-wide hover:opacity-90 transition cursor-pointer"
-            >
-              {checkoutLoading ? "Placing...." : "PLACE ORDER"}
-            </button>
-          </>
+          </div>
+          <button
+            onClick={handleSubmit(onSubmit)}
+            className="w-full text-xs mt-6 bg-[#d1a054] text-white py-4 rounded-full font-serif tracking-wide hover:opacity-90 transition cursor-pointer"
+          >
+            {checkoutLoading ? "Placing...." : "PLACE ORDER"}
+          </button>
+        </>
       </div>
     </div>
   );

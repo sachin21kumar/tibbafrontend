@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import { useGetCategoryQuery } from "../redux/query/categoryQuery/categoryQuery";
 import { useGetProductsQuery } from "../redux/query/productsQuery/productsQuery";
 import {
@@ -35,34 +35,49 @@ interface Category {
 export default function MenuPage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
+
   const [open, setOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null,
   );
   const [activeCategory, setActiveCategory] = useState<string>("");
   const [search, setSearch] = useState<string>("");
-  const debouncedSearch = useDebounce(search, 300);
-  const [updateCart] = useUpdateCartMutation();
-  const [removeFromCart] = useRemoveFromCartMutation();
-  const [addToCart] = useAddToCartMutation();
   const [isClient, setIsClient] = useState(false);
+
+  const debouncedSearch = useDebounce(search, 300);
+
+  const [updateCart, { isLoading: isUpdating }] = useUpdateCartMutation();
+  const [removeFromCart, { isLoading: isRemoving }] =
+    useRemoveFromCartMutation();
+  const [addToCart, { isLoading: isAdding }] = useAddToCartMutation();
 
   const { data: categoriesResponse, isLoading: categoriesLoading } =
     useGetCategoryQuery();
   const { data: productsResponse, isLoading: productsLoading } =
     useGetProductsQuery({ limit: 1000 });
-  const { data: cart } = useGetCartQuery();
+  const { items: cartItems } = useGetCartQuery(undefined, {
+  selectFromResult: ({ data }) => ({
+    items: data?.items ?? [],
+  }),
+});
+
 
   const categories: Category[] = categoriesResponse?.data || [];
   const products: any[] = productsResponse?.data || [];
 
+  /* =====================
+     SORT CATEGORIES
+  ===================== */
   const sortedCategories = useMemo(() => {
-    if (!categories?.length) return [];
+    if (!categories.length) return [];
     const popular = categories.find((cat) => cat.title === "Popular Meals");
     const others = categories.filter((cat) => cat.title !== "Popular Meals");
     return popular ? [popular, ...others] : categories;
   }, [categories]);
 
+  /* =====================
+     REFS
+  ===================== */
   const categoryRefs = useRef<Record<string, HTMLElement | null>>({});
   const desktopCategoryRefs = useRef<Record<string, HTMLLIElement | null>>({});
   const mobileCategoryContainerRef = useRef<HTMLDivElement | null>(null);
@@ -71,23 +86,32 @@ export default function MenuPage() {
     Record<string, HTMLButtonElement | null>
   >({});
 
+  /* =====================
+     LOCATION SYNC
+  ===================== */
   const order = useAppSelector((state) => state.order);
+
   useEffect(() => {
     const savedLocationId = Cookies.get("selectedLocationId");
+
     if (savedLocationId && !order.location) {
       dispatch(setLocation({ _id: savedLocationId } as any));
     }
+
     if (!savedLocationId && !order.location) {
       router.replace("/selectLocation");
     }
   }, [order.location, dispatch, router]);
 
-  const scrollToCategory = (categoryId: string) => {
+  /* =====================
+     SCROLL HANDLERS
+  ===================== */
+  const scrollToCategory = useCallback((categoryId: string) => {
     categoryRefs.current[categoryId]?.scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
-  };
+  }, []);
 
   useEffect(() => {
     if (!activeCategory && sortedCategories.length) {
@@ -95,91 +119,104 @@ export default function MenuPage() {
     }
   }, [sortedCategories, activeCategory]);
 
+  /* =====================
+     CATEGORY OBSERVER
+  ===================== */
   useEffect(() => {
     if (!categories.length || debouncedSearch) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
-        const visibleEntries = entries
-          .filter((entry) => entry.isIntersecting)
+        const visible = entries
+          .filter((e) => e.isIntersecting)
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
 
-        if (visibleEntries.length > 0) {
-          setActiveCategory(visibleEntries[0].target.id);
+        if (visible.length) {
+          setActiveCategory(visible[0].target.id);
         }
       },
-      { root: null, rootMargin: "-100px 0px -70% 0px", threshold: 0 },
+      { rootMargin: "-100px 0px -70% 0px" },
     );
 
     Object.values(categoryRefs.current).forEach(
       (el) => el && observer.observe(el),
     );
+
     return () => observer.disconnect();
   }, [categories, products, debouncedSearch]);
 
+  /* =====================
+     MOBILE + DESKTOP AUTO SCROLL
+  ===================== */
   useEffect(() => {
     if (!activeCategory) return;
-    const activeMobileButton = mobileCategoryButtonRefs.current[activeCategory];
-    if (activeMobileButton && mobileCategoryContainerRef.current) {
-      const container = mobileCategoryContainerRef.current;
-      const buttonRect = activeMobileButton.getBoundingClientRect();
-      const containerRect = container.getBoundingClientRect();
-      if (
-        buttonRect.left < containerRect.left ||
-        buttonRect.right > containerRect.right
-      ) {
-        activeMobileButton.scrollIntoView({
-          behavior: "smooth",
-          inline: "center",
-        });
-      }
+
+    const mobileBtn = mobileCategoryButtonRefs.current[activeCategory];
+    if (mobileBtn && mobileCategoryContainerRef.current) {
+      mobileBtn.scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+      });
     }
 
-    // Desktop
-    const activeDesktopItem = desktopCategoryRefs.current[activeCategory];
-    if (activeDesktopItem && desktopCategoryContainerRef.current) {
-      const container = desktopCategoryContainerRef.current;
-      const itemRect = activeDesktopItem.getBoundingClientRect();
-      const containerRect = container.getBoundingClientRect();
-      if (
-        itemRect.top < containerRect.top ||
-        itemRect.bottom > containerRect.bottom
-      ) {
-        activeDesktopItem.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest",
-        });
-      }
+    const desktopItem = desktopCategoryRefs.current[activeCategory];
+    if (desktopItem && desktopCategoryContainerRef.current) {
+      desktopItem.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
     }
   }, [activeCategory]);
 
+  /* =====================
+     FILTER PRODUCTS
+  ===================== */
   const filteredProducts = useMemo(() => {
     return products.filter((p) =>
       p.name.toLowerCase().includes(debouncedSearch.toLowerCase()),
     );
   }, [products, debouncedSearch]);
 
-  const getCartItem = (productId: string) =>
-    cart?.items?.find((item: any) => item.productId?._id === productId);
+  const getCartItem = useCallback(
+  (productId: string) =>
+    cartItems.find((item) => item.productId._id === productId),
+  [cartItems]
+);
 
-  const getProductName = (name: string) => {
-    if (isClient && window.innerWidth < 768 && name.length > 11) {
-      return name.slice(0, 11) + "...";
-    }
-    return name;
-  };
 
-  const handleIncrease = (productId: string, qty: number) => {
-    updateCart({ productId, quantity: qty + 1 });
-  };
+  const getProductName = useCallback(
+    (name: string) => {
+      if (isClient && window.innerWidth < 768 && name.length > 11) {
+        return name.slice(0, 11) + "...";
+      }
+      return name;
+    },
+    [isClient],
+  );
 
-  const handleDecrease = (productId: string, qty: number) => {
-    if (qty <= 1) {
-      removeFromCart({ productId });
-      return;
-    }
-    updateCart({ productId, quantity: qty - 1 });
-  };
+  /* =====================
+     CART HANDLERS
+  ===================== */
+  const handleIncrease = useCallback(
+    (productId: string, qty: number) => {
+      if (isUpdating) return;
+      updateCart({ productId, quantity: qty + 1 });
+    },
+    [updateCart, isUpdating],
+  );
+
+  const handleDecrease = useCallback(
+    (productId: string, qty: number) => {
+      if (isUpdating || isRemoving) return;
+
+      if (qty <= 1) {
+        removeFromCart({ productId });
+        return;
+      }
+      updateCart({ productId, quantity: qty - 1 });
+    },
+    [updateCart, removeFromCart, isUpdating, isRemoving],
+  );
 
   useEffect(() => setIsClient(true), []);
 
@@ -310,6 +347,11 @@ export default function MenuPage() {
                                   productId: product._id,
                                   quantity: 1,
                                   locationId: order?.location?._id,
+                                  product: {
+                                    name: product.name,
+                                    price: product.price,
+                                    imagePath: product.imagePath,
+                                  },
                                 })
                               }
                               className="absolute bottom-2 right-2 cursor-pointer w-9 h-9 bg-white border rounded-lg flex items-center justify-center text-[#56381D] text-xl shadow"
@@ -412,6 +454,11 @@ export default function MenuPage() {
                                           productId: product._id,
                                           quantity: 1,
                                           locationId: order?.location?._id,
+                                          product: {
+                                            name: product.name,
+                                            price: product.price,
+                                            imagePath: product.imagePath,
+                                          },
                                         })
                                       }
                                       className="absolute bottom-2 right-2 cursor-pointer w-9 h-9 bg-white border rounded-lg flex items-center justify-center text-[#56381D] text-xl shadow"
