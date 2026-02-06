@@ -1,7 +1,30 @@
+import type { Metadata } from "next";
 import UpdateProduct from "@/app/components/admin/updateProduct";
 
-export default function index(){
-    return(
-        <UpdateProduct/>
-    )
+export const metadata: Metadata = {
+  title: "Update Product | Tibba Admin",
+  description: "Edit and update product details in the Tibba admin dashboard.",
+
+  robots: {
+    index: false,   // prevent admin pages from being indexed
+    follow: false,
+  },
+
+  openGraph: {
+    title: "Update Product | Tibba Admin",
+    description: "Edit and update product details in the Tibba admin dashboard.",
+    siteName: "Tibba",
+    type: "website",
+    url: "https://tibba.ae/admin/products/update",
+  },
+
+  twitter: {
+    card: "summary",
+    title: "Update Product | Tibba Admin",
+    description: "Edit and update product details in the Tibba admin dashboard.",
+  },
+};
+
+export default function Page() {
+  return <UpdateProduct />;
 }

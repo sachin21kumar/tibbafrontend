@@ -119,7 +119,7 @@ const Navbar = () => {
               Contact Us
             </a>
 
-            <div className="relative py-2">
+            {/* <div className="relative py-2">
               <a
                 href="/onlineordering"
                 className={`${navBase} ${
@@ -128,7 +128,7 @@ const Navbar = () => {
               >
                 Online Ordering
               </a>
-            </div>
+            </div> */}
 
             <div
               className="relative py-2"
