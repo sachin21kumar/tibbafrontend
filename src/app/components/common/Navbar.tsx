@@ -220,7 +220,7 @@ const Navbar = () => {
               { label: "Home", path: "/" },
               { label: "Gallery", path: "/gallery" },
               { label: "Contact Us", path: "/contact" },
-              { label: "Online Ordering", path: "/onlineordering" },
+              // { label: "Online Ordering", path: "/onlineordering" },
               { label: "Locations", path: "/locations" },
               { label: "Reservation", path: "/opentable" },
             ].map((item) => (

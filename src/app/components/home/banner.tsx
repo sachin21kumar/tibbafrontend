@@ -45,12 +45,12 @@ export const Banner = () => {
             <div className="inline-flex flex-col items-center w-fit sm:w-auto mt-7">
               <div className="h-px w-full sm:w-full bg-gradient-to-r from-transparent via-[#d1a054] to-transparent mb-2 sm:mb-3" />
 
-              <button
+              {/* <button
                 className="px-4 sm:px-8 py-2 text-xs sm:text-sm tracking-widest hover:text-[#d1a054] transition cursor-pointer whitespace-nowrap"
                 onClick={() => router.push("/onlineordering")}
               >
                 online ordering
-              </button>
+              </button> */}
 
               <div className="h-px w-full sm:w-full bg-gradient-to-r from-transparent via-[#d1a054] to-transparent mt-2 sm:mt-3" />
             </div>
