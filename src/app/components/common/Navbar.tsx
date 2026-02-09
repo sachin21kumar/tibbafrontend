@@ -10,6 +10,7 @@ import { useGetCartQuery } from "../redux/query/cartQuery/cart.query";
 import { useRouter, usePathname } from "next/navigation";
 import ViewCartModal from "./ViewCartModel";
 import { FaFacebookF, FaInstagram, FaTripadvisor } from "react-icons/fa";
+import Cookies from "js-cookie";
 
 interface Location {
   _id: string;
@@ -18,9 +19,11 @@ interface Location {
 }
 
 const Navbar = () => {
+    const savedLocationId = Cookies.get("selectedLocationId");
+  
   const { data: category } = useGetCategoryQuery();
   const { data: locations } = useGetLocationsQuery();
-  const { data: cart } = useGetCartQuery();
+  const { data: cart } = useGetCartQuery(savedLocationId);
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [desktopOpen, setDesktopOpen] = useState(false);
@@ -31,7 +34,6 @@ const Navbar = () => {
   const navigate = useRouter();
   const pathname = usePathname();
 
-  /* ===== DESKTOP STYLES (UNCHANGED) ===== */
   const navBase =
     "relative uppercase text-sm cursor-pointer tracking-wider px-2 " +
     "after:absolute after:left-1/2 after:bottom-[-4px] after:h-[1.5px] " +
@@ -41,7 +43,6 @@ const Navbar = () => {
   const navHover = "after:w-0 hover:after:w-full";
   const navActive = "after:w-full";
 
-  /* ===== MOBILE STYLES (TEXT WIDTH ONLY) ===== */
   const mobileNavBase =
     "relative inline-block uppercase text-sm cursor-pointer tracking-wider " +
     "after:absolute after:left-0 after:bottom-[-4px] after:h-[1.5px] " +
@@ -49,10 +50,6 @@ const Navbar = () => {
 
   const mobileNavHover = "hover:after:w-full";
   const mobileNavActive = "after:w-full";
-
-  /* =========================
-     MEMOIZED VALUES (ADDED)
-  ========================= */
 
   const cartCount = useMemo(
     () => cart?.items?.length ?? 0,
@@ -63,10 +60,6 @@ const Navbar = () => {
     () => (cart?.totalPrice ? `د.إ ${cart.totalPrice}` : ""),
     [cart?.totalPrice]
   );
-
-  /* =========================
-     HANDLERS (MEMOIZED)
-  ========================= */
 
   const toggleMobile = useCallback(() => {
     setMobileOpen((prev) => !prev);

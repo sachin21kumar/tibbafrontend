@@ -40,11 +40,9 @@ export const AddLocation = () => {
       formData.append("telephone", data.telephone);
       formData.append("mobileNumber", data.mobileNumber);
 
-      // ✅ REQUIRED LAT LNG
       formData.append("lat", data.lat);
       formData.append("lng", data.lng);
 
-      // ✅ REQUIRED IMAGE
       formData.append("image", data.image[0]);
 
       await createLocation(formData as any).unwrap();
@@ -57,8 +55,6 @@ export const AddLocation = () => {
   return (
     <section className="bg-white py-24">
       <div className="container mx-auto max-w-6xl px-6">
-
-        {/* Heading */}
         <div className="text-center mb-20">
           <div className="flex justify-center">
             <p className="font-[allura] text-[#d1a054] text-2xl mb-2 border-b border-[#d1a054] w-[380px]">
@@ -72,10 +68,7 @@ export const AddLocation = () => {
           </div>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-16">
-
-          {/* Name + Area */}
           <div className="grid md:grid-cols-2 gap-12">
             <div>
               <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
@@ -87,7 +80,9 @@ export const AddLocation = () => {
                   ${errors.name ? "border-red-500" : "border-[#d1a054]"}`}
               />
               {errors.name && (
-                <span className="text-xs text-red-500">{errors.name.message}</span>
+                <span className="text-xs text-red-500">
+                  {errors.name.message}
+                </span>
               )}
             </div>
 
@@ -101,12 +96,13 @@ export const AddLocation = () => {
                   ${errors.area ? "border-red-500" : "border-[#d1a054]"}`}
               />
               {errors.area && (
-                <span className="text-xs text-red-500">{errors.area.message}</span>
+                <span className="text-xs text-red-500">
+                  {errors.area.message}
+                </span>
               )}
             </div>
           </div>
 
-          {/* Address */}
           <div>
             <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
               Location / Address *
@@ -117,18 +113,21 @@ export const AddLocation = () => {
                 ${errors.location ? "border-red-500" : "border-[#d1a054]"}`}
             />
             {errors.location && (
-              <span className="text-xs text-red-500">{errors.location.message}</span>
+              <span className="text-xs text-red-500">
+                {errors.location.message}
+              </span>
             )}
           </div>
 
-          {/* Description */}
           <div>
             <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
               Description *
             </label>
             <textarea
               rows={1}
-              {...register("description", { required: "Description is required" })}
+              {...register("description", {
+                required: "Description is required",
+              })}
               className={`w-full resize-none border-b text-[#7A4A2E] !font-[system-ui] bg-transparent outline-none
                 ${errors.description ? "border-red-500" : "border-[#d1a054]"}`}
             />
@@ -139,7 +138,6 @@ export const AddLocation = () => {
             )}
           </div>
 
-          {/* Contact Info */}
           <div className="grid md:grid-cols-3 gap-12">
             <div>
               <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
@@ -174,14 +172,15 @@ export const AddLocation = () => {
                 Telephone *
               </label>
               <input
-                {...register("telephone", { required: "Telephone is required" })}
+                {...register("telephone", {
+                  required: "Telephone is required",
+                })}
                 className={`w-full border-b text-[#7A4A2E] !font-[system-ui] bg-transparent outline-none
                   ${errors.telephone ? "border-red-500" : "border-[#d1a054]"}`}
               />
             </div>
           </div>
 
-          {/* Mobile */}
           <div>
             <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
               Mobile Number *
@@ -196,7 +195,6 @@ export const AddLocation = () => {
             />
           </div>
 
-          {/* ✅ LAT / LNG */}
           <div className="grid md:grid-cols-2 gap-12">
             <div>
               <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
@@ -225,7 +223,6 @@ export const AddLocation = () => {
             </div>
           </div>
 
-          {/* ✅ IMAGE */}
           <div>
             <label className="block text-xs uppercase tracking-widest cursor-pointer text-[#7A4A2E]">
               Location Image *
@@ -237,11 +234,12 @@ export const AddLocation = () => {
               className="mt-2 block text-[#7A4A2E] cursor-pointer w-full text-sm"
             />
             {errors.image && (
-              <span className="text-xs text-red-500">{errors.image.message}</span>
+              <span className="text-xs text-red-500">
+                {errors.image.message}
+              </span>
             )}
           </div>
 
-          {/* Submit */}
           <div className="flex justify-center mt-12">
             <button
               type="submit"

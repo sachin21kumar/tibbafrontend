@@ -11,29 +11,27 @@ type FormValues = {
 };
 
 export default function ContactForm() {
-  const [success, setSuccess] = useState(false); // ✅ NEW
+  const [success, setSuccess] = useState(false);
 
   const {
     register,
     handleSubmit,
-    reset, // ✅ NEW
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>();
 
   const onSubmit = async (data: FormValues) => {
     console.log(data);
 
-    // simulate API call
     await new Promise((resolve) => setTimeout(resolve, 800));
 
-    setSuccess(true); // ✅ show success message
-    reset(); // ✅ clear form
+    setSuccess(true);
+    reset();
   };
 
   return (
     <section className="bg-white py-24">
       <div className="container mx-auto max-w-7xl px-6">
-        {/* Heading */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-[18px] sm:text-[22px] lg:text-[26px] text-[#d1a054] leading-[0.9] sm:leading-[0.8] lg:leading-[0.7]">
             Send Us a Message
@@ -49,9 +47,7 @@ export default function ContactForm() {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 mt-10">
-          {/* Inputs */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {/* Name */}
             <div>
               <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
                 Your Name
@@ -68,8 +64,6 @@ export default function ContactForm() {
                 </span>
               )}
             </div>
-
-            {/* Email */}
             <div>
               <label className="block text-xs uppercase tracking-widest text-[#3E2415] ">
                 Your Email
@@ -93,8 +87,6 @@ export default function ContactForm() {
                 </span>
               )}
             </div>
-
-            {/* Phone */}
             <div>
               <label className="block text-xs uppercase tracking-widest text-[#3E2415]">
                 Your Phone
@@ -115,8 +107,6 @@ export default function ContactForm() {
               )}
             </div>
           </div>
-
-          {/* Message */}
           <div className="m-0">
             <label className="block text-xs  uppercase tracking-widest text-[#3E2415]">
               Your Message
@@ -127,8 +117,6 @@ export default function ContactForm() {
               className="w-full resize-none  border-b text-[#9B7A63] border-[#d1a054] bg-transparent outline-none font-serif"
             />
           </div>
-
-          {/* Submit + Success */}
           <div className="flex flex-col items-center mt-8 gap-4">
             <button
               type="submit"
@@ -140,8 +128,6 @@ export default function ContactForm() {
             >
               {isSubmitting ? "SENDING..." : "BOOK A TABLE"}
             </button>
-
-            {/* ✅ Success Message */}
             {success && (
               <div className="text-sm border-t mt-5 border-b p-4 border-green-600 text-[#d1a054] font-[system-ui] w-full text-center">
                 Thank you for your message. It has been sent.

@@ -31,12 +31,15 @@ export default function AddToCartModal({
     skip: !productId,
   });
 
-  const { data: cart } = useGetCartQuery();
+  const { data: cart } = useGetCartQuery(savedLocationId!, {
+    skip: !savedLocationId,
+  });
 
   const [addToCart, { isLoading: isAdding }] = useAddToCartMutation();
   const [updateCart, { isLoading: isUpdating }] = useUpdateCartMutation();
   const [removeFromCart, { isLoading: isRemoving }] =
     useRemoveFromCartMutation();
+
   const [localQty, setLocalQty] = useState<number>(1);
 
   const cartItem = cart?.items?.find(
@@ -45,10 +48,6 @@ export default function AddToCartModal({
 
   const isInCart = Boolean(cartItem);
   const quantity = isInCart ? localQty : 1;
-
-  /* =========================
-     HOOKS MUST BE ABOVE RETURN
-  ========================= */
 
   const handleAddToCart = useCallback(() => {
     if (!savedLocationId) {
@@ -80,31 +79,40 @@ export default function AddToCartModal({
   ]);
 
   const handleIncrease = useCallback(() => {
-    if (!product || isUpdating) return;
+    if (!product || isUpdating || !savedLocationId) return;
 
-    setLocalQty((q) => q + 1); // 🔥 instant UI update
+    const nextQty = localQty + 1;
+
+    setLocalQty(nextQty);
 
     updateCart({
       productId: product._id,
-      quantity: localQty + 1,
+      quantity: nextQty,
+      locationId: savedLocationId,
     });
-  }, [isUpdating, updateCart, product, localQty]);
+  }, [isUpdating, updateCart, product, localQty, savedLocationId]);
 
   const handleDecrease = useCallback(() => {
-    if (!product || isUpdating || isRemoving) return;
+    if (!product || isUpdating || isRemoving || !savedLocationId) return;
 
     if (localQty <= 1) {
       setLocalQty(1);
-      removeFromCart({ productId: product._id });
+      removeFromCart({
+        productId: product._id,
+        locationId: savedLocationId,
+      });
       onClose();
       return;
     }
 
-    setLocalQty((q) => q - 1); // 🔥 instant UI update
+    const nextQty = localQty - 1;
+
+    setLocalQty(nextQty);
 
     updateCart({
       productId: product._id,
-      quantity: localQty - 1,
+      quantity: nextQty,
+      locationId: savedLocationId,
     });
   }, [
     isUpdating,
@@ -114,6 +122,7 @@ export default function AddToCartModal({
     updateCart,
     product,
     onClose,
+    savedLocationId,
   ]);
 
   useEffect(() => {
@@ -122,7 +131,6 @@ export default function AddToCartModal({
     }
   }, [cartItem?.quantity]);
 
-  /* ✅ SAFE EARLY RETURN — AFTER ALL HOOKS */
   if (isLoading || !product) return null;
 
   return (
@@ -151,7 +159,6 @@ export default function AddToCartModal({
             leaveTo="opacity-0 scale-95"
           >
             <Dialog.Panel className="min-w-[50%] w-full max-w-md rounded-2xl bg-white shadow-xl overflow-hidden">
-              {/* HEADER */}
               <div className="flex justify-between py-[16px] px-[24px] pb-4">
                 <div className="flex gap-6 items-center">
                   <img
@@ -203,8 +210,6 @@ export default function AddToCartModal({
               </div>
 
               <div className="border-b border-b-[#d1a054] h-[1px] w-full" />
-
-              {/* FOOTER */}
               <div
                 className={`p-4 flex ${
                   !isInCart

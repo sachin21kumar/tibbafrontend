@@ -29,7 +29,6 @@ export default function OpenTable() {
     },
   });
 
-  // 🔑 Submit & Save Reservation
   const onSubmit = async (data: FormValues) => {
     try {
       setErrorMsg("");
@@ -37,19 +36,18 @@ export default function OpenTable() {
       await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/reservation`, {
         date: data.date,
         time: data.time,
-        guests: Number(data.guests), // 🔴 important
+        guests: Number(data.guests),
       });
 
       const query = new URLSearchParams(data).toString();
       router.push(`/reservation?${query}`);
     } catch (error: any) {
       setErrorMsg(
-        error?.response?.data?.message || "Failed to create reservation"
+        error?.response?.data?.message || "Failed to create reservation",
       );
     }
   };
 
-  // 🔑 Generate time slots (9 AM – 10 PM)
   const generateTimeSlots = () => {
     const times: string[] = [];
     let hour = 9;
@@ -95,7 +93,6 @@ export default function OpenTable() {
 
         <form onSubmit={handleSubmit(onSubmit)} className="mt-9">
           <div className="max-w-[1288px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
-            {/* DATE */}
             <div className="flex flex-col">
               <label className="text-[#d1a054] text-[12px] mb-1">DATE</label>
               <input
@@ -110,7 +107,6 @@ export default function OpenTable() {
               )}
             </div>
 
-            {/* TIME */}
             <div className="flex flex-col">
               <label className="text-[#d1a054] text-[12px]">TIME</label>
               <select
@@ -130,9 +126,10 @@ export default function OpenTable() {
               )}
             </div>
 
-            {/* GUESTS */}
             <div className="flex flex-col">
-              <label className="text-[#d1a054] text-[12px] ">GUEST NUMBER</label>
+              <label className="text-[#d1a054] text-[12px] ">
+                GUEST NUMBER
+              </label>
               <select
                 className="border-b border-[#d1a054] text-[#d1a054] py-2 bg-transparent focus:outline-none"
                 {...register("guests", { required: "Guests required" })}
@@ -150,7 +147,6 @@ export default function OpenTable() {
               )}
             </div>
 
-            {/* ERROR */}
             {errorMsg && (
               <div className="md:col-span-3 text-center text-red-600 text-sm">
                 {errorMsg}

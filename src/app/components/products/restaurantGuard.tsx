@@ -9,7 +9,7 @@ import Image from "next/image";
 export const RestaurantCard = ({ order }) => {
   const locationId = order?.location?._id;
   const { data: location, isLoading } = useGetLocationByIdQuery(locationId, {
-    skip: !locationId, // skip the query if id is undefined
+    skip: !locationId,
   });
   const dispatch = useAppDispatch();
   const [selectedOption, setSelectedOption] = useState<"delivery" | "pickup">(
@@ -100,8 +100,8 @@ export const RestaurantCard = ({ order }) => {
           <Image
             src="/offFrame.png"
             alt="Off Frame"
-            width={800} // safe default, Next.js needs this
-            height={400} // keeps aspect ratio
+            width={800}
+            height={400}
             className="w-full sm:w-auto h-auto"
           />
         </div>

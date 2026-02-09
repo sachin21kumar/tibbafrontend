@@ -19,7 +19,6 @@ const openingHours = [
   "Sunday",
 ];
 
-// Fix default Leaflet marker icon
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: "/marker-icon-2x.png",
@@ -27,7 +26,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "/marker-shadow.png",
 });
 
-// Helper to auto-fit bounds
 const FitBounds = ({
   locations,
 }: {
@@ -55,7 +53,6 @@ export default function LocationDetails() {
 
   const today = new Date().toLocaleDateString("en-US", { weekday: "long" });
 
-  // Prepare valid location for the map
   const validLocation =
     location?.lat !== undefined && location?.lng !== undefined
       ? [{ lat: location.lat, lng: location.lng }]
@@ -81,7 +78,6 @@ export default function LocationDetails() {
       <section className="bg-white ">
         <div className="container mx-auto max-w-7xl px-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 md:gap-16 gap-7 items-start ">
-            {/* Info Section */}
             <div className="lg:col-span-2 space-y-8 xl:py-20 py-10">
               <div className="w-fit">
                 <h1 className="md:text-4xl text-[28px] tracking-wide text-[#d1a054] pb-2 w-fit">
@@ -94,7 +90,6 @@ export default function LocationDetails() {
                 {location?.description}
               </p>
 
-              {/* Location */}
               <div className="flex items-center gap-4">
                 <div className="min-w-[40px] h-[40px] rounded-[63%_37%_30%_70%_/_50%_45%_55%_50%] bg-[#d1a054] text-white flex items-center justify-center text-[14px]">
                   <Image
@@ -107,7 +102,6 @@ export default function LocationDetails() {
                 <span className="text-[#7a4a2e]">{location?.location}</span>
               </div>
 
-              {/* Phone */}
               <div className="flex items-center gap-4">
                 <div className="min-w-[40px] h-[40px] rounded-[63%_37%_30%_70%_/_50%_45%_55%_50%] bg-[#d1a054] text-white flex items-center justify-center text-[14px]">
                   <Image
@@ -125,7 +119,6 @@ export default function LocationDetails() {
               </div>
             </div>
 
-            {/* Opening Hours */}
             <div className="bg-white shadow-xl border border-[#f8f8f8] md:p-8">
               <div className="flex items-center justify-center">
                 <h3 className="border-b border-b-[#d1a054] text-[#d1a054] font-[allura] text-[32px] pb-1 w-fit mb-6">
@@ -160,7 +153,6 @@ export default function LocationDetails() {
         <LocationForm />
         <LocationsGrid />
 
-        {/* React-Leaflet Map */}
         <div className="mt-15">
           <div className="w-full xl:h-[364px] h-[329px] overflow-hidden border border-[#d1a054]">
             {validLocation.length > 0 ? (
@@ -176,9 +168,9 @@ export default function LocationDetails() {
                 } as any)}
               >
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                <Marker position={[validLocation[0].lat, validLocation[0].lng]}>
-                  {/* <Popup>{location?.name}</Popup> */}
-                </Marker>
+                <Marker
+                  position={[validLocation[0].lat, validLocation[0].lng]}
+                ></Marker>
                 <FitBounds locations={validLocation} />
               </MapContainer>
             ) : (

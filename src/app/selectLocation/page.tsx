@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     "Choose your delivery or pickup location to continue ordering from Tibba.",
 
   robots: {
-    index: false,   // user-flow page → do NOT index
+    index: false,
     follow: false,
   },
 

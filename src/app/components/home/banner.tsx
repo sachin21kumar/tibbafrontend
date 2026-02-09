@@ -25,7 +25,6 @@ export const Banner = () => {
             <div className="inline-block">
               <div className="mb-2 h-px w-full bg-gradient-to-r from-transparent via-white to-transparent" />
 
-              {/* Hero Title */}
               <h1 className="hero-title text-3xl sm:text-4xl md:text-6xl font-cinzel tracking-wide whitespace-normal sm:whitespace-nowrap">
                 TIBBA RESTAURANT
               </h1>
@@ -34,13 +33,11 @@ export const Banner = () => {
             </div>
           </div>
 
-          {/* Description */}
           <div className="xl:p-4 pt-6 sm:p-6 font-[system-ui] text-[15px] sm:text-base md:text-[20px] sm:max-w-[560px] mx-auto text-white/90 leading-relaxed">
             Welcome to <b>Tibba Restaurant</b>, where authentic Yemeni flavors
             thrive. Enjoy a memorable dining experience and explore our menu.
           </div>
 
-          {/* Button */}
           <div className="flex justify-center">
             <div className="inline-flex flex-col items-center w-fit sm:w-auto mt-7">
               <div className="h-px w-full sm:w-full bg-gradient-to-r from-transparent via-[#d1a054] to-transparent mb-2 sm:mb-3" />

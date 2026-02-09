@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     "Add and manage delivery or store locations in the Tibba admin dashboard.",
 
   robots: {
-    index: false, // do NOT index admin pages
+    index: false,
     follow: false,
   },
 

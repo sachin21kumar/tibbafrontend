@@ -7,11 +7,20 @@ import {
   useRemoveFromCartMutation,
   useUpdateCartMutation,
 } from "../redux/query/cartQuery/cart.query";
+import Cookies from "js-cookie";
 
 export default function CartPage() {
   const router = useRouter();
 
-  const { data: cart, isLoading, isError }: any = useGetCartQuery();
+  const locationId = Cookies.get("selectedLocationId");
+
+  const {
+    data: cart,
+    isLoading,
+    isError,
+  }: any = useGetCartQuery(locationId!, {
+    skip: !locationId,
+  });
 
   const [updateCart, { isLoading: isUpdating }] = useUpdateCartMutation();
   const [removeFromCart, { isLoading: isRemoving }] =
@@ -19,30 +28,43 @@ export default function CartPage() {
 
   const handleIncrease = useCallback(
     (productId: string, currentQty: number) => {
-      updateCart({ productId, quantity: currentQty + 1 });
+      if (!locationId || isUpdating) return;
+
+      updateCart({
+        productId,
+        quantity: currentQty + 1,
+        locationId,
+      });
     },
-    [updateCart],
+    [updateCart, isUpdating, locationId],
   );
 
   const handleDecrease = useCallback(
     (productId: string, currentQty: number) => {
+      if (!locationId || isUpdating) return;
+
       if (currentQty > 1) {
-        updateCart({ productId, quantity: currentQty - 1 });
+        updateCart({
+          productId,
+          quantity: currentQty - 1,
+          locationId,
+        });
       }
     },
-    [updateCart],
+    [updateCart, isUpdating, locationId],
   );
 
   const handleRemove = useCallback(
     (productId: string) => {
-      removeFromCart({ productId });
-    },
-    [removeFromCart],
-  );
+      if (!locationId || isRemoving) return;
 
-  /* =======================
-     STATES
-  ======================= */
+      removeFromCart({
+        productId,
+        locationId,
+      });
+    },
+    [removeFromCart, isRemoving, locationId],
+  );
   const subtotal = useMemo(() => {
     return cart?.items?.reduce(
       (acc, item) => acc + item.quantity * item.productId.price,
@@ -58,19 +80,7 @@ export default function CartPage() {
     return <p className="text-center my-12">Cart is empty.</p>;
   }
 
-  /* =======================
-     HANDLERS (MEMOIZED)
-  ======================= */
-
-  /* =======================
-     CALCULATIONS (MEMOIZED)
-  ======================= */
-
   const total = subtotal;
-
-  /* =======================
-     RENDER
-  ======================= */
 
   return (
     <>
@@ -79,7 +89,6 @@ export default function CartPage() {
       </h1>
 
       <div className="max-w-[1288px] mx-auto md:my-[90px] px-4 grid grid-cols-1 lg:grid-cols-[1fr_430px] gap-6">
-        {/* CART ITEMS */}
         <div className="py-[24px] overflow-x-auto">
           <table className="w-full min-w-[600px] border-separate border-spacing-y-4">
             <thead className="border-collapse">
@@ -99,7 +108,6 @@ export default function CartPage() {
                   className="rounded-xl border-r-0 transition-all
              bg-[linear-gradient(to_left,#fafafa_0px,#fafafa_70px,transparent_870px)]"
                 >
-                  {/* PRODUCT */}
                   <td
                     className="flex items-center gap-4 text-[#7a4a2e] p-4 cursor-pointer min-w-[150px]"
                     onClick={() =>
@@ -122,12 +130,10 @@ export default function CartPage() {
                     </span>
                   </td>
 
-                  {/* PRICE */}
                   <td className="text-[#7a4a2e] px-4 sm:px-8 py-4 whitespace-nowrap">
                     د.إ {item.productId.price.toFixed(2)}
                   </td>
 
-                  {/* QUANTITY */}
                   <td className="px-4 sm:px-8 py-4">
                     <div className="flex items-center rounded-full text-[#7a4a2e] overflow-hidden w-24 sm:w-auto">
                       <button
@@ -159,7 +165,6 @@ export default function CartPage() {
                     </div>
                   </td>
 
-                  {/* SUBTOTAL */}
                   <td className="text-[#7a4a2e] whitespace-nowrap px-4 sm:px-8 py-4">
                     د.إ {(item.productId.price * item.quantity).toFixed(2)}
                     <button
@@ -177,7 +182,6 @@ export default function CartPage() {
           </table>
         </div>
 
-        {/* TOTALS */}
         <div className="w-full bg-white border border-[#d1a054] rounded-xl shadow-xl p-6 sm:p-[40px] h-fit">
           <div>
             <h2 className="text-[1.5rem] mb-4 border-b text-[#d1a054] border-b-[#d1a054]">

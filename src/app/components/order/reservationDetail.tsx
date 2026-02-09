@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 type FormValues = {
   firstName: string;
@@ -66,14 +66,13 @@ export default function ReservationDetails() {
 
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/reservationhotel`,
-        payload
+        payload,
       );
       reset();
       toast.success("Reservation completed successfully");
-
     } catch (err: any) {
       toast.error(
-        err?.response?.data?.message || "Failed to complete reservation"
+        err?.response?.data?.message || "Failed to complete reservation",
       );
 
       console.error(err);

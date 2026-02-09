@@ -12,9 +12,10 @@ export default function SelectLocationPage() {
   const { data }: any = useGetLocationsQuery();
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null);
+  const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
+    null,
+  );
 
-  // Load selected location from cookie on mount
   useEffect(() => {
     const savedLocation = Cookies.get("selectedLocationId");
     if (savedLocation) {
@@ -23,21 +24,17 @@ export default function SelectLocationPage() {
   }, []);
 
   const handleSelectLocation = (loc: any) => {
-    // Save selection in cookie (expires in 7 days)
     Cookies.set("selectedLocationId", loc._id, { expires: 7 });
     setSelectedLocationId(loc._id);
 
-    // Update redux state
     dispatch(setLocation(loc));
 
-    // Navigate to menu page
     router.push("/onlineordering");
   };
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
       <div className="w-full max-w-xl">
-        {/* Header */}
         <div className="mb-6 text-center">
           <h1 className="text-2xl font-semibold text-[#d1a054]">
             Choose a Restaurant Location
@@ -47,7 +44,6 @@ export default function SelectLocationPage() {
           </span>
         </div>
 
-        {/* Locations List */}
         <div className="space-y-3">
           {data?.map((loc: any) => {
             const isSelected = loc._id === selectedLocationId;

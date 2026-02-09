@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "Securely complete your purchase on Tibba.",
 
   robots: {
-    index: false, // checkout pages must not be indexed
+    index: false,
     follow: false,
   },
 

@@ -1,12 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-// Category type
 export interface Category {
   _id: string;
   title: string;
 }
 
-// Product type
 export interface Product {
   _id: string;
   name: string;
@@ -16,7 +14,6 @@ export interface Product {
   categoryId?: string;
 }
 
-// API Response type
 export interface ProductResponse {
   data: Product[];
   total: number;
@@ -24,7 +21,6 @@ export interface ProductResponse {
   limit: number;
 }
 
-// Add Product Payload
 export interface AddProductPayload {
   formData: FormData;
 }
@@ -36,12 +32,11 @@ export const productApi = createApi({
   }),
   tagTypes: ["Product"],
   endpoints: (builder) => ({
-    // GET PRODUCTS
     getProducts: builder.query<
       ProductResponse,
       {
         categoryId?: string;
-        name?: string; // <-- added filter by name
+        name?: string;
         page?: number;
         limit?: number;
         sortBy?: "price" | "name";
@@ -50,7 +45,7 @@ export const productApi = createApi({
     >({
       query: ({
         categoryId,
-        name, // <-- added
+        name,
         page = 1,
         limit = 500,
         sortBy = "price",
@@ -58,7 +53,7 @@ export const productApi = createApi({
       }) => {
         const params = new URLSearchParams();
         if (categoryId) params.append("categoryId", categoryId);
-        if (name) params.append("name", name); // <-- append name filter
+        if (name) params.append("name", name);
         params.append("page", page.toString());
         params.append("limit", limit.toString());
         // params.append("sortBy", sortBy);
@@ -68,13 +63,11 @@ export const productApi = createApi({
       providesTags: ["Product"],
     }),
 
-    // GET PRODUCT BY ID
     getProductById: builder.query<Product, string>({
       query: (id) => `product/${id}`,
       providesTags: (result, error, id) => [{ type: "Product", id }],
     }),
 
-    // ADD PRODUCT
     addProduct: builder.mutation<Product, AddProductPayload>({
       query: ({ formData }) => ({
         url: "product",

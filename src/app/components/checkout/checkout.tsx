@@ -23,10 +23,12 @@ type CheckoutFormValues = {
 };
 
 export const CheckoutPage = () => {
+  const locationId = Cookies.get("selectedLocationId");
+
   const router = useRouter();
   const [checkout, { isLoading: checkoutLoading }] =
     useCreateCheckoutMutation();
-  const { data: cart, isLoading, isError } = useGetCartQuery();
+  const { data: cart, isLoading, isError } = useGetCartQuery(locationId);
   const [confirmPayment] = useConfirmPaymentMutation();
   const [customerLatLng, setCustomerLatLng] = useState<any>(null);
   const [addressValidationError, setAddressValidationError] = useState<
@@ -206,7 +208,6 @@ export const CheckoutPage = () => {
             </label>
 
             <div className="flex gap-3">
-              {/* DELIVERY */}
               <label className="cursor-pointer">
                 <input
                   type="radio"

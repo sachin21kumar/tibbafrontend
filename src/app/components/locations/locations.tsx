@@ -1,7 +1,6 @@
 "use client";
 import dynamic from "next/dynamic";
 import { useGetLocationsQuery } from "../redux/query/locationsQuery/location.query";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 const Location = dynamic(
   () => import("../home/locations").then((mod) => mod.Location),
@@ -23,7 +22,6 @@ interface Location {
 }
 
 export default function LocationCard() {
-  const router = useRouter();
   const { data: locations } = useGetLocationsQuery();
 
   return (

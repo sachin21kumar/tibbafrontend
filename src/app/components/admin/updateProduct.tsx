@@ -3,22 +3,22 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Swal from "sweetalert2";
-import { useGetProductByIdQuery, useUpdateProductMutation } from "../redux/query/productsQuery/productsQuery";
-
+import {
+  useGetProductByIdQuery,
+  useUpdateProductMutation,
+} from "../redux/query/productsQuery/productsQuery";
 
 export default function UpdateProduct() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
 
   const { data, isLoading } = useGetProductByIdQuery(id);
-  const [updateProduct, { isLoading: isUpdating }] =
-    useUpdateProductMutation();
+  const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState<number | "">("");
   const [image, setImage] = useState<File | null>(null);
 
-  // Populate form
   useEffect(() => {
     if (data) {
       setName(data.name);
@@ -70,11 +70,8 @@ export default function UpdateProduct() {
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded-lg shadow space-y-4"
       >
-        {/* Name */}
         <div>
-          <label className="block text-sm font-medium mb-1">
-            Product Name
-          </label>
+          <label className="block text-sm font-medium mb-1">Product Name</label>
           <input
             className="w-full border px-3 py-2 rounded"
             value={name}
@@ -83,11 +80,8 @@ export default function UpdateProduct() {
           />
         </div>
 
-        {/* Price */}
         <div>
-          <label className="block text-sm font-medium mb-1">
-            Price
-          </label>
+          <label className="block text-sm font-medium mb-1">Price</label>
           <input
             type="number"
             className="w-full border px-3 py-2 rounded"
@@ -97,7 +91,6 @@ export default function UpdateProduct() {
           />
         </div>
 
-        {/* Image */}
         <div>
           <label className="block text-sm font-medium mb-1">
             Update Image (optional)

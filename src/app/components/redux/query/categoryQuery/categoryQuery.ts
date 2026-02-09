@@ -25,13 +25,11 @@ export const categoryApi = createApi({
   }),
   tagTypes: ["Category"],
   endpoints: (builder) => ({
-    // GET
     getCategory: builder.query<CategoryResponse, void>({
       query: () => "category",
       providesTags: ["Category"],
     }),
 
-    // UPDATE
     updateCategory: builder.mutation<Category, UpdateCategoryPayload>({
       query: ({ id, title }) => ({
         url: `category/${id}`,
@@ -41,7 +39,6 @@ export const categoryApi = createApi({
       invalidatesTags: ["Category"],
     }),
 
-    // DELETE
     deleteCategory: builder.mutation<{ message: string }, string>({
       query: (id) => ({
         url: `category/${id}`,
@@ -64,5 +61,5 @@ export const {
   useGetCategoryQuery,
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,
-  useAddCategoryMutation
+  useAddCategoryMutation,
 } = categoryApi;

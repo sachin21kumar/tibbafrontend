@@ -54,7 +54,6 @@ export const AddProduct = () => {
           Add Product
         </h2>
 
-        {/* Name */}
         <div>
           <input
             type="text"
@@ -66,13 +65,10 @@ export const AddProduct = () => {
             })}
           />
           {errors.name && (
-            <span className="text-red-500 text-sm">
-              {errors.name.message}
-            </span>
+            <span className="text-red-500 text-sm">{errors.name.message}</span>
           )}
         </div>
 
-        {/* Price */}
         <div>
           <input
             type="number"
@@ -85,13 +81,10 @@ export const AddProduct = () => {
             })}
           />
           {errors.price && (
-            <span className="text-red-500 text-sm">
-              {errors.price.message}
-            </span>
+            <span className="text-red-500 text-sm">{errors.price.message}</span>
           )}
         </div>
 
-        {/* Category */}
         <div>
           <input
             type="text"
@@ -108,7 +101,6 @@ export const AddProduct = () => {
           )}
         </div>
 
-        {/* Description */}
         <textarea
           placeholder="Description (optional)"
           rows={3}
@@ -116,7 +108,6 @@ export const AddProduct = () => {
           {...register("description")}
         />
 
-        {/* Image */}
         <div>
           <input
             type="file"
@@ -127,9 +118,7 @@ export const AddProduct = () => {
             className="text-[#7a4a2e] cursor-pointer w-full"
           />
           {errors.image && (
-            <span className="text-red-500 text-sm">
-              {errors.image.message}
-            </span>
+            <span className="text-red-500 text-sm">{errors.image.message}</span>
           )}
         </div>
 
@@ -140,8 +129,6 @@ export const AddProduct = () => {
         >
           {isLoading ? "Saving..." : "Add Product"}
         </button>
-
-        
       </form>
     </div>
   );

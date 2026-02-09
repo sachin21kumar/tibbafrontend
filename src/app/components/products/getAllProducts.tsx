@@ -33,6 +33,8 @@ interface Category {
 }
 
 export default function MenuPage() {
+  const savedLocationId = Cookies.get("selectedLocationId");
+
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -55,19 +57,16 @@ export default function MenuPage() {
     useGetCategoryQuery();
   const { data: productsResponse, isLoading: productsLoading } =
     useGetProductsQuery({ limit: 1000 });
-  const { items: cartItems } = useGetCartQuery(undefined, {
-  selectFromResult: ({ data }) => ({
-    items: data?.items ?? [],
-  }),
-});
-
+  const { items: cartItems } = useGetCartQuery(savedLocationId!, {
+    skip: !savedLocationId,
+    selectFromResult: ({ data }) => ({
+      items: data?.items ?? [],
+    }),
+  });
 
   const categories: Category[] = categoriesResponse?.data || [];
   const products: any[] = productsResponse?.data || [];
 
-  /* =====================
-     SORT CATEGORIES
-  ===================== */
   const sortedCategories = useMemo(() => {
     if (!categories.length) return [];
     const popular = categories.find((cat) => cat.title === "Popular Meals");
@@ -75,9 +74,6 @@ export default function MenuPage() {
     return popular ? [popular, ...others] : categories;
   }, [categories]);
 
-  /* =====================
-     REFS
-  ===================== */
   const categoryRefs = useRef<Record<string, HTMLElement | null>>({});
   const desktopCategoryRefs = useRef<Record<string, HTMLLIElement | null>>({});
   const mobileCategoryContainerRef = useRef<HTMLDivElement | null>(null);
@@ -86,9 +82,6 @@ export default function MenuPage() {
     Record<string, HTMLButtonElement | null>
   >({});
 
-  /* =====================
-     LOCATION SYNC
-  ===================== */
   const order = useAppSelector((state) => state.order);
 
   useEffect(() => {
@@ -103,9 +96,6 @@ export default function MenuPage() {
     }
   }, [order.location, dispatch, router]);
 
-  /* =====================
-     SCROLL HANDLERS
-  ===================== */
   const scrollToCategory = useCallback((categoryId: string) => {
     categoryRefs.current[categoryId]?.scrollIntoView({
       behavior: "smooth",
@@ -119,9 +109,6 @@ export default function MenuPage() {
     }
   }, [sortedCategories, activeCategory]);
 
-  /* =====================
-     CATEGORY OBSERVER
-  ===================== */
   useEffect(() => {
     if (!categories.length || debouncedSearch) return;
 
@@ -145,9 +132,6 @@ export default function MenuPage() {
     return () => observer.disconnect();
   }, [categories, products, debouncedSearch]);
 
-  /* =====================
-     MOBILE + DESKTOP AUTO SCROLL
-  ===================== */
   useEffect(() => {
     if (!activeCategory) return;
 
@@ -168,9 +152,6 @@ export default function MenuPage() {
     }
   }, [activeCategory]);
 
-  /* =====================
-     FILTER PRODUCTS
-  ===================== */
   const filteredProducts = useMemo(() => {
     return products.filter((p) =>
       p.name.toLowerCase().includes(debouncedSearch.toLowerCase()),
@@ -178,11 +159,10 @@ export default function MenuPage() {
   }, [products, debouncedSearch]);
 
   const getCartItem = useCallback(
-  (productId: string) =>
-    cartItems.find((item) => item.productId._id === productId),
-  [cartItems]
-);
-
+    (productId: string) =>
+      cartItems.find((item) => item.productId._id === productId),
+    [cartItems],
+  );
 
   const getProductName = useCallback(
     (name: string) => {
@@ -194,28 +174,38 @@ export default function MenuPage() {
     [isClient],
   );
 
-  /* =====================
-     CART HANDLERS
-  ===================== */
   const handleIncrease = useCallback(
     (productId: string, qty: number) => {
-      if (isUpdating) return;
-      updateCart({ productId, quantity: qty + 1 });
+      if (isUpdating || !order.location?._id) return;
+
+      updateCart({
+        productId,
+        quantity: qty + 1,
+        locationId: order.location._id,
+      });
     },
-    [updateCart, isUpdating],
+    [updateCart, isUpdating, order.location?._id],
   );
 
   const handleDecrease = useCallback(
     (productId: string, qty: number) => {
-      if (isUpdating || isRemoving) return;
+      if (isUpdating || isRemoving || !order.location?._id) return;
 
       if (qty <= 1) {
-        removeFromCart({ productId });
+        removeFromCart({
+          productId,
+          locationId: order.location._id,
+        });
         return;
       }
-      updateCart({ productId, quantity: qty - 1 });
+
+      updateCart({
+        productId,
+        quantity: qty - 1,
+        locationId: order.location._id,
+      });
     },
-    [updateCart, removeFromCart, isUpdating, isRemoving],
+    [updateCart, removeFromCart, isUpdating, isRemoving, order.location?._id],
   );
 
   useEffect(() => setIsClient(true), []);

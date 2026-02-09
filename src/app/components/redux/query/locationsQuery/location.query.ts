@@ -12,16 +12,16 @@ export interface Location {
   mobileNumber?: string;
   createdAt?: string;
   updatedAt?: string;
-  imagePath?:string
-  lat?:any,
-  lng?:any
+  imagePath?: string;
+  lat?: any;
+  lng?: any;
 }
 
 export interface CreateLocationPayload {
   name: string;
   description?: string;
   area: string;
-  location: string; // ✅ single field now
+  location: string;
   operation_hours?: string;
   branchEmail?: string;
   telephone?: string;
@@ -31,8 +31,6 @@ export interface CreateLocationPayload {
 export interface UpdateLocationPayload extends Partial<CreateLocationPayload> {
   id: string;
 }
-
-// DTO for select/update location
 export interface SelectLocationPayload {
   locationId: string;
 }
@@ -44,7 +42,6 @@ export const locationsApi = createApi({
   }),
   tagTypes: ["Locations"],
   endpoints: (builder) => ({
-    // ------------------ Existing endpoints ------------------
     getLocations: builder.query<Location[], void>({
       query: () => "locations",
       providesTags: ["Locations"],
@@ -81,8 +78,10 @@ export const locationsApi = createApi({
       invalidatesTags: ["Locations"],
     }),
 
-    // ------------------ Selected location endpoints ------------------
-    selectLocation: builder.mutation<{ message: string; locationId: string }, SelectLocationPayload>({
+    selectLocation: builder.mutation<
+      { message: string; locationId: string },
+      SelectLocationPayload
+    >({
       query: (body) => ({
         url: "locations/select",
         method: "POST",
@@ -96,7 +95,10 @@ export const locationsApi = createApi({
       providesTags: ["Locations"],
     }),
 
-    updateSelectedLocation: builder.mutation<{ message: string; locationId: string }, SelectLocationPayload>({
+    updateSelectedLocation: builder.mutation<
+      { message: string; locationId: string },
+      SelectLocationPayload
+    >({
       query: (body) => ({
         url: "locations/selected",
         method: "PATCH",

@@ -70,7 +70,6 @@ export const Contact = () => {
               key={index}
               className="relative bg-[#7f7f7f0d] border border-[#d1a054] rounded-lg p-8 text-center shadow-sm"
             >
-              {/* Icon badge */}
               <div
                 className="absolute
             flex
@@ -92,7 +91,6 @@ export const Contact = () => {
                 {card.icon}
               </div>
 
-              {/* Card content */}
               <h3 className="mt-8 text-[20px] text-[#d1a054]">{card.title}</h3>
               <p className="mt-2 text-[#7A4A2E] font-light !font-[system-ui] whitespace-pre-line">
                 {card.text}

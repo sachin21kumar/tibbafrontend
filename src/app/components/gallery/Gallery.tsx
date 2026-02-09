@@ -19,7 +19,7 @@ export const Gallery = () => {
     if (!productRes?.data || !categoryRes?.data) return [];
 
     const popularCategory = categoryRes.data.find(
-      (cat: any) => cat?.title?.trim().toLowerCase() === "popular meals"
+      (cat: any) => cat?.title?.trim().toLowerCase() === "popular meals",
     );
 
     if (!popularCategory) return [];
@@ -29,13 +29,12 @@ export const Gallery = () => {
       .map((product: any) =>
         product.imagePath
           ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
-          : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
+          : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png",
       );
   }, [productRes, categoryRes]);
 
   return (
     <>
-      {/* Header */}
       <div className="relative w-full h-40 sm:h-48 md:h-56 xl:h-100 flex items-center justify-center">
         <Image
           src="/header.webp"
@@ -50,7 +49,6 @@ export const Gallery = () => {
         </h1>
       </div>
 
-      {/* Gallery Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 max-w-[1288px] mx-auto p-4 py-8">
         {isLoading
           ? Array.from({ length: 6 }).map((_, i) => (
@@ -80,7 +78,6 @@ export const Gallery = () => {
             ))}
       </div>
 
-      {/* Lightbox */}
       {open && (
         <Lightbox
           open={open}

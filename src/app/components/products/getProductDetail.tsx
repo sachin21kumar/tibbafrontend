@@ -26,7 +26,6 @@ export default function ProductDetail() {
     <div className="max-w-[1508px] mx-auto my-12 bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row">
       <div className="absolute inset-0 bg-gradient-to-b from-[#4e4719] via-transparent to-white -z-10"></div>
 
-      {/* Image Container */}
       <div className="w-full md:w-[754px] h-[300px] sm:h-[400px] md:h-[502px] flex-shrink-0">
         <img
           src={
@@ -39,7 +38,6 @@ export default function ProductDetail() {
         />
       </div>
 
-      {/* Product Info */}
       <div className="w-full md:w-[754px] p-6 md:p-8 flex flex-col justify-between">
         <div>
           <h1 className="text-2xl sm:text-3xl mb-2">{product.name}</h1>
@@ -54,7 +52,6 @@ export default function ProductDetail() {
           )}
         </div>
 
-        {/* Price & Actions */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0 mt-6">
           <span className="text-2xl font-semibold text-[#d1a054]">
             د.إ {product.price.toFixed(2)}
@@ -84,10 +81,7 @@ export default function ProductDetail() {
               View Cart
             </button>
 
-            <button
-              
-              className="bg-[#d1a054] cursor-pointer hover:opacity-90 text-white font-medium py-3 px-6 rounded-full shadow-md transition-all duration-200 w-full md:w-auto"
-            >
+            <button className="bg-[#d1a054] cursor-pointer hover:opacity-90 text-white font-medium py-3 px-6 rounded-full shadow-md transition-all duration-200 w-full md:w-auto">
               Add to Cart
             </button>
           </div>

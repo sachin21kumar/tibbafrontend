@@ -18,17 +18,13 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family:"cinzel";
-  /* overflow: hidden; */
 }
 
 
-/* Hide submenu by default */
-/* Wrapper keeps hover alive */
 .menu_wrapper {
   position: relative;
 }
 
-/* Hide submenu by default */
 .menu_item__sub_menu {
   display: none;
   visibility: hidden;
@@ -36,24 +32,18 @@ body {
   transition: opacity 0.2s ease;
 }
 
-/* Show submenu on hover */
 .menu_wrapper:hover .menu_item__sub_menu {
   display: grid;
   visibility: visible;
   opacity: 1;
 }
 
-/* Optional UX polish */
-/* ::selection {
-  background-color: aliceblue;
-} */
 
 p{
   font-family: "allura";
 }
 
 @keyframes kenburns1 {
-  /* Image 1 visible for first 5s */
   0% {
     opacity: 1;
     transform: scale(1);
@@ -64,7 +54,6 @@ p{
     transform: scale(1.12);
   }
 
-  /* Fade out smoothly */
   70% {
     opacity: 0;
     transform: scale(1.12);
@@ -77,19 +66,16 @@ p{
 }
 
 @keyframes kenburns2 {
-  /* Hidden initially */
   0% {
     opacity: 0;
     transform: scale(1);
   }
 
-  /* Fade in smoothly at 5s */
   50% {
     opacity: 1;
     transform: scale(1);
   }
 
-  /* Visible & zooming for next 5s */
   100% {
     opacity: 1;
     transform: scale(1.12);
@@ -129,7 +115,6 @@ p{
     0 6px 30px rgba(209, 160, 84, 0.8);
 }
 
-/* DESKTOP (unchanged) */
 .yarl__slide.yarl__slide_current.yarl__flex_center img {
   min-height: 600px !important;
   min-width: 1030px !important;
@@ -137,7 +122,6 @@ p{
   border: 1px solid transparent;
 }
 
-/* MOBILE + TABLET (up to 1024px) */
 @media (max-width: 1024px) {
   .yarl__slide.yarl__slide_current.yarl__flex_center img {
     min-height: auto !important;
@@ -149,7 +133,6 @@ p{
 
 }
 
-/* SMALL MOBILE */
 @media (max-width: 640px) {
   .yarl__slide.yarl__slide_current.yarl__flex_center img {
     max-width: 100vw !important;
@@ -160,7 +143,7 @@ p{
 }
 
 .scroll-hide::-webkit-scrollbar {
-  display: none; /* Hide scrollbar in WebKit browsers */
+  display: none;
 }
 
 

@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "Edit and update product details in the Tibba admin dashboard.",
 
   robots: {
-    index: false,   // prevent admin pages from being indexed
+    index: false,
     follow: false,
   },
 

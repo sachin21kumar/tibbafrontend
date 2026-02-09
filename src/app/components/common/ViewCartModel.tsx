@@ -1,10 +1,14 @@
 "use client";
 
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useCallback } from "react";
 import { X, Trash2 } from "lucide-react";
-import { useRemoveFromCartMutation, useUpdateCartMutation } from "../redux/query/cartQuery/cart.query";
+import {
+  useRemoveFromCartMutation,
+  useUpdateCartMutation,
+} from "../redux/query/cartQuery/cart.query";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 interface ViewCartModalProps {
   isOpen: boolean;
@@ -12,23 +16,55 @@ interface ViewCartModalProps {
   cart: any;
 }
 
-export default function ViewCartModal({ isOpen, onClose, cart }: ViewCartModalProps) {
+export default function ViewCartModal({
+  isOpen,
+  onClose,
+  cart,
+}: ViewCartModalProps) {
   const router = useRouter();
+  const locationId = Cookies.get("selectedLocationId");
+
   const [updateCart] = useUpdateCartMutation();
   const [removeFromCart] = useRemoveFromCartMutation();
 
-  const handleIncrease = (productId: string, quantity: number) => {
-    updateCart({ productId, quantity: quantity + 1 });
-  };
+  const handleIncrease = useCallback(
+    (productId: string, quantity: number) => {
+      if (!locationId) return;
 
-  const handleDecrease = (productId: string, quantity: number) => {
-    if (quantity === 1) return;
-    updateCart({ productId, quantity: quantity - 1 });
-  };
+      updateCart({
+        productId,
+        quantity: quantity + 1,
+        locationId,
+      });
+    },
+    [updateCart, locationId],
+  );
 
-  const handleRemove = (productId: string) => {
-    removeFromCart({ productId });
-  };
+  const handleDecrease = useCallback(
+    (productId: string, quantity: number) => {
+      if (!locationId) return;
+      if (quantity === 1) return;
+
+      updateCart({
+        productId,
+        quantity: quantity - 1,
+        locationId,
+      });
+    },
+    [updateCart, locationId],
+  );
+
+  const handleRemove = useCallback(
+    (productId: string) => {
+      if (!locationId) return;
+
+      removeFromCart({
+        productId,
+        locationId,
+      });
+    },
+    [removeFromCart, locationId],
+  );
 
   useEffect(() => {
     document.documentElement.style.overflowX = "hidden";
@@ -63,9 +99,10 @@ export default function ViewCartModal({ isOpen, onClose, cart }: ViewCartModalPr
             leaveTo="opacity-0 scale-95"
           >
             <Dialog.Panel className="w-full max-w-2xl rounded-2xl bg-white shadow-xl flex flex-col max-h-[90vh]">
-              {/* Header */}
               <div className="relative border-b p-6 text-center border-b-[#d1a054]">
-                <h2 className="sm:text-[34px] text-[20px] tracking-wide text-[#d1a054]">View Order</h2>
+                <h2 className="sm:text-[34px] text-[20px] tracking-wide text-[#d1a054]">
+                  View Order
+                </h2>
                 <button
                   onClick={onClose}
                   className="absolute right-6 top-6 font-[300] hover:text-black cursor-pointer"
@@ -73,8 +110,6 @@ export default function ViewCartModal({ isOpen, onClose, cart }: ViewCartModalPr
                   <X size={32} className="font-semibold text-[#7a4a2e]" />
                 </button>
               </div>
-
-              {/* Scrollable Items */}
               {cart?.items?.length > 0 ? (
                 <div className="divide-y divide-[#d1a054] overflow-y-auto px-6 py-4 flex-1 max-h-[60vh] sm:max-h-[70vh]">
                   {cart.items.map((item: any) => (
@@ -83,10 +118,14 @@ export default function ViewCartModal({ isOpen, onClose, cart }: ViewCartModalPr
                       className="flex items-center justify-between py-4 border-b border-b-[#d1a054]"
                     >
                       <div>
-                        <h3 className="text-lg text-[#7a4a2e]">{item.productId.name}</h3>
+                        <h3 className="text-lg text-[#7a4a2e]">
+                          {item.productId.name}
+                        </h3>
                         <div className="mt-2 flex items-center gap-4 text-sm text-[#7a4a2e]">
                           <button
-                            onClick={() => handleDecrease(item.productId._id, item.quantity)}
+                            onClick={() =>
+                              handleDecrease(item.productId._id, item.quantity)
+                            }
                             className="text-xl cursor-pointer"
                           >
                             −
@@ -95,12 +134,16 @@ export default function ViewCartModal({ isOpen, onClose, cart }: ViewCartModalPr
                             {item.quantity}
                           </span>
                           <button
-                            onClick={() => handleIncrease(item.productId._id, item.quantity)}
+                            onClick={() =>
+                              handleIncrease(item.productId._id, item.quantity)
+                            }
                             className="text-xl cursor-pointer"
                           >
                             +
                           </button>
-                          <span className="ml-4 font-medium">د.إ {item.productId.price}</span>
+                          <span className="ml-4 font-medium">
+                            د.إ {item.productId.price}
+                          </span>
                         </div>
                       </div>
 
@@ -114,20 +157,25 @@ export default function ViewCartModal({ isOpen, onClose, cart }: ViewCartModalPr
                   ))}
                 </div>
               ) : (
-                <span className="p-6 text-center w-full flex items-center justify-center text-[#7a4a2e] font-[system-ui] text-[#7a4a2e]">
+                <span className="p-6 text-center w-full flex items-center justify-center text-[#7a4a2e] font-[system-ui]">
                   No products in the cart.
                 </span>
               )}
 
-              {/* Footer / Checkout */}
               {cart?.items?.length > 0 && (
                 <div className="p-6 border-t border-t-[#d1a054]">
                   <p className="mb-4 text-center text-[1.5rem] font-allura text-[#7a4a2e]">
-                    Subtotal: <span className="text-[1.5rem]">د.إ {cart?.totalPrice ?? 0}</span>
+                    Subtotal:{" "}
+                    <span className="text-[1.5rem]">
+                      د.إ {cart?.totalPrice ?? 0}
+                    </span>
                   </p>
                   <button
                     className="w-full rounded-full bg-[#d1a054] py-4 text-lg font-medium text-white shadow-md cursor-pointer hover:opacity-90"
-                    onClick={() => { router.push("/checkout"); onClose(); }}
+                    onClick={() => {
+                      router.push("/checkout");
+                      onClose();
+                    }}
                   >
                     Checkout
                   </button>

@@ -33,7 +33,7 @@ export default async function Index() {
 
       telephone: loc.mobileNumber,
 
-      priceRange: "₹₹", // you can change ₹, ₹₹, ₹₹₹
+      priceRange: "₹₹",
 
       servesCuisine: ["Indian", "North Indian", "Street Food", "Fast Food"],
 
