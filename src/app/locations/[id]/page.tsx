@@ -1,33 +1,128 @@
 import type { Metadata } from "next";
 import LocationDetails from "@/app/components/locations/locationDetail";
 
-export const metadata: Metadata = {
-  title: "Our Location | Tibba Restaurant",
-  description:
-    "Find Tibba Restaurant locations, addresses, opening hours, and directions. Visit us for authentic Yemeni cuisine.",
+async function getLocation(id: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/locations/${id}`,
+    {
+      cache: "no-store",
+    },
+  );
 
-  robots: {
-    index: true,
-    follow: true,
-  },
+  if (!res.ok) return null;
 
-  openGraph: {
-    title: "Our Location | Tibba Restaurant",
-    description:
-      "View Tibba Restaurant location details including address, hours, and directions.",
-    siteName: "Tibba Restaurant",
-    type: "website",
-    url: "https://tibba.ae/locations",
-  },
+  return res.json();
+}
 
-  twitter: {
-    card: "summary",
-    title: "Our Location | Tibba Restaurant",
-    description:
-      "Find Tibba Restaurant locations, addresses, and opening hours.",
-  },
-};
+function convertTo24Hour(timeStr: string) {
+  const [time, modifier] = timeStr.trim().split(" ");
 
-export default function Page() {
-  return <LocationDetails />;
+  let [hours, minutes] = time.split(":");
+
+  if (!minutes) minutes = "00";
+
+  if (modifier.toLowerCase() === "pm" && hours !== "12") {
+    hours = String(parseInt(hours, 10) + 12);
+  }
+
+  if (modifier.toLowerCase() === "am" && hours === "12") {
+    hours = "00";
+  }
+
+  return `${hours.padStart(2, "0")}:${minutes}`;
+}
+
+function parseOperatingHours(operation_hours: string) {
+  if (!operation_hours) return null;
+
+  const parts = operation_hours.split("-");
+  if (parts.length !== 2) return null;
+
+  const opens = convertTo24Hour(parts[0]);
+  const closes = convertTo24Hour(parts[1]);
+
+  return { opens, closes };
+}
+
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+
+  const location = await getLocation(id);
+  console.log(location, "location");
+  const hours = parseOperatingHours(location?.operation_hours);
+
+  const imageUrl = location?.imagePath
+    ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/${location.imagePath}`
+    : "https://tibba.ae/logo.png";
+console.log(hours?.opens)
+
+console.log(hours?.closes)
+  const schema = location && {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+
+    "@id": `https://tibba.ae/locations/${location._id}`,
+
+    name: location.name,
+    description: location.description,
+
+    image: [imageUrl],
+
+    email: location.branchEmail,
+
+    telephone: `+971${location.telephone.replace(/\s/g, "")}`,
+
+    url: `https://tibba.ae/locations/${location._id}`,
+
+    servesCuisine: "Yemeni Cuisine",
+
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: location.area,
+      addressLocality: "Dubai",
+      addressCountry: "AE",
+    },
+
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: location.lat,
+      longitude: location.lng,
+    },
+
+    openingHoursSpecification: hours && [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ],
+        opens: hours.opens,
+        closes: hours.closes,
+      },
+    ],
+  };
+
+  return (
+    <>
+      {schema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(schema),
+          }}
+        />
+      )}
+
+      <LocationDetails id={id} />
+    </>
+  );
 }

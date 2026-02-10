@@ -41,10 +41,7 @@ const FitBounds = ({
   return null;
 };
 
-export default function LocationDetails() {
-  const params = useParams();
-  const id = params?.id as string;
-
+export default function LocationDetails({ id }: any) {
   const { data: location, isLoading } = useGetLocationByIdQuery(id, {
     skip: !id,
   });
