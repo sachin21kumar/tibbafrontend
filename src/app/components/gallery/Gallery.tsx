@@ -4,10 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import { useGetCategoryQuery } from "../redux/query/categoryQuery/categoryQuery";
 import { useGetProductsQuery } from "../redux/query/productsQuery/productsQuery";
-import { useAppDispatch, useAppSelector } from "../redux/hook";
-import { setLocation } from "../redux/slices/orderSlice";
-import Cookies from "js-cookie";
-import Image from "next/image";
+import { useAppDispatch } from "../redux/hook";
 
 interface Category {
   _id: string;
@@ -22,12 +19,14 @@ export default function Gallery() {
 
   const { data: categoriesResponse, isLoading: categoriesLoading } =
     useGetCategoryQuery();
+
   const { data: productsResponse, isLoading: productsLoading } =
     useGetProductsQuery({ limit: 1000 });
 
   const categories: Category[] = categoriesResponse?.data || [];
   const products: any[] = productsResponse?.data || [];
 
+  /* ---------------- SORT CATEGORIES ---------------- */
   const sortedCategories = useMemo(() => {
     if (!categories.length) return [];
     const popular = categories.find((cat) => cat.title === "Popular Meals");
@@ -35,62 +34,84 @@ export default function Gallery() {
     return popular ? [popular, ...others] : categories;
   }, [categories]);
 
+  /* ---------------- SECTION REFERENCES ---------------- */
   const categoryRefs = useRef<Record<string, HTMLElement | null>>({});
 
+  /* ---------------- CLICK SCROLL (FIXED OFFSET) ---------------- */
   const scrollToCategory = useCallback((categoryId: string) => {
-    categoryRefs.current[categoryId]?.scrollIntoView({
+    const el = categoryRefs.current[categoryId];
+    if (!el) return;
+
+    const headerOffset = 130; // height of navbar + spacing
+    const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+    const offsetPosition = elementPosition - headerOffset;
+
+    window.scrollTo({
+      top: offsetPosition,
       behavior: "smooth",
-      block: "start",
     });
   }, []);
 
+  /* ---------------- SET FIRST CATEGORY ACTIVE ---------------- */
   useEffect(() => {
     if (!activeCategory && sortedCategories.length) {
       setActiveCategory(sortedCategories[0]._id);
     }
   }, [sortedCategories, activeCategory]);
 
+  /* ---------------- SCROLL ACTIVE CATEGORY DETECTOR ---------------- */
   useEffect(() => {
-    if (!categories.length) return;
+    const handleScroll = () => {
+      const offset = 140; // sticky header height
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      let currentCategory = sortedCategories[0]?._id || "";
 
-        if (visible.length) {
-          setActiveCategory(visible[0].target.id);
+      for (const category of sortedCategories) {
+        const el = categoryRefs.current[category._id];
+        if (!el) continue;
+
+        const rect = el.getBoundingClientRect();
+
+        // when section top passes header
+        if (rect.top - offset <= 0) {
+          currentCategory = category._id;
         }
-      },
-      { rootMargin: "-100px 0px -70% 0px" },
-    );
+      }
 
-    Object.values(categoryRefs.current).forEach(
-      (el) => el && observer.observe(el),
-    );
+      if (currentCategory && currentCategory !== activeCategory) {
+        setActiveCategory(currentCategory);
+      }
+    };
 
-    return () => observer.disconnect();
-  }, [categories]);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
 
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [sortedCategories, activeCategory]);
+
+  /* ---------------- LOADING ---------------- */
   if (categoriesLoading || productsLoading) {
     return <p className="text-center py-10">Loading...</p>;
   }
 
+  /* ---------------- UI ---------------- */
   return (
     <div className="px-4 py-6 font-semibold">
       <div className="flex gap-[10px] mx-auto">
-        <aside className="hidden xl:block bg-white sticky top-[90px] h-fit border-r border-gray-200 flex-none w-[19%] p-4 font-semibold">
+
+        {/* ---------------- SIDEBAR ---------------- */}
+        <aside className="hidden xl:block bg-white sticky top-[90px] h-fit border-r border-gray-200 flex-none w-[19%] p-4">
           <ul className="space-y-1 max-h-[80vh] overflow-y-auto">
             {sortedCategories.map((cat) => (
               <li
                 key={cat._id}
                 onClick={() => scrollToCategory(cat._id)}
-                className={`cursor-pointer px-3 py-2 text-sm transition ${
-                  activeCategory === cat._id
-                    ? "border-l-4 border-l-[#AD5727] font-bold text-[#AD5727]"
-                    : "text-[#AD5727] font-semibold hover:text-[#AD5727]"
-                }`}
+                className={`cursor-pointer px-3 py-2 text-sm transition-all duration-200
+                  ${
+                    activeCategory === cat._id
+                      ? "border-l-4 border-l-[#AD5727] font-bold text-[#AD5727] "
+                      : "text-gray-600 hover:text-[#AD5727]"
+                  }`}
               >
                 {cat.title}
               </li>
@@ -98,10 +119,11 @@ export default function Gallery() {
           </ul>
         </aside>
 
+        {/* ---------------- PRODUCTS ---------------- */}
         <main className="flex-1">
           {sortedCategories.map((category) => {
             const categoryProducts = products.filter(
-              (p) => p.categoryId === category._id,
+              (p) => p.categoryId === category._id
             );
 
             if (!categoryProducts.length) return null;
@@ -113,8 +135,9 @@ export default function Gallery() {
                 ref={(el) => {
                   categoryRefs.current[category._id] = el ?? null;
                 }}
-                className="mb-14 scroll-mt-32"
+                className="mb-14 scroll-mt-40"
               >
+                {/* Category Heading */}
                 <div className="flex items-center gap-4 mb-10">
                   <h2 className="tracking-[3px] font-semibold text-[#AD5727] whitespace-nowrap">
                     {category.title.toUpperCase()}
@@ -126,7 +149,8 @@ export default function Gallery() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Product Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 will-change-transform">
                   {categoryProducts.map((product) => (
                     <div
                       key={product._id}

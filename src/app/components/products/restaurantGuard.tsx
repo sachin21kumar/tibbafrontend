@@ -20,7 +20,7 @@ export const RestaurantCard = ({ order }) => {
       <div className="relative w-full xl:w-auto">
         <div className="relative w-full xl:w-[868px] h-full">
           <Image
-            src={`${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}/uploads/products/${location?.imagePath}`}
+            src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location?.imagePath}`}
             alt="Restaurant Food"
             width={868}
             height={395}
