@@ -136,7 +136,7 @@ export default function Gallery() {
                         <img
                           src={
                             product.imagePath
-                              ? `${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}/uploads/products/${product.imagePath}`
+                              ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
                               : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
                           }
                           alt={product.name}
