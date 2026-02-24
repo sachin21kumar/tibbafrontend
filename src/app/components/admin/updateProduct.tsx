@@ -7,8 +7,10 @@ import {
   useGetProductByIdQuery,
   useUpdateProductMutation,
 } from "../redux/query/productsQuery/productsQuery";
+import { useTranslations } from "@/i18n/TranslationProvider";
 
 export default function UpdateProduct() {
+  const { locale, t } = useTranslations();
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
 
@@ -48,7 +50,7 @@ export default function UpdateProduct() {
         showConfirmButton: false,
       });
 
-      router.push("/admin/products");
+      router.push(`/${locale}/admin/products`);
     } catch (error) {
       Swal.fire({
         title: "Error",

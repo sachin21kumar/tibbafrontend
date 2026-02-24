@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import OrderSuccessPage from "../components/order/order-confirm";
+import OrderSuccessPage from "../../components/order/order-confirm";
 
 export const metadata: Metadata = {
   title: "Order Confirmed | Tibba",

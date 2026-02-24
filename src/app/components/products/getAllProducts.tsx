@@ -218,7 +218,7 @@ export default function MenuPage() {
     <>
       <RestaurantCard order={order} />
       {!debouncedSearch && (
-        <div className="xl:hidden sticky top-[88px] z-40 bg-white border-t border-b border-gray-300">
+        <div className="xl:hidden sticky top-[88px] z-40 bg-white border-t border-b border-gray-300 font-semibold">
           <div
             ref={mobileCategoryContainerRef}
             className="flex gap-6 overflow-x-auto px-4 scrollbar-hide scroll-hide"
@@ -235,7 +235,7 @@ export default function MenuPage() {
                 <span
                   className={`${
                     activeCategory === cat._id
-                      ? "text-[#56381D]"
+                      ? "text-[#AD5727]"
                       : "text-gray-700"
                   }`}
                 >
@@ -250,7 +250,7 @@ export default function MenuPage() {
         </div>
       )}
 
-      <div className="px-4 py-6">
+      <div className="px-4 py-6 font-semibold">
         <div className="flex gap-[10px] mx-auto">
           <aside className="hidden xl:block bg-white h-screen p-4 sticky top-[90px] h-fit border-r border-gray-200 flex-none w-[19%]">
             <input
@@ -273,8 +273,8 @@ export default function MenuPage() {
                     onClick={() => scrollToCategory(cat._id)}
                     className={`cursor-pointer px-3 py-2 text-sm transition ${
                       activeCategory === cat._id
-                        ? "border-l-3 border-l-[#56381D] font-bold text-[#56381D]"
-                        : "text-[#7A4A2E] font-semibold hover:text-[#56381D]"
+                        ? "border-l-3 border-l-[#AD5727] font-bold text-[#AD5727]"
+                        : "text-[#7A4A2E] font-semibold hover:text-[#AD5727]"
                     }`}
                   >
                     {cat.title}
@@ -286,7 +286,7 @@ export default function MenuPage() {
 
           <main className="flex-1">
             {debouncedSearch && filteredProducts.length > 0 && (
-              <h2 className="text-2xl font-semibold mb-6 text-[#56381D]">
+              <h2 className="text-2xl font-semibold mb-6 text-[#AD5727]">
                 Search results
               </h2>
             )}
@@ -321,7 +321,7 @@ export default function MenuPage() {
                           <Image
                             src={
                               product.imagePath
-                                ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
+                                ? `${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}/uploads/products/${product.imagePath}`
                                 : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
                             }
                             alt={product.name}
@@ -350,7 +350,7 @@ export default function MenuPage() {
                             </button>
                           )}
                           {cartItem && (
-                            <div className="border border-[#56381D] rounded-2xl flex justify-center items-center absolute bottom-2 right-2 bg-white">
+                            <div className="border border-[#AD5727] rounded-2xl flex justify-center items-center absolute bottom-2 right-2 bg-white">
                               <div className="flex items-center justify-center gap-2 p-1">
                                 <button
                                   onClick={() =>
@@ -359,11 +359,11 @@ export default function MenuPage() {
                                       cartItem.quantity,
                                     )
                                   }
-                                  className="px-2 py-1 rounded text-[#56381D] text-lg cursor-pointer"
+                                  className="px-2 py-1 rounded text-[#AD5727] text-lg cursor-pointer"
                                 >
                                   −
                                 </button>
-                                <span className="px-3 py-1 rounded font-bold text-[#56381D]">
+                                <span className="px-3 py-1 rounded font-bold text-[#AD5727]">
                                   {cartItem.quantity}
                                 </span>
                                 <button
@@ -399,7 +399,7 @@ export default function MenuPage() {
                         }}
                         className="mb-12 scroll-mt-32"
                       >
-                        <h2 className="text-2xl text-[#56381D] mb-6 font-regular">
+                        <h2 className="text-2xl text-[#AD5727] mb-6 font-regular">
                           {category.title}
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -412,7 +412,7 @@ export default function MenuPage() {
                               >
                                 <div className="flex-1 pr-6">
                                   <h3
-                                    className="font-regular text-lg text-[#56381D]"
+                                    className="font-regular text-lg text-[#AD5727]"
                                     onClick={() => {
                                       setSelectedProductId(product._id);
                                       setOpen(true);
@@ -420,7 +420,7 @@ export default function MenuPage() {
                                   >
                                     {getProductName(product.name)}
                                   </h3>
-                                  <span className="text-[18px] font-[system-ui] font-medium text-[#56381D]">
+                                  <span className="text-[18px] font-[system-ui] font-medium text-[#AD5727]">
                                     د.إ {product.price}
                                   </span>
                                 </div>
@@ -428,7 +428,7 @@ export default function MenuPage() {
                                   <Image
                                     src={
                                       product.imagePath
-                                        ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
+                                        ? `${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}/uploads/products/${product.imagePath}`
                                         : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
                                     }
                                     alt={product.name}

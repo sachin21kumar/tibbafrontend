@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import MenuPage from "../components/products/getAllProducts";
+import MenuPage from "../../components/products/getAllProducts";
 
 export const metadata: Metadata = {
   title: "Shop | Tibba Restaurant",

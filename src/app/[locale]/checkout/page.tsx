@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { CheckoutPage } from "../components/checkout/checkout";
+import { CheckoutPage } from "../../components/checkout/checkout";
 
 export const metadata: Metadata = {
   title: "Checkout | Tibba",

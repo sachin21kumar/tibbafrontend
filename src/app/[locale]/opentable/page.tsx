@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import OpenTable from "../components/openTable/openTable";
+import OpenTable from "../../components/openTable/openTable";
 
 export const metadata: Metadata = {
   title: "Reservations | Tibba Restaurant",

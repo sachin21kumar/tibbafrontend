@@ -1,5 +1,5 @@
+import LocationCard from "@/app/components/locations/locations";
 import { Metadata } from "next";
-import LocationCard from "../components/locations/locations";
 
 export const metadata: Metadata = {
   title: "Location Archive - Tibba Restaurant",

@@ -11,6 +11,7 @@ import {
   useCreateCheckoutMutation,
 } from "../redux/query/checkout/checkoutQuery";
 import { useRef, useState } from "react";
+import { useTranslations } from "@/i18n/TranslationProvider";
 
 type CheckoutFormValues = {
   fullName: string;
@@ -26,6 +27,8 @@ export const CheckoutPage = () => {
   const locationId = Cookies.get("selectedLocationId");
 
   const router = useRouter();
+  const { locale, t } = useTranslations();
+
   const [checkout, { isLoading: checkoutLoading }] =
     useCreateCheckoutMutation();
   const { data: cart, isLoading, isError } = useGetCartQuery(locationId);
@@ -179,7 +182,7 @@ export const CheckoutPage = () => {
         toast.success("Payment successful!");
         reset();
         await confirmPayment({ orderId }).unwrap();
-        window.location.href = `/order-success?orderId=${orderId}`;
+        window.location.href = `/${locale}/order-success?orderId=${orderId}`;
       }
     } catch (error: any) {
       toast.error(error?.data?.message || "Payment failed.");
@@ -195,15 +198,18 @@ export const CheckoutPage = () => {
   );
 
   return (
-    <div className="max-w-[1200px] mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-[1fr_430px] gap-16">
+    <div className="max-w-[1200px] mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-[1fr_430px] gap-16 font-semibold">
       <div>
-        <h3 className="text-2xl font-normal tracking-wide mb-10 border-b border-b-[#d1a054]">
+        <h3 className="text-2xl font-semibold text-[#AD5727] tracking-wide mb-10 border-b border-b-[#AD5727]">
           BILLING & SHIPPING
         </h3>
 
-        <form className="space-y-10 " onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className="space-y-10 font-semibold"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div className="w-full">
-            <label className="text-xs uppercase tracking-wider text-[#7a4a2e] mb-2 block">
+            <label className="text-xs uppercase tracking-wider font-semibold text-[#AD5727] mb-2 block">
               Delivery Type <span className="text-red-500">*</span>
             </label>
 
@@ -222,7 +228,7 @@ export const CheckoutPage = () => {
         peer-checked:bg-[#d1a054]
         peer-checked:text-white
         peer-checked:border-[#d1a054]
-        bg-white text-[#7a4a2e]"
+        bg-white text-[#AD5727]"
                 >
                   DELIVERY
                 </div>
@@ -242,7 +248,7 @@ export const CheckoutPage = () => {
         peer-checked:bg-[#d1a054]
         peer-checked:text-white
         peer-checked:border-[#d1a054]
-        bg-white text-[#7a4a2e] border-[#d1a054]"
+        bg-white text-[#AD5727] border-[#d1a054]"
                 >
                   PICKUP
                 </div>
@@ -257,7 +263,7 @@ export const CheckoutPage = () => {
           </div>
 
           <div>
-            <label className="text-xs uppercase tracking-wider text-[#7a4a2e]">
+            <label className="text-xs uppercase tracking-wider text-[#AD5727]">
               Full Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -265,7 +271,7 @@ export const CheckoutPage = () => {
               {...register("fullName", {
                 required: "First name is required",
               })}
-              className={`w-full border-b text-[#7a4a2e] !font-[system-ui] focus:outline-none py-2 ${
+              className={`w-full border-b text-[#AD5727] !font-[system-ui] focus:outline-none py-2 ${
                 isSubmitted && errors.fullName
                   ? "border-red-500"
                   : "border-[#d1a054]"
@@ -278,7 +284,7 @@ export const CheckoutPage = () => {
             )}
           </div>
           <div>
-            <label className="text-xs uppercase tracking-wider text-[#7a4a2e]">
+            <label className="text-xs uppercase tracking-wider text-[#AD5727]">
               Building Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -286,7 +292,7 @@ export const CheckoutPage = () => {
               {...register("buildingName", {
                 required: "Building Name is required",
               })}
-              className={`w-full border-b text-[#7a4a2e] !font-[system-ui] focus:outline-none py-2 ${
+              className={`w-full border-b text-[#AD5727] !font-[system-ui] focus:outline-none py-2 ${
                 isSubmitted && errors.buildingName
                   ? "border-red-500"
                   : "border-[#d1a054]"
@@ -299,14 +305,14 @@ export const CheckoutPage = () => {
             )}
           </div>
           <div className="relative">
-            <label className="text-xs uppercase tracking-wider text-[#7a4a2e]">
+            <label className="text-xs uppercase tracking-wider text-[#AD5727]">
               Flat Address <span className="text-red-500">*</span>
             </label>
             <input
               {...register("address", {
                 required: "Flat address is required",
               })}
-              className={`w-full border-b text-[#7a4a2e] !font-[system-ui] focus:outline-none py-2 ${
+              className={`w-full border-b text-[#AD5727] !font-[system-ui] focus:outline-none py-2 ${
                 isSubmitted && errors.address
                   ? "border-red-500"
                   : "border-[#d1a054]"
@@ -329,7 +335,7 @@ export const CheckoutPage = () => {
           </div>
 
           <div>
-            <label className="text-xs uppercase tracking-wider text-[#7a4a2e]">
+            <label className="text-xs uppercase tracking-wider text-[#AD5727]">
               Phone <span className="text-red-500">*</span>
             </label>
             <input
@@ -337,7 +343,7 @@ export const CheckoutPage = () => {
               {...register("phone", {
                 required: "Phone is required",
               })}
-              className={`w-full border-b text-[#7a4a2e] !font-[system-ui] focus:outline-none py-2 ${
+              className={`w-full border-b text-[#AD5727] !font-[system-ui] focus:outline-none py-2 ${
                 isSubmitted && errors.phone
                   ? "border-red-500"
                   : "border-[#d1a054]"
@@ -351,7 +357,7 @@ export const CheckoutPage = () => {
           </div>
 
           <div>
-            <label className="text-xs uppercase tracking-wider text-[`#7a4a2e]">
+            <label className="text-xs uppercase tracking-wider text-[#AD5727]">
               Email <span className="text-red-500">*</span>
             </label>
             <input
@@ -359,7 +365,7 @@ export const CheckoutPage = () => {
               {...register("email", {
                 required: "Email is required",
               })}
-              className={`w-full border-b text-[#7a4a2e] !font-[system-ui] focus:outline-none py-2 ${
+              className={`w-full border-b text-[#AD5727] !font-[system-ui] focus:outline-none py-2 ${
                 isSubmitted && errors.email
                   ? "border-red-500"
                   : "border-[#d1a054]"
@@ -371,7 +377,7 @@ export const CheckoutPage = () => {
               </span>
             )}
           </div>
-          <label className="text-xs uppercase tracking-wider text-[#7a4a2e]">
+          <label className="text-xs uppercase tracking-wider text-[#AD5727]">
             Payment Method:
           </label>
           <div className="flex gap-3 py-3">
@@ -391,7 +397,7 @@ export const CheckoutPage = () => {
                   peer-checked:bg-[#d1a054]
                   peer-checked:text-white
                   peer-checked:border-[#d1a054]
-                  bg-white text-[#7a4a2e] border-[#d1a054]"
+                  bg-white text-[#AD5727] border-[#d1a054]"
                 >
                   {p.label}
                 </div>
@@ -404,17 +410,17 @@ export const CheckoutPage = () => {
       </div>
 
       <div className="bg-white border border-[#d1a054] rounded-xl shadow-lg p-[40px] h-fit sticky top-30">
-        <h3 className="font-normal text-2xl mb-6 border-b border-b-[#d1a054] text-[#7a4a2e]">
+        <h3 className="font-semibold text-2xl mb-6 border-b border-b-[#d1a054] text-[#AD5727]">
           YOUR ORDER
         </h3>
         {items?.length > 0 ? (
           <table className="w-full text-sm border-collapse">
             <thead>
               <tr className="border-b border-b-[#d1a054]">
-                <th className="text-left font-bold pb-3 text-[#7a4a2e]">
+                <th className="text-left font-bold pb-3 text-[#AD5727]">
                   PRODUCT
                 </th>
-                <th className="text-right font-bold pb-3 text-[#7a4a2e]">
+                <th className="text-right font-bold pb-3 text-[#AD5727]">
                   SUBTOTAL
                 </th>
               </tr>
@@ -423,7 +429,7 @@ export const CheckoutPage = () => {
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan={2} className="py-6 text-center text-[#7a4a2e]">
+                  <td colSpan={2} className="py-6 text-center text-[#AD5727]">
                     Loading cart...
                   </td>
                 </tr>
@@ -433,10 +439,10 @@ export const CheckoutPage = () => {
                     key={item.productId._id}
                     className="border-b border-b-[#d1a054]"
                   >
-                    <td className="py-3 font-[system-ui] text-[#7a4a2e] w-[175px]">
+                    <td className="py-3 font-[system-ui] text-[#AD5727] w-[175px]">
                       {item.productId?.name || ""} × {item.quantity}
                     </td>
-                    <td className="py-3 text-right text-[#7a4a2e] ">
+                    <td className="py-3 text-right text-[#AD5727] ">
                       د.إ{" "}
                       {((item.productId?.price || 0) * item.quantity).toFixed(
                         2,
@@ -447,28 +453,28 @@ export const CheckoutPage = () => {
               )}
 
               <tr>
-                <th className="py-[12px] font-bold text-left text-[#7a4a2e]">
+                <th className="py-[12px] font-bold text-left text-[#AD5727]">
                   SUBTOTAL
                 </th>
-                <td className="py-[12px] text-[#d1a054] text-base text-left ">
+                <td className="py-[12px] text-[#AD5727] text-base text-left ">
                   د.إ {subtotal.toFixed(2)}
                 </td>
               </tr>
 
               <tr>
-                <th className="py-2 font-bold text-left text-[#7a4a2e]">
+                <th className="py-2 font-bold text-left text-[#AD5727]">
                   SHIPPING
                 </th>
-                <td className="py-2 text-[#7a4a2e] text-left font-[system-ui]">
+                <td className="py-2 text-[#AD5727] text-left font-[system-ui]">
                   Enter your address to view shipping options.
                 </td>
               </tr>
 
               <tr>
-                <th className="pt-2 font-semibold text-lg text-left text-[#7a4a2e]">
+                <th className="pt-2 font-semibold text-lg text-left text-[#AD5727]">
                   TOTAL
                 </th>
-                <td className="pt-2 text-2xl text-[#d1a054] text-left">
+                <td className="pt-2 text-2xl text-[#AD5727] text-left">
                   د.إ {subtotal.toFixed(2)}
                 </td>
               </tr>
@@ -476,7 +482,7 @@ export const CheckoutPage = () => {
           </table>
         ) : (
           <div className="w-full">
-            <span className="text-center py-6 flex justify-center text-center w-full text-[#7a4a2e]">
+            <span className="text-center py-6 flex justify-center text-center w-full text-[#AD5727]">
               Your cart is empty
             </span>
           </div>
@@ -486,13 +492,13 @@ export const CheckoutPage = () => {
           {items?.length > 0 && (
             <>
               {paymentMethod === "stripe" && (
-                <div className="border border-dashed border-[#d1a054] rounded-lg p-4 text-sm text-[#7a4a2e] mt-6 text-center">
+                <div className="border border-dashed border-[#d1a054] rounded-lg p-4 text-sm text-[#AD5727] mt-6 text-center">
                   <CardElement
                     options={{
                       style: {
                         base: {
                           fontSize: "14px",
-                          color: "#7a4a2e",
+                          color: "#AD5727",
                           fontFamily: "system-ui, sans-serif",
                           "::placeholder": {
                             color: "#9ca3af",
@@ -510,13 +516,13 @@ export const CheckoutPage = () => {
           )}
 
           <div className="py-4">
-            <div className="text-xs text-[#7a4a2e] font-[system-ui] leading-tight">
+            <div className="text-xs text-[#AD5727] font-[system-ui] leading-tight">
               Your personal data will be used to process your order, support
               your experience throughout this website, and for other purposes
               described in our{" "}
               <a
                 className="text-[#d8b07a] underline cursor-pointer hover:no-underline"
-                href="http://mtb.dgh.mybluehost.me/?page_id=3"
+                href={"#"}
                 target="_blank"
               >
                 privacy policy

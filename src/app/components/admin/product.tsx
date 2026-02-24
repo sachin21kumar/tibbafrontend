@@ -3,8 +3,10 @@
 import Link from "next/link";
 import Swal from "sweetalert2";
 import { useDeleteProductMutation, useGetProductsQuery } from "../redux/query/productsQuery/productsQuery";
+import { useTranslations } from "@/i18n/TranslationProvider";
 
 export default function ProductList() {
+  const { locale, t } = useTranslations();
   const { data, isLoading } = useGetProductsQuery({});
   const [deleteProduct, { isLoading: isDeleting }] =
     useDeleteProductMutation();
@@ -68,7 +70,7 @@ export default function ProductList() {
 
             <div className="mt-4 flex gap-3">
               <Link
-                href={`/admin/products/${product._id}`}
+                href={`/${locale}/admin/products/${product._id}`}
                 className="px-4 py-2 text-sm bg-[#d1a054] text-white rounded hover:bg-[#c18f47]"
               >
                 Edit

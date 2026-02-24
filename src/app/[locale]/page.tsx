@@ -1,7 +1,6 @@
 import { Suspense } from "react";
-import MenuPage from "./components/products/getAllProducts";
-import Hero from "./components/home/home";
 import { Metadata } from "next";
+import Hero from "../components/home/home";
 export const metadata: Metadata = {
   title: "Home - Tibba Restaurant",
   description:

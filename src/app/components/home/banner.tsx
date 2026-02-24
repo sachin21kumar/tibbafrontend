@@ -1,11 +1,12 @@
 "use client";
 
+import { useTranslations } from "@/i18n/TranslationProvider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export const Banner = () => {
   const router = useRouter();
-
+  const { t, locale } = useTranslations();
   return (
     <section className="relative h-[calc(100vh-90px)] w-full overflow-hidden">
       <div className="absolute inset-0">
@@ -26,7 +27,7 @@ export const Banner = () => {
               <div className="mb-2 h-px w-full bg-gradient-to-r from-transparent via-white to-transparent" />
 
               <h1 className="hero-title text-3xl sm:text-4xl md:text-6xl font-cinzel tracking-wide whitespace-normal sm:whitespace-nowrap">
-                TIBBA RESTAURANT
+                {t("banner.title")}
               </h1>
 
               <div className="mt-2 h-px w-full bg-gradient-to-r from-transparent via-white to-transparent" />
@@ -44,7 +45,7 @@ export const Banner = () => {
 
               {/* <button
                 className="px-4 sm:px-8 py-2 text-xs sm:text-sm tracking-widest hover:text-[#d1a054] transition cursor-pointer whitespace-nowrap"
-                onClick={() => router.push("/onlineordering")}
+                onClick={() => router.push(`/${locale}/onlineordering`)}
               >
                 online ordering
               </button> */}

@@ -32,13 +32,50 @@ const FitBounds = ({
   locations: { lat: number; lng: number }[];
 }) => {
   const map = useMap();
+
   if (locations.length > 0) {
     const bounds = L.latLngBounds(
-      locations.map((loc) => [loc.lat, loc.lng] as [number, number]),
+      locations.map((loc) => [loc.lat, loc.lng] as [number, number])
     );
     map.fitBounds(bounds, { padding: [50, 50] });
   }
+
   return null;
+};
+
+/* Smooth recenter after API load */
+const RecenterMap = ({ lat, lng }: { lat: number; lng: number }) => {
+  const map = useMap();
+
+  map.flyTo([lat, lng], 19, {
+    animate: true,
+    duration: 1.5,
+  });
+
+  return null;
+};
+
+/* Open navigation in native maps */
+const openLocation = (lat: number, lng: number) => {
+  if (typeof window === "undefined") return;
+
+  const ua = navigator.userAgent;
+  let url = "";
+
+  // iPhone → Apple Maps
+  if (/iPhone|iPad|iPod/i.test(ua)) {
+    url = `https://maps.apple.com/?daddr=${lat},${lng}`;
+  }
+  // Android → Google Maps App
+  else if (/Android/i.test(ua)) {
+    url = `geo:${lat},${lng}?q=${lat},${lng}`;
+  }
+  // Desktop → Google Maps Website
+  else {
+    url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+  }
+
+  window.open(url, "_blank");
 };
 
 export default function LocationDetails({ id }: any) {
@@ -50,11 +87,17 @@ export default function LocationDetails({ id }: any) {
 
   const today = new Date().toLocaleDateString("en-US", { weekday: "long" });
 
-  const validLocation =
+  
+ const validLocation =
     location?.lat !== undefined && location?.lng !== undefined
-      ? [{ lat: location.lat, lng: location.lng }]
+      ? [{ lat: Number(location.lat), lng: Number(location.lng) }]
       : [];
 
+  /* fallback center (Dubai) */
+  const genericCenter: LatLngExpression =
+    validLocation.length > 0
+      ? [validLocation[0].lat, validLocation[0].lng]
+      : [25.2048, 55.2708];
   return (
     <>
       <div className="relative w-full h-64 sm:h-80 md:h-100 flex items-center justify-center px-4 overflow-hidden">
@@ -72,18 +115,18 @@ export default function LocationDetails({ id }: any) {
         </h1>
       </div>
 
-      <section className="bg-white ">
+      <section className="bg-white font-semibold">
         <div className="container mx-auto max-w-7xl px-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 md:gap-16 gap-7 items-start ">
             <div className="lg:col-span-2 space-y-8 xl:py-20 py-10">
               <div className="w-fit">
-                <h1 className="md:text-4xl text-[28px] tracking-wide text-[#d1a054] pb-2 w-fit">
+                <h1 className="md:text-4xl text-[28px] tracking-wide text-[#AD5727] pb-2 w-fit">
                   {location?.name}
                 </h1>
-                <div className="h-px mx-auto bg-gradient-to-l from-transparent to-[#d1a054]" />
+                <div className="h-px mx-auto bg-gradient-to-l from-transparent to-[#AD5727]" />
               </div>
 
-              <p className="text-[#7a4a2e] !font-[system-ui] leading-relaxed">
+              <p className="text-[#AD5727] !font-[system-ui] leading-relaxed">
                 {location?.description}
               </p>
 
@@ -96,7 +139,7 @@ export default function LocationDetails({ id }: any) {
                     height={14}
                   />
                 </div>
-                <span className="text-[#7a4a2e]">{location?.location}</span>
+                <span className="text-[#AD5727]">{location?.location}</span>
               </div>
 
               <div className="flex items-center gap-4">
@@ -108,7 +151,7 @@ export default function LocationDetails({ id }: any) {
                     height={14}
                   />
                 </div>
-                <span className="text-[#7a4a2e] font-medium">
+                <span className="text-[#AD5727] font-semibold">
                   <a href={`tel:${location.mobileNumber}`}>
                     {location.mobileNumber}
                   </a>
@@ -116,7 +159,7 @@ export default function LocationDetails({ id }: any) {
               </div>
             </div>
 
-            <div className="bg-white shadow-xl border border-[#f8f8f8] md:p-8">
+            <div className="bg-white shadow-xl border border-[#f8f8f8] md:p-8 font-semibold">
               <div className="flex items-center justify-center">
                 <h3 className="border-b border-b-[#d1a054] text-[#d1a054] font-[allura] text-[32px] pb-1 w-fit mb-6">
                   Opening Hours
@@ -129,13 +172,13 @@ export default function LocationDetails({ id }: any) {
                   return (
                     <li
                       key={day}
-                      className={`flex justify-between py-3 px-3 text-[#7a4a2e] ${
+                      className={`flex justify-between py-3 px-3 text-[#AD5727] font-bold ${
                         isToday
                           ? "border-b border-t border-[#d1a054] text-[#d1a054]"
                           : ""
                       }`}
                     >
-                      <span className="font-medium text-[14px]">{day}</span>
+                      <span className=" text-[14px]">{day}</span>
                       <span className={isToday ? "text-[#d1a054]" : ""}>
                         {location?.operation_hours || "8:00 am – 3:00 am"}
                       </span>
@@ -152,22 +195,29 @@ export default function LocationDetails({ id }: any) {
 
         <div className="mt-15">
           <div className="w-full xl:h-[364px] h-[329px] overflow-hidden border border-[#d1a054]">
+
             {validLocation.length > 0 ? (
               <MapContainer
                 {...({
-                  center: [
-                    validLocation[0].lat,
-                    validLocation[0].lng,
-                  ] as LatLngExpression,
+                  center: genericCenter,
                   zoom: 19,
                   scrollWheelZoom: false,
-                  className: "w-full h-full",
+                  className: "w-full h-full z-0",
                 } as any)}
               >
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                <Marker
-                  position={[validLocation[0].lat, validLocation[0].lng]}
-                ></Marker>
+
+                {validLocation.map((loc, i) => (
+                  <Marker
+                    key={i}
+                    position={[loc.lat, loc.lng]}
+                    eventHandlers={{
+                      click: () => openLocation(loc.lat, loc.lng),
+                    }}
+                  />
+                ))}
+
+                <RecenterMap lat={validLocation[0].lat} lng={validLocation[0].lng} />
                 <FitBounds locations={validLocation} />
               </MapContainer>
             ) : (
@@ -175,8 +225,10 @@ export default function LocationDetails({ id }: any) {
                 Location map not available
               </div>
             )}
+
           </div>
         </div>
+
       </section>
     </>
   );

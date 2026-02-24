@@ -11,6 +11,8 @@ import { useRouter, usePathname } from "next/navigation";
 import ViewCartModal from "./ViewCartModel";
 import { FaFacebookF, FaInstagram, FaTripadvisor } from "react-icons/fa";
 import Cookies from "js-cookie";
+import LanguageSwitcher from "@/app/common/LanguageSwitcher";
+import { useTranslations } from "@/i18n/TranslationProvider";
 
 interface Location {
   _id: string;
@@ -19,8 +21,8 @@ interface Location {
 }
 
 const Navbar = () => {
-    const savedLocationId = Cookies.get("selectedLocationId");
-  
+  const savedLocationId = Cookies.get("selectedLocationId");
+  const { locale, t } = useTranslations();
   const { data: category } = useGetCategoryQuery();
   const { data: locations } = useGetLocationsQuery();
   const { data: cart } = useGetCartQuery(savedLocationId);
@@ -33,12 +35,12 @@ const Navbar = () => {
 
   const navigate = useRouter();
   const pathname = usePathname();
-
   const navBase =
-    "relative uppercase text-sm cursor-pointer tracking-wider px-2 " +
-    "after:absolute after:left-1/2 after:bottom-[-4px] after:h-[1.5px] " +
-    "after:bg-gradient-to-r after:from-transparent after:via-[#d1a054] after:to-transparent " +
-    "after:-translate-x-1/2 after:transition-all after:duration-200 after:ease-in-out";
+    "relative inline-block uppercase text-sm cursor-pointer tracking-wider px-2 font-semibold " +
+    "after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 " +
+    "after:bottom-[-6px] after:h-[1.5px] after:w-0 " +
+    "after:bg-gradient-to-r after:from-transparent after:via-[#AD5727] after:to-transparent " +
+    "after:transition-all after:duration-300 after:ease-out";
 
   const navHover = "after:w-0 hover:after:w-full";
   const navActive = "after:w-full";
@@ -51,14 +53,11 @@ const Navbar = () => {
   const mobileNavHover = "hover:after:w-full";
   const mobileNavActive = "after:w-full";
 
-  const cartCount = useMemo(
-    () => cart?.items?.length ?? 0,
-    [cart?.items]
-  );
+  const cartCount = useMemo(() => cart?.items?.length ?? 0, [cart?.items]);
 
   const cartTotal = useMemo(
     () => (cart?.totalPrice ? `د.إ ${cart.totalPrice}` : ""),
-    [cart?.totalPrice]
+    [cart?.totalPrice],
   );
 
   const toggleMobile = useCallback(() => {
@@ -68,9 +67,20 @@ const Navbar = () => {
   const openCart = useCallback(() => {
     setOpen(true);
   }, []);
+  const handleLogoDrag = (e: React.DragEvent<HTMLDivElement>) => {
+    const homeUrl = window.location.origin + "/";
 
+    // Tell browser this is a URL, not an image
+    e.dataTransfer.setData("text/uri-list", homeUrl);
+    e.dataTransfer.setData("text/plain", homeUrl);
+
+    // nicer drag preview
+    const img = new window.Image();
+    img.src = "/tibba-logo.webp";
+    e.dataTransfer.setDragImage(img, 40, 40);
+  };
   return (
-    <nav className="bg-[#56381D] text-white sticky top-0 z-50 py-3">
+    <nav className="bg-white text-[#AD5727] sticky top-0 z-50 py-3">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between lg:justify-around">
           <div className="lg:hidden">
@@ -78,35 +88,42 @@ const Navbar = () => {
               {mobileOpen ? <HiX size={26} /> : <HiMenu size={26} />}
             </button>
           </div>
-
-          <Image
-            src={tibbaLogo}
-            alt="Logo"
-            className=" md:w-[72px] w-[50px] object-cover cursor-pointer"
-            onClick={() => navigate.push("/")}
-          />
+          <div
+            draggable
+            onDragStart={handleLogoDrag}
+            onClick={() => navigate.push(`/${locale}`)}
+            className="cursor-pointer flex items-center"
+          >
+            <Image
+              src={tibbaLogo}
+              alt="Logo"
+              className=" md:w-[72px] w-[50px] object-cover cursor-pointer"
+              onClick={() => navigate.push(`/${locale}`)}
+              draggable={false}
+            />
+          </div>
 
           <div className="hidden lg:flex items-center space-x-6 font-[system-ui]">
             <a
-              href="/"
+              href={`/${locale}`}
               className={`${navBase} ${
-                pathname === "/" ? navActive : navHover
+                pathname === `/${locale}` ? navActive : navHover
               }`}
             >
               Home
             </a>
             <a
-              href="/gallery"
+              href={`/${locale}/menu`}
               className={`${navBase} ${
-                pathname === "/gallery" ? navActive : navHover
+                pathname === `/${locale}/menu` ? navActive : navHover
               }`}
             >
-              Gallery
+              Menu
             </a>
             <a
-              href="/contact"
+              href={`/${locale}/contact`}
               className={`${navBase} ${
-                pathname === "/contact" ? navActive : navHover
+                pathname === `/${locale}/contact` ? navActive : navHover
               }`}
             >
               Contact Us
@@ -114,9 +131,9 @@ const Navbar = () => {
 
             {/* <div className="relative py-2">
               <a
-                href="/onlineordering"
+                href={`/${locale}/onlineordering`}
                 className={`${navBase} ${
-                  pathname === "/onlineordering" ? navActive : navHover
+                  pathname === `/${locale}/onlineordering` ? navActive : navHover
                 }`}
               >
                 Online Ordering
@@ -131,18 +148,20 @@ const Navbar = () => {
               <div
                 onClick={() => navigate.push("/locations")}
                 className={`${navBase} ${
-                  pathname.startsWith("/locations") ? navActive : navHover
+                  pathname.startsWith(`/${locale}/locations`)
+                    ? navActive
+                    : navHover
                 }`}
               >
                 Locations
               </div>
 
               {locationsOpen && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 bg-[#56381D] p-4 rounded-lg min-w-[300px] grid gap-2">
+                <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white shadow-[0_8px_30px_rgba(0,0,0,0.08)] p-4 rounded-lg min-w-[300px] grid gap-2">
                   {locations?.slice(0, 3)?.map((loc: Location) => (
                     <div
                       key={loc._id}
-                      className="text-sm hover:text-[#d1a054] cursor-pointer"
+                      className="text-sm hover:text-[#d1a054] cursor-pointer font-semibold"
                       onClick={() => navigate.push(`/locations/${loc._id}`)}
                     >
                       {loc.name}
@@ -159,14 +178,16 @@ const Navbar = () => {
             >
               <div
                 className={`${navBase} ${
-                  pathname.startsWith("/reservation") ? navActive : navHover
+                  pathname.startsWith(`/${locale}/reservation`)
+                    ? navActive
+                    : navHover
                 }`}
               >
                 Reservation
               </div>
 
               {reservationOpen && (
-                <div className="absolute top-full bg-[#56381D] left-1/2 -translate-x-1/2 p-4 rounded-lg min-w-[200px]">
+                <div className="absolute top-full bg-white left-1/2 font-semibold shadow-[0_8px_30px_rgba(0,0,0,0.08)] -translate-x-1/2 p-4 rounded-lg min-w-[200px]">
                   <div
                     onClick={() => navigate.push("/opentable")}
                     className="text-sm py-2 hover:text-[#d1a054] cursor-pointer"
@@ -178,50 +199,52 @@ const Navbar = () => {
             </div>
           </div>
 
-          <div
-            className="relative cursor-pointer flex items-center"
-            onClick={openCart}
-          >
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-              <circle fill="white" cx="18.4" cy="12" r="0.9" />
-              <circle fill="white" cx="11.3" cy="12" r="0.9" />
-              <path
-                stroke="white"
-                d="M18.4 9C18.4 7 16.8 5.4 14.8 5.4C12.9 5.4 11.3 7 11.3 9"
-              />
-              <path
-                stroke="white"
-                d="M8.3 9H21.4C22.1 9 22.6 9.5 22.7 10.1L24 24.4C24.1 25.2 23.5 25.8 22.7 25.8H7C6.2 25.8 5.6 25.2 5.7 24.4L7 10.1C7 9.5 7.6 9 8.3 9Z"
-              />
-            </svg>
+          <div className="relative cursor-pointer flex items-center flex gap-3">
+            <div className="flex items-center" onClick={openCart}>
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <circle fill="white" cx="18.4" cy="12" r="0.9" />
+                <circle fill="white" cx="11.3" cy="12" r="0.9" />
+                <path
+                  stroke="#AD5727"
+                  d="M18.4 9C18.4 7 16.8 5.4 14.8 5.4C12.9 5.4 11.3 7 11.3 9"
+                />
+                <path
+                  stroke="#AD5727"
+                  d="M8.3 9H21.4C22.1 9 22.6 9.5 22.7 10.1L24 24.4C24.1 25.2 23.5 25.8 22.7 25.8H7C6.2 25.8 5.6 25.2 5.7 24.4L7 10.1C7 9.5 7.6 9 8.3 9Z"
+                />
+              </svg>
 
-            {cartCount > 0 && (
-              <span className="absolute md:-top-2 top-4 left-2 bg-[#d1a054] text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
-                {cartCount}
-              </span>
-            )}
+              {cartCount > 0 && (
+                <span className="absolute md:-top-2 top-4 left-2 bg-[#d1a054] text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
 
-            <span className="ml-2 hidden xl:block">{cartTotal}</span>
+              <span className="hidden xl:block font-semibold">{cartTotal}</span>
+            </div>
+            <div className="flex items-center gap-4">
+              <LanguageSwitcher />
+            </div>
           </div>
         </div>
       </div>
 
       {mobileOpen && (
-        <div className="lg:hidden bg-[#56381D] border-t border-white/10">
+        <div className="lg:hidden bg-white border-t border-white/10 font-semibold">
           <div className="flex flex-col px-8 py-7 space-y-4 items-start h-[calc(100vh-88px)]">
             {[
-              { label: "Home", path: "/" },
-              { label: "Gallery", path: "/gallery" },
-              { label: "Contact Us", path: "/contact" },
-              // { label: "Online Ordering", path: "/onlineordering" },
-              { label: "Locations", path: "/locations" },
-              { label: "Reservation", path: "/opentable" },
+              { label: "Home", path: `/${locale}` },
+              { label: "Menu", path: `/${locale}/menu` },
+              { label: "Contact Us", path: `/${locale}/contact` },
+              // { label: "Online Ordering", path: `/${locale}/onlineordering` },
+              { label: "Locations", path: `/${locale}/locations` },
+              { label: "Reservation", path: `/${locale}/opentable` },
             ].map((item) => (
               <div
                 key={item.path}
                 className={`${mobileNavBase} ${
-                  item.path === "/"
-                    ? pathname === "/"
+                  item.path === `/${locale}`
+                    ? pathname === `/${locale}`
                       ? mobileNavActive
                       : mobileNavHover
                     : pathname.startsWith(item.path)
@@ -254,7 +277,7 @@ const Navbar = () => {
               {[FaFacebookF, FaInstagram, FaTripadvisor].map((Icon, i) => (
                 <div
                   key={i}
-                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-[63%_37%_30%_70%_/50%_45%_55%_50%] bg-white/10 flex items-center justify-center hover:bg-white/20 transition"
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-[63%_37%_30%_70%_/50%_45%_55%_50%] bg-[#AD5727]/10 flex items-center justify-center hover:bg-[#AD5727]/20 transition"
                 >
                   <Icon />
                 </div>

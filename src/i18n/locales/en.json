@@ -1,0 +1,17 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "menu": "Menu",
+    "contact": "Contact"
+  },
+  "home": {
+    "welcome": "Welcome to Tibba Restaurant",
+    "description": "Authentic taste of tradition"
+  },
+  "banner": {
+    "title": "TIBBA RESTAURANT",
+    "subtitle": "Welcome to Tibba Restaurant, where authentic Yemeni flavors thrive. Enjoy a memorable dining experience and explore our menu.",
+    "order": "Online Ordering"
+  }
+}

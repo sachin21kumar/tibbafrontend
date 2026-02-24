@@ -16,11 +16,11 @@ export const RestaurantCard = ({ order }) => {
     "delivery",
   );
   return (
-    <div className="flex flex-col xl:flex-row gap-5 rounded-lg overflow-hidden my-6 mx-4">
+    <div className="flex flex-col xl:flex-row gap-5 rounded-lg overflow-hidden my-6 mx-4 font-semibold">
       <div className="relative w-full xl:w-auto">
         <div className="relative w-full xl:w-[868px] h-full">
           <Image
-            src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location?.imagePath}`}
+            src={`${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}/uploads/products/${location?.imagePath}`}
             alt="Restaurant Food"
             width={868}
             height={395}
@@ -32,12 +32,12 @@ export const RestaurantCard = ({ order }) => {
       </div>
       <div className="p-4 flex flex-col gap-4">
         <div>
-          <h2 className="text-[20px] sm:text-[22px] xl:text-[24px] text-[#56381D]">
+          <h2 className="text-[20px] sm:text-[22px] xl:text-[24px] text-[#AD5727]">
             {location?.name}
           </h2>
 
           <div className="flex flex-wrap gap-x-5 gap-y-1">
-            <p className="text-sm mt-1 !font-[system-ui] text-[#7A4A2E]">
+            <p className="text-sm mt-1 !font-[system-ui] text-[#AD5727]">
               {location?.area} {location?.location}
             </p>
           </div>
@@ -50,8 +50,8 @@ export const RestaurantCard = ({ order }) => {
       rounded-full font-semibold transition cursor-pointer whitespace-nowrap
       ${
         selectedOption === "delivery"
-          ? "bg-[#56381D] text-white hover:bg-[#b9893f]"
-          : "bg-white border border-[#56381D] text-[#7A4A2E] hover:bg-gray-100"
+          ? "bg-[#AD5727] text-white hover:bg-[#AD5727]"
+          : "bg-white border border-[#56381D] text-[#AD5727] hover:bg-gray-100"
       }`}
               onClick={() => {
                 setSelectedOption("delivery");
@@ -66,8 +66,8 @@ export const RestaurantCard = ({ order }) => {
       rounded-full font-semibold transition cursor-pointer whitespace-nowrap
       ${
         selectedOption === "pickup"
-          ? "bg-[#56381D] text-white hover:bg-[#b9893f]"
-          : "bg-white border border-[#56381D] text-[#7A4A2E] hover:bg-gray-100"
+          ? "bg-[#AD5727] text-white hover:bg-[#AD5727]"
+          : "bg-white border border-[#56381D] text-[#AD5727] hover:bg-gray-100"
       }`}
               onClick={() => {
                 setSelectedOption("pickup");
@@ -80,17 +80,17 @@ export const RestaurantCard = ({ order }) => {
 
           {selectedOption === "delivery" ? (
             <div>
-              <p className="text-xs sm:text-sm xl:text-sm text-[#7A4A2E] !font-[system-ui]">
+              <p className="text-xs sm:text-sm xl:text-sm text-[#AD5727] !font-[system-ui]">
                 Delivery fee (10 km):{" "}
                 <span className="line-through">د.إ 11.00</span> FREE
               </p>
 
-              <p className="text-xs sm:text-sm xl:text-sm font-semibold !font-[system-ui] text-white bg-[#56381D] inline-block px-2 py-1 mt-1 rounded">
+              <p className="text-xs sm:text-sm xl:text-sm font-semibold !font-[system-ui] border text-[#AD5727] bg-white inline-block px-2 py-1 mt-1 rounded">
                 Unlimited FREE delivery. Try it for free!
               </p>
             </div>
           ) : (
-            <p className="text-xs sm:text-sm xl:text-sm text-[#7A4A2E] !font-[system-ui]">
+            <p className="text-xs sm:text-sm xl:text-sm text-[#AD5727] !font-[system-ui]">
               Pickup available - 10% off your order!
             </p>
           )}

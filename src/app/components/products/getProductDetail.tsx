@@ -5,9 +5,11 @@ import { useState } from "react";
 import { useGetProductByIdQuery } from "../redux/query/productsQuery/productsQuery";
 import { useGetCategoryQuery } from "../redux/query/categoryQuery/categoryQuery";
 import { useAddToCartMutation } from "../redux/query/cartQuery/cart.query";
+import { useTranslations } from "@/i18n/TranslationProvider";
 
 export default function ProductDetail() {
   const router = useRouter();
+  const { t, locale } = useTranslations();
   const { id }: any = useParams();
   const { data: product, isLoading, isError } = useGetProductByIdQuery(id);
   const { data: category } = useGetCategoryQuery();
@@ -75,7 +77,7 @@ export default function ProductDetail() {
 
           <div className="flex gap-2 sm:gap-4 flex-wrap">
             <button
-              onClick={() => router.push("/cart")}
+              onClick={() => router.push(`/${locale}/cart`)}
               className="bg-[#d1a054] hover:opacity-90 text-white font-medium py-3 px-6 rounded-full shadow-md cursor-pointer transition-all duration-200 w-full md:w-auto"
             >
               View Cart

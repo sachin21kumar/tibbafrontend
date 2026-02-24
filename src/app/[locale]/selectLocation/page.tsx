@@ -1,5 +1,5 @@
+import SelectLocationPage from "@/app/components/selectLocations/SelectLocations";
 import type { Metadata } from "next";
-import SelectLocationPage from "../components/selectLocations/SelectLocations";
 
 export const metadata: Metadata = {
   title: "Select Location | Tibba",

@@ -7,8 +7,10 @@ import Cookies from "js-cookie";
 import { useGetLocationsQuery } from "../redux/query/locationsQuery/location.query";
 import { useAppDispatch } from "../redux/hook";
 import { setLocation } from "../redux/slices/orderSlice";
+import { useTranslations } from "@/i18n/TranslationProvider";
 
 export default function SelectLocationPage() {
+  const { t, locale } = useTranslations()
   const { data }: any = useGetLocationsQuery();
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -29,7 +31,7 @@ export default function SelectLocationPage() {
 
     dispatch(setLocation(loc));
 
-    router.push("/onlineordering");
+    router.push(`/${locale}/onlineordering`);
   };
 
   return (

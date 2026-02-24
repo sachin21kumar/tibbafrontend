@@ -12,6 +12,7 @@ import {
 } from "../redux/query/cartQuery/cart.query";
 import { useGetProductByIdQuery } from "../redux/query/productsQuery/productsQuery";
 import Cookies from "js-cookie";
+import { useTranslations } from "@/i18n/TranslationProvider";
 
 interface AddToCartModalProps {
   isOpen: boolean;
@@ -26,6 +27,7 @@ export default function AddToCartModal({
 }: AddToCartModalProps) {
   const savedLocationId = Cookies.get("selectedLocationId");
   const router = useRouter();
+  const { locale, t } = useTranslations();
 
   const { data: product, isLoading } = useGetProductByIdQuery(productId!, {
     skip: !productId,
@@ -51,7 +53,7 @@ export default function AddToCartModal({
 
   const handleAddToCart = useCallback(() => {
     if (!savedLocationId) {
-      router.push("/selectLocation");
+      router.push(`/${locale}/selectLocation`);
       return;
     }
     if (!product || isAdding) return;

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import CartPage from "../components/cart/cart";
+import CartPage from "../../components/cart/cart";
 
 export const metadata: Metadata = {
   title: "Your Cart | Tibba",

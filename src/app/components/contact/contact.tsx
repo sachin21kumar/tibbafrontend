@@ -53,22 +53,22 @@ export const Contact = () => {
         </h1>
       </div>
 
-      <div className="max-w-[1288px] mx-auto pt-15">
+      <div className="max-w-[1288px] mx-auto pt-15 font-semibold">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-[26px]  text-[#d1a054] leading-[0.7]">Visit Us</p>
-          <div className="h-px w-[300px] mx-auto bg-gradient-to-r from-transparent via-[#d1a054] to-transparent" />
+          <p className="text-[26px]  text-[#AD5727] leading-[0.7]">Visit Us</p>
+          <div className="h-px w-[300px] mx-auto bg-gradient-to-r from-transparent via-[#AD5727] to-transparent" />
 
-          <button className="text-lg text-[#d1a054] p-[8px] leading-7 text-[34px] font-normal">
+          <button className="text-lg text-[#AD5727] p-[8px] leading-7 text-[34px] font-normal">
             Our Location
           </button>
-          <div className="h-px w-[300px] mx-auto bg-gradient-to-r from-transparent via-[#d1a054] to-transparent" />
+          <div className="h-px w-[300px] mx-auto bg-gradient-to-r from-transparent via-[#AD5727] to-transparent" />
         </div>
 
         <div className="max-w-7xl mx-auto px-4 mt-5 grid grid-cols-1 md:grid-cols-3 gap-6 ">
           {infoCards.map((card, index) => (
             <div
               key={index}
-              className="relative bg-[#7f7f7f0d] border border-[#d1a054] rounded-lg p-8 text-center shadow-sm"
+              className="relative bg-white border border-[#AD5727] rounded-lg p-8 text-center shadow-sm"
             >
               <div
                 className="absolute
@@ -83,7 +83,7 @@ export const Contact = () => {
     text-[0.9375rem] 
     leading-[2.8125rem] 
     rounded-b-[50%] 
-    bg-[#d1a054] 
+    bg-[#AD5727] 
     text-[#ffffff] 
     shadow-[0_0.0625rem_0.0625rem_rgba(0,0,0,0.3)]
     z-[1]"
@@ -91,8 +91,8 @@ export const Contact = () => {
                 {card.icon}
               </div>
 
-              <h3 className="mt-8 text-[20px] text-[#d1a054]">{card.title}</h3>
-              <p className="mt-2 text-[#7A4A2E] font-light !font-[system-ui] whitespace-pre-line">
+              <h3 className="mt-8 text-[20px] text-[#AD5727]">{card.title}</h3>
+              <p className="mt-2 text-[#AD5727] font-semibold !font-[system-ui] whitespace-pre-line">
                 {card.text}
               </p>
             </div>

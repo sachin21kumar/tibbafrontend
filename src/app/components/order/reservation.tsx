@@ -1,10 +1,13 @@
 "use client";
 
+import { useTranslations } from "@/i18n/TranslationProvider";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export default function ReservationPage() {
   const router = useRouter();
+  const { t, locale } = useTranslations();
+
   const params = useSearchParams();
 
   const initialDate = params.get("date") || "";
@@ -45,7 +48,7 @@ export default function ReservationPage() {
 
   const goToDetails = () => {
     router.push(
-      `/reservation/details?date=${date}&time=${time}&guests=${guests}`,
+      `/${locale}/reservation/details?date=${date}&time=${time}&guests=${guests}`,
     );
   };
 
@@ -69,12 +72,12 @@ export default function ReservationPage() {
 
   return (
     <>
-      <div className="min-h-screen bg-gray-100 flex justify-center items-start py-[16px] ">
+      <div className="min-h-screen bg-gray-100 flex justify-center items-start py-[16px] font-semibold">
         <div className="bg-white w-full max-w-[640px] pt-8 p-6 rounded-lg shadow">
           <div className="mb-6 ">
-            <div className="flex gap-4 justify-center text-sm text-[#d1a054] border-b border-b-[#d1a054] pb-3">
+            <div className="flex gap-4 justify-center text-sm text-[#AD5727] border-b border-b-[#AD5727] pb-3">
               <span className="flex items-center gap-2 text-red-600">
-                <span className="w-5 h-5 rounded-full bg-[#d1a054] text-white flex items-center justify-center text-xs">
+                <span className="w-5 h-5 rounded-full bg-[#AD5727] text-white flex items-center justify-center text-xs">
                   1
                 </span>
                 Find a table
@@ -87,7 +90,7 @@ export default function ReservationPage() {
               </span>
             </div>
 
-            <h2 className="text-[24px] font-[system-ui] py-[19px] text-[#d1a054] font-bold border-b border-b-[#d1a054]">
+            <h2 className="text-[24px] font-[system-ui] py-[19px] text-[#AD5727] font-bold border-b border-b-[#AD5727]">
               Reservation at Max Restaurant
             </h2>
           </div>
@@ -97,12 +100,12 @@ export default function ReservationPage() {
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="border border-[#d1a054] text-[#d1a054] px-3 py-3 text-sm"
+              className="border border-[#AD5727] text-[#AD5727] px-3 py-3 text-sm"
             />
             <select
               value={time}
               onChange={(e) => setTime(e.target.value)}
-              className="border border-[#d1a054] text-[#d1a054] px-3 py-3 text-sm"
+              className="border border-[#AD5727] text-[#AD5727] px-3 py-3 text-sm"
             >
               {generateTimeSlots().map((t) => (
                 <option key={t} value={t}>
@@ -113,7 +116,7 @@ export default function ReservationPage() {
             <select
               value={guests}
               onChange={(e) => setGuests(e.target.value)}
-              className="border border-[#d1a054] text-[#d1a054] px-3 py-3 text-sm"
+              className="border border-[#AD5727] text-[#AD5727] px-3 py-3 text-sm"
             >
               {Array.from({ length: 9 }, (_, i) => {
                 const guest = i + 2;
@@ -126,7 +129,7 @@ export default function ReservationPage() {
             </select>
           </div>
 
-          <button className="w-full bg-[#d1a054] text-white py-3 rounded font-semibold mb-4 cursor-pointer">
+          <button className="w-full bg-[#AD5727] text-white py-3 rounded font-semibold mb-4 cursor-pointer">
             Find a table
           </button>
 
@@ -134,7 +137,7 @@ export default function ReservationPage() {
             {generatePreviousSlots(time).map((t) => (
               <button
                 key={t}
-                className="bg-[#d1a054] text-white px-6 py-2 rounded text-sm"
+                className="bg-[#AD5727] text-white px-6 py-2 rounded text-sm"
                 onClick={goToDetails}
               >
                 {t}
@@ -144,14 +147,14 @@ export default function ReservationPage() {
 
           <div className="text-sm text-gray-600 mt-6">
             <div className="font-semibold flex items-center gap-2">
-              <span className="w-3 h-3 bg-[#d1a054] rounded-full"></span>
+              <span className="w-3 h-3 bg-[#AD5727] rounded-full"></span>
               OpenTable
             </div>
             <span className="font-[system-ui]">
               Max Restaurant has partnered with OpenTable to provide free,
               secure, and instantly confirmed online reservations.
             </span>
-            .<span className="text-[#d1a054] font-[system-ui]">Learn more</span>
+            .<span className="text-[#AD5727] font-[system-ui]">Learn more</span>
           </div>
         </div>
       </div>

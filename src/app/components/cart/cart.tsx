@@ -8,9 +8,11 @@ import {
   useUpdateCartMutation,
 } from "../redux/query/cartQuery/cart.query";
 import Cookies from "js-cookie";
+import { useTranslations } from "@/i18n/TranslationProvider";
 
 export default function CartPage() {
   const router = useRouter();
+  const { locale, t } = useTranslations();
 
   const locationId = Cookies.get("selectedLocationId");
 
@@ -111,7 +113,7 @@ export default function CartPage() {
                   <td
                     className="flex items-center gap-4 text-[#7a4a2e] p-4 cursor-pointer min-w-[150px]"
                     onClick={() =>
-                      router.push(`/product/${item?.productId?._id}`)
+                      router.push(`/${locale}/product/${item?.productId?._id}`)
                     }
                   >
                     <img
@@ -207,7 +209,7 @@ export default function CartPage() {
 
             <button
               className="w-full bg-[#d1a054] text-white py-4 rounded-full hover:opacity-90 transition-all cursor-pointer"
-              onClick={() => router.push("/checkout")}
+              onClick={() => router.push(`/${locale}/checkout`)}
             >
               Proceed to Checkout
             </button>

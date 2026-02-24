@@ -2,6 +2,7 @@
 import dynamic from "next/dynamic";
 import { useGetLocationsQuery } from "../redux/query/locationsQuery/location.query";
 import Image from "next/image";
+import { useTranslations } from "@/i18n/TranslationProvider";
 const Location = dynamic(
   () => import("../home/locations").then((mod) => mod.Location),
   {
@@ -22,6 +23,8 @@ interface Location {
 }
 
 export default function LocationCard() {
+  const { locale, t } = useTranslations();
+
   const { data: locations } = useGetLocationsQuery();
 
   return (
@@ -42,22 +45,20 @@ export default function LocationCard() {
           </h1>
         </div>
 
-        <div className="max-w-[1348px] mx-auto mt-10 space-y-10 p-3">
+        <div className="max-w-[1348px] mx-auto mt-10 space-y-10 p-3 font-semibold">
           {locations?.map((location: any) => (
             <div
               key={location._id}
               className="flex flex-col md:flex-row border border-gray-300 shadow-md rounded-lg overflow-hidden bg-white"
             >
-              <div className="md:w-1/2 relative md:h-64 md:h-auto">
-                <Image
+              <div className="md:w-1/2 relative md:h-64 md:h-auto h-auto">
+                <img
                   src={
                     location?.imagePath
-                      ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location.imagePath}`
+                      ? `${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}/uploads/products/${location.imagePath}`
                       : "http://mtb.dgh.mybluehost.me/wp-content/uploads/2025/07/Abu-Hail-857x500.webp"
                   }
                   alt={location?.name}
-                  fill
-                  priority
                   sizes="(min-width: 768px) 50vw, 100vw"
                   className="object-cover"
                 />
@@ -65,13 +66,13 @@ export default function LocationCard() {
 
               <div className="md:w-1/2 p-8  flex flex-col justify-center">
                 <div className="w-fit">
-                  <h2 className="text-[20px] md:text-3xl text-[#d1a054] font-regular md:mb-4">
+                  <h2 className="text-[20px] md:text-3xl text-[#AD5727] font-regular md:mb-4">
                     {location.name}
                   </h2>
-                  <div className="bg-gradient-to-r from-[#D1A054] to-[#D1A054]/0 ... h-[1px]"></div>
+                  <div className="bg-gradient-to-r from-[#AD5727] to-[#AD5727]/0 ... h-[1px]"></div>
                 </div>
                 <div className="md:py-auto pt-5">
-                  <div className="flex items-center gap-3 text-[#7a4a2e] mb-2 mt-3">
+                  <div className="flex items-center gap-3 text-[#AD5727] mb-2 mt-3">
                     <Image
                       src="/location.png"
                       alt="Location"
@@ -80,7 +81,7 @@ export default function LocationCard() {
                     />
                     <span>{location.location}</span>
                   </div>
-                  <div className="flex items-center gap-3 text-[#7a4a2e] mb-4">
+                  <div className="flex items-center gap-3 text-[#AD5727] mb-4">
                     <Image
                       src="/phoneIcon.png"
                       alt="Phone"
@@ -93,12 +94,12 @@ export default function LocationCard() {
                   </div>
                 </div>
                 <a
-                  href={`/locations/${location._id}`}
-                  className="mt-6 w-fit text-[#d1a054] font-regular hover:text-yellow-600"
+                  href={`/${locale}/locations/${location._id}`}
+                  className="mt-6 w-fit text-[#AD5727] font-regular hover:text-yellow-600"
                 >
                   More Details
                 </a>
-                <div className="w-[108px] bg-gradient-to-r from-[#D1A054] to-[#D1A054]/0 ... h-[1px]"></div>
+                <div className="w-[108px] bg-gradient-to-r from-[#AD5727] to-[#AD5727]/0 ... h-[1px]"></div>
               </div>
             </div>
           ))}

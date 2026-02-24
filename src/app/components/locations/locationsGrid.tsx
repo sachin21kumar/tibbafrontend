@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useGetLocationsQuery } from "../redux/query/locationsQuery/location.query";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "@/i18n/TranslationProvider";
 
 interface Location {
   _id: string;
@@ -18,6 +19,8 @@ interface Location {
 export default function LocationsGrid() {
   const { data: locations }: any = useGetLocationsQuery();
   const router = useRouter();
+  const { t, locale } = useTranslations();
+
   return (
     <section className="bg-white ">
       <div className="container mx-auto max-w-7xl px-6">
@@ -28,19 +31,19 @@ export default function LocationsGrid() {
               className="bg-[#f8f8f8] rounded-2xl shadow-sm hover:shadow-lg transition overflow-hidden"
             >
               <div className="relative md:h-64 w-full">
-                <Image
+                <img
                   src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${loc.imagePath}`}
                   alt={loc.name}
-                  fill
                   sizes="100vw"
-                  priority
                   className="object-cover h-full"
                 />
               </div>
               <div className="md:p-8 p-4 space-y-6 cursor-pointer">
                 <h3
                   className="md:text-[20px] text-[16px] text-[#7a4a2e] leading-snug"
-                  onClick={() => router.push(`/locations/${loc?._id}`)}
+                  onClick={() =>
+                    router.push(`/${locale}/locations/${loc?._id}`)
+                  }
                 >
                   {loc.name}
                 </h3>

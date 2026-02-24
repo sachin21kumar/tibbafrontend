@@ -9,6 +9,7 @@ import {
 } from "../redux/query/cartQuery/cart.query";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { useTranslations } from "@/i18n/TranslationProvider";
 
 interface ViewCartModalProps {
   isOpen: boolean;
@@ -22,6 +23,8 @@ export default function ViewCartModal({
   cart,
 }: ViewCartModalProps) {
   const router = useRouter();
+  const { locale, t } = useTranslations();
+
   const locationId = Cookies.get("selectedLocationId");
 
   const [updateCart] = useUpdateCartMutation();
@@ -88,7 +91,7 @@ export default function ViewCartModal({
           <div className="fixed inset-0 bg-gray/50" />
         </Transition.Child>
 
-        <div className="fixed inset-0 flex items-center justify-center p-4">
+        <div className="fixed inset-0 flex items-center justify-center p-4 font-semibold">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -99,29 +102,29 @@ export default function ViewCartModal({
             leaveTo="opacity-0 scale-95"
           >
             <Dialog.Panel className="w-full max-w-2xl rounded-2xl bg-white shadow-xl flex flex-col max-h-[90vh]">
-              <div className="relative border-b p-6 text-center border-b-[#d1a054]">
-                <h2 className="sm:text-[34px] text-[20px] tracking-wide text-[#d1a054]">
+              <div className="relative border-b p-6 text-center border-b-[#AD5727]">
+                <h2 className="sm:text-[34px] text-[20px] tracking-wide text-[#AD5727]">
                   View Order
                 </h2>
                 <button
                   onClick={onClose}
                   className="absolute right-6 top-6 font-[300] hover:text-black cursor-pointer"
                 >
-                  <X size={32} className="font-semibold text-[#7a4a2e]" />
+                  <X size={32} className="font-semibold text-[#AD5727]" />
                 </button>
               </div>
               {cart?.items?.length > 0 ? (
-                <div className="divide-y divide-[#d1a054] overflow-y-auto px-6 py-4 flex-1 max-h-[60vh] sm:max-h-[70vh]">
+                <div className="divide-y divide-[#AD5727] overflow-y-auto px-6 py-4 flex-1 max-h-[60vh] sm:max-h-[70vh]">
                   {cart.items.map((item: any) => (
                     <div
                       key={item.productId._id}
-                      className="flex items-center justify-between py-4 border-b border-b-[#d1a054]"
+                      className="flex items-center justify-between py-4 border-b border-b-[#AD5727]"
                     >
                       <div>
-                        <h3 className="text-lg text-[#7a4a2e]">
+                        <h3 className="text-lg text-[#AD5727]">
                           {item.productId.name}
                         </h3>
-                        <div className="mt-2 flex items-center gap-4 text-sm text-[#7a4a2e]">
+                        <div className="mt-2 flex items-center gap-4 text-sm text-[#AD5727]">
                           <button
                             onClick={() =>
                               handleDecrease(item.productId._id, item.quantity)
@@ -141,7 +144,7 @@ export default function ViewCartModal({
                           >
                             +
                           </button>
-                          <span className="ml-4 font-medium">
+                          <span className="ml-4 font-semibold text-[#AD5727]">
                             د.إ {item.productId.price}
                           </span>
                         </div>
@@ -157,23 +160,23 @@ export default function ViewCartModal({
                   ))}
                 </div>
               ) : (
-                <span className="p-6 text-center w-full flex items-center justify-center text-[#7a4a2e] font-[system-ui]">
+                <span className="p-6 text-center w-full flex items-center justify-center text-[#AD5727] font-[system-ui]">
                   No products in the cart.
                 </span>
               )}
 
               {cart?.items?.length > 0 && (
                 <div className="p-6 border-t border-t-[#d1a054]">
-                  <p className="mb-4 text-center text-[1.5rem] font-allura text-[#7a4a2e]">
+                  <p className="mb-4 text-center text-[1.5rem] font-allura font-semibold text-[#AD5727]">
                     Subtotal:{" "}
                     <span className="text-[1.5rem]">
                       د.إ {cart?.totalPrice ?? 0}
                     </span>
                   </p>
                   <button
-                    className="w-full rounded-full bg-[#d1a054] py-4 text-lg font-medium text-white shadow-md cursor-pointer hover:opacity-90"
+                    className="w-full rounded-full bg-white py-4 text-lg font-medium text-[#AD5727] border border-[#AD5727] font-semibold shadow-md cursor-pointer hover:opacity-90"
                     onClick={() => {
-                      router.push("/checkout");
+                      router.push(`/${locale}/checkout`);
                       onClose();
                     }}
                   >
