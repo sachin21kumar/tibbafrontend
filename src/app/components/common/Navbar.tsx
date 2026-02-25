@@ -80,7 +80,7 @@ const Navbar = () => {
     e.dataTransfer.setDragImage(img, 40, 40);
   };
   return (
-    <nav className="bg-white text-[#AD5727] sticky top-0 z-50 py-3">
+    <nav className="bg-[#56381D] text-white sticky top-0 z-50 py-3">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between lg:justify-around">
           <div className="lg:hidden">
@@ -157,11 +157,11 @@ const Navbar = () => {
               </div>
 
               {locationsOpen && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white shadow-[0_8px_30px_rgba(0,0,0,0.08)] p-4 rounded-lg min-w-[300px] grid gap-2">
+                <div className="absolute top-full left-1/2 -translate-x-1/2 bg-[#56381D] p-4 rounded-lg min-w-[300px] grid gap-2">
                   {locations?.slice(0, 3)?.map((loc: Location) => (
                     <div
                       key={loc._id}
-                      className="text-sm hover:text-[#d1a054] cursor-pointer font-semibold"
+                      className="text-sm hover:text-[#d1a054] cursor-pointer"
                       onClick={() => navigate.push(`/locations/${loc._id}`)}
                     >
                       {loc.name}
@@ -187,7 +187,7 @@ const Navbar = () => {
               </div>
 
               {reservationOpen && (
-                <div className="absolute top-full bg-white left-1/2 font-semibold shadow-[0_8px_30px_rgba(0,0,0,0.08)] -translate-x-1/2 p-4 rounded-lg min-w-[200px]">
+                <div className="absolute top-full bg-[#56381D] left-1/2 -translate-x-1/2 p-4 rounded-lg min-w-[200px]">
                   <div
                     onClick={() => navigate.push("/opentable")}
                     className="text-sm py-2 hover:text-[#d1a054] cursor-pointer"
@@ -205,11 +205,11 @@ const Navbar = () => {
                 <circle fill="white" cx="18.4" cy="12" r="0.9" />
                 <circle fill="white" cx="11.3" cy="12" r="0.9" />
                 <path
-                  stroke="#AD5727"
+                  stroke="white"
                   d="M18.4 9C18.4 7 16.8 5.4 14.8 5.4C12.9 5.4 11.3 7 11.3 9"
                 />
                 <path
-                  stroke="#AD5727"
+                  stroke="white"
                   d="M8.3 9H21.4C22.1 9 22.6 9.5 22.7 10.1L24 24.4C24.1 25.2 23.5 25.8 22.7 25.8H7C6.2 25.8 5.6 25.2 5.7 24.4L7 10.1C7 9.5 7.6 9 8.3 9Z"
                 />
               </svg>
@@ -230,7 +230,7 @@ const Navbar = () => {
       </div>
 
       {mobileOpen && (
-        <div className="lg:hidden bg-white border-t border-white/10 font-semibold">
+        <div className="lg:hidden bg-[#56381D] border-t border-white/10">
           <div className="flex flex-col px-8 py-7 space-y-4 items-start h-[calc(100vh-88px)]">
             {[
               { label: "Home", path: `/${locale}` },
@@ -277,7 +277,7 @@ const Navbar = () => {
               {[FaFacebookF, FaInstagram, FaTripadvisor].map((Icon, i) => (
                 <div
                   key={i}
-                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-[63%_37%_30%_70%_/50%_45%_55%_50%] bg-[#AD5727]/10 flex items-center justify-center hover:bg-[#AD5727]/20 transition"
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-[63%_37%_30%_70%_/50%_45%_55%_50%] bg-white/10 flex items-center justify-center hover:bg-white/20 transition"
                 >
                   <Icon />
                 </div>

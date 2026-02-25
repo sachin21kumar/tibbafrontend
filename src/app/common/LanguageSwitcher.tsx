@@ -63,12 +63,12 @@ console.log(locale,"localelocale")
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-36 bg-white shadow-lg border rounded-md overflow-hidden z-50">
+        <div className="absolute right-0 mt-2 w-36 bg-[#56381D] text-white shadow-lg border rounded-md overflow-hidden z-50">
           <Link
             href={getNewPath("en")}
             onClick={() => setOpen(false)}
-            className={`block px-4 py-2 text-sm hover:bg-gray-100 ${
-              locale === "en" ? "bg-gray-100 font-semibold" : ""
+            className={`block px-4 py-2 text-sm ${
+              locale === "en" ? "bg-gray-100 text-[#56381D] font-semibold" : ""
             }`}
           >
             English
@@ -77,8 +77,8 @@ console.log(locale,"localelocale")
           <Link
             href={getNewPath("ar")}
             onClick={() => setOpen(false)}
-            className={`block px-4 py-2 text-sm hover:bg-gray-100 ${
-              locale === "ar" ? "bg-gray-100 font-semibold" : ""
+            className={`block px-4 py-2 text-sm ${
+              locale === "ar" ? "bg-gray-100 text-[#56381D] font-semibold" : ""
             }`}
           >
             العربية

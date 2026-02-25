@@ -68,7 +68,7 @@ export const Contact = () => {
           {infoCards.map((card, index) => (
             <div
               key={index}
-              className="relative bg-white border border-[#AD5727] rounded-lg p-8 text-center shadow-sm"
+              className="relative bg-[#7f7f7f0d] border border-[#AD5727] rounded-lg p-8 text-center shadow-sm"
             >
               <div
                 className="absolute
@@ -92,7 +92,7 @@ export const Contact = () => {
               </div>
 
               <h3 className="mt-8 text-[20px] text-[#AD5727]">{card.title}</h3>
-              <p className="mt-2 text-[#AD5727] font-semibold !font-[system-ui] whitespace-pre-line">
+              <p className="mt-2 text-[#AD5727] !font-[system-ui] whitespace-pre-line">
                 {card.text}
               </p>
             </div>

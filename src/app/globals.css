@@ -157,7 +157,7 @@ p{
     line-height: 1;
     cursor: default;
     margin-top: 1.5rem;
-    background-color:#AD5727;
+    background-color:#3d4145;
     color:white
     }
     .open-close-signboard:before {
@@ -166,7 +166,7 @@ p{
     height: 15px;
     border-top: 1px solid;
     border-right: 1px solid;
-    border-color: #AD5727;
+    border-color: var(--clr-foot-tx);
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
