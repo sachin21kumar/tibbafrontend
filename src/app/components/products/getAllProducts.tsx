@@ -67,12 +67,28 @@ export default function MenuPage() {
   const categories: Category[] = categoriesResponse?.data || [];
   const products: any[] = productsResponse?.data || [];
 
-  const sortedCategories = useMemo(() => {
-    if (!categories.length) return [];
-    const popular = categories.find((cat) => cat.title === "Popular Meals");
-    const others = categories.filter((cat) => cat.title !== "Popular Meals");
-    return popular ? [popular, ...others] : categories;
-  }, [categories]);
+ const sortedCategories = useMemo(() => {
+  if (!categories.length) return [];
+
+  const isPopular = (title?: string) => {
+    if (!title) return false;
+
+    const normalized = title.trim().toLowerCase();
+
+    return (
+      normalized === "popular meals" ||
+      normalized == "الوجبات الشعبية" ||
+      normalized.includes("popular") ||
+      normalized.includes("الوجبات الشعبية")
+      // normalized.incluكثر شعبية")
+    );
+  };
+
+  const popular = categories.find((cat) => isPopular(cat.title));
+  const others = categories.filter((cat) => !isPopular(cat.title));
+
+  return popular ? [popular, ...others] : categories;
+}, [categories]);
 
   const categoryRefs = useRef<Record<string, HTMLElement | null>>({});
   const desktopCategoryRefs = useRef<Record<string, HTMLLIElement | null>>({});
