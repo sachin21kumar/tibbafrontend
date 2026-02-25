@@ -35,10 +35,28 @@ export interface SelectLocationPayload {
   locationId: string;
 }
 
+/* ⭐ Detect Next.js locale automatically */
+const getLocale = () => {
+  if (typeof window === "undefined") return "en";
+
+  const path = window.location.pathname.split("/");
+  const lang = path[1];
+
+  if (lang === "ar" || lang === "en") return lang;
+  return "en";
+};
+
 export const locationsApi = createApi({
   reducerPath: "locationsApi",
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
+
+    /* ⭐ VERY IMPORTANT — SEND LANGUAGE TO NESTJS */
+    prepareHeaders: (headers) => {
+      const locale = getLocale();
+      headers.set("x-locale", locale);
+      return headers;
+    },
   }),
   tagTypes: ["Locations"],
   endpoints: (builder) => ({

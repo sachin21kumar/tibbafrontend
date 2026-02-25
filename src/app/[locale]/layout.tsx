@@ -49,7 +49,7 @@ export default async function RootLayout({
 
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ReduxProvider>
-          <TranslationProvider locale={locale} dict={dict}>
+          <TranslationProvider key={locale} locale={locale} dict={dict}>
             <Navbar />
             {children}
             <Footer />

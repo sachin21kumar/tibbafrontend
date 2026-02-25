@@ -110,7 +110,7 @@ const Navbar = () => {
                 pathname === `/${locale}` ? navActive : navHover
               }`}
             >
-              Home
+              {t("nav.home")}
             </a>
             <a
               href={`/${locale}/menu`}
@@ -118,7 +118,7 @@ const Navbar = () => {
                 pathname === `/${locale}/menu` ? navActive : navHover
               }`}
             >
-              Menu
+              {t("nav.menu")}
             </a>
             <a
               href={`/${locale}/contact`}
@@ -126,7 +126,7 @@ const Navbar = () => {
                 pathname === `/${locale}/contact` ? navActive : navHover
               }`}
             >
-              Contact Us
+              {t("nav.contact")}
             </a>
 
             {/* <div className="relative py-2">
@@ -153,7 +153,7 @@ const Navbar = () => {
                     : navHover
                 }`}
               >
-                Locations
+                {t("nav.location")}
               </div>
 
               {locationsOpen && (
@@ -183,7 +183,7 @@ const Navbar = () => {
                     : navHover
                 }`}
               >
-                Reservation
+                {t("nav.reservation")}
               </div>
 
               {reservationOpen && (
@@ -192,7 +192,7 @@ const Navbar = () => {
                     onClick={() => navigate.push("/opentable")}
                     className="text-sm py-2 hover:text-[#d1a054] cursor-pointer"
                   >
-                    OpenTable
+                    {t("nav.opentable")}
                   </div>
                 </div>
               )}

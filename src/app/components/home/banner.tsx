@@ -3,10 +3,11 @@
 import { useTranslations } from "@/i18n/TranslationProvider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-
 export const Banner = () => {
   const router = useRouter();
   const { t, locale } = useTranslations();
+  const restaurantName = t("banner.name");
+
   return (
     <section className="relative h-[calc(100vh-90px)] w-full overflow-hidden">
       <div className="absolute inset-0">
@@ -34,20 +35,22 @@ export const Banner = () => {
             </div>
           </div>
 
-          <div className="xl:p-4 pt-6 sm:p-6 font-[system-ui] text-[15px] sm:text-base md:text-[20px] sm:max-w-[560px] mx-auto text-white/90 leading-relaxed">
-            Welcome to <b>Tibba Restaurant</b>, where authentic Yemeni flavors
-            thrive. Enjoy a memorable dining experience and explore our menu.
-          </div>
+          <div
+            className="xl:p-4 pt-6 sm:p-6 font-[system-ui] text-[15px] sm:text-base md:text-[20px] sm:max-w-[560px] mx-auto text-white/90 leading-relaxed"
+            dangerouslySetInnerHTML={{
+              __html: t("banner.description", { name: restaurantName }),
+            }}
+          ></div>
 
           <div className="flex justify-center">
             <div className="inline-flex flex-col items-center w-fit sm:w-auto mt-7">
               <div className="h-px w-full sm:w-full bg-gradient-to-r from-transparent via-[#d1a054] to-transparent mb-2 sm:mb-3" />
 
               {/* <button
-                className="px-4 sm:px-8 py-2 text-xs sm:text-sm tracking-widest hover:text-[#d1a054] transition cursor-pointer whitespace-nowrap"
+                className="px-4 sm:px-8 py-2 text-sm tracking-widest hover:text-[#d1a054] transition font-semibold cursor-pointer whitespace-nowrap"
                 onClick={() => router.push(`/${locale}/onlineordering`)}
               >
-                online ordering
+                {t("banner.order")}
               </button> */}
 
               <div className="h-px w-full sm:w-full bg-gradient-to-r from-transparent via-[#d1a054] to-transparent mt-2 sm:mt-3" />

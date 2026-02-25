@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
 export interface CartProduct {
   _id: string;
   name?: string;
@@ -18,11 +19,30 @@ export interface CartResponse {
   locationId?: string;
 }
 
+/* ⭐ Automatically detect language from Next.js URL */
+const getLocale = () => {
+  if (typeof window === "undefined") return "en";
+
+  const path = window.location.pathname.split("/");
+  const lang = path[1];
+
+  if (lang === "ar" || lang === "en") return lang;
+  return "en";
+};
+
 export const cartApi = createApi({
   reducerPath: "cartApi",
+
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
     credentials: "include",
+
+    // ⭐ send locale to backend on every request
+    prepareHeaders: (headers) => {
+      const locale = getLocale();
+      headers.set("x-locale", locale);
+      return headers;
+    },
   }),
 
   refetchOnFocus: false,

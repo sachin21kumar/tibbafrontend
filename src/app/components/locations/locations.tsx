@@ -41,7 +41,7 @@ export default function LocationCard() {
           />
 
           <h1 className="relative z-10 text-white text-2xl sm:text-3xl md:text-5xl font-cinzel bg-white/10 border border-white/32 backdrop-blur-[20px] px-4 sm:px-6 py-3 sm:py-5 text-center">
-            LOCATIONS
+            {t("location.location")}
           </h1>
         </div>
 
@@ -97,7 +97,7 @@ export default function LocationCard() {
                   href={`/${locale}/locations/${location._id}`}
                   className="mt-6 w-fit text-[#AD5727] font-regular hover:text-yellow-600"
                 >
-                  More Details
+                  {t("location.moredetail")}
                 </a>
                 <div className="w-[108px] bg-gradient-to-r from-[#AD5727] to-[#AD5727]/0 ... h-[1px]"></div>
               </div>

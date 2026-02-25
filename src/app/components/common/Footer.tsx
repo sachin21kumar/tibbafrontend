@@ -1,33 +1,40 @@
+"use client";
+import { useTranslations } from "@/i18n/TranslationProvider";
 import { FaFacebookF, FaInstagram, FaTripadvisor } from "react-icons/fa";
 
 export const Footer = () => {
+  const { locale, t } = useTranslations();
+  const year = new Date().getFullYear();
+  const brand = t("brand.name");
   return (
     <footer className="bg-[#56381D] pt-10 xl:pt-14">
       <div className="max-w-[1508px] mx-auto grid grid-cols-1 xl:grid-cols-3 gap-10 xl:gap-12 text-white px-4 sm:px-6">
         <div className="hidden xl:block text-center xl:text-left">
-          <h3 className="uppercase tracking-widest text-[18px]">Lunch Time</h3>
+          <h3 className="uppercase tracking-widest text-[18px]">
+            {t("footer.lunch_time")}
+          </h3>
 
           <div className="mt-2 h-[1px] w-[200px] sm:w-[260px] bg-gradient-to-r from-[#D1A054] to-transparent mx-auto xl:mx-0" />
 
           <div className="mt-6 font-[system-ui] text-sm leading-relaxed">
             <span className="font-semibold">
-              Various Business Lunches Offer
+              {t("footer.business_lunch_offer")}
             </span>
-            <div>Monday to Sunday: 11:00 Am Onwards</div>
+            <div>{t("footer.schedule")}</div>
           </div>
         </div>
 
         <div className="text-center px-2 sm:px-0">
           <h3 className="uppercase tracking-[3px] sm:tracking-[4px] text-[20px] sm:text-[22px] font-serif">
-            Tibba Restaurant
+           {t("banner.title")}
           </h3>
           <div className="w-fit m-auto">
-            <div className="h-[9px] tracking-[4px] text-[8px] text-white bg-[radial-gradient(circle,_#d1a054_20%,_transparent_100%)] mx-auto">
-              Restaurant
+            <div className={`h-[9px] tracking-[4px] text-[8px] text-white bg-[radial-gradient(circle,_#d1a054_20%,_transparent_100%)] mx-auto`}>
+              {t("brand.restaurant")}
             </div>
 
             <div className="mt-5 sm:mt-6 text-sm font-[system-ui] leading-relaxed">
-              Al Qusais, Dubai, UAE Main Branch
+              {t("footer.main_branch")}
             </div>
           </div>
 
@@ -36,13 +43,13 @@ export const Footer = () => {
             <a href="tel:+97142578584">+971 4 2578584</a>
           </div>
 
-          <span className="open-close-signboard">Open until 12:00 AM</span>
+          <span className="open-close-signboard">{t("footer.open_until")}</span>
         </div>
 
         <div className="text-center xl:text-right">
           <div className="w-fit ml-auto flex flex-col justify-end">
             <h3 className="hidden xl:block uppercase tracking-widest text-[18px]">
-              Follow Us
+              {t("footer.follow_us")}
             </h3>
 
             <div className="hidden xl:block mt-2 h-[1px]  sm:w-[345px] bg-gradient-to-l from-[#D1A054] to-transparent mx-auto xl:ml-auto" />
@@ -63,7 +70,7 @@ export const Footer = () => {
 
       <div className="border-t border-white/10 mt-10 xl:mt-12 py-5 xl:py-6">
         <div className="text-center xl:text-right text-[9px] sm:text-sm text-white/60 max-w-[1508px] mx-auto px-4 sm:px-6">
-          © {new Date().getFullYear()} Tibba. All rights reserved.
+          {t("footer.copyright", { year: String(year), name: brand })}
         </div>
       </div>
     </footer>

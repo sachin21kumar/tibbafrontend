@@ -8,16 +8,9 @@ import { useGetLocationByIdQuery } from "../redux/query/locationsQuery/location.
 import LocationForm from "./locationForm";
 import LocationsGrid from "./locationsGrid";
 import Image from "next/image";
+import { useTranslations } from "@/i18n/TranslationProvider";
 
-const openingHours = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
+
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -79,6 +72,16 @@ const openLocation = (lat: number, lng: number) => {
 };
 
 export default function LocationDetails({ id }: any) {
+    const { locale, t } = useTranslations();
+  const openingHours = [
+  t("locationdetail.monday"),
+  t("locationdetail.tuesday"),
+  t("locationdetail.wednesday"),
+  t("locationdetail.thursday"),
+  t("locationdetail.friday"),
+  t("locationdetail.saturday"),
+  t("locationdetail.sunday"),
+];
   const { data: location, isLoading } = useGetLocationByIdQuery(id, {
     skip: !id,
   });
@@ -111,7 +114,7 @@ export default function LocationDetails({ id }: any) {
         />
 
         <h1 className="relative z-10 text-white text-2xl sm:text-3xl md:text-5xl font-cinzel bg-white/10 border border-white/32 backdrop-blur-[20px] px-4 sm:px-6 py-3 sm:py-4">
-          Open until {location?.operation_hours?.slice(7)}
+          {t("locationdetail.openUntil")} {location?.operation_hours?.slice(7)}
         </h1>
       </div>
 

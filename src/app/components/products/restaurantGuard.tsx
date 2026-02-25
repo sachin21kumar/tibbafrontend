@@ -5,8 +5,11 @@ import { setOrderType } from "../redux/slices/orderSlice";
 import { useAppDispatch } from "../redux/hook";
 import { useGetLocationByIdQuery } from "../redux/query/locationsQuery/location.query";
 import Image from "next/image";
+import { useTranslations } from "@/i18n/TranslationProvider";
 
 export const RestaurantCard = ({ order }) => {
+  const { locale, t } = useTranslations();
+
   const locationId = order?.location?._id;
   const { data: location, isLoading } = useGetLocationByIdQuery(locationId, {
     skip: !locationId,
@@ -58,7 +61,7 @@ export const RestaurantCard = ({ order }) => {
                 dispatch(setOrderType("delivery"));
               }}
             >
-              Delivery
+              {t("onlineordering.delivery")}
             </button>
 
             <button
@@ -74,24 +77,25 @@ export const RestaurantCard = ({ order }) => {
                 dispatch(setOrderType("pickup"));
               }}
             >
-              Pickup - 10% off
+              {t("onlineordering.pickup")}
             </button>
           </div>
 
           {selectedOption === "delivery" ? (
             <div>
               <p className="text-xs sm:text-sm xl:text-sm text-[#AD5727] !font-[system-ui]">
-                Delivery fee (10 km):{" "}
-                <span className="line-through">د.إ 11.00</span> FREE
+                {t("onlineordering.deliveryfee")}:{" "}
+                <span className="line-through">د.إ 11.00</span>{" "}
+                {t("onlineordering.free")}
               </p>
 
               <p className="text-xs sm:text-sm xl:text-sm font-semibold !font-[system-ui] border text-[#AD5727] bg-white inline-block px-2 py-1 mt-1 rounded">
-                Unlimited FREE delivery. Try it for free!
+                {t("onlineordering.unlimited")}
               </p>
             </div>
           ) : (
             <p className="text-xs sm:text-sm xl:text-sm text-[#AD5727] !font-[system-ui]">
-              Pickup available - 10% off your order!
+              {t("onlineordering.available")}
             </p>
           )}
         </div>

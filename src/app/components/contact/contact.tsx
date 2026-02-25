@@ -4,6 +4,7 @@ import { FaMapMarkerAlt, FaClock, FaPhoneAlt } from "react-icons/fa";
 import { MdOutlinePhoneEnabled } from "react-icons/md";
 import ContactForm from "../locations/locationForm";
 import dynamic from "next/dynamic";
+import { useTranslations } from "@/i18n/TranslationProvider";
 const Location = dynamic(
   () => import("../home/locations").then((mod) => mod.Location),
   {
@@ -17,20 +18,22 @@ const Location = dynamic(
 );
 
 export const Contact = () => {
+  const { locale, t } = useTranslations();
+
   const infoCards = [
     {
       icon: <FaMapMarkerAlt />,
-      title: "ADDRESS",
-      text: "Al Qusais, Dubai, UAE Main Branch",
+      title: t("contact.address_title"),
+      text: t("contact.address_value"),
     },
     {
       icon: <FaClock />,
-      title: "OPENING HOURS",
-      text: "Mon - Fri: 11:00 - 24:00\nSat - Sun: 11:00 - 24:00",
+      title: t("contact.opening_hours"),
+      text: `${t("contact.weekday_hours")}\n${t("contact.weekend_hours")}`,
     },
     {
       icon: <MdOutlinePhoneEnabled />,
-      title: "PHONE",
+      title: t("contact.phone"),
       text: (
         <>
           <a href="tel:+97142578585">+971 4 2578585</a>
@@ -49,17 +52,19 @@ export const Contact = () => {
         }}
       >
         <h1 className="text-white text-2xl sm:text-3xl md:text-5xl font-cinzel bg-white/10 border-white/32 backdrop-blur-[20px] px-4 sm:px-5 md:px-6 py-4 sm:py-5 md:py-7">
-          Contact Us
+          {t("contact.title")}
         </h1>
       </div>
 
       <div className="max-w-[1288px] mx-auto pt-15 font-semibold">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-[26px]  text-[#AD5727] leading-[0.7]">Visit Us</p>
+          <p className="text-[26px]  text-[#AD5727] leading-[0.7]">
+            {t("contact.visit_us")}
+          </p>
           <div className="h-px w-[300px] mx-auto bg-gradient-to-r from-transparent via-[#AD5727] to-transparent" />
 
           <button className="text-lg text-[#AD5727] p-[8px] leading-7 text-[34px] font-normal">
-            Our Location
+            {t("contact.our_location")}
           </button>
           <div className="h-px w-[300px] mx-auto bg-gradient-to-r from-transparent via-[#AD5727] to-transparent" />
         </div>

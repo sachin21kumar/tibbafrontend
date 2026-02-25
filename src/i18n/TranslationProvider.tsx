@@ -33,16 +33,26 @@ export function useTranslations() {
   }
 
   // translation helper
-  const t = (path: string) => {
-    const keys = path.split(".");
-    let value = context.dict;
+  const t = (path: string, vars?: Record<string, string>) => {
+  const keys = path.split(".");
+  let value: any = context.dict;
 
-    for (const key of keys) {
-      value = value?.[key];
-    }
+  for (const key of keys) {
+    value = value?.[key];
+  }
 
-    return value;
-  };
+  if (!value) return path;
+
+  // interpolation {{variable}}
+  if (vars && typeof value === "string") {
+    Object.entries(vars).forEach(([k, v]) => {
+      const regex = new RegExp(`{{\\s*${k}\\s*}}`, "g");
+      value = value.replace(regex, v);
+    });
+  }
+
+  return value;
+};
 
   return { t, locale: context.locale };
 }

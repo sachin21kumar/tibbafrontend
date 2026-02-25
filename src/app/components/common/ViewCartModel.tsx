@@ -104,7 +104,7 @@ export default function ViewCartModal({
             <Dialog.Panel className="w-full max-w-2xl rounded-2xl bg-white shadow-xl flex flex-col max-h-[90vh]">
               <div className="relative border-b p-6 text-center border-b-[#AD5727]">
                 <h2 className="sm:text-[34px] text-[20px] tracking-wide text-[#AD5727]">
-                  View Order
+                  {t("View_cart_model.vieworder")}
                 </h2>
                 <button
                   onClick={onClose}
@@ -161,14 +161,14 @@ export default function ViewCartModal({
                 </div>
               ) : (
                 <span className="p-6 text-center w-full flex items-center justify-center text-[#AD5727] font-[system-ui]">
-                  No products in the cart.
+                  {t("View_cart_model.noproductincart")}
                 </span>
               )}
 
               {cart?.items?.length > 0 && (
                 <div className="p-6 border-t border-t-[#d1a054]">
                   <p className="mb-4 text-center text-[1.5rem] font-allura font-semibold text-[#AD5727]">
-                    Subtotal:{" "}
+                    {t("View_cart_model.subtotal")}:{" "}
                     <span className="text-[1.5rem]">
                       د.إ {cart?.totalPrice ?? 0}
                     </span>
@@ -180,7 +180,7 @@ export default function ViewCartModal({
                       onClose();
                     }}
                   >
-                    Checkout
+                    {t("View_cart_model.checkout")}
                   </button>
                 </div>
               )}

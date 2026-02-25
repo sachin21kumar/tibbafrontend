@@ -25,12 +25,33 @@ export interface AddProductPayload {
   formData: FormData;
 }
 
+/* ⭐ Detect locale from Next.js route */
+const getLocale = () => {
+  if (typeof window === "undefined") return "en";
+
+  const path = window.location.pathname.split("/");
+  const lang = path[1];
+
+  if (lang === "ar" || lang === "en") return lang;
+  return "en";
+};
+
 export const productApi = createApi({
   reducerPath: "productApi",
+
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
+
+    /* ⭐ attach language header to EVERY request */
+    prepareHeaders: (headers) => {
+      const locale = getLocale();
+      headers.set("x-locale", locale);
+      return headers;
+    },
   }),
+
   tagTypes: ["Product"],
+
   endpoints: (builder) => ({
     getProducts: builder.query<
       ProductResponse,
@@ -52,12 +73,13 @@ export const productApi = createApi({
         order = "asc",
       }) => {
         const params = new URLSearchParams();
+
         if (categoryId) params.append("categoryId", categoryId);
         if (name) params.append("name", name);
+
         params.append("page", page.toString());
         params.append("limit", limit.toString());
-        // params.append("sortBy", sortBy);
-        // params.append("order", order);
+
         return `product?${params.toString()}`;
       },
       providesTags: ["Product"],
@@ -76,6 +98,7 @@ export const productApi = createApi({
       }),
       invalidatesTags: ["Product"],
     }),
+
     deleteProduct: builder.mutation<{ message: string }, string>({
       query: (id) => ({
         url: `product/${id}`,
@@ -83,6 +106,7 @@ export const productApi = createApi({
       }),
       invalidatesTags: ["Product"],
     }),
+
     updateProduct: builder.mutation<
       Product,
       { id: string; formData: FormData }

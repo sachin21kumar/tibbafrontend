@@ -3,15 +3,99 @@
     "home": "الرئيسية",
     "about": "من نحن",
     "menu": "القائمة",
-    "contact": "اتصل بنا"
-  },
-  "home": {
-    "welcome": "مرحبا بكم في مطعم طيبة",
-    "description": "المذاق الأصيل للتقاليد"
+    "contact": "اتصل بنا",
+    "location": "المواقع",
+    "reservation": "حجز",
+    "opentable": "أوبن تيبل"
   },
   "banner": {
     "title": "مطعم طيبة",
     "subtitle": "مرحبا بكم في مطعم طيبة حيث تزدهر النكهات اليمنية الأصيلة. استمتع بتجربة طعام لا تُنسى واستكشف قائمتنا.",
-    "order": "الطلب عبر الإنترنت"
+    "order": "الطلب عبر الإنترنت",
+    "description": "مرحبًا بكم في <strong>{{name}}</strong>، حيث تزدهر النكهات اليمنية الأصيلة. استمتع بتجربة طعام لا تُنسى واستكشف قائمتنا.",
+    "name": "مطعم طيبة"
+  },
+  "offers": {
+    "free_delivery": "توصيل مجاني عند الطلب بقيمة تزيد عن 100 د.إ"
+  },
+  "footer": {
+    "lunch_time": "وقت الغداء",
+    "business_lunch_offer": "عروض غداء عمل متنوعة",
+    "schedule": "من الاثنين إلى الأحد: من الساعة 11:00 صباحًا فصاعدًا",
+    "follow_us": "تابعنا",
+    "main_branch": "القصيص، دبي، الإمارات العربية المتحدة – الفرع الرئيسي",
+    "open_until": "مفتوح حتى الساعة 12:00 صباحًا",
+    "copyright": "© {{year}} {{name}}. جميع الحقوق محفوظة"
+  },
+  "brand": {
+    "name": "تيبا",
+    "restaurant": "مطعم"
+  },
+  "contact": {
+    "title": "اتصل بنا",
+    "visit_us": "زورونا",
+    "our_location": "موقعنا",
+    "address_title": "عنوان",
+    "address_value": "القصيص، دبي، الإمارات العربية المتحدة – الفرع الرئيسي",
+    "opening_hours": "ساعات العمل",
+    "weekday_hours": "الاثنين - الجمعة: 11:00 - 24:00",
+    "weekend_hours": "السبت - الأحد: 11:00 - 24:00",
+    "phone": "الهاتف"
+  },
+  "contact_form": {
+    "subtitle": "أرسل لنا رسالة",
+    "title": "نموذج التواصل",
+    "name": "اسمك",
+    "email": "بريدك الإلكتروني",
+    "phone": "رقم هاتفك",
+    "message": "رسالتك",
+    "button": "احجز طاولة",
+    "sending": "جارٍ الإرسال...",
+    "success": "شكرًا لرسالتك. تم إرسالها بنجاح."
+  },
+  "validation": {
+    "email_required": "البريد الإلكتروني مطلوب",
+    "name_required": "الاسم مطلوب",
+    "phone_required": "رقم الهاتف مطلوب",
+    "invalid_email": "عنوان البريد الإلكتروني غير صالح"
+  },
+  "View_cart_model": {
+    "vieworder": "عرض الطلب",
+    "noproductincart": "لا توجد منتجات في سلة التسوق.",
+    "subtotal": "المجموع الفرعي",
+    "checkout": "إتمام الطلب"
+  },
+  "location": {
+    "moredetail": "مزيد من التفاصيل",
+    "location": "المواقع"
+  },
+  "locationdetail": {
+    "openUntil": "مفتوح حتى",
+    "opening_hours": "ساعات العمل",
+    "monday": "الاثنين",
+    "tuesday": "الثلاثاء",
+    "wednesday": "الأربعاء",
+    "thursday": "الخميس",
+    "friday": "الجمعة",
+    "saturday": "السبت",
+    "sunday": "الأحد"
+  },
+  "reservation": {
+    "opentable": "أوبن تيبل",
+    "reservation": "حجز",
+    "date": "التاريخ",
+    "time": "الوقت",
+    "guest_number": "عدد الضيوف",
+    "booking_loading": "جارٍ الحجز...",
+    "find_table": "ابحث عن طاولة"
+  },
+  "onlineordering": {
+    "delivery": "توصيل",
+    "deliveryfee": "رسوم التوصيل (10 كم)",
+    "unlimited": "توصيل مجاني غير محدود. جرّبه مجانًا!",
+    "pickup": "استلام - خصم 10٪",
+    "available": "الاستلام متاح - خصم 10٪ على طلبك!",
+    "additem": "إضافة عنصر",
+    "free":"حر"
   }
 }

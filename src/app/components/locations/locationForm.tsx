@@ -2,6 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useTranslations } from "@/i18n/TranslationProvider";
 
 type FormValues = {
   name: string;
@@ -11,6 +12,8 @@ type FormValues = {
 };
 
 export default function ContactForm() {
+  const { locale, t } = useTranslations();
+
   const [success, setSuccess] = useState(false);
 
   const {
@@ -34,26 +37,31 @@ export default function ContactForm() {
       <div className="container mx-auto max-w-7xl px-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-[18px] sm:text-[22px] lg:text-[26px] text-[#AD5727] leading-[0.9] sm:leading-[0.8] lg:leading-[0.7]">
-            Send Us a Message
+            {t("contact_form.subtitle")}
           </p>
 
           <div className="h-px w-[200px] sm:w-[260px] lg:w-[330px] mx-auto bg-gradient-to-r from-transparent via-[#AD5727] to-transparent" />
 
           <button className="text-[20px] sm:text-[26px] lg:text-[34px] text-[#AD5727] p-[6px] sm:p-[8px] lg:p-[9px] leading-7 font-normal">
-            CONTACT FORM
+            {t("contact_form.title")}
           </button>
 
           <div className="h-px w-[200px] sm:w-[260px] lg:w-[330px] mx-auto bg-gradient-to-r from-transparent via-[#AD5727] to-transparent" />
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 mt-10 font-semibold">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-16 mt-10 font-semibold"
+        >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             <div>
               <label className="block text-xs uppercase tracking-widest text-[#AD5727]">
-                Your Name
+                {t("contact_form.name")}
               </label>
               <input
-                {...register("name", { required: "Name is required" })}
+                {...register("name", {
+                  required: t("validation.name_required"),
+                })}
                 className={`w-full border-b  bg-transparent text-[#AD5727] outline-none font-serif
                   ${errors.name ? "border-red-500" : "border-[#AD5727]"}
                 `}
@@ -66,15 +74,15 @@ export default function ContactForm() {
             </div>
             <div>
               <label className="block text-xs uppercase tracking-widest text-[#AD5727] ">
-                Your Email
+                {t("contact_form.email")}
               </label>
               <input
                 type="email"
                 {...register("email", {
-                  required: "Email is required",
+                  required: t("validation.email_required"),
                   pattern: {
                     value: /^\S+@\S+$/i,
-                    message: "Invalid email address",
+                    message: t("validation.invalid_email"),
                   },
                 })}
                 className={`w-full border-b bg-transparent outline-none  text-[#AD5727] font-serif
@@ -89,12 +97,12 @@ export default function ContactForm() {
             </div>
             <div>
               <label className="block text-xs uppercase tracking-widest text-[#AD5727]">
-                Your Phone
+                {t("contact_form.phone")}
               </label>
               <input
                 type="tel"
                 {...register("phone", {
-                  required: "Phone number is required",
+                  required: t("validation.phone_required"),
                 })}
                 className={`w-full border-b text-[#9B7A63] bg-transparent outline-none font-serif
                   ${errors.phone ? "border-red-500" : "border-[#AD5727]"}
@@ -109,7 +117,7 @@ export default function ContactForm() {
           </div>
           <div className="m-0">
             <label className="block text-xs  uppercase tracking-widest text-[#AD5727]">
-              Your Message
+              {t("contact_form.message")}
             </label>
             <textarea
               rows={1}
@@ -126,11 +134,13 @@ export default function ContactForm() {
     transition-all
     duration-200"
             >
-              {isSubmitting ? "SENDING..." : "BOOK A TABLE"}
+              {isSubmitting
+                ? t("contact_form.sending")
+                : t("contact_form.button")}
             </button>
             {success && (
               <div className="text-sm border-t mt-5 border-b p-4 border-green-600 text-[#d1a054] font-[system-ui] w-full text-center">
-                Thank you for your message. It has been sent.
+                {t("contact_form.success")}
               </div>
             )}
           </div>

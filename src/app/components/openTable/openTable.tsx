@@ -81,23 +81,25 @@ export default function OpenTable() {
         }}
       >
         <h1 className="text-white text-4xl md:text-5xl font-cinzel bg-white/10 border-white/32 backdrop-blur-[20px] px-6 py-5">
-          Open Table
+          {t("reservation.opentable")}
         </h1>
       </div>
       <div className="w-full p-8 mx-auto font-semibold">
         <div className="text-center mb-8 grid justify-center">
           <p className="text-[#AD5727] italic text-[26px] font-[system-ui] border-b border-b-[#AD5727] w-[282px]">
-            Open Table
+            {t("reservation.opentable")}
           </p>
           <h1 className="text-3xl mt-1 border-b border-[#AD5727] text-[#AD5727] inline-block pb-2">
-            RESERVATION
+            {t("reservation.reservation")}
           </h1>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="mt-9">
           <div className="max-w-[1288px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
             <div className="flex flex-col">
-              <label className="text-[#AD5727] text-[12px] mb-1">DATE</label>
+              <label className="text-[#AD5727] text-[12px] mb-1">
+                {t("reservation.date")}
+              </label>
               <input
                 type="date"
                 className="border-b border-[#AD5727] text-[#AD5727] py-2 bg-transparent focus:outline-none"
@@ -111,7 +113,9 @@ export default function OpenTable() {
             </div>
 
             <div className="flex flex-col">
-              <label className="text-[#AD5727] text-[12px]">TIME</label>
+              <label className="text-[#AD5727] text-[12px]">
+                {t("reservation.time")}
+              </label>
               <select
                 className="border-b border-[#AD5727] text-[#AD5727] py-2 bg-transparent focus:outline-none"
                 {...register("time", { required: "Time is required" })}
@@ -131,7 +135,7 @@ export default function OpenTable() {
 
             <div className="flex flex-col">
               <label className="text-[#AD5727] text-[12px] ">
-                GUEST NUMBER
+                {t("reservation.guest_number")}
               </label>
               <select
                 className="border-b border-[#AD5727] text-[#AD5727] py-2 bg-transparent focus:outline-none"
@@ -162,7 +166,7 @@ export default function OpenTable() {
                 disabled={isSubmitting}
                 className="hover:bg-white hover:text-[#AD5727] hover:border-[#AD5727] hover:border text-[#AD5727] border border-[#AD5727] py-3 px-8 rounded-full hover:bg-gray-800 cursor-pointer transition disabled:opacity-50"
               >
-                {isSubmitting ? "BOOKING..." : "FIND A TABLE"}
+                {isSubmitting ? t("reservation.booking_loading") : t("reservation.find_table")}
               </button>
             </div>
           </div>

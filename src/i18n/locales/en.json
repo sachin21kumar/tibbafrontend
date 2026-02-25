@@ -3,15 +3,98 @@
     "home": "Home",
     "about": "About",
     "menu": "Menu",
-    "contact": "Contact"
-  },
-  "home": {
-    "welcome": "Welcome to Tibba Restaurant",
-    "description": "Authentic taste of tradition"
+    "contact": "Contact Us",
+    "location": "Locations",
+    "reservation": "Reservation",
+    "opentable": "OpenTable"
   },
   "banner": {
     "title": "TIBBA RESTAURANT",
-    "subtitle": "Welcome to Tibba Restaurant, where authentic Yemeni flavors thrive. Enjoy a memorable dining experience and explore our menu.",
-    "order": "Online Ordering"
+    "order": "Online Ordering",
+    "description": "Welcome to <strong>{{name}}</strong>, where authentic Yemeni flavors thrive. Enjoy a memorable dining experience and explore our menu.",
+    "name": "Tibba Restaurant"
+  },
+  "offers": {
+    "free_delivery": "Free Delivery on Order Over 100 د.إ"
+  },
+  "footer": {
+    "lunch_time": "Lunch Time",
+    "business_lunch_offer": "Various Business Lunches Offer",
+    "schedule": "Monday to Sunday: 11:00 AM Onwards",
+    "follow_us": "Follow Us",
+    "main_branch": "Al Qusais, Dubai, UAE – Main Branch",
+    "open_until": "Open Until 12:00 AM",
+    "copyright": "© {{year}} {{name}}. All rights reserved."
+  },
+  "brand": {
+    "name": "Tibba",
+    "restaurant": "Restaurant"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "visit_us": "Visit Us",
+    "our_location": "Our Location",
+    "address_title": "Address",
+    "address_value": "Al Qusais, Dubai, UAE Main Branch",
+    "opening_hours": "Opening Hours",
+    "weekday_hours": "Mon - Fri: 11:00 - 24:00",
+    "weekend_hours": "Sat - Sun: 11:00 - 24:00",
+    "phone": "Phone"
+  },
+  "contact_form": {
+    "subtitle": "Send Us a Message",
+    "title": "Contact Form",
+    "name": "Your Name",
+    "email": "Your Email",
+    "phone": "Your Phone",
+    "message": "Your Message",
+    "button": "Book a Table",
+    "sending": "Sending...",
+    "success": "Thank you for your message. It has been sent."
+  },
+  "validation": {
+    "emai_required": "Email is required",
+    "name_required": "Name is required",
+    "phone_required": "Phone number is required",
+    "invalid_email": "Invalid email address"
+  },
+  "View_cart_model": {
+    "vieworder": "View Order",
+    "noproductincart": "No products in the cart.",
+    "subtotal": "Subtotal",
+    "checkout": "Checkout"
+  },
+  "location": {
+    "moredetail": "More Details",
+    "location": "Locations"
+  },
+  "locationdetail": {
+    "openUntil": "Open Until",
+    "opening_hours": "Opening Hours",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday"
+  },
+  "resevation": {
+    "opentable": "Open Table",
+    "reservation": "Reservation",
+    "date": "Date",
+    "time": "Time",
+    "guest_number": "Guest Number",
+    "booking_loading": "BOOKING...",
+    "find_table": "FIND A TABLE"
+  },
+  "onlineordering": {
+    "delivery": "Delivery",
+    "deliveryfee": "Delivery fee (10 km)",
+    "unlimited": "Unlimited FREE delivery. Try it for free!",
+    "pickup": "Pickup - 10% off",
+    "available": "Pickup available - 10% off your order!",
+    "additem": "Add Item",
+    "free":"FREE"
   }
 }
