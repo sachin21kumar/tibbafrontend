@@ -41,6 +41,7 @@ export default function LanguageSwitcher() {
         onClick={() => setOpen(!open)}
         className="
           flex items-center gap-2
+          cursor-pointer
           px-4 py-2
           border border-[#d1a054]
           text-[13px] font-medium tracking-wide
@@ -67,11 +68,11 @@ export default function LanguageSwitcher() {
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-36 bg-[#56381D] text-white shadow-lg border rounded-md overflow-hidden z-50">
+        <div className="absolute right-0 mt-2 w-36 bg-white text-black shadow-lg cursor-pointer rounded-md overflow-hidden z-50">
           <button
             onClick={() => changeLanguage("en")}
-            className={`block w-full text-left px-4 py-2 text-sm ${
-              locale === "en" ? "bg-gray-100 text-[#56381D] font-semibold" : ""
+            className={`block w-full text-left cursor-pointer px-4 py-2 text-sm ${
+              locale === "en" ? "bg-[#56381D] text-white font-semibold" : ""
             }`}
           >
             English
@@ -80,8 +81,8 @@ export default function LanguageSwitcher() {
 
           <button
             onClick={() => changeLanguage("ar")}
-            className={`block w-full text-left px-4 py-2 text-sm ${
-              locale === "ar" ? "bg-gray-100 text-[#56381D] font-semibold" : ""
+            className={`block w-full text-left cursor-pointer px-4 py-2 text-sm ${
+              locale === "ar" ? "bg-[#56381D] text-white font-semibold" : ""
             }`}
           >
             العربية
