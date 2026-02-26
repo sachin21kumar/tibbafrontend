@@ -25,7 +25,6 @@ export interface AddProductPayload {
   formData: FormData;
 }
 
-/* ⭐ Detect locale from Next.js route */
 const getLocale = () => {
   if (typeof window === "undefined") return "en";
 
@@ -42,7 +41,6 @@ export const productApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
 
-    /* ⭐ attach language header to EVERY request */
     prepareHeaders: (headers) => {
       const locale = getLocale();
       headers.set("x-locale", locale);

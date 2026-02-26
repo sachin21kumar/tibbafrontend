@@ -33,7 +33,6 @@ export default async function RootLayout({
   const { locale } = await params;
   const isRTL = locale === "ar";
 
-  // ⭐ LOAD TRANSLATIONS HERE
   const dict = await getDictionary(locale);
 
   return (

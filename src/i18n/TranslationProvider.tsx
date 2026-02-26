@@ -32,27 +32,25 @@ export function useTranslations() {
     throw new Error("useTranslations must be used inside TranslationProvider");
   }
 
-  // translation helper
   const t = (path: string, vars?: Record<string, string>) => {
-  const keys = path.split(".");
-  let value: any = context.dict;
+    const keys = path.split(".");
+    let value: any = context.dict;
 
-  for (const key of keys) {
-    value = value?.[key];
-  }
+    for (const key of keys) {
+      value = value?.[key];
+    }
 
-  if (!value) return path;
+    if (!value) return path;
 
-  // interpolation {{variable}}
-  if (vars && typeof value === "string") {
-    Object.entries(vars).forEach(([k, v]) => {
-      const regex = new RegExp(`{{\\s*${k}\\s*}}`, "g");
-      value = value.replace(regex, v);
-    });
-  }
+    if (vars && typeof value === "string") {
+      Object.entries(vars).forEach(([k, v]) => {
+        const regex = new RegExp(`{{\\s*${k}\\s*}}`, "g");
+        value = value.replace(regex, v);
+      });
+    }
 
-  return value;
-};
+    return value;
+  };
 
   return { t, locale: context.locale };
 }

@@ -11,7 +11,6 @@ function detectBrowserLocale(request: NextRequest) {
 export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
-  // ignore next internals
   if (
     pathname.startsWith("/_next") ||
     pathname.startsWith("/api") ||
@@ -20,28 +19,24 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // check if locale already exists in URL
   const pathnameHasLocale = i18n.locales.some((locale) =>
-    pathname.startsWith(`/${locale}`)
+    pathname.startsWith(`/${locale}`),
   );
 
-  // ⭐ read cookie
   const cookieLocale = request.cookies.get("locale")?.value;
 
   if (pathnameHasLocale) {
     const response = NextResponse.next();
 
-    // ⭐ SAVE locale to cookie
     const currentLocale = pathname.split("/")[1];
     response.cookies.set("locale", currentLocale, {
       path: "/",
-      maxAge: 60 * 60 * 24 * 365, // 1 year
+      maxAge: 60 * 60 * 24 * 365,
     });
 
     return response;
   }
 
-  // use cookie if exists
   const locale = cookieLocale || detectBrowserLocale(request);
 
   const url = request.nextUrl.clone();

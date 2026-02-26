@@ -35,7 +35,6 @@ export interface SelectLocationPayload {
   locationId: string;
 }
 
-/* ⭐ Detect Next.js locale automatically */
 const getLocale = () => {
   if (typeof window === "undefined") return "en";
 
@@ -51,7 +50,6 @@ export const locationsApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
 
-    /* ⭐ VERY IMPORTANT — SEND LANGUAGE TO NESTJS */
     prepareHeaders: (headers) => {
       const locale = getLocale();
       headers.set("x-locale", locale);

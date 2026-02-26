@@ -19,7 +19,6 @@ export interface CartResponse {
   locationId?: string;
 }
 
-/* ⭐ Automatically detect language from Next.js URL */
 const getLocale = () => {
   if (typeof window === "undefined") return "en";
 
@@ -37,7 +36,6 @@ export const cartApi = createApi({
     baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
     credentials: "include",
 
-    // ⭐ send locale to backend on every request
     prepareHeaders: (headers) => {
       const locale = getLocale();
       headers.set("x-locale", locale);

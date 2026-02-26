@@ -24,8 +24,6 @@ export default function ContactForm() {
   } = useForm<FormValues>();
 
   const onSubmit = async (data: FormValues) => {
-    console.log(data);
-
     await new Promise((resolve) => setTimeout(resolve, 800));
 
     setSuccess(true);

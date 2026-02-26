@@ -21,7 +21,6 @@ export interface AddCategoryPayload {
   title: string;
 }
 
-// ⭐ detect locale from current URL
 const getLocale = () => {
   if (typeof window === "undefined") return "en";
 
@@ -37,7 +36,6 @@ export const categoryApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
 
-    // ⭐ automatically attach language header
     prepareHeaders: (headers) => {
       const locale = getLocale();
       headers.set("x-locale", locale);
@@ -48,7 +46,6 @@ export const categoryApi = createApi({
   tagTypes: ["Category"],
 
   endpoints: (builder) => ({
-    // GET CATEGORY (NOW LANGUAGE AWARE)
     getCategory: builder.query<CategoryResponse, void>({
       query: () => ({
         url: "category",
@@ -56,7 +53,6 @@ export const categoryApi = createApi({
       providesTags: ["Category"],
     }),
 
-    // UPDATE CATEGORY
     updateCategory: builder.mutation<Category, UpdateCategoryPayload>({
       query: ({ id, title }) => ({
         url: `category/${id}`,
@@ -66,7 +62,6 @@ export const categoryApi = createApi({
       invalidatesTags: ["Category"],
     }),
 
-    // DELETE CATEGORY
     deleteCategory: builder.mutation<{ message: string }, string>({
       query: (id) => ({
         url: `category/${id}`,
@@ -75,7 +70,6 @@ export const categoryApi = createApi({
       invalidatesTags: ["Category"],
     }),
 
-    // ADD CATEGORY
     addCategory: builder.mutation<Category, AddCategoryPayload>({
       query: (body) => ({
         url: "category",

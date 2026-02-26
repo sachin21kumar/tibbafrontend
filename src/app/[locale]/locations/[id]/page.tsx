@@ -52,15 +52,11 @@ export default async function Page({
   const { id } = await params;
 
   const location = await getLocation(id);
-  console.log(location, "location");
   const hours = parseOperatingHours(location?.operation_hours);
 
   const imageUrl = location?.imagePath
     ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/${location.imagePath}`
     : "https://tibba.ae/logo.png";
-console.log(hours?.opens)
-
-console.log(hours?.closes)
   const schema = location && {
     "@context": "https://schema.org",
     "@type": "Restaurant",

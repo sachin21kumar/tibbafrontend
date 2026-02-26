@@ -12,9 +12,6 @@ interface Category {
 }
 
 export default function Gallery() {
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-
   const [activeCategory, setActiveCategory] = useState<string>("");
 
   const { data: categoriesResponse, isLoading: categoriesLoading } =
@@ -26,39 +23,35 @@ export default function Gallery() {
   const categories: Category[] = categoriesResponse?.data || [];
   const products: any[] = productsResponse?.data || [];
 
-  /* ---------------- SORT CATEGORIES ---------------- */
- const sortedCategories = useMemo(() => {
-  if (!categories.length) return [];
+  const sortedCategories = useMemo(() => {
+    if (!categories.length) return [];
 
-  const isPopular = (title?: string) => {
-    if (!title) return false;
+    const isPopular = (title?: string) => {
+      if (!title) return false;
 
-    const normalized = title.trim().toLowerCase();
+      const normalized = title.trim().toLowerCase();
 
-    return (
-      normalized === "popular meals" ||
-      normalized == "الوجبات الشعبية" ||
-      normalized.includes("popular") ||
-      normalized.includes("الوجبات الشعبية")
-      // normalized.incluكثر شعبية")
-    );
-  };
+      return (
+        normalized === "popular meals" ||
+        normalized == "الوجبات الشعبية" ||
+        normalized.includes("popular") ||
+        normalized.includes("الوجبات الشعبية")
+      );
+    };
 
-  const popular = categories.find((cat) => isPopular(cat.title));
-  const others = categories.filter((cat) => !isPopular(cat.title));
+    const popular = categories.find((cat) => isPopular(cat.title));
+    const others = categories.filter((cat) => !isPopular(cat.title));
 
-  return popular ? [popular, ...others] : categories;
-}, [categories]);
+    return popular ? [popular, ...others] : categories;
+  }, [categories]);
 
-  /* ---------------- SECTION REFERENCES ---------------- */
   const categoryRefs = useRef<Record<string, HTMLElement | null>>({});
 
-  /* ---------------- CLICK SCROLL (FIXED OFFSET) ---------------- */
   const scrollToCategory = useCallback((categoryId: string) => {
     const el = categoryRefs.current[categoryId];
     if (!el) return;
 
-    const headerOffset = 130; // height of navbar + spacing
+    const headerOffset = 130;
     const elementPosition = el.getBoundingClientRect().top + window.scrollY;
     const offsetPosition = elementPosition - headerOffset;
 
@@ -68,17 +61,15 @@ export default function Gallery() {
     });
   }, []);
 
-  /* ---------------- SET FIRST CATEGORY ACTIVE ---------------- */
   useEffect(() => {
     if (!activeCategory && sortedCategories.length) {
       setActiveCategory(sortedCategories[0]._id);
     }
   }, [sortedCategories, activeCategory]);
 
-  /* ---------------- SCROLL ACTIVE CATEGORY DETECTOR ---------------- */
   useEffect(() => {
     const handleScroll = () => {
-      const offset = 140; // sticky header height
+      const offset = 140;
 
       let currentCategory = sortedCategories[0]?._id || "";
 
@@ -88,7 +79,6 @@ export default function Gallery() {
 
         const rect = el.getBoundingClientRect();
 
-        // when section top passes header
         if (rect.top - offset <= 0) {
           currentCategory = category._id;
         }
@@ -105,17 +95,13 @@ export default function Gallery() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [sortedCategories, activeCategory]);
 
-  /* ---------------- LOADING ---------------- */
   if (categoriesLoading || productsLoading) {
     return <p className="text-center py-10">Loading...</p>;
   }
 
-  /* ---------------- UI ---------------- */
   return (
     <div className="px-4 py-6 font-semibold">
       <div className="flex gap-[10px] mx-auto">
-
-        {/* ---------------- SIDEBAR ---------------- */}
         <aside className="hidden xl:block bg-white sticky top-[90px] h-fit border-r border-gray-200 flex-none w-[19%] p-4">
           <ul className="space-y-1 max-h-[80vh] overflow-y-auto">
             {sortedCategories.map((cat) => (
@@ -135,11 +121,10 @@ export default function Gallery() {
           </ul>
         </aside>
 
-        {/* ---------------- PRODUCTS ---------------- */}
         <main className="flex-1">
           {sortedCategories.map((category) => {
             const categoryProducts = products.filter(
-              (p) => p.categoryId === category._id
+              (p) => p.categoryId === category._id,
             );
 
             if (!categoryProducts.length) return null;
@@ -153,7 +138,6 @@ export default function Gallery() {
                 }}
                 className="mb-14 scroll-mt-40"
               >
-                {/* Category Heading */}
                 <div className="flex items-center gap-4 mb-10">
                   <h2 className="tracking-[3px] font-semibold text-[#AD5727] whitespace-nowrap">
                     {category.title.toUpperCase()}
@@ -165,7 +149,6 @@ export default function Gallery() {
                   </div>
                 </div>
 
-                {/* Product Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 will-change-transform">
                   {categoryProducts.map((product) => (
                     <div

@@ -1,16 +1,13 @@
 "use client";
 
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L, { LatLngExpression } from "leaflet";
-import { useParams } from "next/navigation";
 import { useGetLocationByIdQuery } from "../redux/query/locationsQuery/location.query";
 import LocationForm from "./locationForm";
 import LocationsGrid from "./locationsGrid";
 import Image from "next/image";
 import { useTranslations } from "@/i18n/TranslationProvider";
-
-
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -28,7 +25,7 @@ const FitBounds = ({
 
   if (locations.length > 0) {
     const bounds = L.latLngBounds(
-      locations.map((loc) => [loc.lat, loc.lng] as [number, number])
+      locations.map((loc) => [loc.lat, loc.lng] as [number, number]),
     );
     map.fitBounds(bounds, { padding: [50, 50] });
   }
@@ -36,7 +33,6 @@ const FitBounds = ({
   return null;
 };
 
-/* Smooth recenter after API load */
 const RecenterMap = ({ lat, lng }: { lat: number; lng: number }) => {
   const map = useMap();
 
@@ -48,23 +44,17 @@ const RecenterMap = ({ lat, lng }: { lat: number; lng: number }) => {
   return null;
 };
 
-/* Open navigation in native maps */
 const openLocation = (lat: number, lng: number) => {
   if (typeof window === "undefined") return;
 
   const ua = navigator.userAgent;
   let url = "";
 
-  // iPhone → Apple Maps
   if (/iPhone|iPad|iPod/i.test(ua)) {
     url = `https://maps.apple.com/?daddr=${lat},${lng}`;
-  }
-  // Android → Google Maps App
-  else if (/Android/i.test(ua)) {
+  } else if (/Android/i.test(ua)) {
     url = `geo:${lat},${lng}?q=${lat},${lng}`;
-  }
-  // Desktop → Google Maps Website
-  else {
+  } else {
     url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
   }
 
@@ -72,16 +62,16 @@ const openLocation = (lat: number, lng: number) => {
 };
 
 export default function LocationDetails({ id }: any) {
-    const { locale, t } = useTranslations();
+  const { t } = useTranslations();
   const openingHours = [
-  t("locationdetail.monday"),
-  t("locationdetail.tuesday"),
-  t("locationdetail.wednesday"),
-  t("locationdetail.thursday"),
-  t("locationdetail.friday"),
-  t("locationdetail.saturday"),
-  t("locationdetail.sunday"),
-];
+    t("locationdetail.monday"),
+    t("locationdetail.tuesday"),
+    t("locationdetail.wednesday"),
+    t("locationdetail.thursday"),
+    t("locationdetail.friday"),
+    t("locationdetail.saturday"),
+    t("locationdetail.sunday"),
+  ];
   const { data: location, isLoading } = useGetLocationByIdQuery(id, {
     skip: !id,
   });
@@ -90,13 +80,11 @@ export default function LocationDetails({ id }: any) {
 
   const today = new Date().toLocaleDateString("en-US", { weekday: "long" });
 
-  
- const validLocation =
+  const validLocation =
     location?.lat !== undefined && location?.lng !== undefined
       ? [{ lat: Number(location.lat), lng: Number(location.lng) }]
       : [];
 
-  /* fallback center (Dubai) */
   const genericCenter: LatLngExpression =
     validLocation.length > 0
       ? [validLocation[0].lat, validLocation[0].lng]
@@ -165,7 +153,7 @@ export default function LocationDetails({ id }: any) {
             <div className="bg-white shadow-xl border border-[#f8f8f8] md:p-8 font-semibold">
               <div className="flex items-center justify-center">
                 <h3 className="border-b border-b-[#d1a054] text-[#d1a054] font-[allura] text-[32px] pb-1 w-fit mb-6">
-                 {t("locationdetail.opening_hours")}
+                  {t("locationdetail.opening_hours")}
                 </h3>
               </div>
 
@@ -198,7 +186,6 @@ export default function LocationDetails({ id }: any) {
 
         <div className="mt-15">
           <div className="w-full xl:h-[364px] h-[329px] overflow-hidden border border-[#d1a054]">
-
             {validLocation.length > 0 ? (
               <MapContainer
                 {...({
@@ -220,7 +207,10 @@ export default function LocationDetails({ id }: any) {
                   />
                 ))}
 
-                <RecenterMap lat={validLocation[0].lat} lng={validLocation[0].lng} />
+                <RecenterMap
+                  lat={validLocation[0].lat}
+                  lng={validLocation[0].lng}
+                />
                 <FitBounds locations={validLocation} />
               </MapContainer>
             ) : (
@@ -228,10 +218,8 @@ export default function LocationDetails({ id }: any) {
                 Location map not available
               </div>
             )}
-
           </div>
         </div>
-
       </section>
     </>
   );

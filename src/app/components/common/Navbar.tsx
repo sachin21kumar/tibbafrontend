@@ -70,11 +70,9 @@ const Navbar = () => {
   const handleLogoDrag = (e: React.DragEvent<HTMLDivElement>) => {
     const homeUrl = window.location.origin + "/";
 
-    // Tell browser this is a URL, not an image
     e.dataTransfer.setData("text/uri-list", homeUrl);
     e.dataTransfer.setData("text/plain", homeUrl);
 
-    // nicer drag preview
     const img = new window.Image();
     img.src = "/tibba-logo.webp";
     e.dataTransfer.setDragImage(img, 40, 40);
