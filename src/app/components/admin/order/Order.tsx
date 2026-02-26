@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useGetLocationsQuery } from "../../redux/query/locationsQuery/location.query";
+import { useTranslations } from "@/i18n/TranslationProvider";
 
 type Order = {
   _id: string;
@@ -21,6 +22,7 @@ type Order = {
   locationId: string;
   createdAt: string;
   OrderStatus: string;
+  fullName: string;
 };
 
 type UpdateOrderForm = {
@@ -29,7 +31,9 @@ type UpdateOrderForm = {
   driverPhone?: string;
 };
 
-const statusOptions = [
+export default function AdminOrdersPage() {
+  const { t } = useTranslations();
+  const statusOptions = [
   "New",
   "Accepted",
   "Preparing",
@@ -37,8 +41,6 @@ const statusOptions = [
   "Delivered",
   "Cancelled",
 ];
-
-export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [editedOrders, setEditedOrders] = useState<
     Record<string, UpdateOrderForm>
@@ -85,13 +87,13 @@ export default function AdminOrdersPage() {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),
-        }
+        },
       );
       const result = await res.json();
       if (res.ok) {
         toast.success("Order updated");
         setOrders((prev) =>
-          prev.map((o) => (o._id === orderId ? { ...o, ...data } : o))
+          prev.map((o) => (o._id === orderId ? { ...o, ...data } : o)),
         );
       } else {
         toast.error(result.message || "Failed to update order");
@@ -105,7 +107,7 @@ export default function AdminOrdersPage() {
   const handleChange = (
     orderId: string,
     field: keyof UpdateOrderForm,
-    value: string
+    value: string,
   ) => {
     setEditedOrders((prev) => ({
       ...prev,
@@ -115,7 +117,7 @@ export default function AdminOrdersPage() {
 
   return (
     <div className="max-w-[1200px] mx-auto p-6 xl:min-h-[calc(100vh-430px)]">
-      <h1 className="text-3xl mb-6 text-center">Admin Orders Management</h1>
+      <h1 className="text-3xl mb-6 text-center">{t("order.adminOrder")}</h1>
 
       <div className="flex flex-col sm:flex-row gap-4 mb-6">
         <select
@@ -123,7 +125,7 @@ export default function AdminOrdersPage() {
           onChange={(e) => setSelectedLocation(e.target.value)}
           className="border px-3 py-2 rounded w-full sm:w-auto text-[#7a4a2e] focus:outline-none focus:ring-2 focus:ring-[#d1a054] text-ellipsis xl:text-[16px] text-[10px] overflow-hidden whitespace-nowrap"
         >
-          <option value="">All Locations</option>
+          <option value="">{t("order.all_locations")}</option>
           {locations?.map((loc: any) => (
             <option key={loc._id} value={loc._id}>
               {loc.name}
@@ -137,14 +139,18 @@ export default function AdminOrdersPage() {
           <table className="w-full border-collapse text-left">
             <thead className="bg-gray-50 sticky top-0 z-10">
               <tr className="text-xs font-semibold uppercase tracking-wider text-[#7a4a2e]">
-                <th className="px-4 py-3 border-b">Order ID</th>
-                <th className="px-4 py-3 border-b">Customer</th>
-                <th className="px-4 py-3 border-b">Address</th>
-                <th className="px-4 py-3 border-b">Phone</th>
-                <th className="px-4 py-3 border-b">Payment Status</th>
-                <th className="px-4 py-3 border-b">Order Status</th>
-                <th className="px-4 py-3 border-b">Driver</th>
-                <th className="px-4 py-3 border-b text-center">Action</th>
+                <th className="px-4 py-3 border-b">{t("order.orderId")}</th>
+                <th className="px-4 py-3 border-b">{t("order.customer")}</th>
+                <th className="px-4 py-3 border-b">{t("order.address")}</th>
+                <th className="px-4 py-3 border-b">{t("order.phone")}</th>
+                <th className="px-4 py-3 border-b">
+                  {t("order.paymentStatus")}
+                </th>
+                <th className="px-4 py-3 border-b">{t("order.orderStatus")}</th>
+                <th className="px-4 py-3 border-b">{t("order.driver")}</th>
+                <th className="px-4 py-3 border-b text-center">
+                  {t("order.action")}
+                </th>
               </tr>
             </thead>
 
@@ -159,7 +165,7 @@ export default function AdminOrdersPage() {
                   </td>
 
                   <td className="px-4 py-3 text-sm font-medium text-[#7a4a2e]">
-                    {order.firstName} {order.lastName}
+                    {order.fullName}
                   </td>
 
                   <td className="px-4 py-3 text-sm text-[#7a4a2e] leading-snug">
@@ -215,7 +221,7 @@ export default function AdminOrdersPage() {
 
                       <input
                         type="text"
-                        placeholder="Driver Name"
+                        placeholder={t("order.driverName")}
                         value={editedOrders[order._id]?.driverName || ""}
                         onChange={(e) =>
                           handleChange(order._id, "driverName", e.target.value)
@@ -225,7 +231,7 @@ export default function AdminOrdersPage() {
 
                       <input
                         type="text"
-                        placeholder="Driver Phone"
+                        placeholder={t("order.driverPhone")}
                         value={editedOrders[order._id]?.driverPhone || ""}
                         onChange={(e) =>
                           handleChange(order._id, "driverPhone", e.target.value)
@@ -237,7 +243,7 @@ export default function AdminOrdersPage() {
                         type="submit"
                         className="mt-1 bg-[#d1a054] hover:opacity-90 transition text-white px-3 py-1.5 rounded-md text-xs font-semibold tracking-wide cursor-pointer"
                       >
-                        Update
+                        {t("order.update")}
                       </button>
                     </form>
                   </td>

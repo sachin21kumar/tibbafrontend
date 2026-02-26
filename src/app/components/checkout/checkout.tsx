@@ -70,9 +70,7 @@ export const CheckoutPage = () => {
 
       if (!data.valid) {
         setIsAddressValid(false);
-        setAddressValidationError(
-          data.message || "Please include city or state name",
-        );
+        setAddressValidationError(t("checkout.addressmustcontain"));
         return false;
       }
 
@@ -93,7 +91,7 @@ export const CheckoutPage = () => {
     }
 
     if (data.deliveryType === "delivery" && !isAddressValid) {
-      toast.error("Please enter a valid address with city or state");
+      toast.error(t("checkout.enterValidAddress"));
       return;
     }
 
@@ -123,7 +121,7 @@ export const CheckoutPage = () => {
       const geo = await geocodeAddress(fullAddress);
 
       if (!geo) {
-        toast.error("Unable to locate your address.");
+        toast.error(t("checkout.unableToLocate"));
         return;
       }
 
@@ -142,24 +140,24 @@ export const CheckoutPage = () => {
       const { clientSecret, orderId } = res;
 
       if (!orderId) {
-        toast.error("Failed to get order ID.");
+        toast.error(t("checkout.failedToGetId"));
         return;
       }
       if (data.paymentMethod === "cod") {
         Cookies.remove("selectedLocationId");
-        toast.success("Order placed successfully!");
+        toast.success(t("checkout.placeSuccessfully"));
         await confirmPayment({ orderId }).unwrap();
         window.location.href = `/order-success?orderId=${orderId}`;
         return;
       }
       if (!stripe || !elements) {
-        toast.error("Stripe not loaded");
+        toast.error(t("checkout.stripenotLoad"));
         return;
       }
 
       const card = elements.getElement(CardElement);
       if (!card) {
-        toast.error("Card input not found");
+        toast.error(t("checkout.cardInput"));
         return;
       }
 
@@ -179,7 +177,7 @@ export const CheckoutPage = () => {
         toast.error(paymentResult.error.message);
       } else if (paymentResult.paymentIntent?.status === "succeeded") {
         Cookies.remove("selectedLocationId");
-        toast.success("Payment successful!");
+        toast.success(t("checkout.paymentSuccess"));
         reset();
         await confirmPayment({ orderId }).unwrap();
         window.location.href = `/${locale}/order-success?orderId=${orderId}`;
@@ -201,7 +199,7 @@ export const CheckoutPage = () => {
     <div className="max-w-[1200px] mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-[1fr_430px] gap-16 font-semibold">
       <div>
         <h3 className="text-2xl font-semibold text-[#AD5727] tracking-wide mb-10 border-b border-b-[#AD5727]">
-          BILLING & SHIPPING
+          {t("checkout.bllingandshipping")}
         </h3>
 
         <form
@@ -210,7 +208,8 @@ export const CheckoutPage = () => {
         >
           <div className="w-full">
             <label className="text-xs uppercase tracking-wider font-semibold text-[#AD5727] mb-2 block">
-              Delivery Type <span className="text-red-500">*</span>
+              {t("checkout.delivertype")}
+              <span className="text-red-500">*</span>
             </label>
 
             <div className="flex gap-3">
@@ -230,7 +229,7 @@ export const CheckoutPage = () => {
         peer-checked:border-[#d1a054]
         bg-white text-[#AD5727]"
                 >
-                  DELIVERY
+                  {t("checkout.delivery")}
                 </div>
               </label>
 
@@ -239,7 +238,7 @@ export const CheckoutPage = () => {
                   type="radio"
                   value="pickup"
                   {...register("deliveryType", {
-                    required: "Please select delivery type",
+                    required: t("validation.select_delivery"),
                   })}
                   className="hidden peer"
                 />
@@ -250,7 +249,7 @@ export const CheckoutPage = () => {
         peer-checked:border-[#d1a054]
         bg-white text-[#AD5727] border-[#d1a054]"
                 >
-                  PICKUP
+                  {t("checkout.pickup")}
                 </div>
               </label>
             </div>
@@ -264,12 +263,12 @@ export const CheckoutPage = () => {
 
           <div>
             <label className="text-xs uppercase tracking-wider text-[#AD5727]">
-              Full Name <span className="text-red-500">*</span>
+              {t("checkout.fullName")} <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
               {...register("fullName", {
-                required: "First name is required",
+                required: t("validation.first_name"),
               })}
               className={`w-full border-b text-[#AD5727] !font-[system-ui] focus:outline-none py-2 ${
                 isSubmitted && errors.fullName
@@ -285,12 +284,13 @@ export const CheckoutPage = () => {
           </div>
           <div>
             <label className="text-xs uppercase tracking-wider text-[#AD5727]">
-              Building Name <span className="text-red-500">*</span>
+              {t("checkout.buildingName")}{" "}
+              <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
               {...register("buildingName", {
-                required: "Building Name is required",
+                required: t("validation.building_name"),
               })}
               className={`w-full border-b text-[#AD5727] !font-[system-ui] focus:outline-none py-2 ${
                 isSubmitted && errors.buildingName
@@ -306,7 +306,8 @@ export const CheckoutPage = () => {
           </div>
           <div className="relative">
             <label className="text-xs uppercase tracking-wider text-[#AD5727]">
-              Flat Address <span className="text-red-500">*</span>
+              {t("checkout.flatAddress")}{" "}
+              <span className="text-red-500">*</span>
             </label>
             <input
               {...register("address", {
@@ -317,7 +318,7 @@ export const CheckoutPage = () => {
                   ? "border-red-500"
                   : "border-[#d1a054]"
               }`}
-              placeholder="Flat / Apartment / City / State"
+              placeholder={t("checkout.flat")}
               onBlur={async (e) => {
                 const building = getValues("buildingName") || "";
                 const fullAddress = `${building}, ${e.target.value}`;
@@ -336,12 +337,12 @@ export const CheckoutPage = () => {
 
           <div>
             <label className="text-xs uppercase tracking-wider text-[#AD5727]">
-              Phone <span className="text-red-500">*</span>
+              {t("checkout.phone")} <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
               {...register("phone", {
-                required: "Phone is required",
+                required: t("validation.phone_required"),
               })}
               className={`w-full border-b text-[#AD5727] !font-[system-ui] focus:outline-none py-2 ${
                 isSubmitted && errors.phone
@@ -358,12 +359,12 @@ export const CheckoutPage = () => {
 
           <div>
             <label className="text-xs uppercase tracking-wider text-[#AD5727]">
-              Email <span className="text-red-500">*</span>
+              {t("checkout.email")} <span className="text-red-500">*</span>
             </label>
             <input
               type="email"
               {...register("email", {
-                required: "Email is required",
+                required: t("validation.email_required"),
               })}
               className={`w-full border-b text-[#AD5727] !font-[system-ui] focus:outline-none py-2 ${
                 isSubmitted && errors.email
@@ -378,12 +379,12 @@ export const CheckoutPage = () => {
             )}
           </div>
           <label className="text-xs uppercase tracking-wider text-[#AD5727]">
-            Payment Method:
+            {t("checkout.paymentMethod")}
           </label>
           <div className="flex gap-3 py-3">
             {[
-              { id: "stripe", label: "CARD PAYMENT" },
-              { id: "cod", label: "CASH ON DELIVERY" },
+              { id: "stripe", label: t("checkout.cardPayment") },
+              { id: "cod", label: t("checkout.cashDelivery") },
             ].map((p) => (
               <label key={p.id} className="cursor-pointer">
                 <input
@@ -411,17 +412,17 @@ export const CheckoutPage = () => {
 
       <div className="bg-white border border-[#d1a054] rounded-xl shadow-lg p-[40px] h-fit sticky top-30">
         <h3 className="font-semibold text-2xl mb-6 border-b border-b-[#d1a054] text-[#AD5727]">
-          YOUR ORDER
+          {t("checkout.yourOrder")}
         </h3>
         {items?.length > 0 ? (
           <table className="w-full text-sm border-collapse">
             <thead>
               <tr className="border-b border-b-[#d1a054]">
                 <th className="text-left font-bold pb-3 text-[#AD5727]">
-                  PRODUCT
+                  {t("checkout.product")}
                 </th>
                 <th className="text-right font-bold pb-3 text-[#AD5727]">
-                  SUBTOTAL
+                  {t("checkout.subtotal")}
                 </th>
               </tr>
             </thead>
@@ -430,7 +431,7 @@ export const CheckoutPage = () => {
               {isLoading ? (
                 <tr>
                   <td colSpan={2} className="py-6 text-center text-[#AD5727]">
-                    Loading cart...
+                    {t("checkout.loadingCart")}
                   </td>
                 </tr>
               ) : (
@@ -454,7 +455,7 @@ export const CheckoutPage = () => {
 
               <tr>
                 <th className="py-[12px] font-bold text-left text-[#AD5727]">
-                  SUBTOTAL
+                  {t("checkout.subtotal")}
                 </th>
                 <td className="py-[12px] text-[#AD5727] text-base text-left ">
                   د.إ {subtotal.toFixed(2)}
@@ -463,16 +464,16 @@ export const CheckoutPage = () => {
 
               <tr>
                 <th className="py-2 font-bold text-left text-[#AD5727]">
-                  SHIPPING
+                  {t("checkout.shipping")}
                 </th>
                 <td className="py-2 text-[#AD5727] text-left font-[system-ui]">
-                  Enter your address to view shipping options.
+                  {t("checkout.shippingOption")}
                 </td>
               </tr>
 
               <tr>
                 <th className="pt-2 font-semibold text-lg text-left text-[#AD5727]">
-                  TOTAL
+                  {t("checkout.total")}
                 </th>
                 <td className="pt-2 text-2xl text-[#AD5727] text-left">
                   د.إ {subtotal.toFixed(2)}
@@ -483,7 +484,7 @@ export const CheckoutPage = () => {
         ) : (
           <div className="w-full">
             <span className="text-center py-6 flex justify-center text-center w-full text-[#AD5727]">
-              Your cart is empty
+              {t("checkout.emptyCart")}
             </span>
           </div>
         )}
@@ -517,15 +518,13 @@ export const CheckoutPage = () => {
 
           <div className="py-4">
             <div className="text-xs text-[#AD5727] font-[system-ui] leading-tight">
-              Your personal data will be used to process your order, support
-              your experience throughout this website, and for other purposes
-              described in our{" "}
+              {t("checkout.policy")}{" "}
               <a
                 className="text-[#d8b07a] underline cursor-pointer hover:no-underline"
                 href={"#"}
                 target="_blank"
               >
-                privacy policy
+                {t("checkout.privacyPolicy")}
               </a>
               .
             </div>
@@ -534,7 +533,9 @@ export const CheckoutPage = () => {
             onClick={handleSubmit(onSubmit)}
             className="w-full text-xs mt-6 bg-[#d1a054] text-white py-4 rounded-full font-serif tracking-wide hover:opacity-90 transition cursor-pointer"
           >
-            {checkoutLoading ? "Placing...." : "PLACE ORDER"}
+            {checkoutLoading
+              ? t("checkout.loading")
+              : t("checkout.orderButton")}
           </button>
         </>
       </div>

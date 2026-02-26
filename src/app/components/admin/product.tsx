@@ -49,7 +49,7 @@ export default function ProductList() {
 
   return (
     <div className="max-w-7xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Products</h1>
+      <h1 className="text-2xl font-bold mb-6">{t("product.products")}</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {data?.data?.map((product) => (
@@ -73,14 +73,14 @@ export default function ProductList() {
                 href={`/${locale}/admin/products/${product._id}`}
                 className="px-4 py-2 text-sm bg-[#d1a054] text-white rounded hover:bg-[#c18f47]"
               >
-                Edit
+                {t("product.edit")}
               </Link>
 
               <button
                 onClick={() => handleDelete(product._id)}
                 className="px-4 py-2 text-sm bg-red-600 text-white rounded hover:bg-red-700"
               >
-                Delete
+                {t("product.delete")}
               </button>
             </div>
           </div>

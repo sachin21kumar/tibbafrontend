@@ -233,12 +233,12 @@ const Navbar = () => {
         <div className="lg:hidden bg-[#56381D] border-t border-white/10">
           <div className="flex flex-col px-8 py-7 space-y-4 items-start h-[calc(100vh-88px)]">
             {[
-              { label: "Home", path: `/${locale}` },
-              { label: "Menu", path: `/${locale}/menu` },
-              { label: "Contact Us", path: `/${locale}/contact` },
+              { label: t("nav.home"), path: `/${locale}` },
+              { label: t("nav.menu"), path: `/${locale}/menu` },
+              { label: t("nav.contact"), path: `/${locale}/contact` },
               // { label: "Online Ordering", path: `/${locale}/onlineordering` },
-              { label: "Locations", path: `/${locale}/locations` },
-              { label: "Reservation", path: `/${locale}/opentable` },
+              { label: t("nav.location"), path: `/${locale}/locations` },
+              { label: t("nav.reservation"), path: `/${locale}/opentable` },
             ].map((item) => (
               <div
                 key={item.path}
@@ -261,11 +261,11 @@ const Navbar = () => {
             ))}
 
             <p className="text-[16px] mt-[35px] !font-[cinzel]">
-              Closed until 12:00 am
+              {t("footer.open_until")}
             </p>
 
             <p className="text-[14px] !font-[system-ui]">
-              Al Qusais, Dubai, UAE Main Branch
+             {t("footer.main_branch")}
             </p>
 
             <p className="text-[14px] !font-[system-ui]">

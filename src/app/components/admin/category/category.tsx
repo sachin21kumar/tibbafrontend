@@ -7,8 +7,10 @@ import {
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,
 } from "../../redux/query/categoryQuery/categoryQuery";
+import { useTranslations } from "@/i18n/TranslationProvider";
 
 export default function AdminCategory() {
+  const { t } = useTranslations();
   const { data: category, isLoading } = useGetCategoryQuery();
 
   const [updateCategory, { isLoading: isUpdating }] =
@@ -82,16 +84,22 @@ export default function AdminCategory() {
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <h2 className="text-xl font-semibold mb-4">Categories</h2>
+      <h2 className="text-xl font-semibold mb-4">{t("category.categories")}</h2>
 
       <div className="overflow-x-auto">
         <table className="w-full border border-[#d1a054] rounded-lg">
           <thead className="bg-[#f9f5f0]">
             <tr>
               <th className="p-3 border border-[#d1a054]">#</th>
-              <th className="p-3 border border-[#d1a054] text-[#7a4a2e]">Category Name</th>
-              <th className="p-3 border border-[#d1a054] text-[#7a4a2e]">Category ID</th>
-              <th className="p-3 border border-[#d1a054] text-center text-[#7a4a2e]">Actions</th>
+              <th className="p-3 border border-[#d1a054] text-[#7a4a2e]">
+                {t("category.categoryname")}
+              </th>
+              <th className="p-3 border border-[#d1a054] text-[#7a4a2e]">
+                {t("category.categoryId")}
+              </th>
+              <th className="p-3 border border-[#d1a054] text-center text-[#7a4a2e]">
+                {t("category.actions")}
+              </th>
             </tr>
           </thead>
 
@@ -99,7 +107,9 @@ export default function AdminCategory() {
             {category?.data?.length ? (
               category.data.map((item, index) => (
                 <tr key={item._id} className="hover:bg-gray-50">
-                  <td className="p-3 border border-[#d1a054] text-[#7a4a2e]">{index + 1}</td>
+                  <td className="p-3 border border-[#d1a054] text-[#7a4a2e]">
+                    {index + 1}
+                  </td>
 
                   <td className="p-3 border border-[#d1a054] text-[#7a4a2e]">
                     {editId === item._id ? (
@@ -125,24 +135,22 @@ export default function AdminCategory() {
                           onClick={() => handleUpdate(item._id)}
                           className="px-3 py-1 text-sm bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-60 cursor-pointer"
                         >
-                          Save
+                          {t("category.save")}
                         </button>
                         <button
                           onClick={() => setEditId(null)}
                           className="px-3 py-1 text-sm bg-gray-400 text-white rounded hover:bg-gray-500 cursor-pointer"
                         >
-                          Cancel
+                          {t("category.cancel")}
                         </button>
                       </>
                     ) : (
                       <>
                         <button
-                          onClick={() =>
-                            handleEdit(item._id, item.title)
-                          }
+                          onClick={() => handleEdit(item._id, item.title)}
                           className="px-3 py-1 text-sm bg-[#da3743] text-white rounded hover:bg-[#da3743] cursor-pointer"
                         >
-                          Edit
+                          {t("category.edit")}
                         </button>
 
                         <button
@@ -150,7 +158,7 @@ export default function AdminCategory() {
                           onClick={() => handleDelete(item._id)}
                           className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 disabled:opacity-60 cursor-pointer"
                         >
-                          Delete
+                          {t("category.delete")}
                         </button>
                       </>
                     )}

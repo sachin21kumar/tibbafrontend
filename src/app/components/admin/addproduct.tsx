@@ -3,6 +3,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import { useAddProductMutation } from "../redux/query/productsQuery/productsQuery";
+import { useTranslations } from "@/i18n/TranslationProvider";
 
 interface ProductFormValues {
   name: string;
@@ -13,6 +14,7 @@ interface ProductFormValues {
 }
 
 export const AddProduct = () => {
+  const { t } = useTranslations();
   const {
     register,
     handleSubmit,
@@ -51,17 +53,17 @@ export const AddProduct = () => {
         className="w-full max-w-md bg-white rounded-xl shadow-md p-6 space-y-4"
       >
         <h2 className="text-xl font-semibold text-center text-[#d1a054]">
-          Add Product
+          {t("product.addProduct")}
         </h2>
 
         <div>
           <input
             type="text"
-            placeholder="Product Name"
+            placeholder={t("product.productName")}
             className="w-full border border-[#d1a054] !font-[system-ui] text-[#7a4a2e] focus:outline-none focus:ring-1 focus:ring-[#d1a054] rounded-lg px-3 py-2"
             {...register("name", {
-              required: "Name is required",
-              minLength: { value: 2, message: "Minimum 2 characters" },
+              required: t("validation.name_required"),
+              minLength: { value: 2, message: t("validation.minimum") },
             })}
           />
           {errors.name && (
@@ -72,11 +74,11 @@ export const AddProduct = () => {
         <div>
           <input
             type="number"
-            placeholder="Price"
+            placeholder={t("product.price")}
             className="w-full border rounded-lg px-3 py-2 !font-[system-ui] text-[#7a4a2e] focus:outline-none focus:ring-1 focus:ring-[#d1a054]"
             {...register("price", {
-              required: "Price is required",
-              min: { value: 1, message: "Price must be greater than 0" },
+              required: t("validation.price"),
+              min: { value: 1, message: t("validation.price_greaterthan") },
               valueAsNumber: true,
             })}
           />
@@ -88,10 +90,10 @@ export const AddProduct = () => {
         <div>
           <input
             type="text"
-            placeholder="Category ID"
+            placeholder={t("product.categoryId")}
             className="w-full border rounded-lg px-3 py-2 !font-[system-ui] text-[#7a4a2e] focus:outline-none focus:ring-1 focus:ring-[#d1a054]"
             {...register("categoryId", {
-              required: "Category ID is required",
+              required: t("validation.categoryId_required"),
             })}
           />
           {errors.categoryId && (
@@ -102,7 +104,7 @@ export const AddProduct = () => {
         </div>
 
         <textarea
-          placeholder="Description (optional)"
+          placeholder={t("product.description")}
           rows={3}
           className="w-full border rounded-lg px-3 py-2 resize-none !font-[system-ui] text-[#7a4a2e] focus:outline-none focus:ring-1 focus:ring-[#d1a054]"
           {...register("description")}
@@ -113,7 +115,7 @@ export const AddProduct = () => {
             type="file"
             accept="image/*"
             {...register("image", {
-              required: "Product Image is required",
+              required: t("validation.product_image"),
             })}
             className="text-[#7a4a2e] cursor-pointer w-full"
           />
@@ -127,7 +129,7 @@ export const AddProduct = () => {
           disabled={isLoading}
           className="w-full bg-[#d1a054] text-white py-2 cursor-pointer rounded-lg disabled:opacity-70"
         >
-          {isLoading ? "Saving..." : "Add Product"}
+          {isLoading ? t("product.saving") : t("product.addProduct")}
         </button>
       </form>
     </div>

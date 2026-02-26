@@ -10,7 +10,7 @@ import { setLocation } from "../redux/slices/orderSlice";
 import { useTranslations } from "@/i18n/TranslationProvider";
 
 export default function SelectLocationPage() {
-  const { t, locale } = useTranslations()
+  const { t, locale } = useTranslations();
   const { data }: any = useGetLocationsQuery();
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -39,10 +39,10 @@ export default function SelectLocationPage() {
       <div className="w-full max-w-xl">
         <div className="mb-6 text-center">
           <h1 className="text-2xl font-semibold text-[#d1a054]">
-            Choose a Restaurant Location
+            {t("selectLocation.chooserestaurant")}
           </h1>
           <span className="text-sm text-[#7A4A2E] mt-1">
-            Select the nearest outlet to view the menu
+            {t("selectLocation.nearestoutlet")}
           </span>
         </div>
 

@@ -259,7 +259,8 @@ export default function AddToCartModal({
                     disabled={isAdding}
                     className="bg-[#D1A054] text-white text-[14px] md:text-[20px] md:px-15 px-2 py-3 rounded-lg font-medium hover:opacity-90 cursor-pointer"
                   >
-                    Add item | د.إ {product.price * quantity}
+                    {t("onlineordering.additem")} | د.إ{" "}
+                    {product.price * quantity}
                   </button>
                 )}
               </div>

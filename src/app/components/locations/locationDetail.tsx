@@ -165,7 +165,7 @@ export default function LocationDetails({ id }: any) {
             <div className="bg-white shadow-xl border border-[#f8f8f8] md:p-8 font-semibold">
               <div className="flex items-center justify-center">
                 <h3 className="border-b border-b-[#d1a054] text-[#d1a054] font-[allura] text-[32px] pb-1 w-fit mb-6">
-                  Opening Hours
+                 {t("locationdetail.opening_hours")}
                 </h3>
               </div>
 

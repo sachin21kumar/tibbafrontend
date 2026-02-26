@@ -44,28 +44,27 @@ export default function OrderSuccessPage() {
         </div>
 
         <h1 className="text-2xl font-bold text-[#AD5727] mb-4">
-          Thank you for your order!
+          {t("orderSuccess.thankyou")}
         </h1>
 
         <p className="text-[#AD5727] !font-[system-ui] mb-6">
-          Your payment was successful and your order is being processed. You
-          will receive an email confirmation shortly.
+          {t("orderSuccess.sucesspayment")}
         </p>
 
         <Link
           href={`/${locale}`}
           className="inline-block bg-[#AD5727] text-white py-3 px-8 rounded-full font-semibold hover:opacity-90 transition"
         >
-          Continue Shopping
+          {t("orderSuccess.continueShopping")}
         </Link>
 
         <div className="mt-6 text-sm text-[#7a4a2e]">
-          Need help?{" "}
+          {t("orderSuccess.needhelp")}{" "}
           <Link
             href={`/${locale}/contact`}
             className="underline text-[#AD5727]"
           >
-            Contact us
+            {t("orderSuccess.contactus")}
           </Link>
         </div>
       </div>

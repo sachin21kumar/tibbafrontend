@@ -29,9 +29,9 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div className="h-[54vh] flex justify-center items-center">
-      <p className="!font-[system-ui] text-xl">Coming Soon</p>
-      {/* <AdminOrdersPage /> */}
-    </div>
+    // <div className="h-[54vh] flex justify-center items-center">
+    //   <p className="!font-[system-ui] text-xl">Coming Soon</p>
+    <AdminOrdersPage />
+    // </div>
   );
 }

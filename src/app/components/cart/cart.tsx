@@ -75,11 +75,11 @@ export default function CartPage() {
   }, [cart?.items]);
 
   if (isLoading) {
-    return <p className="text-center my-12">Loading cart...</p>;
+    return <p className="text-center my-12">{t("checkout.loadingCart")}</p>;
   }
 
   if (isError || !cart || cart.items.length === 0) {
-    return <p className="text-center my-12">Cart is empty.</p>;
+    return <p className="text-center my-12">{t("checkout.emptyCart")}</p>;
   }
 
   const total = subtotal;
@@ -87,7 +87,7 @@ export default function CartPage() {
   return (
     <>
       <h1 className="text-[40px] flex justify-center py-[2rem] bg-[#fbfbfb] border-[#d1a054] text-[#d1a054] border mb-6 text-center lg:text-left">
-        Cart
+        {t("cart.cart")}
       </h1>
 
       <div className="max-w-[1288px] mx-auto md:my-[90px] px-4 grid grid-cols-1 lg:grid-cols-[1fr_430px] gap-6">
@@ -95,10 +95,10 @@ export default function CartPage() {
           <table className="w-full min-w-[600px] border-separate border-spacing-y-4">
             <thead className="border-collapse">
               <tr className="text-sm text-[#7a4a2e] uppercase bg-[linear-gradient(to_left,#fafafa_0px,#fafafa_70px,transparent_870px)]">
-                <th className="pl-4 text-left">Product</th>
-                <th className="px-8 py-4 text-left">Price</th>
-                <th className="px-8 py-4 text-left">Quantity</th>
-                <th className="px-8 py-4 text-left">Subtotal</th>
+                <th className="pl-4 text-left">{t("cart.product")}</th>
+                <th className="px-8 py-4 text-left">{t("cart.price")}</th>
+                <th className="px-8 py-4 text-left">{t("cart.quantity")}</th>
+                <th className="px-8 py-4 text-left">{t("cart.subtotal")}</th>
                 <th></th>
               </tr>
             </thead>
@@ -187,23 +187,28 @@ export default function CartPage() {
         <div className="w-full bg-white border border-[#d1a054] rounded-xl shadow-xl p-6 sm:p-[40px] h-fit">
           <div>
             <h2 className="text-[1.5rem] mb-4 border-b text-[#d1a054] border-b-[#d1a054]">
-              Cart Totals
+              {t("cart.cartTotal")}
             </h2>
 
             <div className="flex justify-between mb-2 py-[12px]">
-              <span className="font-bold text-[#7a4a2e]">Subtotal</span>
+              <span className="font-bold text-[#7a4a2e]">
+                {" "}
+                {t("cart.subtotal")}
+              </span>
               <span className="text-[#d1a054]">د.إ {subtotal.toFixed(2)}</span>
             </div>
 
             <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-5 mb-4 py-[12px]">
-              <span className="font-bold text-[#7a4a2e]">Shipping</span>
+              <span className="font-bold text-[#7a4a2e]">
+                {t("cart.shipping")}
+              </span>
               <span className="text-[#7a4a2e] text-[14px]">
-                Shipping costs are calculated during checkout
+                {t("cart.shippingNote")}
               </span>
             </div>
 
             <div className="flex justify-between text-lg font-semibold pb-[12px] pt-2 mb-4 text-[#7a4a2e]">
-              <span>Total</span>
+              <span>{t("cart.total")}</span>
               <span className="text-[#d1a054]">د.إ {total.toFixed(2)}</span>
             </div>
 
@@ -211,7 +216,7 @@ export default function CartPage() {
               className="w-full bg-[#d1a054] text-white py-4 rounded-full hover:opacity-90 transition-all cursor-pointer"
               onClick={() => router.push(`/${locale}/checkout`)}
             >
-              Proceed to Checkout
+              {t("cart.proceedCheckout")}
             </button>
           </div>
         </div>
