@@ -90,7 +90,7 @@ const Navbar = () => {
 
           <div className="flex items-center gap-2 hover:text-[#d1a054] transition">
             <FaClock className="text-[#d1a054]" size={12} />
-            <span>Open Daily 12:00 PM – 12:00 AM</span>
+            <span>Open Daily 11:00 AM – 12:00 PM</span>
           </div>
 
           <div className="w-px h-4 bg-white/20" />
