@@ -93,7 +93,7 @@ export default function LocationDetails({ id }: any) {
     <>
       <div className="relative w-full h-64 sm:h-80 md:h-100 flex items-center justify-center px-4 overflow-hidden">
         <Image
-          src={`${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}/uploads/products/${location?.imagePath}`}
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location?.imagePath}`}
           alt="Location Banner"
           fill
           priority

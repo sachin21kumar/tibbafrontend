@@ -55,7 +55,7 @@ export default function LocationCard() {
                 <img
                   src={
                     location?.imagePath
-                      ? `${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}/uploads/products/${location.imagePath}`
+                      ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location.imagePath}`
                       : "http://mtb.dgh.mybluehost.me/wp-content/uploads/2025/07/Abu-Hail-857x500.webp"
                   }
                   alt={location?.name}

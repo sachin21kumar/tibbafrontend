@@ -36,7 +36,7 @@ const SignatureDishes = () => {
             {/* Image */}
             <div className="relative h-52 w-full overflow-hidden">
               <Image
-                src={`${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}/uploads/products/${product.imagePath}`}
+                src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`}
                 alt={product.name}
                 fill
                 className="object-cover transition duration-500"
