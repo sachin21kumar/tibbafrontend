@@ -10,7 +10,7 @@ import { useGetCategoryQuery } from "../redux/query/categoryQuery/categoryQuery"
 const SignatureDishes = () => {
   const router = useRouter();
   const { locale } = useTranslations();
-  const { data: products } = useGetProductsQuery({ limit: 4 });
+  const { data: products } = useGetProductsQuery({ limit: 100 });
   const { data: categories } = useGetCategoryQuery();
 console.log("Categories:", categories);
 const signatureCategory = categories?.data.find(
@@ -19,7 +19,7 @@ const signatureCategory = categories?.data.find(
 console.log("Signature Category:", signatureCategory);
   console.log("Products for Signature Dishes:", products);
   // Show only first 4 products
-  const featuredProducts = products.data?.filter((prod: any) => prod.categoryId === signatureCategory?._id).slice(0, 4);
+  const featuredProducts = products?.data?.filter((prod: any) => prod.categoryId === signatureCategory?._id).slice(0, 4);
 
   return (
     <section className="pt-20 px-4 sm:px-6 lg:px-8">
