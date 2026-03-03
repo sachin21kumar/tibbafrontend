@@ -70,7 +70,7 @@ export default async function Page({
 
     email: location.branchEmail,
 
-    telephone: `+971${location.telephone.replace(/\s/g, "")}`,
+    // telephone: `+971${location.telephone.replace(/\s/g, "")}`,
 
     url: `https://tibba.ae/locations/${location._id}`,
 
