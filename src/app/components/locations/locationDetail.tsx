@@ -93,7 +93,7 @@ export default function LocationDetails({ id }: any) {
     <>
       <div className="relative w-full h-64 sm:h-80 md:h-100 flex items-center justify-center px-4 overflow-hidden">
         <Image
-          src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location?.imagePath}`}
+          src={`${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}/uploads/products/${location?.imagePath}`}
           alt="Location Banner"
           fill
           priority
@@ -106,7 +106,7 @@ export default function LocationDetails({ id }: any) {
         </h1>
       </div>
 
-      <section className="bg-white font-semibold">
+      <section className="font-semibold">
         <div className="container mx-auto max-w-7xl px-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 md:gap-16 gap-7 items-start ">
             <div className="lg:col-span-2 space-y-8 xl:py-20 py-10">

@@ -12,7 +12,9 @@
     "title": "TIBBA RESTAURANT",
     "order": "Online Ordering",
     "description": "Welcome to <strong>{{name}}</strong>, where authentic Yemeni flavors thrive. Enjoy a memorable dining experience and explore our menu.",
-    "name": "Tibba Restaurant"
+    "name": "Tibba Restaurant",
+    "reservetable": "Reserve a Table",
+    "viewmenu": "View Menu"
   },
   "offers": {
     "free_delivery": "Free Delivery on Order Over 100 د.إ"

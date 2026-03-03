@@ -22,7 +22,7 @@ export default function LocationsGrid() {
   const { t, locale } = useTranslations();
 
   return (
-    <section className="bg-white ">
+    <section className="">
       <div className="container mx-auto max-w-7xl px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {locations?.map((loc: Location) => (

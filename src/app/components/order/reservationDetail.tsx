@@ -80,7 +80,7 @@ export default function ReservationDetails() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center md:p-6 font-semibold">
+    <div className="min-h-screen flex justify-center md:p-6 font-semibold">
       <div className="bg-white w-full max-w-[640px] p-6 rounded-lg shadow">
         <div className="flex justify-center mb-6 mt-10 border-b border-b-gray-200 pb-4 text-sm">
           <div className="flex gap-6 text-gray-500">

@@ -72,7 +72,7 @@ export default function ReservationPage() {
 
   return (
     <>
-      <div className="min-h-screen bg-gray-100 flex justify-center items-start py-[16px] font-semibold">
+      <div className="min-h-screen flex justify-center items-start py-[16px] font-semibold">
         <div className="bg-white w-full max-w-[640px] pt-8 p-6 rounded-lg shadow">
           <div className="mb-6 ">
             <div className="flex gap-4 justify-center text-sm text-[#AD5727] border-b border-b-[#AD5727] pb-3">

@@ -5,7 +5,6 @@ export default function Page() {
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
-      // -------- ORGANIZATION --------
       {
         "@type": "Organization",
         "@id": "https://tibba.ae/#organization",
@@ -18,7 +17,6 @@ export default function Page() {
         ],
       },
 
-      // -------- MAIN BRANCH (RESTAURANT) --------
       {
         "@type": "Restaurant",
         "@id": "https://tibba.ae/contact#restaurant",
@@ -65,7 +63,6 @@ export default function Page() {
         },
       },
 
-      // -------- CONTACT SUPPORT --------
       {
         "@type": "ContactPoint",
         "@id": "https://tibba.ae/contact#support",

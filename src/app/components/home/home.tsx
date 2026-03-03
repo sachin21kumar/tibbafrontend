@@ -16,6 +16,7 @@ const Location = dynamic(
   },
 );
 import dynamic from "next/dynamic";
+import SignatureDishes from "./productsCard";
 
 export default function Hero() {
   useEffect(() => {
@@ -26,8 +27,17 @@ export default function Hero() {
   }, []);
 
   return (
-    <div>
+    <div
+      // style={{
+      //   backgroundImage: `url("/background.webp")`,
+      //   backgroundSize: "cover",
+      //   backgroundPosition: "center",
+      //   backgroundRepeat: "no-repeat",
+      //   backgroundAttachment: "fixed",
+      // }}
+    >
       <Banner />
+      <SignatureDishes />
       <div className="xl:py-25 py-20">
         <FreeDelivery />
       </div>

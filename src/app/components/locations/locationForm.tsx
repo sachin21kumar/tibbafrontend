@@ -31,7 +31,7 @@ export default function ContactForm() {
   };
 
   return (
-    <section className="bg-white py-24 font-semibold">
+    <section className="py-24 font-semibold">
       <div className="container mx-auto max-w-7xl px-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-[18px] sm:text-[22px] lg:text-[26px] text-[#AD5727] leading-[0.9] sm:leading-[0.8] lg:leading-[0.7]">

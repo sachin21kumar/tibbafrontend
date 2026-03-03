@@ -13,7 +13,7 @@ import { FaFacebookF, FaInstagram, FaTripadvisor } from "react-icons/fa";
 import Cookies from "js-cookie";
 import LanguageSwitcher from "@/app/common/LanguageSwitcher";
 import { useTranslations } from "@/i18n/TranslationProvider";
-
+import { FaMapMarkerAlt, FaClock, FaPhoneAlt } from "react-icons/fa";
 interface Location {
   _id: string;
   name: string;
@@ -79,6 +79,28 @@ const Navbar = () => {
   };
   return (
     <nav className="bg-[#56381D] text-white sticky top-0 z-50 py-3">
+      <div className="hidden md:flex justify-center items-center text-white/80 text-[13px] tracking-wide ">
+        <div className="flex items-center gap-8 py-2">
+          <div className="flex items-center gap-2 hover:text-[#d1a054] transition">
+            <FaMapMarkerAlt className="text-[#d1a054]" size={12} />
+            <span>Main Branch, Dubai</span>
+          </div>
+
+          <div className="w-px h-4 bg-white/20" />
+
+          <div className="flex items-center gap-2 hover:text-[#d1a054] transition">
+            <FaClock className="text-[#d1a054]" size={12} />
+            <span>Open Daily 12:00 PM – 12:00 AM</span>
+          </div>
+
+          <div className="w-px h-4 bg-white/20" />
+
+          <div className="flex items-center gap-2 hover:text-[#d1a054] transition">
+            <FaPhoneAlt className="text-[#d1a054]" size={12} />
+            <a href="tel:+97142578585">+971 4 2578585</a>
+          </div>
+        </div>
+      </div>
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between lg:justify-around">
           <div className="lg:hidden">
@@ -198,7 +220,7 @@ const Navbar = () => {
           </div>
 
           <div className="relative cursor-pointer flex items-center flex gap-3">
-            <div className="flex items-center" onClick={openCart}>
+            {/* <div className="flex items-center" onClick={openCart}>
               <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
                 <circle fill="white" cx="18.4" cy="12" r="0.9" />
                 <circle fill="white" cx="11.3" cy="12" r="0.9" />
@@ -219,7 +241,7 @@ const Navbar = () => {
               )}
 
               <span className="hidden xl:block font-semibold">{cartTotal}</span>
-            </div>
+            </div> */}
             <div className="flex items-center gap-4">
               <LanguageSwitcher />
             </div>
@@ -263,7 +285,7 @@ const Navbar = () => {
             </p>
 
             <p className="text-[14px] !font-[system-ui]">
-             {t("footer.main_branch")}
+              {t("footer.main_branch")}
             </p>
 
             <p className="text-[14px] !font-[system-ui]">

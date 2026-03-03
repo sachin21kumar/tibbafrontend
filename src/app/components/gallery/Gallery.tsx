@@ -24,25 +24,7 @@ export default function Gallery() {
   const products: any[] = productsResponse?.data || [];
 
   const sortedCategories = useMemo(() => {
-    if (!categories.length) return [];
-
-    const isPopular = (title?: string) => {
-      if (!title) return false;
-
-      const normalized = title.trim().toLowerCase();
-
-      return (
-        normalized === "popular meals" ||
-        normalized == "الوجبات الشعبية" ||
-        normalized.includes("popular") ||
-        normalized.includes("الوجبات الشعبية")
-      );
-    };
-
-    const popular = categories.find((cat) => isPopular(cat.title));
-    const others = categories.filter((cat) => !isPopular(cat.title));
-
-    return popular ? [popular, ...others] : categories;
+    return categories;
   }, [categories]);
 
   const categoryRefs = useRef<Record<string, HTMLElement | null>>({});
@@ -100,9 +82,18 @@ export default function Gallery() {
   }
 
   return (
-    <div className="px-4 py-6 font-semibold">
+    <div
+      className="px-4 py-6 font-semibold"
+      // style={{
+      //   backgroundImage: `url("/background.webp")`,
+      //   backgroundSize: "cover",
+      //   backgroundPosition: "center",
+      //   backgroundRepeat: "no-repeat",
+      //   backgroundAttachment: "fixed",
+      // }}
+    >
       <div className="flex gap-[10px] mx-auto">
-        <aside className="hidden xl:block bg-white sticky top-[90px] h-fit border-r border-gray-200 flex-none w-[19%] p-4">
+        <aside className="hidden xl:block shadow-2xl sticky top-[90px] h-fit  flex-none w-[19%] p-4">
           <ul className="space-y-1 max-h-[80vh] overflow-y-auto">
             {sortedCategories.map((cat) => (
               <li
