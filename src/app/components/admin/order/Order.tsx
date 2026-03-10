@@ -11,6 +11,15 @@ export default function AdminOrdersPage() {
   const router = useRouter();
 
   const handleSelectLocation = (loc: any) => {
+    if (loc.name === "Tibba Restaurant for Mandi & Madhbi - Abu Hail") {
+      window.location.href = "https://order.tmbill.com/outlet/18013362821313";
+      return;
+    }
+
+    if (loc.name === "Tibba Restaurant for Mandi & Madhbi - Deira") {
+      window.location.href = "https://order.tmbill.com/outlet/18013362479764";
+      return;
+    }
     router.push(`/${locale}/admin/order/${loc._id}`);
   };
 
