@@ -13,7 +13,7 @@ const SignatureDishes = () => {
   const { data: products } = useGetProductsQuery({ limit: 500 });
   const { data: categories } = useGetCategoryQuery();
   const signatureCategory = categories?.data.find(
-    (cat: any) => cat.title.toLowerCase() === "chicken",
+    (cat: any) => cat.title.toLowerCase() === "chicken" || cat.title === "فرخة",
   );
   console.log(products, "products");
   const featuredProducts = products?.data
@@ -41,7 +41,7 @@ const SignatureDishes = () => {
           >
             <div className="relative h-52 w-full overflow-hidden">
               <Image
-                src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`}
+                src={`${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}/uploads/products/${product.imagePath}`}
                 alt={product.name}
                 fill
                 className="object-cover transition duration-500"
