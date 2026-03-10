@@ -129,7 +129,7 @@ export const cartApi = createApi({
         const patch = dispatch(
           cartApi.util.updateQueryData("getCart", locationId, (draft) => {
             const item = draft.items.find((i) => i.productId._id === productId);
-            if (!item || !item.productId.price) return;
+            if (!item || item.productId.price == null) return;
 
             const diff = quantity - item.quantity;
             item.quantity = quantity;
@@ -162,7 +162,7 @@ export const cartApi = createApi({
         const patch = dispatch(
           cartApi.util.updateQueryData("getCart", locationId, (draft) => {
             const item = draft.items.find((i) => i.productId._id === productId);
-            if (!item || !item.productId.price) return;
+            if (!item || item.productId.price == null) return;
 
             draft.totalPrice -= item.productId.price * item.quantity;
             draft.items = draft.items.filter(

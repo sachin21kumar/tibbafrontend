@@ -23,6 +23,7 @@ type Order = {
   createdAt: string;
   OrderStatus: string;
   fullName: string;
+  paymentMethod: string;
 };
 
 type UpdateOrderForm = {
@@ -34,13 +35,13 @@ type UpdateOrderForm = {
 export default function AdminOrdersPage() {
   const { t } = useTranslations();
   const statusOptions = [
-  "New",
-  "Accepted",
-  "Preparing",
-  "Out for Delivery",
-  "Delivered",
-  "Cancelled",
-];
+    "New",
+    "Accepted",
+    "Preparing",
+    "Out for Delivery",
+    "Delivered",
+    "Cancelled",
+  ];
   const [orders, setOrders] = useState<Order[]>([]);
   const [editedOrders, setEditedOrders] = useState<
     Record<string, UpdateOrderForm>
@@ -116,7 +117,7 @@ export default function AdminOrdersPage() {
   };
 
   return (
-    <div className="max-w-[1200px] mx-auto p-6 xl:min-h-[calc(100vh-430px)]">
+    <div className="max-w-[1400px] mx-auto p-6 xl:min-h-[calc(100vh-430px)]">
       <h1 className="text-3xl mb-6 text-center">{t("order.adminOrder")}</h1>
 
       <div className="flex flex-col sm:flex-row gap-4 mb-6">
@@ -145,6 +146,12 @@ export default function AdminOrdersPage() {
                 <th className="px-4 py-3 border-b">{t("order.phone")}</th>
                 <th className="px-4 py-3 border-b">
                   {t("order.paymentStatus")}
+                </th>
+                <th className="px-4 py-3 border-b text-center">
+                  Payment Method
+                </th>
+                <th className="px-4 py-3 border-b text-center">
+                  Delivery Type
                 </th>
                 <th className="px-4 py-3 border-b">{t("order.orderStatus")}</th>
                 <th className="px-4 py-3 border-b">{t("order.driver")}</th>
@@ -182,6 +189,14 @@ export default function AdminOrdersPage() {
                     </span>
                   </td>
 
+                  <td className="px-4 py-3 text-sm text-center text-[#7a4a2e]">
+                    {order.paymentMethod == "cod"
+                      ? "Cash on Delivery"
+                      : order.paymentMethod}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-center text-[#7a4a2e]">
+                    {order.deliveryType}
+                  </td>
                   <td className="px-4 py-3 text-sm">
                     <span className="inline-flex items-center px-2 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold">
                       {order.OrderStatus}
