@@ -255,9 +255,9 @@ export default function MenuPage() {
         </div>
       )}
 
-      <div className="px-4 py-6 font-semibold">
-        <div className="flex gap-[10px] mx-auto">
-          <aside className="hidden xl:block shadow-2xl h-screen p-4 sticky top-[130px] h-fit flex-none w-[19%]">
+      <div className="px-4 py-6 font-semibold debounce">
+        <div className="flex gap-[10px] mx-auto debounce">
+          <aside className="hidden  xl:block shadow-2xl h-screen p-4 sticky top-[130px] h-fit flex-none w-[19%]">
             <input
               placeholder="Search menu"
               value={search}
@@ -267,7 +267,7 @@ export default function MenuPage() {
             {!debouncedSearch && (
               <ul
                 ref={desktopCategoryContainerRef}
-                className="space-y-1 max-h-[80vh] overflow-y-auto"
+                className="space-y-1 max-h-[80vh] debounce overflow-y-auto"
               >
                 {sortedCategories.map((cat) => (
                   <li
@@ -326,7 +326,7 @@ export default function MenuPage() {
                           <Image
                             src={
                               product.imagePath
-                                ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
+                                ? `${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}/uploads/products/${product.imagePath}`
                                 : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
                             }
                             alt={product.name}
@@ -417,7 +417,7 @@ export default function MenuPage() {
                               >
                                 <div className="flex-1 pr-6">
                                   <h3
-                                    className="font-regular text-lg text-[#AD5727]"
+                                    className="font-regular md:text-lg text-sm text-[#AD5727]"
                                     onClick={() => {
                                       setSelectedProductId(product._id);
                                       setOpen(true);
@@ -433,7 +433,7 @@ export default function MenuPage() {
                                   <Image
                                     src={
                                       product.imagePath
-                                        ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
+                                        ? `${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}/uploads/products/${product.imagePath}`
                                         : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
                                     }
                                     alt={product.name}
