@@ -2,32 +2,15 @@
 
 import { useRouter } from "next/navigation";
 import { MapPin, ChevronRight } from "lucide-react";
-import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 import { useTranslations } from "@/i18n/TranslationProvider";
 import { useGetLocationsQuery } from "../../redux/query/locationsQuery/location.query";
-import { useAppDispatch } from "../../redux/hook";
 
 export default function AdminOrdersPage() {
   const { t, locale } = useTranslations();
   const { data }: any = useGetLocationsQuery();
-  const dispatch = useAppDispatch();
   const router = useRouter();
-  const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
-    null,
-  );
-
-  useEffect(() => {
-    const savedLocation = Cookies.get("selectedLocationId");
-    if (savedLocation) {
-      setSelectedLocationId(savedLocation);
-    }
-  }, []);
 
   const handleSelectLocation = (loc: any) => {
-    Cookies.set("selectedLocationId", loc._id, { expires: 7 });
-    setSelectedLocationId(loc._id);
-
     router.push(`/${locale}/admin/order/${loc._id}`);
   };
 
@@ -42,8 +25,6 @@ export default function AdminOrdersPage() {
 
         <div className="space-y-3">
           {data?.map((loc: any) => {
-            const isSelected = loc._id === selectedLocationId;
-
             return (
               <button
                 key={loc._id}
@@ -53,7 +34,7 @@ export default function AdminOrdersPage() {
                   bg-white border rounded-xl px-4 py-4 text-left
                   hover:border-[#d1a054] hover:shadow-sm
                   transition-all cursor-pointer group
-                  ${isSelected ? "border-[#d1a054] shadow-md bg-[#fff7eb]" : "border-[#e1d4c3]"}
+                 }
                 `}
               >
                 <div className="flex items-center gap-3">
