@@ -157,7 +157,7 @@ export default function MenuPage() {
 
   const getCartItem = useCallback(
     (productId: string) =>
-      cartItems.find((item) => item.productId._id === productId),
+      cartItems.find((item) => item?.productId?._id === productId),
     [cartItems],
   );
 
@@ -257,7 +257,7 @@ export default function MenuPage() {
 
       <div className="px-4 py-6 font-semibold">
         <div className="flex gap-[10px] mx-auto">
-          <aside className="hidden xl:block shadow-2xl h-screen p-4 sticky top-[90px] h-fit flex-none w-[19%]">
+          <aside className="hidden xl:block shadow-2xl h-screen p-4 sticky top-[130px] h-fit flex-none w-[19%]">
             <input
               placeholder="Search menu"
               value={search}

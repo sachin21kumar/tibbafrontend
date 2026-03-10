@@ -93,7 +93,7 @@ export default function Gallery() {
       // }}
     >
       <div className="flex gap-[10px] mx-auto">
-        <aside className="hidden xl:block shadow-2xl sticky top-[90px] h-fit  flex-none w-[19%] p-4">
+        <aside className="hidden xl:block shadow-2xl sticky top-[120px] h-fit  flex-none w-[19%] p-4">
           <ul className="space-y-1 max-h-[80vh] overflow-y-auto">
             {sortedCategories.map((cat) => (
               <li

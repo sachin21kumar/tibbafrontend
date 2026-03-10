@@ -10,13 +10,14 @@ export interface CartProduct {
 export interface CartItem {
   productId: CartProduct;
   quantity: number;
+  locationId?: string;
 }
 
 export interface CartResponse {
   _id: string;
   items: CartItem[];
   totalPrice: number;
-  locationId?: string;
+  locationId: string;
 }
 
 const getLocale = () => {
@@ -81,7 +82,7 @@ export const cartApi = createApi({
         const patch = dispatch(
           cartApi.util.updateQueryData("getCart", locationId, (draft) => {
             const existing = draft.items.find(
-              (i) => i.productId._id === productId,
+              (i) => i?.productId?._id === productId,
             );
 
             if (existing) {
@@ -118,7 +119,7 @@ export const cartApi = createApi({
       query: ({ locationId, ...body }) => ({
         url: "cart/update",
         method: "POST",
-        body,
+        body: { ...body, locationId },
       }),
 
       async onQueryStarted(
@@ -148,10 +149,10 @@ export const cartApi = createApi({
       CartResponse,
       { productId: string; locationId: string }
     >({
-      query: ({ locationId, ...body }) => ({
+      query: ({ productId, locationId }) => ({
         url: "cart/remove",
         method: "DELETE",
-        body,
+        body: { productId, locationId },
       }),
 
       async onQueryStarted(
@@ -179,9 +180,10 @@ export const cartApi = createApi({
     }),
 
     clearCart: builder.mutation<void, { locationId: string }>({
-      query: () => ({
+      query: ({ locationId }) => ({
         url: "cart/clear",
         method: "DELETE",
+        body: { locationId },
       }),
 
       async onQueryStarted({ locationId }, { dispatch, queryFulfilled }) {

@@ -220,7 +220,7 @@ const Navbar = () => {
           </div>
 
           <div className="relative cursor-pointer flex items-center flex gap-3">
-            {/* <div className="flex items-center" onClick={openCart}>
+            <div className="flex items-center" onClick={openCart}>
               <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
                 <circle fill="white" cx="18.4" cy="12" r="0.9" />
                 <circle fill="white" cx="11.3" cy="12" r="0.9" />
@@ -241,7 +241,7 @@ const Navbar = () => {
               )}
 
               <span className="hidden xl:block font-semibold">{cartTotal}</span>
-            </div> */}
+            </div>
             <div className="flex items-center gap-4">
               <LanguageSwitcher />
             </div>

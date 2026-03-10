@@ -7,9 +7,25 @@ import { useTranslations } from "@/i18n/TranslationProvider";
 
 interface ProductFormValues {
   name: string;
+  nameAr?: string;
   price: number;
   categoryId: string;
+  subCategoryId?: string;
   description?: string;
+  foodType?: string;
+  taxProductGroup?: string;
+  kitchenDept?: string;
+  stock?: number;
+  preparationTime?: number;
+  isActive?: number;
+  itemType?: number;
+  platformStatus?: number;
+  syncToAggregator?: number;
+  salePrice1?: number;
+  salePrice2?: number;
+  salePrice3?: number;
+  salePrice4?: number;
+  salePrice5?: number;
   image?: FileList;
 }
 
@@ -28,10 +44,55 @@ export const AddProduct = () => {
   const onSubmit: SubmitHandler<ProductFormValues> = async (data) => {
     try {
       const formData = new FormData();
+
       formData.append("name", data.name);
+      if (data.nameAr) formData.append("nameAr", data.nameAr);
+
       formData.append("price", data.price.toString());
       formData.append("categoryId", data.categoryId);
       formData.append("description", data.description ?? "");
+
+      if (data.subCategoryId)
+        formData.append("subCategoryId", data.subCategoryId);
+
+      if (data.foodType) formData.append("foodType", data.foodType);
+      if (data.taxProductGroup)
+        formData.append("taxProductGroup", data.taxProductGroup);
+
+      if (data.kitchenDept) formData.append("kitchenDept", data.kitchenDept);
+
+      if (data.stock !== undefined)
+        formData.append("stock", data.stock.toString());
+
+      if (data.preparationTime !== undefined)
+        formData.append("preparationTime", data.preparationTime.toString());
+
+      if (data.isActive !== undefined)
+        formData.append("isActive", data.isActive.toString());
+
+      if (data.itemType !== undefined)
+        formData.append("itemType", data.itemType.toString());
+
+      if (data.platformStatus !== undefined)
+        formData.append("platformStatus", data.platformStatus.toString());
+
+      if (data.syncToAggregator !== undefined)
+        formData.append("syncToAggregator", data.syncToAggregator.toString());
+
+      if (data.salePrice1 !== undefined)
+        formData.append("salePrice1", data.salePrice1.toString());
+
+      if (data.salePrice2 !== undefined)
+        formData.append("salePrice2", data.salePrice2.toString());
+
+      if (data.salePrice3 !== undefined)
+        formData.append("salePrice3", data.salePrice3.toString());
+
+      if (data.salePrice4 !== undefined)
+        formData.append("salePrice4", data.salePrice4.toString());
+
+      if (data.salePrice5 !== undefined)
+        formData.append("salePrice5", data.salePrice5.toString());
 
       if (data.image && data.image.length > 0) {
         formData.append("image", data.image[0]);
@@ -56,81 +117,79 @@ export const AddProduct = () => {
           {t("product.addProduct")}
         </h2>
 
-        <div>
-          <input
-            type="text"
-            placeholder={t("product.productName")}
-            className="w-full border border-[#d1a054] !font-[system-ui] text-[#7a4a2e] focus:outline-none focus:ring-1 focus:ring-[#d1a054] rounded-lg px-3 py-2"
-            {...register("name", {
-              required: t("validation.name_required"),
-              minLength: { value: 2, message: t("validation.minimum") },
-            })}
-          />
-          {errors.name && (
-            <span className="text-red-500 text-sm">{errors.name.message}</span>
-          )}
-        </div>
+        <input
+          type="text"
+          placeholder="Product Name (English)"
+          className="w-full border px-3 py-2 rounded"
+          {...register("name", { required: true })}
+        />
 
-        <div>
-          <input
-            type="number"
-            placeholder={t("product.price")}
-            className="w-full border rounded-lg px-3 py-2 !font-[system-ui] text-[#7a4a2e] focus:outline-none focus:ring-1 focus:ring-[#d1a054]"
-            {...register("price", {
-              required: t("validation.price"),
-              min: { value: 1, message: t("validation.price_greaterthan") },
-              valueAsNumber: true,
-            })}
-          />
-          {errors.price && (
-            <span className="text-red-500 text-sm">{errors.price.message}</span>
-          )}
-        </div>
+        <input
+          type="text"
+          placeholder="Product Name (Arabic)"
+          className="w-full border px-3 py-2 rounded"
+          {...register("nameAr")}
+        />
 
-        <div>
-          <input
-            type="text"
-            placeholder={t("product.categoryId")}
-            className="w-full border rounded-lg px-3 py-2 !font-[system-ui] text-[#7a4a2e] focus:outline-none focus:ring-1 focus:ring-[#d1a054]"
-            {...register("categoryId", {
-              required: t("validation.categoryId_required"),
-            })}
-          />
-          {errors.categoryId && (
-            <span className="text-red-500 text-sm">
-              {errors.categoryId.message}
-            </span>
-          )}
-        </div>
+        <input
+          type="number"
+          placeholder="Price"
+          className="w-full border px-3 py-2 rounded"
+          {...register("price", { valueAsNumber: true })}
+        />
+
+        <input
+          type="text"
+          placeholder="Category ID"
+          className="w-full border px-3 py-2 rounded"
+          {...register("categoryId", { required: true })}
+        />
+
+        <input
+          type="text"
+          placeholder="Sub Category ID"
+          className="w-full border px-3 py-2 rounded"
+          {...register("subCategoryId")}
+        />
 
         <textarea
-          placeholder={t("product.description")}
+          placeholder="Description"
           rows={3}
-          className="w-full border rounded-lg px-3 py-2 resize-none !font-[system-ui] text-[#7a4a2e] focus:outline-none focus:ring-1 focus:ring-[#d1a054]"
+          className="w-full border px-3 py-2 rounded"
           {...register("description")}
         />
 
-        <div>
-          <input
-            type="file"
-            accept="image/*"
-            {...register("image", {
-              required: t("validation.product_image"),
-            })}
-            className="text-[#7a4a2e] cursor-pointer w-full"
-          />
-          {errors.image && (
-            <span className="text-red-500 text-sm">{errors.image.message}</span>
-          )}
-        </div>
+        <input
+          type="number"
+          placeholder="Stock"
+          className="w-full border px-3 py-2 rounded"
+          {...register("stock", { valueAsNumber: true })}
+        />
+
+        <input
+          type="number"
+          placeholder="Preparation Time"
+          className="w-full border px-3 py-2 rounded"
+          {...register("preparationTime", { valueAsNumber: true })}
+        />
+
+        <input
+          type="file"
+          accept="image/*"
+          {...register("image")}
+        />
 
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-[#d1a054] text-white py-2 cursor-pointer rounded-lg disabled:opacity-70"
+          className="w-full bg-[#d1a054] text-white py-2 rounded"
         >
-          {isLoading ? t("product.saving") : t("product.addProduct")}
+          {isLoading ? "Saving..." : "Add Product"}
         </button>
+
+        {message && (
+          <p className="text-center text-sm mt-2">{message}</p>
+        )}
       </form>
     </div>
   );

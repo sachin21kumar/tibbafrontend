@@ -32,7 +32,8 @@ export default function UpdateProduct() {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("name", name);
+    formData.append("nameEn", name);
+
     formData.append("price", String(price));
 
     if (image) {
@@ -73,7 +74,9 @@ export default function UpdateProduct() {
         className="bg-white p-6 rounded-lg shadow space-y-4"
       >
         <div>
-          <label className="block text-sm font-medium mb-1">Product Name</label>
+          <label className="block text-sm font-medium mb-1">
+            Product Name (English)
+          </label>
           <input
             className="w-full border px-3 py-2 rounded"
             value={name}

@@ -117,12 +117,12 @@ export default function ViewCartModal({
                 <div className="divide-y divide-[#AD5727] overflow-y-auto px-6 py-4 flex-1 max-h-[60vh] sm:max-h-[70vh]">
                   {cart.items.map((item: any) => (
                     <div
-                      key={item.productId._id}
+                      key={item?.productId?._id}
                       className="flex items-center justify-between py-4 border-b border-b-[#AD5727]"
                     >
                       <div>
                         <h3 className="text-lg text-[#AD5727]">
-                          {item.productId.name}
+                          {item?.productId?.name}
                         </h3>
                         <div className="mt-2 flex items-center gap-4 text-sm text-[#AD5727]">
                           <button
@@ -145,7 +145,7 @@ export default function ViewCartModal({
                             +
                           </button>
                           <span className="ml-4 font-semibold text-[#AD5727]">
-                            د.إ {item.productId.price}
+                            د.إ {item?.productId?.price}
                           </span>
                         </div>
                       </div>

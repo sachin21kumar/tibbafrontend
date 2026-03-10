@@ -12,18 +12,15 @@ const SignatureDishes = () => {
   const { locale } = useTranslations();
   const { data: products } = useGetProductsQuery({ limit: 100 });
   const { data: categories } = useGetCategoryQuery();
-console.log("Categories:", categories);
-const signatureCategory = categories?.data.find(
-  (cat: any) => cat.title.toLowerCase() === "chicken",
-);
-console.log("Signature Category:", signatureCategory);
-  console.log("Products for Signature Dishes:", products);
-  // Show only first 4 products
-  const featuredProducts = products?.data?.filter((prod: any) => prod.categoryId === signatureCategory?._id).slice(0, 4);
+  const signatureCategory = categories?.data.find(
+    (cat: any) => cat.title.toLowerCase() === "chicken",
+  );
+  const featuredProducts = products?.data
+    ?.filter((prod: any) => prod.categoryId === signatureCategory?._id)
+    .slice(0, 4);
 
   return (
     <section className="pt-20 px-4 sm:px-6 lg:px-8">
-      {/* Heading */}
       <div className="text-center max-w-3xl mx-auto mb-14">
         <h2 className="font-semibold text-3xl sm:text-4xl md:text-5xl text-[#56381D]">
           Our Signature Dishes
@@ -33,14 +30,12 @@ console.log("Signature Category:", signatureCategory);
         </p>
       </div>
 
-      {/* Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
         {featuredProducts?.map((product: any) => (
           <div
             key={product._id}
             className="bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden group"
           >
-            {/* Image */}
             <div className="relative h-52 w-full overflow-hidden">
               <Image
                 src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`}
@@ -49,8 +44,6 @@ console.log("Signature Category:", signatureCategory);
                 className="object-cover transition duration-500"
               />
             </div>
-
-            {/* Content */}
             <div className="p-6 text-center">
               <h3 className="font-semibold text-base text-[#56381D]">
                 {product.name}
@@ -63,8 +56,6 @@ console.log("Signature Category:", signatureCategory);
           </div>
         ))}
       </div>
-
-      {/* Button */}
       <div className="mt-14 text-center">
         <button
           onClick={() => router.push(`/${locale}/menu`)}

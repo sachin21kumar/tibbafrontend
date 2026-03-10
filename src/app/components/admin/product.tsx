@@ -2,14 +2,16 @@
 
 import Link from "next/link";
 import Swal from "sweetalert2";
-import { useDeleteProductMutation, useGetProductsQuery } from "../redux/query/productsQuery/productsQuery";
+import {
+  useDeleteProductMutation,
+  useGetProductsQuery,
+} from "../redux/query/productsQuery/productsQuery";
 import { useTranslations } from "@/i18n/TranslationProvider";
 
 export default function ProductList() {
   const { locale, t } = useTranslations();
   const { data, isLoading } = useGetProductsQuery({});
-  const [deleteProduct, { isLoading: isDeleting }] =
-    useDeleteProductMutation();
+  const [deleteProduct, { isLoading: isDeleting }] = useDeleteProductMutation();
 
   if (isLoading) {
     return <div className="text-center mt-10">Loading...</div>;
@@ -46,7 +48,6 @@ export default function ProductList() {
       });
     }
   };
-
   return (
     <div className="max-w-7xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-6">{t("product.products")}</h1>
@@ -57,16 +58,18 @@ export default function ProductList() {
             key={product._id}
             className="border border-[#d1a054] rounded-lg shadow p-4 hover:shadow-md transition"
           >
-            {product.imagePath && (
-              <img
-                src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`}
-                className="h-40 w-full object-cover rounded"
-                alt={product.name}
-              />
-            )}
+            {/* {product.imagePath && ( */}
+            <img
+              src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`}
+              className="h-40 w-full object-cover rounded"
+              alt={product.name}
+            />
+            {/* )} */}
 
-            <h2 className="mt-3 font-semibold text-[#7a4a2e]">{product.name}</h2>
-            <span className="text-[#d1a054]">د.إ  {product.price}</span>
+            <h2 className="mt-3 font-semibold text-[#7a4a2e]">
+              {product.name}
+            </h2>
+            <span className="text-[#d1a054]">د.إ {product.price}</span>
 
             <div className="mt-4 flex gap-3">
               <Link

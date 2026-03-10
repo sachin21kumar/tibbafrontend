@@ -31,7 +31,9 @@ export const CheckoutPage = () => {
 
   const [checkout, { isLoading: checkoutLoading }] =
     useCreateCheckoutMutation();
-  const { data: cart, isLoading, isError } = useGetCartQuery(locationId);
+  const { data: cart, isLoading } = useGetCartQuery(locationId!, {
+    skip: !locationId,
+  });
   const [confirmPayment] = useConfirmPaymentMutation();
   const [customerLatLng, setCustomerLatLng] = useState<any>(null);
   const [addressValidationError, setAddressValidationError] = useState<
@@ -128,11 +130,10 @@ export const CheckoutPage = () => {
       latLng = geo;
       setCustomerLatLng(geo);
     }
-
     try {
       const payload: any = {
         ...data,
-        locationId: cart?.locationId || null,
+        locationId: locationId || cart?.locationId,
         addressLatLng: latLng,
       };
 
