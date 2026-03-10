@@ -10,7 +10,7 @@ import { useGetCategoryQuery } from "../redux/query/categoryQuery/categoryQuery"
 const SignatureDishes = () => {
   const router = useRouter();
   const { locale } = useTranslations();
-  const { data: products } = useGetProductsQuery({ limit: 100 });
+  const { data: products } = useGetProductsQuery({ limit: 500 });
   const { data: categories } = useGetCategoryQuery();
   const signatureCategory = categories?.data.find(
     (cat: any) => cat.title.toLowerCase() === "chicken",
@@ -18,7 +18,6 @@ const SignatureDishes = () => {
   const featuredProducts = products?.data
     ?.filter((prod: any) => prod.categoryId === signatureCategory?._id)
     .slice(0, 4);
-
   return (
     <section className="pt-20 px-4 sm:px-6 lg:px-8">
       <div className="text-center max-w-3xl mx-auto mb-14">
