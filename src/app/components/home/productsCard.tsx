@@ -15,8 +15,12 @@ const SignatureDishes = () => {
   const signatureCategory = categories?.data.find(
     (cat: any) => cat.title.toLowerCase() === "chicken",
   );
+  console.log(products, "products");
   const featuredProducts = products?.data
-    ?.filter((prod: any) => prod.categoryId === signatureCategory?._id)
+    ?.filter(
+      (prod: any) =>
+        prod.categoryId === signatureCategory?._id && prod.imagePath,
+    )
     .slice(0, 4);
   return (
     <section className="pt-20 px-4 sm:px-6 lg:px-8">
