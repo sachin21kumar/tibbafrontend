@@ -26,20 +26,20 @@ export default function SelectLocationPage() {
   }, []);
 
   const handleSelectLocation = (loc: any) => {
-    Cookies.set("selectedLocationId", loc._id, { expires: 7 });
-    setSelectedLocationId(loc._id);
-
-    dispatch(setLocation(loc));
-
-    if (loc.name === "Tibba Restaurant for Mandi & Madhbi - Abu Hail") {
+    if (loc.slug === "abu-hail") {
       window.location.href = "https://order.tmbill.com/outlet/18013362821313";
       return;
     }
 
-    if (loc.name === "Tibba Restaurant for Mandi & Madhbi - Deira") {
+    if (loc.slug === "deira") {
       window.location.href = "https://order.tmbill.com/outlet/18013362479764";
       return;
     }
+
+    Cookies.set("selectedLocationId", loc._id, { expires: 7 });
+    setSelectedLocationId(loc._id);
+
+    dispatch(setLocation(loc));
 
     router.push(`/${locale}/onlineordering`);
   };
