@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useTranslations } from "@/i18n/TranslationProvider";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 
 type Order = {
   _id: string;
@@ -35,6 +35,7 @@ type UpdateOrderForm = {
 export default function AdminOrdersPageDetail() {
   const { t } = useTranslations();
   const { id }: any = useParams();
+
   const statusOptions = [
     "New",
     "Accepted",
@@ -75,20 +76,15 @@ export default function AdminOrdersPageDetail() {
         toast.error(data.message || "Failed to fetch orders");
       }
     } catch (err) {
-      console.error(err);
       toast.error("Something went wrong");
     }
   };
 
   useEffect(() => {
-    if (id) {
-      fetchOrders(id);
-    }
+    if (id) fetchOrders(id);
   }, [id]);
 
-  const onUpdateOrder = async (orderId: string) => {
-    const data = editedOrders[orderId];
-
+  const onUpdateOrder = async (orderId: string, data: UpdateOrderForm) => {
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/checkout/admin/${orderId}`,
@@ -110,8 +106,7 @@ export default function AdminOrdersPageDetail() {
       } else {
         toast.error(result.message || "Failed to update order");
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
       toast.error("Something went wrong");
     }
   };
@@ -127,8 +122,28 @@ export default function AdminOrdersPageDetail() {
     }));
   };
 
+  const handleStatusChange = (orderId: string, value: string) => {
+    const updated = {
+      ...editedOrders[orderId],
+      OrderStatus: value,
+    };
+
+    setEditedOrders((prev) => ({
+      ...prev,
+      [orderId]: updated,
+    }));
+
+    onUpdateOrder(orderId, updated);
+  };
+
+  const handleSubmit = (e: any, orderId: string) => {
+    e.preventDefault();
+    const data = editedOrders[orderId];
+    onUpdateOrder(orderId, data);
+  };
+
   return (
-    <div className="max-w-[1400px] mx-auto p-6 xl:min-h-[calc(100vh-430px)]">
+    <div className="max-w-[1450px] mx-auto p-6 xl:min-h-[calc(100vh-430px)]">
       <h1 className="text-3xl mb-6 text-center">{t("order.adminOrder")}</h1>
 
       {orders.length === 0 && (
@@ -136,6 +151,7 @@ export default function AdminOrdersPageDetail() {
           No orders found for the selected location
         </div>
       )}
+
       {orders.length > 0 && (
         <div className="hidden xl:block">
           <div className="overflow-x-auto rounded-xl border border-[#d1a054] shadow-sm">
@@ -201,9 +217,19 @@ export default function AdminOrdersPageDetail() {
                     </td>
 
                     <td className="px-4 py-3 text-sm">
-                      <span className="inline-flex items-center px-2 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold">
-                        {order.OrderStatus}
-                      </span>
+                      <select
+                        value={editedOrders[order._id]?.OrderStatus || ""}
+                        onChange={(e) =>
+                          handleStatusChange(order._id, e.target.value)
+                        }
+                        className="border border-[#d1a054] rounded-md px-2 py-1 text-sm"
+                      >
+                        {statusOptions.map((s) => (
+                          <option key={s} value={s}>
+                            {s}
+                          </option>
+                        ))}
+                      </select>
                     </td>
 
                     <td className="px-4 py-3 text-sm text-gray-700">
@@ -218,29 +244,8 @@ export default function AdminOrdersPageDetail() {
                     <td className="px-4 py-3">
                       <form
                         className="flex flex-col gap-2"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                          onUpdateOrder(order._id);
-                        }}
+                        onSubmit={(e) => handleSubmit(e, order._id)}
                       >
-                        <select
-                          value={editedOrders[order._id]?.OrderStatus || ""}
-                          onChange={(e) =>
-                            handleChange(
-                              order._id,
-                              "OrderStatus",
-                              e.target.value,
-                            )
-                          }
-                          className="border border-[#d1a054] rounded-md px-2 py-1 text-sm"
-                        >
-                          {statusOptions.map((s) => (
-                            <option key={s} value={s}>
-                              {s}
-                            </option>
-                          ))}
-                        </select>
-
                         <input
                           type="text"
                           placeholder={t("order.driverName")}
@@ -284,6 +289,7 @@ export default function AdminOrdersPageDetail() {
           </div>
         </div>
       )}
+
       {orders.length > 0 && (
         <div className="xl:hidden flex flex-col gap-4">
           {orders.map((order) => (
