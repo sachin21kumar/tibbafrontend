@@ -381,7 +381,7 @@ export const CheckoutPage = () => {
           <div className="flex gap-3 py-3">
             {[
               { id: "stripe", label: t("checkout.cardPayment") },
-              { id: "cod", label: t("checkout.cashDelivery") },
+              // { id: "cod", label: t("checkout.cashDelivery") },
             ].map((p) => (
               <label key={p.id} className="cursor-pointer">
                 <input
