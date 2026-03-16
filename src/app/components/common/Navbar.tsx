@@ -54,11 +54,9 @@ const Navbar = () => {
   const mobileNavActive = "after:w-full";
 
   const cartCount = useMemo(() => cart?.items?.length ?? 0, [cart?.items]);
+  const items = cart?.items || [];
 
-  const cartTotal = useMemo(
-    () => (cart?.totalPrice ? `د.إ ${cart.totalPrice}` : ""),
-    [cart?.totalPrice],
-  );
+  const cartTotal = cart?.totalPrice ?? 0;
 
   const toggleMobile = useCallback(() => {
     setMobileOpen((prev) => !prev);
@@ -178,7 +176,7 @@ const Navbar = () => {
 
               {locationsOpen && (
                 <div className="absolute top-full left-1/2 -translate-x-1/2 bg-[#56381D] p-4 rounded-lg min-w-[300px] grid gap-2">
-                  {locations?.slice(0, 3)?.map((loc: Location) => (
+                  {locations?.map((loc: Location) => (
                     <div
                       key={loc._id}
                       className="text-sm hover:text-[#d1a054] cursor-pointer"
@@ -240,7 +238,9 @@ const Navbar = () => {
                 </span>
               )}
 
-              <span className="hidden xl:block font-semibold">{cartTotal}</span>
+              <span className="hidden xl:block font-semibold">
+                {cartTotal.toFixed(2)}
+              </span>
             </div>
             <div className="flex items-center gap-4">
               <LanguageSwitcher />

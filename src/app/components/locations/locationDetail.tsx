@@ -181,7 +181,7 @@ export default function LocationDetails({ id }: any) {
           </div>
         </div>
 
-        <LocationForm />
+        {/* <LocationForm /> */}
         <LocationsGrid />
 
         <div className="mt-15">

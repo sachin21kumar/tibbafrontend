@@ -190,11 +190,7 @@ export const CheckoutPage = () => {
 
   const items = cart?.items || [];
 
-  const subtotal = items.reduce(
-    (sum: number, item: any) =>
-      sum + (item.productId?.price || 0) * item.quantity,
-    0,
-  );
+  const subtotal = cart?.subtotal || 0;
 
   return (
     <div className="max-w-[1200px] mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-[1fr_430px] gap-16 font-semibold">
@@ -462,22 +458,25 @@ export const CheckoutPage = () => {
                   د.إ {subtotal.toFixed(2)}
                 </td>
               </tr>
-
-              <tr>
-                <th className="py-2 font-bold text-left text-[#AD5727]">
-                  {t("checkout.shipping")}
-                </th>
-                <td className="py-2 text-[#AD5727] text-left font-[system-ui]">
-                  {t("checkout.shippingOption")}
-                </td>
-              </tr>
+              {cart?.deliveryFee !== undefined && (
+                <tr>
+                  <th className="py-2 font-bold text-left text-[#AD5727]">
+                    Delivery Fee
+                  </th>
+                  <td className="py-2 text-[#AD5727] text-left font-[system-ui]">
+                    {cart.deliveryFee === 0
+                      ? "Free"
+                      : `د.إ ${cart.deliveryFee.toFixed(2)}`}
+                  </td>
+                </tr>
+              )}
 
               <tr>
                 <th className="pt-2 font-semibold text-lg text-left text-[#AD5727]">
                   {t("checkout.total")}
                 </th>
                 <td className="pt-2 text-2xl text-[#AD5727] text-left">
-                  د.إ {subtotal.toFixed(2)}
+                  د.إ {cart.totalPrice?.toFixed(2)}
                 </td>
               </tr>
             </tbody>

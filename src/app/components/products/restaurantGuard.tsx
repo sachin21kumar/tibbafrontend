@@ -11,13 +11,15 @@ export const RestaurantCard = ({ order }) => {
   const { locale, t } = useTranslations();
 
   const locationId = order?.location?._id;
-  const { data: location, isLoading } = useGetLocationByIdQuery(locationId, {
+  const { data: location } = useGetLocationByIdQuery(locationId, {
     skip: !locationId,
   });
+
   const dispatch = useAppDispatch();
   const [selectedOption, setSelectedOption] = useState<"delivery" | "pickup">(
     "delivery",
   );
+
   return (
     <div className="flex flex-col xl:flex-row gap-5 rounded-lg overflow-hidden my-6 mx-4 font-semibold">
       <div className="relative w-full xl:w-auto">
@@ -33,6 +35,7 @@ export const RestaurantCard = ({ order }) => {
           />
         </div>
       </div>
+
       <div className="p-4 flex flex-col gap-4">
         <div>
           <h2 className="text-[20px] sm:text-[22px] xl:text-[24px] text-[#AD5727]">
@@ -53,7 +56,7 @@ export const RestaurantCard = ({ order }) => {
       rounded-full font-semibold transition cursor-pointer whitespace-nowrap
       ${
         selectedOption === "delivery"
-          ? "bg-[#AD5727] text-white hover:bg-[#AD5727]"
+          ? "bg-[#AD5727] text-white"
           : "bg-white border border-[#56381D] text-[#AD5727] hover:bg-gray-100"
       }`}
               onClick={() => {
@@ -69,8 +72,8 @@ export const RestaurantCard = ({ order }) => {
       rounded-full font-semibold transition cursor-pointer whitespace-nowrap
       ${
         selectedOption === "pickup"
-          ? "bg-[#AD5727] text-white hover:bg-[#AD5727]"
-          : "bg-white border border-[#56381D] text-[#AD5727] hover:bg-gray-100"
+          ? "bg-[#AD5727] text-white"
+          : "bg-white border border-[#56381D] text-[#AD57227] hover:bg-gray-100"
       }`}
               onClick={() => {
                 setSelectedOption("pickup");
@@ -84,13 +87,7 @@ export const RestaurantCard = ({ order }) => {
           {selectedOption === "delivery" ? (
             <div>
               <p className="text-xs sm:text-sm xl:text-sm text-[#AD5727] !font-[system-ui]">
-                {t("onlineordering.deliveryfee")}:{" "}
-                <span className="line-through">د.إ 11.00</span>{" "}
-                {t("onlineordering.free")}
-              </p>
-
-              <p className="text-xs sm:text-sm xl:text-sm font-semibold !font-[system-ui] border text-[#AD5727] bg-white inline-block px-2 py-1 mt-1 rounded">
-                {t("onlineordering.unlimited")}
+                Delivery fee: د.إ 3 (Free delivery on orders over د.إ 100)
               </p>
             </div>
           ) : (

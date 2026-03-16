@@ -3,12 +3,14 @@
 import { useTranslations } from "@/i18n/TranslationProvider";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { useGetLocationsQuery } from "../redux/query/locationsQuery/location.query";
 
 export default function ReservationPage() {
   const router = useRouter();
   const { t, locale } = useTranslations();
 
   const params = useSearchParams();
+  const { data: locations } = useGetLocationsQuery();
 
   const initialDate = params.get("date") || "";
   const initialTime = params.get("time") || "";
@@ -128,7 +130,15 @@ export default function ReservationPage() {
               })}
             </select>
           </div>
-
+          <div className="mb-4">
+            <select className="border border-[#AD5727] text-[#AD5727] px-3 py-3 text-sm">
+              {locations?.map((loc) => (
+                <option key={loc._id} value={loc._id}>
+                  {loc.name}
+                </option>
+              ))}
+            </select>
+          </div>
           <button className="w-full bg-[#AD5727] text-white py-3 rounded font-semibold mb-4 cursor-pointer">
             Find a table
           </button>

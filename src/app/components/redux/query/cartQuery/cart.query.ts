@@ -18,6 +18,8 @@ export interface CartResponse {
   items: CartItem[];
   totalPrice: number;
   locationId: string;
+  subtotal?: number;
+  deliveryFee?: number;
 }
 
 const getLocale = () => {
@@ -28,6 +30,20 @@ const getLocale = () => {
 
   if (lang === "ar" || lang === "en") return lang;
   return "en";
+};
+
+const recalcTotals = (draft: CartResponse) => {
+  const subtotal =
+    draft.items?.reduce(
+      (sum, i) => sum + (i.productId.price ?? 0) * i.quantity,
+      0,
+    ) ?? 0;
+
+  const deliveryFee = subtotal < 100 ? 3 : 0;
+
+  draft.subtotal = subtotal;
+  draft.deliveryFee = deliveryFee;
+  draft.totalPrice = subtotal + deliveryFee;
 };
 
 export const cartApi = createApi({
@@ -98,9 +114,10 @@ export const cartApi = createApi({
                 },
                 quantity,
               });
-
               draft.totalPrice += product.price * quantity;
             }
+
+            recalcTotals(draft);
           }),
         );
 
@@ -131,9 +148,15 @@ export const cartApi = createApi({
             const item = draft.items.find((i) => i.productId._id === productId);
             if (!item || item.productId.price == null) return;
 
-            const diff = quantity - item.quantity;
             item.quantity = quantity;
-            draft.totalPrice += item.productId.price * diff;
+
+            if (item.quantity <= 0) {
+              draft.items = draft.items.filter(
+                (i) => i.productId._id !== productId,
+              );
+            }
+
+            recalcTotals(draft);
           }),
         );
 
@@ -161,13 +184,11 @@ export const cartApi = createApi({
       ) {
         const patch = dispatch(
           cartApi.util.updateQueryData("getCart", locationId, (draft) => {
-            const item = draft.items.find((i) => i.productId._id === productId);
-            if (!item || item.productId.price == null) return;
-
-            draft.totalPrice -= item.productId.price * item.quantity;
             draft.items = draft.items.filter(
               (i) => i.productId._id !== productId,
             );
+
+            recalcTotals(draft);
           }),
         );
 
@@ -190,6 +211,8 @@ export const cartApi = createApi({
         const patch = dispatch(
           cartApi.util.updateQueryData("getCart", locationId, (draft) => {
             draft.items = [];
+            draft.subtotal = 0;
+            draft.deliveryFee = 0;
             draft.totalPrice = 0;
           }),
         );
