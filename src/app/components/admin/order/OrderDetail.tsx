@@ -24,6 +24,7 @@ type Order = {
   OrderStatus: string;
   fullName: string;
   paymentMethod: string;
+  specialInstructions?: string;
 };
 
 type UpdateOrderForm = {
@@ -143,7 +144,7 @@ export default function AdminOrdersPageDetail() {
   };
 
   return (
-    <div className="max-w-[1450px] mx-auto p-6 xl:min-h-[calc(100vh-430px)]">
+    <div className="max-w-[1750px] mx-auto p-6 xl:min-h-[calc(100vh-430px)]">
       <h1 className="text-3xl mb-6 text-center">{t("order.adminOrder")}</h1>
 
       {orders.length === 0 && (
@@ -174,6 +175,7 @@ export default function AdminOrdersPageDetail() {
                   <th className="px-4 py-3 border-b">
                     {t("order.orderStatus")}
                   </th>
+                  <th className="px-4 py-3 border-b">Special Instructions</th>
                   <th className="px-4 py-3 border-b">{t("order.driver")}</th>
                   <th className="px-4 py-3 border-b text-center">
                     {t("order.action")}
@@ -231,7 +233,11 @@ export default function AdminOrdersPageDetail() {
                         ))}
                       </select>
                     </td>
-
+                    <td className="px-4 py-3 text-sm">
+                      <span className="inline-flex items-center px-2 py-1 rounded-full text-[#7a4a2e] text-xs font-medium">
+                        {order.specialInstructions || "N/A"}
+                      </span>
+                    </td>
                     <td className="px-4 py-3 text-sm text-gray-700">
                       {order.driverName}
                       {order.driverPhone && (

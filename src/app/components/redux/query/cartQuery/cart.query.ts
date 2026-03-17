@@ -20,6 +20,8 @@ export interface CartResponse {
   locationId: string;
   subtotal?: number;
   deliveryFee?: number;
+  discount?: number;
+  specialInstructions?: string;
 }
 
 const getLocale = () => {
@@ -39,11 +41,14 @@ const recalcTotals = (draft: CartResponse) => {
       0,
     ) ?? 0;
 
-  const deliveryFee = subtotal < 100 ? 3 : 0;
+  const deliveryFee = subtotal > 0 && subtotal < 100 ? 3 : 0;
+  const discount = subtotal * 0.25;
+  const totalPrice = subtotal - discount + deliveryFee;
 
   draft.subtotal = subtotal;
   draft.deliveryFee = deliveryFee;
-  draft.totalPrice = subtotal + deliveryFee;
+  draft.discount = discount;
+  draft.totalPrice = totalPrice;
 };
 
 export const cartApi = createApi({
@@ -103,7 +108,6 @@ export const cartApi = createApi({
 
             if (existing) {
               existing.quantity += quantity;
-              draft.totalPrice += (existing.productId.price ?? 0) * quantity;
             } else {
               draft.items.push({
                 productId: {
@@ -114,7 +118,6 @@ export const cartApi = createApi({
                 },
                 quantity,
               });
-              draft.totalPrice += product.price * quantity;
             }
 
             recalcTotals(draft);
@@ -131,7 +134,12 @@ export const cartApi = createApi({
 
     updateCart: builder.mutation<
       CartResponse,
-      { productId: string; quantity: number; locationId: string }
+      {
+        productId?: string;
+        quantity?: number;
+        locationId: string;
+        specialInstructions?: string;
+      }
     >({
       query: ({ locationId, ...body }) => ({
         url: "cart/update",
@@ -140,20 +148,31 @@ export const cartApi = createApi({
       }),
 
       async onQueryStarted(
-        { productId, quantity, locationId },
+        { productId, quantity, locationId, specialInstructions },
         { dispatch, queryFulfilled },
       ) {
         const patch = dispatch(
           cartApi.util.updateQueryData("getCart", locationId, (draft) => {
-            const item = draft.items.find((i) => i.productId._id === productId);
-            if (!item || item.productId.price == null) return;
+            // ✅ Update special instructions
+            if (specialInstructions !== undefined) {
+              draft.specialInstructions = specialInstructions;
+            }
 
-            item.quantity = quantity;
-
-            if (item.quantity <= 0) {
-              draft.items = draft.items.filter(
-                (i) => i.productId._id !== productId,
+            // ✅ Update item quantity if provided
+            if (productId && quantity !== undefined) {
+              const item = draft.items.find(
+                (i) => i.productId._id === productId,
               );
+
+              if (item) {
+                item.quantity = quantity;
+
+                if (item.quantity <= 0) {
+                  draft.items = draft.items.filter(
+                    (i) => i.productId._id !== productId,
+                  );
+                }
+              }
             }
 
             recalcTotals(draft);
@@ -213,7 +232,9 @@ export const cartApi = createApi({
             draft.items = [];
             draft.subtotal = 0;
             draft.deliveryFee = 0;
+            draft.discount = 0;
             draft.totalPrice = 0;
+            draft.specialInstructions = "";
           }),
         );
 

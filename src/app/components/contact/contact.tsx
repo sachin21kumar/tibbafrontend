@@ -103,9 +103,9 @@ export const Contact = () => {
             </div>
           ))}
         </div>
-        <ContactForm />
+        {/* <ContactForm /> */}
       </div>
-      <div>
+      <div className="mt-15">
         <Location />
       </div>
     </>

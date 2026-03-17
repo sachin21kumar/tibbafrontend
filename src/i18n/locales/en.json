@@ -67,12 +67,15 @@
     "product_image": "Product Image is required",
     "price_greaterthan": "Price must be greater than 0",
     "minimum": "Minimum 2 characters",
-    "category_title":"Title is required"
+    "category_title": "Title is required"
   },
   "View_cart_model": {
     "vieworder": "View Order",
-    "noproductincart": "No products in the cart.",
+    "noproductincart": "No products in cart.",
     "subtotal": "Subtotal",
+    "discount": "Discount",
+    "delivery": "Delivery Fee",
+    "total": "Total",
     "checkout": "Checkout"
   },
   "location": {
@@ -157,7 +160,8 @@
     "stripenotLoad": "Stripe not loaded",
     "cardInput": "Card input not found",
     "paymentSuccess": "Payment successful!",
-    "flat": "Flat / Apartment / City / State"
+    "flat": "Flat / Apartment / City / State",
+    "discount": "Discount"
   },
   "orderSuccess": {
     "thankyou": "Thank you for your order!",

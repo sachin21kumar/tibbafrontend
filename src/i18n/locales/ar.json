@@ -69,10 +69,14 @@
     "minimum": "الحد الأدنى حرفان",
     "category_title": "العنوان مطلوب"
   },
+
   "View_cart_model": {
     "vieworder": "عرض الطلب",
     "noproductincart": "لا توجد منتجات في سلة التسوق.",
     "subtotal": "المجموع الفرعي",
+    "discount": "الخصم",
+    "delivery": "رسوم التوصيل",
+    "total": "الإجمالي",
     "checkout": "إتمام الطلب"
   },
   "location": {
@@ -157,7 +161,8 @@
     "stripenotLoad": "لم يتم تحميل Stripe",
     "cardInput": "لم يتم العثور على إدخال البطاقة",
     "paymentSuccess": "تم الدفع بنجاح!",
-    "flat": "شقة / مبنى / مدينة / ولاية"
+    "flat": "شقة / مبنى / مدينة / ولاية",
+    "discount": "الخصم"
   },
   "orderSuccess": {
     "thankyou": "شكرًا لطلبك!",

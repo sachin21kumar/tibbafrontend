@@ -2,7 +2,7 @@
 
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useCallback } from "react";
-import { X, Trash2 } from "lucide-react";
+import { X, Trash2, FileText } from "lucide-react";
 import {
   useRemoveFromCartMutation,
   useUpdateCartMutation,
@@ -10,6 +10,8 @@ import {
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { useTranslations } from "@/i18n/TranslationProvider";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 interface ViewCartModalProps {
   isOpen: boolean;
@@ -27,8 +29,21 @@ export default function ViewCartModal({
 
   const locationId = Cookies.get("selectedLocationId");
 
+  const { register, handleSubmit, setValue, watch } = useForm({
+    defaultValues: {
+      specialInstructions: "",
+    },
+  });
+
   const [updateCart] = useUpdateCartMutation();
   const [removeFromCart] = useRemoveFromCartMutation();
+
+  // ✅ Auto-fill existing instruction
+  useEffect(() => {
+    if (cart?.specialInstructions) {
+      setValue("specialInstructions", cart.specialInstructions);
+    }
+  }, [cart, setValue]);
 
   const handleIncrease = useCallback(
     (productId: string, quantity: number) => {
@@ -69,6 +84,22 @@ export default function ViewCartModal({
     [removeFromCart, locationId],
   );
 
+  // ✅ Submit instruction
+  const onSubmit = async (data: any) => {
+    if (!locationId) return;
+
+    try {
+      await updateCart({
+        locationId,
+        specialInstructions: data.specialInstructions,
+      }).unwrap();
+
+      toast.success("Instruction added successfully");
+    } catch (error) {
+      toast.error("Failed to add instruction");
+    }
+  };
+
   useEffect(() => {
     document.documentElement.style.overflowX = "hidden";
     return () => {
@@ -79,42 +110,26 @@ export default function ViewCartModal({
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={onClose}>
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
+        <Transition.Child as={Fragment}>
           <div className="fixed inset-0 bg-gray/50" />
         </Transition.Child>
 
         <div className="fixed inset-0 flex items-center justify-center p-4 font-semibold">
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0 scale-95"
-            enterTo="opacity-100 scale-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100 scale-100"
-            leaveTo="opacity-0 scale-95"
-          >
+          <Transition.Child as={Fragment}>
             <Dialog.Panel className="w-full max-w-2xl rounded-2xl bg-white shadow-xl flex flex-col max-h-[90vh]">
+              {/* Header */}
               <div className="relative border-b p-6 text-center border-b-[#AD5727]">
-                <h2 className="sm:text-[34px] text-[20px] tracking-wide text-[#AD5727]">
+                <h2 className="sm:text-[34px] text-[20px] text-[#AD5727]">
                   {t("View_cart_model.vieworder")}
                 </h2>
-                <button
-                  onClick={onClose}
-                  className="absolute right-6 top-6 font-[300] hover:text-black cursor-pointer"
-                >
-                  <X size={32} className="font-semibold text-[#AD5727]" />
+                <button onClick={onClose} className="absolute right-6 top-6">
+                  <X size={32} className="text-[#AD5727]" />
                 </button>
               </div>
+
+              {/* Cart Items */}
               {cart?.items?.length > 0 ? (
-                <div className="divide-y divide-[#AD5727] overflow-y-auto px-6 py-4 flex-1 max-h-[60vh] sm:max-h-[70vh]">
+                <div className="overflow-y-auto px-6 py-4 flex-1 max-h-[60vh]">
                   {cart.items.map((item: any) => (
                     <div
                       key={item?.productId?._id}
@@ -129,22 +144,20 @@ export default function ViewCartModal({
                             onClick={() =>
                               handleDecrease(item.productId._id, item.quantity)
                             }
-                            className="text-xl cursor-pointer"
                           >
                             −
                           </button>
-                          <span className="flex h-8 w-8 items-center justify-center rounded-full border border-[#ffffff]">
+                          <span className="flex h-8 w-8 items-center justify-center rounded-full border">
                             {item.quantity}
                           </span>
                           <button
                             onClick={() =>
                               handleIncrease(item.productId._id, item.quantity)
                             }
-                            className="text-xl cursor-pointer"
                           >
                             +
                           </button>
-                          <span className="ml-4 font-semibold text-[#AD5727]">
+                          <span className="ml-4 font-semibold">
                             د.إ {item?.productId?.price}
                           </span>
                         </div>
@@ -152,29 +165,83 @@ export default function ViewCartModal({
 
                       <button
                         onClick={() => handleRemove(item.productId._id)}
-                        className="text-red-500 hover:text-red-500 cursor-pointer"
+                        className="text-red-500"
                       >
                         <Trash2 size={18} />
                       </button>
                     </div>
                   ))}
+
+                  {/* ✅ Special Instructions */}
+                  <div className="mt-6 border rounded-xl p-4 bg-gray-50">
+                    <p className="text-sm font-medium text-gray-700 mb-2 !font-[system-ui]">
+                      Special Instructions (Optional)
+                    </p>
+
+                    <div className="flex items-start gap-2 border-b pb-2">
+                      <FileText size={18} className="text-gray-500 mt-1" />
+                      <input
+                        type="text"
+                        {...register("specialInstructions")}
+                        placeholder="Add Cooking / Delivery Instructions"
+                        className="w-full bg-transparent outline-none text-sm"
+                      />
+                    </div>
+
+                    <div className="flex justify-end mt-3">
+                      <button
+                        onClick={handleSubmit(onSubmit)}
+                        disabled={!watch("specialInstructions")?.trim()}
+                        className="px-4 py-1.5 text-sm rounded-full border border-[#AD5727] text-[#AD5727] hover:bg-[#AD5727] hover:text-white disabled:opacity-50"
+                      >
+                        Add
+                      </button>
+                    </div>
+                  </div>
                 </div>
               ) : (
-                <span className="p-6 text-center w-full flex items-center justify-center text-[#AD5727] font-[system-ui]">
+                <span className="p-6 text-center text-[#AD5727]">
                   {t("View_cart_model.noproductincart")}
                 </span>
               )}
 
+              {/* Footer */}
               {cart?.items?.length > 0 && (
                 <div className="p-6 border-t border-t-[#d1a054]">
-                  <p className="mb-4 text-center text-[1.5rem] font-allura font-semibold text-[#AD5727]">
-                    {t("View_cart_model.subtotal")}:{" "}
-                    <span className="text-[1.5rem]">
-                      د.إ {cart?.totalPrice ?? 0}
-                    </span>
-                  </p>
+                  <div className="w-full max-w-md mx-auto p-4 bg-white">
+                    <div className="flex justify-between mb-2">
+                      <span>{t("View_cart_model.subtotal")}</span>
+                      <span>د.إ {cart?.subtotal?.toFixed(2)}</span>
+                    </div>
+
+                    <div className="flex justify-between mb-2">
+                      <span>{t("View_cart_model.discount")}</span>
+                      <span className="text-green-600">
+                        - د.إ {cart?.discount?.toFixed(2)}
+                      </span>
+                    </div>
+
+                    <div className="flex justify-between mb-3">
+                      <span>{t("View_cart_model.delivery")}</span>
+                      <span className="text-red-500">
+                        د.إ {cart?.deliveryFee?.toFixed(2)}
+                      </span>
+                    </div>
+
+                    <div className="border-t my-2"></div>
+
+                    <div className="flex justify-between">
+                      <span className="font-semibold">
+                        {t("View_cart_model.total")}
+                      </span>
+                      <span className="font-bold text-[#AD5727]">
+                        د.إ {cart?.totalPrice?.toFixed(2)}
+                      </span>
+                    </div>
+                  </div>
+
                   <button
-                    className="w-full rounded-full bg-white py-4 text-lg font-medium text-[#AD5727] border border-[#AD5727] font-semibold shadow-md cursor-pointer hover:opacity-90"
+                    className="w-full mt-4 rounded-full border border-[#AD5727] py-4 text-[#AD5727]"
                     onClick={() => {
                       router.push(`/${locale}/checkout`);
                       onClose();
