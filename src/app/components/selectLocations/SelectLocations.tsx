@@ -86,7 +86,9 @@ export default function SelectLocationPage() {
       return;
     }
     if (!isOpen) {
-      toast.warn("Restaurant is currently closed");
+      toast.warn(
+        `Restaurant is currently closed Opening hours: ${loc.operation_hours}`,
+      );
       return;
     }
     Cookies.set("selectedLocationId", loc._id, { expires: 7 });
