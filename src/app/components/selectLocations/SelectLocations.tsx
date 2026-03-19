@@ -8,6 +8,7 @@ import { useGetLocationsQuery } from "../redux/query/locationsQuery/location.que
 import { useAppDispatch } from "../redux/hook";
 import { setLocation } from "../redux/slices/orderSlice";
 import { useTranslations } from "@/i18n/TranslationProvider";
+import { toast } from "react-toastify";
 
 export default function SelectLocationPage() {
   const { t, locale } = useTranslations();
@@ -25,7 +26,56 @@ export default function SelectLocationPage() {
     }
   }, []);
 
+  const isRestaurantOpen = (hours: string) => {
+    if (!hours) return false;
+
+    try {
+      const [start, end] = hours.split(" - ");
+      const now = new Date();
+
+      const parseTime = (timeStr: string) => {
+        const parts = timeStr.trim().toLowerCase().split(" ");
+        const time = parts[0];
+        const modifier = parts[1];
+
+        let h = 0;
+        let m = 0;
+
+        if (time.includes(":")) {
+          [h, m] = time.split(":").map(Number);
+        } else {
+          h = Number(time);
+          m = 0;
+        }
+
+        if (modifier === "pm" && h !== 12) h += 12;
+        if (modifier === "am" && h === 12) h = 0;
+
+        const d = new Date();
+        d.setHours(h, m, 0, 0);
+        return d;
+      };
+
+      const startTime = parseTime(start);
+      const endTime = parseTime(end);
+
+      if (startTime.getTime() === endTime.getTime()) {
+        return true;
+      }
+
+      if (endTime < startTime) {
+        return now >= startTime || now <= endTime;
+      }
+
+      return now >= startTime && now <= endTime;
+    } catch {
+      return false;
+    }
+  };
+
   const handleSelectLocation = (loc: any) => {
+    const isOpen = isRestaurantOpen(loc.operation_hours);
+
     if (loc.slug === "abu-hail") {
       window.location.href = "https://order.tmbill.com/outlet/18013362821313";
       return;
@@ -35,7 +85,10 @@ export default function SelectLocationPage() {
       window.location.href = "https://order.tmbill.com/outlet/18013362479764";
       return;
     }
-
+    if (!isOpen) {
+      toast.warn("Restaurant is currently closed");
+      return;
+    }
     Cookies.set("selectedLocationId", loc._id, { expires: 7 });
     setSelectedLocationId(loc._id);
 
@@ -85,7 +138,7 @@ export default function SelectLocationPage() {
                   </div>
                 </div>
 
-                <ChevronRight className="w-5 h-5 text-[#d1a054] group-hover:text-[#d1a054]" />
+                <ChevronRight className="w-5 h-5 text-[#d1a054]" />
               </button>
             );
           })}

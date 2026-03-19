@@ -20,6 +20,7 @@ type CheckoutFormValues = {
   phone: string;
   deliveryType: string;
   buildingName: string;
+  city: string;
   paymentMethod: "stripe" | "cod";
 };
 
@@ -58,6 +59,7 @@ export const CheckoutPage = () => {
   const paymentMethod = watch("paymentMethod");
 
   const validateAddressWithBackend = async (fullAddress: string) => {
+    console.log("Validating address:", fullAddress);
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/address-validate`,
@@ -301,30 +303,50 @@ export const CheckoutPage = () => {
               </span>
             )}
           </div>
-          <div className="relative">
-            <label className="text-xs uppercase tracking-wider text-[#AD5727]">
-              {t("checkout.flatAddress")}{" "}
-              <span className="text-red-500">*</span>
-            </label>
-            <input
-              {...register("address", {
-                required: "Flat address is required",
-              })}
-              className={`w-full border-b text-[#AD5727] !font-[system-ui] focus:outline-none py-2 ${
-                isSubmitted && errors.address
-                  ? "border-red-500"
-                  : "border-[#d1a054]"
-              }`}
-              placeholder={t("checkout.flat")}
-              onBlur={async (e) => {
-                const building = getValues("buildingName") || "";
-                const fullAddress = `${building}, ${e.target.value}`;
-                if (e.target.value.length > 3) {
-                  await validateAddressWithBackend(fullAddress);
-                }
-              }}
-            />
-
+          <div className="grid grid-cols-2 justify-center items-center gap-3">
+            <div>
+              <label className="text-xs uppercase tracking-wider text-[#AD5727]">
+                {t("checkout.flatAddress")}{" "}
+                <span className="text-red-500">*</span>
+              </label>
+              <input
+                {...register("address", {
+                  required: "Flat address is required",
+                })}
+                className={`w-full border-b text-[#AD5727] !font-[system-ui] focus:outline-none py-2 ${
+                  isSubmitted && errors.address
+                    ? "border-red-500"
+                    : "border-[#d1a054]"
+                }`}
+                placeholder={t("checkout.flat")}
+                onBlur={async (e) => {
+                  const building = getValues("buildingName") || "";
+                  const city = getValues("city") || "Dubai"; // 👈 read city field
+                  const fullAddress = `${building}, ${e.target.value}, ${city}`;
+                  if (e.target.value.length > 3) {
+                    await validateAddressWithBackend(fullAddress);
+                  }
+                }}
+              />
+            </div>
+            <div>
+              <label className="text-xs uppercase tracking-wider text-[#AD5727]">
+                {t("checkout.city")} <span className="text-red-500">*</span>
+              </label>
+              <input
+                {...register("city", {
+                  required: "City is required",
+                })}
+                className={`w-full border-b text-[#AD5727] !font-[system-ui] focus:outline-none py-2 ${
+                  isSubmitted && errors.city
+                    ? "border-red-500"
+                    : "border-[#d1a054]"
+                }`}
+                placeholder={t("checkout.city")}
+                defaultValue={"Dubai"}
+                disabled
+              />
+            </div>
             {addressValidationError && (
               <span className="text-xs text-red-500 mt-1 block">
                 {addressValidationError}

@@ -160,8 +160,9 @@
     "stripenotLoad": "Stripe not loaded",
     "cardInput": "Card input not found",
     "paymentSuccess": "Payment successful!",
-    "flat": "Flat / Apartment / City / State",
-    "discount": "Discount"
+    "flat": "Flat / Apartment / State",
+    "discount": "Discount",
+    "city": "City"
   },
   "orderSuccess": {
     "thankyou": "Thank you for your order!",

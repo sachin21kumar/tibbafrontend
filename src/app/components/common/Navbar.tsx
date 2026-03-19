@@ -14,6 +14,7 @@ import Cookies from "js-cookie";
 import LanguageSwitcher from "@/app/common/LanguageSwitcher";
 import { useTranslations } from "@/i18n/TranslationProvider";
 import { FaMapMarkerAlt, FaClock, FaPhoneAlt } from "react-icons/fa";
+import MoreInfo from "./moreinfo";
 interface Location {
   _id: string;
   name: string;
@@ -77,28 +78,7 @@ const Navbar = () => {
   };
   return (
     <nav className="bg-[#56381D] text-white sticky top-0 z-50 py-3">
-      <div className="hidden md:flex justify-center items-center text-white/80 text-[13px] tracking-wide ">
-        <div className="flex items-center gap-8 py-2">
-          <div className="flex items-center gap-2 hover:text-[#d1a054] transition">
-            <FaMapMarkerAlt className="text-[#d1a054]" size={12} />
-            <span>Main Branch, Dubai</span>
-          </div>
-
-          <div className="w-px h-4 bg-white/20" />
-
-          <div className="flex items-center gap-2 hover:text-[#d1a054] transition">
-            <FaClock className="text-[#d1a054]" size={12} />
-            <span>Open Daily 11:00 AM – 12:00 PM</span>
-          </div>
-
-          <div className="w-px h-4 bg-white/20" />
-
-          <div className="flex items-center gap-2 hover:text-[#d1a054] transition">
-            <FaPhoneAlt className="text-[#d1a054]" size={12} />
-            <a href="tel:+97142578585">+971 4 2578585</a>
-          </div>
-        </div>
-      </div>
+      <MoreInfo />
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between lg:justify-around">
           <div className="lg:hidden">
@@ -217,33 +197,44 @@ const Navbar = () => {
             </div>
           </div>
 
-          <div className="relative cursor-pointer flex items-center flex gap-3">
-            <div className="flex items-center" onClick={openCart}>
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                <circle fill="white" cx="18.4" cy="12" r="0.9" />
-                <circle fill="white" cx="11.3" cy="12" r="0.9" />
-                <path
-                  stroke="white"
-                  d="M18.4 9C18.4 7 16.8 5.4 14.8 5.4C12.9 5.4 11.3 7 11.3 9"
-                />
-                <path
-                  stroke="white"
-                  d="M8.3 9H21.4C22.1 9 22.6 9.5 22.7 10.1L24 24.4C24.1 25.2 23.5 25.8 22.7 25.8H7C6.2 25.8 5.6 25.2 5.7 24.4L7 10.1C7 9.5 7.6 9 8.3 9Z"
-                />
-              </svg>
-
-              {cartCount > 0 && (
-                <span className="absolute md:-top-2 top-4 left-2 bg-[#d1a054] text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
-                  {cartCount}
-                </span>
-              )}
-
-              <span className="hidden xl:block font-semibold">
-                {cartTotal.toFixed(2)}
-              </span>
+          <div className="flex gap-3">
+            <div className=" py-2">
+              <a
+                href={`/${locale}/selectLocation`}
+                className={`bg-white text-[#d1a054] px-4 py-2.5 rounded-sm font-semibold tracking-widest text-xs uppercase transition-all duration-300 `}
+              >
+                Online Ordering
+              </a>
             </div>
-            <div className="flex items-center gap-4">
-              <LanguageSwitcher />
+
+            <div className="relative cursor-pointer flex items-center flex gap-3">
+              <div className="flex items-center" onClick={openCart}>
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                  <circle fill="white" cx="18.4" cy="12" r="0.9" />
+                  <circle fill="white" cx="11.3" cy="12" r="0.9" />
+                  <path
+                    stroke="white"
+                    d="M18.4 9C18.4 7 16.8 5.4 14.8 5.4C12.9 5.4 11.3 7 11.3 9"
+                  />
+                  <path
+                    stroke="white"
+                    d="M8.3 9H21.4C22.1 9 22.6 9.5 22.7 10.1L24 24.4C24.1 25.2 23.5 25.8 22.7 25.8H7C6.2 25.8 5.6 25.2 5.7 24.4L7 10.1C7 9.5 7.6 9 8.3 9Z"
+                  />
+                </svg>
+
+                {cartCount > 0 && (
+                  <span className="absolute md:-top-2 top-4 left-2 bg-[#d1a054] text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
+
+                <span className="hidden xl:block font-semibold">
+                  {cartTotal.toFixed(2)}
+                </span>
+              </div>
+              <div className="flex items-center gap-4">
+                <LanguageSwitcher />
+              </div>
             </div>
           </div>
         </div>

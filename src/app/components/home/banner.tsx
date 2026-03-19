@@ -43,7 +43,7 @@ export const Banner = () => {
             />
             <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center items-center">
               <button
-                onClick={() => router.push(`/${locale}/onlineordering`)}
+                onClick={() => router.push(`/${locale}/selectLocation`)}
                 className="px-8 py-3 bg-gradient-to-t from-[#7a4a24] via-[#9C5F30] to-[#c07a3d] cursor-pointer shadow-lg hover:shadow-xl text-white font-semibold tracking-widest text-sm uppercase transition-all duration-300 rounded-sm"
               >
                 {t("banner.order")}
