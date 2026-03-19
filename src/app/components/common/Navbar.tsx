@@ -197,16 +197,7 @@ const Navbar = () => {
             </div>
           </div>
 
-          <div className="flex gap-3">
-            <div className=" py-2">
-              <a
-                href={`/${locale}/selectLocation`}
-                className={`bg-white text-[#d1a054] px-4 py-2.5 rounded-sm font-semibold tracking-widest text-xs uppercase transition-all duration-300 `}
-              >
-                Online Ordering
-              </a>
-            </div>
-
+          <div className="flex gap-5">
             <div className="relative cursor-pointer flex items-center flex gap-3">
               <div className="flex items-center" onClick={openCart}>
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
@@ -232,6 +223,14 @@ const Navbar = () => {
                   {cartTotal.toFixed(2)}
                 </span>
               </div>
+              <div className=" py-2 md:block hidden">
+                <a
+                  href={`/${locale}/selectLocation`}
+                  className={`bg-white text-[#d1a054] px-4 py-2.5 rounded-sm font-semibold tracking-widest text-xs uppercase transition-all duration-300 `}
+                >
+                  Online Ordering
+                </a>
+              </div>
               <div className="flex items-center gap-4">
                 <LanguageSwitcher />
               </div>
@@ -247,7 +246,7 @@ const Navbar = () => {
               { label: t("nav.home"), path: `/${locale}` },
               { label: t("nav.menu"), path: `/${locale}/menu` },
               { label: t("nav.contact"), path: `/${locale}/contact` },
-              // { label: "Online Ordering", path: `/${locale}/onlineordering` },
+              { label: "Online Ordering", path: `/${locale}/selectLocation` },
               { label: t("nav.location"), path: `/${locale}/locations` },
               { label: t("nav.reservation"), path: `/${locale}/opentable` },
             ].map((item) => (
