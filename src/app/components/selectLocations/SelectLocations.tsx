@@ -30,23 +30,22 @@ export default function SelectLocationPage() {
     if (!hours) return false;
 
     try {
-      const [start, end] = hours.split(" - ");
+      const [start, end] = hours.split(" - ").map((item) => item.trim());
+      if (!start || !end) return false;
+
       const now = new Date();
 
       const parseTime = (timeStr: string) => {
-        const parts = timeStr.trim().toLowerCase().split(" ");
-        const time = parts[0];
-        const modifier = parts[1];
+        const normalized = timeStr.trim().toLowerCase();
 
-        let h = 0;
-        let m = 0;
-
-        if (time.includes(":")) {
-          [h, m] = time.split(":").map(Number);
-        } else {
-          h = Number(time);
-          m = 0;
+        const match = normalized.match(/^(\d{1,2})(?::(\d{2}))?\s*(am|pm)$/);
+        if (!match) {
+          throw new Error("Invalid time format");
         }
+
+        let h = Number(match[1]);
+        const m = Number(match[2] || "0");
+        const modifier = match[3];
 
         if (modifier === "pm" && h !== 12) h += 12;
         if (modifier === "am" && h === 12) h = 0;
@@ -76,6 +75,13 @@ export default function SelectLocationPage() {
   const handleSelectLocation = (loc: any) => {
     const isOpen = isRestaurantOpen(loc.operation_hours);
 
+    if (!isOpen) {
+      toast.warn(
+        `Restaurant is currently closed. Opening hours: ${loc.operation_hours}`,
+      );
+      return;
+    }
+
     if (loc.slug === "abu-hail") {
       window.location.href = "https://order.tmbill.com/outlet/18013362821313";
       return;
@@ -85,12 +91,7 @@ export default function SelectLocationPage() {
       window.location.href = "https://order.tmbill.com/outlet/18013362479764";
       return;
     }
-    if (!isOpen) {
-      toast.warn(
-        `Restaurant is currently closed Opening hours: ${loc.operation_hours}`,
-      );
-      return;
-    }
+
     Cookies.set("selectedLocationId", loc._id, { expires: 7 });
     setSelectedLocationId(loc._id);
 
