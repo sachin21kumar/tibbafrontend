@@ -5,12 +5,14 @@ export interface CartProduct {
   name?: string;
   price?: number;
   imagePath?: string;
+  cutlery?: boolean;
 }
 
 export interface CartItem {
   productId: CartProduct;
   quantity: number;
   locationId?: string;
+  cutlery?: boolean;
 }
 
 export interface CartResponse {
@@ -22,6 +24,7 @@ export interface CartResponse {
   deliveryFee?: number;
   discount?: number;
   specialInstructions?: string;
+  cutlery?: boolean;
 }
 
 const getLocale = () => {
@@ -139,6 +142,7 @@ export const cartApi = createApi({
         quantity?: number;
         locationId: string;
         specialInstructions?: string;
+        cutlery?: boolean;
       }
     >({
       query: ({ locationId, ...body }) => ({
@@ -148,7 +152,7 @@ export const cartApi = createApi({
       }),
 
       async onQueryStarted(
-        { productId, quantity, locationId, specialInstructions },
+        { productId, quantity, locationId, specialInstructions, cutlery },
         { dispatch, queryFulfilled },
       ) {
         const patch = dispatch(
@@ -156,6 +160,11 @@ export const cartApi = createApi({
             // ✅ Update special instructions
             if (specialInstructions !== undefined) {
               draft.specialInstructions = specialInstructions;
+            }
+
+            // ✅ Update cutlery preference
+            if (cutlery !== undefined) {
+              draft.cutlery = cutlery;
             }
 
             // ✅ Update item quantity if provided

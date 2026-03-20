@@ -59,7 +59,6 @@ export const CheckoutPage = () => {
   const paymentMethod = watch("paymentMethod");
 
   const validateAddressWithBackend = async (fullAddress: string) => {
-    console.log("Validating address:", fullAddress);
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/address-validate`,

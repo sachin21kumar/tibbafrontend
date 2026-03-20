@@ -25,6 +25,7 @@ type Order = {
   fullName: string;
   paymentMethod: string;
   specialInstructions?: string;
+  cutlery?: boolean;
 };
 
 type UpdateOrderForm = {
@@ -153,6 +154,7 @@ export default function AdminOrdersPageDetail() {
         </div>
       )}
 
+      {/* ── Desktop table (xl+) ── */}
       {orders.length > 0 && (
         <div className="hidden xl:block">
           <div className="overflow-x-auto rounded-xl border border-[#d1a054] shadow-sm">
@@ -176,6 +178,7 @@ export default function AdminOrdersPageDetail() {
                     {t("order.orderStatus")}
                   </th>
                   <th className="px-4 py-3 border-b">Special Instructions</th>
+                  <th className="px-4 py-3 border-b">Cutlery</th>
                   <th className="px-4 py-3 border-b">{t("order.driver")}</th>
                   <th className="px-4 py-3 border-b text-center">
                     {t("order.action")}
@@ -209,7 +212,7 @@ export default function AdminOrdersPageDetail() {
                     </td>
 
                     <td className="px-4 py-3 text-sm text-center text-[#7a4a2e]">
-                      {order.paymentMethod == "cod"
+                      {order.paymentMethod === "cod"
                         ? "Cash on Delivery"
                         : order.paymentMethod}
                     </td>
@@ -233,11 +236,19 @@ export default function AdminOrdersPageDetail() {
                         ))}
                       </select>
                     </td>
+
                     <td className="px-4 py-3 text-sm">
                       <span className="inline-flex items-center px-2 py-1 rounded-full text-[#7a4a2e] text-xs font-medium">
                         {order.specialInstructions || "N/A"}
                       </span>
                     </td>
+
+                    <td className="px-4 py-3 text-sm">
+                      <span className="inline-flex items-center px-2 py-1 rounded-full text-[#7a4a2e] text-xs font-medium">
+                        {order.cutlery ? "Yes" : "No"}
+                      </span>
+                    </td>
+
                     <td className="px-4 py-3 text-sm text-gray-700">
                       {order.driverName}
                       {order.driverPhone && (
@@ -296,53 +307,150 @@ export default function AdminOrdersPageDetail() {
         </div>
       )}
 
+      {/* ── Mobile cards (below xl) ── */}
       {orders.length > 0 && (
         <div className="xl:hidden flex flex-col gap-4">
           {orders.map((order) => (
-            <div key={order._id} className="border rounded-lg p-4 shadow-sm">
-              <div className="flex justify-between text-sm font-semibold">
-                <span>Order ID:</span>
-                <span>{order._id}</span>
-              </div>
-
-              <div className="flex justify-between text-sm">
-                <span>Customer:</span>
-                <span>{order.fullName}</span>
-              </div>
-
-              <div className="flex justify-between text-sm">
-                <span>Address:</span>
-                <span>
-                  {order.address}, {order.city}, {order.state}, {order.pinCode}
+            <div
+              key={order._id}
+              className="border border-[#d1a054] rounded-xl p-4 shadow-sm bg-white"
+            >
+              {/* Header row */}
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-mono text-[#7a4a2e] bg-[#fdf3e7] px-2 py-1 rounded">
+                  {order._id}
+                </span>
+                <span className="inline-flex items-center px-2 py-1 rounded-full bg-[#d1a054] text-white text-xs font-medium">
+                  {order.status}
                 </span>
               </div>
 
-              <div className="flex justify-between text-sm">
-                <span>Phone:</span>
-                <span>{order.phone}</span>
+              {/* Info grid */}
+              <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm mb-4 !font-[system-ui]">
+                <Row label={t("order.customer")} value={order.fullName} />
+                <Row label={t("order.phone")} value={order.phone} />
+                <Row
+                  label={t("order.address")}
+                  value={`${order.address}`}
+                  full
+                />
+                <Row
+                  label="Payment Method"
+                  value={
+                    order.paymentMethod === "cod"
+                      ? "Cash on Delivery"
+                      : order.paymentMethod
+                  }
+                />
+                <Row label="Delivery Type" value={order.deliveryType} />
+                <Row
+                  label="Special Instructions"
+                  value={order.specialInstructions || "N/A"}
+                  full
+                />
+                <Row label="Cutlery" value={order.cutlery ? "Yes" : "No"} />
+                <Row
+                  label={t("order.driver")}
+                  value={
+                    order.driverName
+                      ? `${order.driverName}${order.driverPhone ? ` (${order.driverPhone})` : ""}`
+                      : "—"
+                  }
+                />
               </div>
 
-              <div className="flex justify-between text-sm">
-                <span>Payment Status:</span>
-                <span>{order.status}</span>
-              </div>
+              {/* Update form */}
+              <form
+                className="border-t border-[#f0d9b5] pt-3 flex flex-col gap-2"
+                onSubmit={(e) => handleSubmit(e, order._id)}
+              >
+                <p className="text-xs font-semibold uppercase tracking-wider text-[#7a4a2e] mb-1 !font-[system-ui]">
+                  Update Order
+                </p>
 
-              <div className="flex justify-between text-sm">
-                <span>Order Status:</span>
-                <span>{order.OrderStatus}</span>
-              </div>
+                {/* Status select */}
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs text-gray-500">
+                    {t("order.orderStatus")}
+                  </label>
+                  <select
+                    value={editedOrders[order._id]?.OrderStatus || ""}
+                    onChange={(e) =>
+                      handleStatusChange(order._id, e.target.value)
+                    }
+                    className="border border-[#d1a054] rounded-md px-2 py-1.5 text-sm w-full"
+                  >
+                    {statusOptions.map((s) => (
+                      <option key={s} value={s}>
+                        {s}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-              <div className="flex justify-between text-sm">
-                <span>Driver:</span>
-                <span>
-                  {order.driverName}{" "}
-                  {order.driverPhone && `(${order.driverPhone})`}
-                </span>
-              </div>
+                {/* Driver name */}
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs text-gray-500">
+                    {t("order.driverName")}
+                  </label>
+                  <input
+                    type="text"
+                    placeholder={t("order.driverName")}
+                    value={editedOrders[order._id]?.driverName || ""}
+                    onChange={(e) =>
+                      handleChange(order._id, "driverName", e.target.value)
+                    }
+                    className="border border-[#d1a054] rounded-md px-2 py-1.5 text-sm w-full"
+                  />
+                </div>
+
+                {/* Driver phone */}
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs text-gray-500">
+                    {t("order.driverPhone")}
+                  </label>
+                  <input
+                    type="text"
+                    placeholder={t("order.driverPhone")}
+                    value={editedOrders[order._id]?.driverPhone || ""}
+                    onChange={(e) =>
+                      handleChange(order._id, "driverPhone", e.target.value)
+                    }
+                    className="border border-[#d1a054] rounded-md px-2 py-1.5 text-sm w-full"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="mt-1 bg-[#d1a054] text-white px-4 py-2 rounded-md text-sm font-medium cursor-pointer"
+                >
+                  {t("order.update")}
+                </button>
+              </form>
             </div>
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+/* Small helper to keep card rows DRY */
+function Row({
+  label,
+  value,
+  full,
+}: {
+  label: string;
+  value: string;
+  full?: boolean;
+}) {
+  return (
+    <div className={full ? "col-span-2" : ""}>
+      <p className="text-xs text-gray-400 !font-[system-ui] font-medium">
+        {label}
+      </p>
+      <p className="text-[#7a4a2e]  break-words !font-[system-ui]">{value}</p>
     </div>
   );
 }

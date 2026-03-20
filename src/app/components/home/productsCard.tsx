@@ -15,7 +15,6 @@ const SignatureDishes = () => {
   const signatureCategory = categories?.data.find(
     (cat: any) => cat.title.toLowerCase() === "chicken" || cat.title === "فرخة",
   );
-  console.log(products, "products");
   const featuredProducts = products?.data
     ?.filter(
       (prod: any) =>

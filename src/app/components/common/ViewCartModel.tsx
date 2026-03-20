@@ -32,16 +32,19 @@ export default function ViewCartModal({
   const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       specialInstructions: "",
+      cutlery: false,
     },
   });
 
   const [updateCart] = useUpdateCartMutation();
   const [removeFromCart] = useRemoveFromCartMutation();
 
-  // ✅ Auto-fill existing instruction
   useEffect(() => {
     if (cart?.specialInstructions) {
       setValue("specialInstructions", cart.specialInstructions);
+    }
+    if (typeof cart?.cutlery === "boolean") {
+      setValue("cutlery", cart.cutlery);
     }
   }, [cart, setValue]);
 
@@ -84,7 +87,6 @@ export default function ViewCartModal({
     [removeFromCart, locationId],
   );
 
-  // ✅ Submit instruction
   const onSubmit = async (data: any) => {
     if (!locationId) return;
 
@@ -92,11 +94,12 @@ export default function ViewCartModal({
       await updateCart({
         locationId,
         specialInstructions: data.specialInstructions,
+        cutlery: data.cutlery,
       }).unwrap();
 
-      toast.success("Instruction added successfully");
+      toast.success("Cart updated successfully");
     } catch (error) {
-      toast.error("Failed to add instruction");
+      toast.error("Failed to update cart");
     }
   };
 
@@ -117,7 +120,6 @@ export default function ViewCartModal({
         <div className="fixed inset-0 flex items-center justify-center p-4 font-semibold">
           <Transition.Child as={Fragment}>
             <Dialog.Panel className="w-full max-w-2xl rounded-2xl bg-white shadow-xl flex flex-col max-h-[90vh]">
-              {/* Header */}
               <div className="relative border-b p-6 text-center border-b-[#AD5727]">
                 <h2 className="sm:text-[34px] text-[20px] text-[#AD5727]">
                   {t("View_cart_model.vieworder")}
@@ -127,7 +129,6 @@ export default function ViewCartModal({
                 </button>
               </div>
 
-              {/* Cart Items */}
               {cart?.items?.length > 0 ? (
                 <div className="overflow-y-auto px-6 py-4 flex-1 max-h-[60vh]">
                   {cart.items.map((item: any) => (
@@ -172,7 +173,6 @@ export default function ViewCartModal({
                     </div>
                   ))}
 
-                  {/* ✅ Special Instructions */}
                   <div className="mt-6 border rounded-xl p-4 bg-gray-50">
                     <p className="text-sm font-medium text-gray-700 mb-2 !font-[system-ui]">
                       Special Instructions (Optional)
@@ -188,11 +188,19 @@ export default function ViewCartModal({
                       />
                     </div>
 
+                    <label className="flex items-center gap-2 mt-4 text-sm text-gray-700 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        {...register("cutlery")}
+                        className="h-4 w-4 accent-[#AD5727]"
+                      />
+                      Add cutlery
+                    </label>
+
                     <div className="flex justify-end mt-3">
                       <button
                         onClick={handleSubmit(onSubmit)}
-                        disabled={!watch("specialInstructions")?.trim()}
-                        className="px-4 py-1.5 text-sm rounded-full border border-[#AD5727] text-[#AD5727] hover:bg-[#AD5727] hover:text-white disabled:opacity-50"
+                        className="px-4 py-1.5 text-sm rounded-full border border-[#AD5727] text-[#AD5727] hover:bg-[#AD5727] hover:text-white"
                       >
                         Add
                       </button>
@@ -205,7 +213,6 @@ export default function ViewCartModal({
                 </span>
               )}
 
-              {/* Footer */}
               {cart?.items?.length > 0 && (
                 <div className="p-6 border-t border-t-[#d1a054]">
                   <div className="w-full max-w-md mx-auto p-4 bg-white">

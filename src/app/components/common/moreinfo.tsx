@@ -10,8 +10,6 @@ export default function MoreInfo() {
   const { data: location, isLoading } = useGetLocationByIdQuery(locationId, {
     skip: !locationId,
   });
-
-  console.log(location, "data");
   return (
     <div className="hidden md:flex justify-center items-center text-white/80 text-[13px] tracking-wide ">
       <div className="flex items-center gap-8 py-2">
