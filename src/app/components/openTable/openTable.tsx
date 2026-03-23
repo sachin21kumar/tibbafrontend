@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useState } from "react";
 import { useTranslations } from "@/i18n/TranslationProvider";
+import { useGetLocationsQuery } from "../redux/query/locationsQuery/location.query";
 
 type FormValues = {
   date: string;
@@ -14,6 +15,8 @@ type FormValues = {
 
 export default function OpenTable() {
   const router = useRouter();
+  const { data: locations } = useGetLocationsQuery();
+
   const { t, locale } = useTranslations();
 
   const [errorMsg, setErrorMsg] = useState("");
@@ -159,14 +162,24 @@ export default function OpenTable() {
                 {errorMsg}
               </div>
             )}
-
+            <div className="mb-4">
+              <select className="border-b border-[#AD5727] text-[#AD5727] px-3 py-3 text-sm">
+                {locations?.map((loc) => (
+                  <option key={loc._id} value={loc._id}>
+                    {loc.name}
+                  </option>
+                ))}
+              </select>
+            </div>
             <div className="md:col-span-3 text-center mt-4">
               <button
                 type="submit"
                 disabled={isSubmitting}
                 className="hover:bg-white hover:text-[#AD5727] hover:border-[#AD5727] hover:border text-[#AD5727] border border-[#AD5727] py-3 px-8 rounded-full hover:bg-gray-800 cursor-pointer transition disabled:opacity-50"
               >
-                {isSubmitting ? t("reservation.booking_loading") : t("reservation.find_table")}
+                {isSubmitting
+                  ? t("reservation.booking_loading")
+                  : t("reservation.find_table")}
               </button>
             </div>
           </div>

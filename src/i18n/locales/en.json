@@ -9,10 +9,10 @@
     "opentable": "OpenTable"
   },
   "banner": {
-    "title": "TIBBA RESTAURANT",
+    "title": "Tibba Restaurants (مطاعم طيبة)",
     "order": "Online Ordering",
-    "description": "Welcome to <strong>{{name}}</strong>, where authentic Yemeni flavors thrive. Enjoy a memorable dining experience and explore our menu.",
-    "name": "Tibba Restaurant",
+    "description": "Welcome to <strong>{{name}}</strong>,A taste perfected by the world’s finest mandi chefs.Enjoy a memorable dining experience and explore our menu.",
+    "name": "Tibba Restaurants",
     "reservetable": "Reserve a Table",
     "viewmenu": "View Menu"
   },
@@ -94,7 +94,7 @@
     "sunday": "Sunday"
   },
   "reservation": {
-    "opentable": "Open Table",
+    "opentable": "Book a Table",
     "reservation": "Reservation",
     "date": "Date",
     "time": "Time",

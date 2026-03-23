@@ -130,7 +130,7 @@ export default function ReservationPage() {
               })}
             </select>
           </div>
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <select className="border border-[#AD5727] text-[#AD5727] px-3 py-3 text-sm">
               {locations?.map((loc) => (
                 <option key={loc._id} value={loc._id}>
@@ -138,7 +138,7 @@ export default function ReservationPage() {
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
           <button className="w-full bg-[#AD5727] text-white py-3 rounded font-semibold mb-4 cursor-pointer">
             Find a table
           </button>
