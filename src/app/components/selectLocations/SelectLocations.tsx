@@ -75,13 +75,6 @@ export default function SelectLocationPage() {
   const handleSelectLocation = (loc: any) => {
     const isOpen = isRestaurantOpen(loc.operation_hours);
 
-    if (!isOpen) {
-      toast.warn(
-        `Restaurant is currently closed. Opening hours: ${loc.operation_hours}`,
-      );
-      return;
-    }
-
     if (loc.slug === "abu-hail") {
       window.location.href = "https://order.tmbill.com/outlet/18013362821313";
       return;
@@ -91,7 +84,12 @@ export default function SelectLocationPage() {
       window.location.href = "https://order.tmbill.com/outlet/18013362479764";
       return;
     }
-
+    if (!isOpen) {
+      toast.warn(
+        `Restaurant is currently closed. Opening hours: ${loc.operation_hours}`,
+      );
+      return;
+    }
     Cookies.set("selectedLocationId", loc._id, { expires: 7 });
     setSelectedLocationId(loc._id);
 
