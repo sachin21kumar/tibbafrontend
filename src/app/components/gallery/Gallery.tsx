@@ -115,7 +115,7 @@ export default function Gallery() {
         <main className="flex-1">
           {sortedCategories.map((category) => {
             const categoryProducts = products.filter(
-              (p) => p.categoryId === category._id,
+              (p) => p.categoryId === category._id && p.isActive === 1,
             );
 
             if (!categoryProducts.length) return null;

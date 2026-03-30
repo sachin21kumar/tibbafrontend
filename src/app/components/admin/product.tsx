@@ -10,7 +10,7 @@ import { useTranslations } from "@/i18n/TranslationProvider";
 
 export default function ProductList() {
   const { locale, t } = useTranslations();
-  const { data, isLoading } = useGetProductsQuery({});
+  const { data, isLoading } = useGetProductsQuery({ limit: 1000 });
   const [deleteProduct, { isLoading: isDeleting }] = useDeleteProductMutation();
 
   if (isLoading) {
@@ -60,7 +60,11 @@ export default function ProductList() {
           >
             {/* {product.imagePath && ( */}
             <img
-              src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`}
+              src={
+                product.imagePath
+                  ? `${process.env.NEXT_PUBLIC_BASE_IMAGE_URL}/uploads/products/${product.imagePath}`
+                  : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
+              }
               className="h-40 w-full object-cover rounded"
               alt={product.name}
             />

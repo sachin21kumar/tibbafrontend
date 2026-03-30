@@ -12,6 +12,9 @@ export interface Product {
   price: number;
   imagePath?: string;
   categoryId?: string;
+  translations?: any;
+  stock?: any;
+  isActive?: any;
 }
 
 export interface ProductResponse {

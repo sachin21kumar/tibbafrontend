@@ -150,8 +150,10 @@ export default function MenuPage() {
   }, [activeCategory]);
 
   const filteredProducts = useMemo(() => {
-    return products.filter((p) =>
-      p.name.toLowerCase().includes(debouncedSearch.toLowerCase()),
+    return products.filter(
+      (p) =>
+        p.isActive === 1 &&
+        p.name.toLowerCase().includes(debouncedSearch.toLowerCase()),
     );
   }, [products, debouncedSearch]);
 
@@ -391,7 +393,7 @@ export default function MenuPage() {
                   })
                 : sortedCategories.map((category) => {
                     const categoryProducts = products.filter(
-                      (p) => p.categoryId === category._id,
+                      (p) => p.categoryId === category._id && p.isActive === 1,
                     );
                     if (!categoryProducts.length) return null;
 
