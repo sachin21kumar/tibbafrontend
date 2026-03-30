@@ -9,6 +9,7 @@ import {
   useUpdateProductMutation,
 } from "../redux/query/productsQuery/productsQuery";
 import { useTranslations } from "@/i18n/TranslationProvider";
+import { useGetLocationsQuery } from "../redux/query/locationsQuery/location.query";
 
 export default function UpdateProduct() {
   const { locale } = useTranslations();
@@ -16,9 +17,12 @@ export default function UpdateProduct() {
   const router = useRouter();
 
   const { data, isLoading } = useGetProductByIdQuery(id);
+  const { data: locationsData }: any = useGetLocationsQuery();
   const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
 
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, setValue, watch } = useForm();
+
+  const selectedLocationIds: string[] = watch("locationIds") || [];
 
   useEffect(() => {
     if (data) {
@@ -27,8 +31,22 @@ export default function UpdateProduct() {
       setValue("price", data.price);
       setValue("stock", data.stock);
       setValue("isActive", data.isActive === 1);
+      setValue(
+        "locationIds",
+        data.locationIds?.map((loc: any) =>
+          typeof loc === "object" ? loc._id : loc,
+        ) || [],
+      );
     }
   }, [data, setValue]);
+
+  const handleLocationToggle = (locationId: string) => {
+    const current: string[] = selectedLocationIds;
+    const updated = current.includes(locationId)
+      ? current.filter((id) => id !== locationId)
+      : [...current, locationId];
+    setValue("locationIds", updated);
+  };
 
   const onSubmit = async (formDataValues: any) => {
     const formData = new FormData();
@@ -38,6 +56,11 @@ export default function UpdateProduct() {
     formData.append("price", String(formDataValues.price));
     formData.append("stock", String(formDataValues.stock));
     formData.append("isActive", formDataValues.isActive ? "1" : "0");
+
+    const locationIds: string[] = formDataValues.locationIds || [];
+    locationIds.forEach((locId) => {
+      formData.append("locationIds[]", locId);
+    });
 
     if (formDataValues.image?.[0]) {
       formData.append("image", formDataValues.image[0]);
@@ -113,6 +136,52 @@ export default function UpdateProduct() {
             className="w-full border px-3 py-2 rounded"
             {...register("stock", { required: true })}
           />
+        </div>
+
+        {/* Locations Multi-Select */}
+        <div>
+          <label className="block text-sm font-medium mb-2">Locations</label>
+          {locationsData?.length > 0 ? (
+            <div className="border rounded p-3 max-h-48 overflow-y-auto space-y-2">
+              {locationsData.map((location: any) => {
+                const locId =
+                  typeof location._id === "object"
+                    ? location._id.toString()
+                    : location._id;
+                const isChecked = selectedLocationIds.includes(locId);
+
+                return (
+                  <label
+                    key={locId}
+                    className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 px-2 py-1 rounded"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={() => handleLocationToggle(locId)}
+                      className="accent-[#d1a054]"
+                    />
+                    <span className="text-sm">
+                      {location.name ||
+                        location.translations?.en?.name ||
+                        locId}
+                    </span>
+                  </label>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="text-sm text-gray-400 !font-[sens-serif]">
+              No locations available
+            </p>
+          )}
+
+          {selectedLocationIds.length > 0 && (
+            <p className="text-xs text-gray-500 mt-1 !font-[sens-serif]">
+              {selectedLocationIds.length} location
+              {selectedLocationIds.length > 1 ? "s" : ""} selected
+            </p>
+          )}
         </div>
 
         <div className="flex items-center gap-2">

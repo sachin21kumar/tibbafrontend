@@ -15,6 +15,7 @@ export interface Product {
   translations?: any;
   stock?: any;
   isActive?: any;
+  locationIds?: any;
 }
 
 export interface ProductResponse {
@@ -59,6 +60,7 @@ export const productApi = createApi({
       {
         categoryId?: string;
         name?: string;
+        locationId?: string;
         page?: number;
         limit?: number;
         sortBy?: "price" | "name";
@@ -68,6 +70,7 @@ export const productApi = createApi({
       query: ({
         categoryId,
         name,
+        locationId,
         page = 1,
         limit = 500,
         sortBy = "price",
@@ -77,6 +80,7 @@ export const productApi = createApi({
 
         if (categoryId) params.append("categoryId", categoryId);
         if (name) params.append("name", name);
+        if (locationId) params.append("locationId", locationId);
 
         params.append("page", page.toString());
         params.append("limit", limit.toString());
@@ -100,10 +104,15 @@ export const productApi = createApi({
       invalidatesTags: ["Product"],
     }),
 
-    deleteProduct: builder.mutation<{ message: string }, string>({
-      query: (id) => ({
+    deleteProduct: builder.mutation<
+      { message: string },
+      { id: string; locationId?: string },
+      string
+    >({
+      query: ({ id, locationId }) => ({
         url: `product/${id}`,
         method: "DELETE",
+        params: locationId ? { locationId } : {},
       }),
       invalidatesTags: ["Product"],
     }),

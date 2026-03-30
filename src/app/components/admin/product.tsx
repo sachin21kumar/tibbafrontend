@@ -7,10 +7,17 @@ import {
   useGetProductsQuery,
 } from "../redux/query/productsQuery/productsQuery";
 import { useTranslations } from "@/i18n/TranslationProvider";
+import Cookies from "js-cookie";
 
 export default function ProductList() {
   const { locale, t } = useTranslations();
-  const { data, isLoading } = useGetProductsQuery({ limit: 1000 });
+  const savedLocationId = Cookies.get("selectedLocationId");
+
+  const { data, isLoading } = useGetProductsQuery(
+    savedLocationId
+      ? { limit: 1000, locationId: savedLocationId }
+      : { limit: 1000 },
+  );
   const [deleteProduct, { isLoading: isDeleting }] = useDeleteProductMutation();
 
   if (isLoading) {
@@ -31,7 +38,7 @@ export default function ProductList() {
     if (!result.isConfirmed) return;
 
     try {
-      await deleteProduct(id).unwrap();
+      await deleteProduct({ id, locationId: savedLocationId }).unwrap();
 
       Swal.fire({
         title: "Deleted!",

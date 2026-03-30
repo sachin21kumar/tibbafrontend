@@ -56,7 +56,7 @@ export default function MenuPage() {
   const { data: categoriesResponse, isLoading: categoriesLoading } =
     useGetCategoryQuery();
   const { data: productsResponse, isLoading: productsLoading } =
-    useGetProductsQuery({ limit: 1000 });
+    useGetProductsQuery({ limit: 1000, locationId: savedLocationId });
   const { items: cartItems } = useGetCartQuery(savedLocationId!, {
     skip: !savedLocationId,
     selectFromResult: ({ data }) => ({
