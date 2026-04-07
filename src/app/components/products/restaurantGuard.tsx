@@ -97,7 +97,7 @@ export const RestaurantCard = ({ order }) => {
           )}
         </div>
 
-        <div className="py-2">
+        {/* <div className="py-2">
           <Image
             src="/offFrame.png"
             alt="Off Frame"
@@ -105,7 +105,7 @@ export const RestaurantCard = ({ order }) => {
             height={110}
             className="w-auto sm:w-[300px] h-[210px] object-contain"
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );
