@@ -479,14 +479,16 @@ export const CheckoutPage = () => {
                   د.إ {subtotal.toFixed(2)}
                 </td>
               </tr>
-              <tr>
-                <th className="py-[12px] font-bold text-left text-[#AD5727]">
-                  {t("checkout.discount")}
-                </th>
-                <td className="py-[12px] text-green-600 text-base text-left ">
-                  - د.إ {cart?.discount?.toFixed(2) ?? "0.00"}
-                </td>
-              </tr>
+              {cart?.discount > 0 && (
+                <tr>
+                  <th className="py-[12px] font-bold text-left text-[#AD5727]">
+                    {t("checkout.discount")}
+                  </th>
+                  <td className="py-[12px] text-green-600 text-base text-left ">
+                    - د.إ {cart?.discount?.toFixed(2) ?? "0.00"}
+                  </td>
+                </tr>
+              )}
               {cart?.deliveryFee !== undefined && (
                 <tr>
                   <th className="py-2 font-bold text-left text-[#AD5727]">

@@ -220,14 +220,14 @@ export default function ViewCartModal({
                       <span>{t("View_cart_model.subtotal")}</span>
                       <span>د.إ {cart?.subtotal?.toFixed(2)}</span>
                     </div>
-
-                    <div className="flex justify-between mb-2">
-                      <span>{t("View_cart_model.discount")}</span>
-                      <span className="text-green-600">
-                        - د.إ {cart?.discount?.toFixed(2)}
-                      </span>
-                    </div>
-
+                    {cart?.discount > 0 && (
+                      <div className="flex justify-between mb-2">
+                        <span>{t("View_cart_model.discount")}</span>
+                        <span className="text-green-600">
+                          - د.إ {cart?.discount?.toFixed(2)}
+                        </span>
+                      </div>
+                    )}
                     <div className="flex justify-between mb-3">
                       <span>{t("View_cart_model.delivery")}</span>
                       <span className="text-red-500">

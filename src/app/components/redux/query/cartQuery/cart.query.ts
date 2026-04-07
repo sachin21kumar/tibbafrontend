@@ -45,8 +45,10 @@ const recalcTotals = (draft: CartResponse) => {
     ) ?? 0;
 
   const deliveryFee = subtotal > 0 && subtotal < 100 ? 3 : 0;
-  const discount = subtotal * 0.25;
-  const totalPrice = subtotal - discount + deliveryFee;
+
+  // 25% discount removed from cache → return full total price without discount
+  const discount = 0;
+  const totalPrice = subtotal + deliveryFee;
 
   draft.subtotal = subtotal;
   draft.deliveryFee = deliveryFee;
@@ -157,17 +159,14 @@ export const cartApi = createApi({
       ) {
         const patch = dispatch(
           cartApi.util.updateQueryData("getCart", locationId, (draft) => {
-            // ✅ Update special instructions
             if (specialInstructions !== undefined) {
               draft.specialInstructions = specialInstructions;
             }
 
-            // ✅ Update cutlery preference
             if (cutlery !== undefined) {
               draft.cutlery = cutlery;
             }
 
-            // ✅ Update item quantity if provided
             if (productId && quantity !== undefined) {
               const item = draft.items.find(
                 (i) => i.productId._id === productId,
