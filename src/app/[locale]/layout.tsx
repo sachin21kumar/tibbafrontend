@@ -1,3 +1,4 @@
+import Script from "next/script";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
@@ -31,13 +32,25 @@ export default async function RootLayout({
   params: Promise<{ locale: Locale }>;
 }) {
   const { locale } = await params;
-  const isRTL = locale === "ar";
-
   const dict = await getDictionary(locale);
 
   return (
-    <html lang={locale} dir={"ltr"}>
+    <html lang={locale} dir="ltr">
       <head>
+        {/* Google Ads Global Site Tag */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18083582462"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18083582462');
+          `}
+        </Script>
+
         <style>
           {`
             @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
