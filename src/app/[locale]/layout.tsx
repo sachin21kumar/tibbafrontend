@@ -51,12 +51,10 @@ export default async function RootLayout({
           `}
         </Script>
 
-        <style>
-          {`
-            @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
-            @import url('https://fonts.googleapis.com/css2?family=Allura&family=Cinzel:wght@400..900&display=swap');
-          `}
-        </style>
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Allura&family=Cinzel:wght@400..900&display=swap"
+        />
       </head>
 
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
