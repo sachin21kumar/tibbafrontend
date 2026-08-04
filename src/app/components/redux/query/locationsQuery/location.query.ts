@@ -15,6 +15,7 @@ export interface Location {
   imagePath?: string;
   lat?: any;
   lng?: any;
+  googleLink?: string;
 }
 
 export interface CreateLocationPayload {
@@ -26,6 +27,7 @@ export interface CreateLocationPayload {
   branchEmail?: string;
   telephone?: string;
   mobileNumber?: string;
+  googleLink?: string;
 }
 
 export interface UpdateLocationPayload extends Partial<CreateLocationPayload> {

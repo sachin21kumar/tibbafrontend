@@ -30,14 +30,19 @@ const FitBounds = ({ locations }: any) => {
   return null;
 };
 
-const openLocation = (lat: number, lng: number) => {
+const openLocation = (lat: number, lng: number, googleLink?: string) => {
   if (typeof window === "undefined") return;
+
+  if (googleLink) {
+    window.open(googleLink, "_blank");
+    return;
+  }
 
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   const url = isMobile
-    ? `geo:${lat},${lng}?q=${lat},${lng}` 
-    : `https://www.google.com/maps?q=${lat},${lng}`; 
+    ? `geo:${lat},${lng}?q=${lat},${lng}`
+    : `https://www.google.com/maps?q=${lat},${lng}`;
 
   window.open(url, "_blank");
 };
@@ -102,7 +107,7 @@ export const Location = () => {
             key={i}
             position={[loc.lat, loc.lng]}
             eventHandlers={{
-              click: () => openLocation(loc.lat, loc.lng),
+              click: () => openLocation(loc.lat, loc.lng, loc.googleLink),
             }}
           ></Marker>
         ))}

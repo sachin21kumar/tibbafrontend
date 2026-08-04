@@ -14,11 +14,13 @@ export default function LocationsAdmin() {
 
   const [selectedLocation, setSelectedLocation] = useState<any>(null);
   const [openingHours, setOpeningHours] = useState("");
+  const [googleLink, setGoogleLink] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
   const handleEdit = (location: any) => {
     setSelectedLocation(location);
     setOpeningHours(location.operation_hours || "");
+    setGoogleLink(location.googleLink || "");
     setIsOpen(true);
   };
 
@@ -34,6 +36,7 @@ export default function LocationsAdmin() {
       await updateLocation({
         id: selectedLocation._id,
         operation_hours: openingHours,
+        googleLink,
       }).unwrap();
 
       toast.success("Opening hours updated successfully.");
@@ -130,7 +133,7 @@ export default function LocationsAdmin() {
                 className="text-xl font-semibold text-[#AD5727] tracking-wide"
                 style={{ fontFamily: "Georgia, serif" }}
               >
-                Edit Opening Hours
+                Edit Location Details
               </h2>
               {selectedLocation && (
                 <p className="text-sm text-[#c4884a] font-normal mt-1 !font-[system-ui]">
@@ -150,6 +153,19 @@ export default function LocationsAdmin() {
                 onChange={(e) => setOpeningHours(e.target.value)}
                 className="w-full border-b border-[#d1a054] text-[#AD5727] focus:outline-none py-2 bg-transparent font-[system-ui] placeholder:text-[#d1b08a]"
                 placeholder="e.g. 9:00 AM – 10:00 PM"
+              />
+            </div>
+
+            <div className="mb-6">
+              <label className="text-xs uppercase tracking-wider text-[#AD5727] mb-2 block">
+                Google Map Link
+              </label>
+              <input
+                type="url"
+                value={googleLink}
+                onChange={(e) => setGoogleLink(e.target.value)}
+                className="w-full border-b border-[#d1a054] text-[#AD5727] focus:outline-none py-2 bg-transparent font-[system-ui] placeholder:text-[#d1b08a]"
+                placeholder="https://maps.app.goo.gl/..."
               />
             </div>
 

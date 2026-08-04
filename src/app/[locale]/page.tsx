@@ -20,6 +20,7 @@ export default async function Home() {
     lat: number;
     lng: number;
     imagePath: string;
+    googleLink?: string;
   }[] = await res.json();
 
   const schema = {
@@ -50,7 +51,9 @@ export default async function Home() {
         longitude: loc.lng,
       },
 
-      hasMap: `https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lng}`,
+      hasMap:
+        loc.googleLink ||
+        `https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lng}`,
     })),
   };
 

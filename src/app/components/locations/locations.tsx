@@ -22,6 +22,18 @@ interface Location {
   imageUrl: string;
 }
 
+const openLocation = (lat: number, lng: number, googleLink?: string) => {
+  if (googleLink) {
+    window.open(googleLink, "_blank");
+    return;
+  }
+
+  window.open(
+    `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
+    "_blank",
+  );
+};
+
 export default function LocationCard() {
   const { locale, t } = useTranslations();
 
@@ -72,7 +84,16 @@ export default function LocationCard() {
                   <div className="bg-gradient-to-r from-[#AD5727] to-[#AD5727]/0 ... h-[1px]"></div>
                 </div>
                 <div className="md:py-auto pt-5">
-                  <div className="flex items-center gap-3 text-[#AD5727] mb-2 mt-3">
+                  <div
+                    className="flex items-center gap-3 text-[#AD5727] mb-2 mt-3 cursor-pointer hover:underline w-fit"
+                    onClick={() =>
+                      openLocation(
+                        location.lat,
+                        location.lng,
+                        location.googleLink,
+                      )
+                    }
+                  >
                     <Image
                       src="/location.png"
                       alt="Location"

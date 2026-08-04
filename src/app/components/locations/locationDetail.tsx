@@ -44,8 +44,13 @@ const RecenterMap = ({ lat, lng }: { lat: number; lng: number }) => {
   return null;
 };
 
-const openLocation = (lat: number, lng: number) => {
+const openLocation = (lat: number, lng: number, googleLink?: string) => {
   if (typeof window === "undefined") return;
+
+  if (googleLink) {
+    window.open(googleLink, "_blank");
+    return;
+  }
 
   const ua = navigator.userAgent;
   let url = "";
@@ -121,7 +126,16 @@ export default function LocationDetails({ id }: any) {
                 {location?.description}
               </p>
 
-              <div className="flex items-center gap-4">
+              <div
+                className="flex items-center gap-4 cursor-pointer w-fit"
+                onClick={() =>
+                  openLocation(
+                    location.lat,
+                    location.lng,
+                    location?.googleLink,
+                  )
+                }
+              >
                 <div className="min-w-[40px] h-[40px] rounded-[63%_37%_30%_70%_/_50%_45%_55%_50%] bg-[#d1a054] text-white flex items-center justify-center text-[14px]">
                   <Image
                     src="/locationtrans.png"
@@ -130,7 +144,9 @@ export default function LocationDetails({ id }: any) {
                     height={14}
                   />
                 </div>
-                <span className="text-[#AD5727]">{location?.location}</span>
+                <span className="text-[#AD5727] hover:underline">
+                  {location?.location}
+                </span>
               </div>
 
               <div className="flex items-center gap-4">
@@ -202,7 +218,8 @@ export default function LocationDetails({ id }: any) {
                     key={i}
                     position={[loc.lat, loc.lng]}
                     eventHandlers={{
-                      click: () => openLocation(loc.lat, loc.lng),
+                      click: () =>
+                        openLocation(loc.lat, loc.lng, location?.googleLink),
                     }}
                   />
                 ))}

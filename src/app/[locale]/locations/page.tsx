@@ -20,6 +20,7 @@ export default async function Index() {
     lat: number;
     lng: number;
     imagePath: string;
+    googleLink?: string;
   }[] = await res.json();
   const schema = {
     "@context": "https://schema.org",
@@ -49,7 +50,9 @@ export default async function Index() {
         longitude: loc.lng,
       },
 
-      hasMap: `https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lng}`,
+      hasMap:
+        loc.googleLink ||
+        `https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lng}`,
     })),
   };
 

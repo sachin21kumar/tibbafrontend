@@ -14,6 +14,7 @@ type AddLocationForm = {
   mobileNumber: string;
   lat: string;
   lng: string;
+  googleLink: string;
   image: FileList;
 };
 
@@ -42,6 +43,7 @@ export const AddLocation = () => {
 
       formData.append("lat", data.lat);
       formData.append("lng", data.lng);
+      formData.append("googleLink", data.googleLink);
 
       formData.append("image", data.image[0]);
 
@@ -221,6 +223,18 @@ export const AddLocation = () => {
                   ${errors.lng ? "border-red-500" : "border-[#d1a054]"}`}
               />
             </div>
+          </div>
+
+          <div>
+            <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
+              Google Map Link
+            </label>
+            <input
+              type="url"
+              placeholder="https://maps.app.goo.gl/..."
+              {...register("googleLink")}
+              className="w-full border-b text-[#7A4A2E] !font-[system-ui] bg-transparent outline-none border-[#d1a054]"
+            />
           </div>
 
           <div>
