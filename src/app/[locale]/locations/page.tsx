@@ -33,14 +33,14 @@ export default async function Index() {
 
       telephone: loc.mobileNumber,
 
-      priceRange: "₹₹",
+      priceRange: "$$",
 
       servesCuisine: ["Indian", "North Indian", "Street Food", "Fast Food"],
 
       address: {
         "@type": "PostalAddress",
         streetAddress: loc.location,
-        addressCountry: "IN",
+        addressCountry: "AE",
       },
 
       geo: {
