@@ -35,7 +35,7 @@ export default function LocationsGrid() {
                   src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${loc.imagePath}`}
                   alt={loc.name}
                   sizes="100vw"
-                  className="object-cover h-full"
+                  className="object-cover h-full w-full"
                 />
               </div>
               <div className="md:p-8 p-4 space-y-6 cursor-pointer">
