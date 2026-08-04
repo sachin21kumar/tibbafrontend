@@ -1,8 +1,7 @@
 "use client";
 
-import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import L, { LatLngExpression } from "leaflet";
+import dynamic from "next/dynamic";
+import type { LatLngExpression } from "leaflet";
 import { useGetLocationByIdQuery } from "../redux/query/locationsQuery/location.query";
 import LocationForm from "./locationForm";
 import LocationsGrid from "./locationsGrid";
@@ -10,40 +9,14 @@ import Image from "next/image";
 import { Mail } from "lucide-react";
 import { useTranslations } from "@/i18n/TranslationProvider";
 
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: "/marker-icon-2x.png",
-  iconUrl: "/marker-icon.png",
-  shadowUrl: "/marker-shadow.png",
+const LocationDetailMap = dynamic(() => import("./locationDetailMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex items-center justify-center text-[#7a4a2e]">
+      Loading map...
+    </div>
+  ),
 });
-
-const FitBounds = ({
-  locations,
-}: {
-  locations: { lat: number; lng: number }[];
-}) => {
-  const map = useMap();
-
-  if (locations.length > 0) {
-    const bounds = L.latLngBounds(
-      locations.map((loc) => [loc.lat, loc.lng] as [number, number]),
-    );
-    map.fitBounds(bounds, { padding: [50, 50] });
-  }
-
-  return null;
-};
-
-const RecenterMap = ({ lat, lng }: { lat: number; lng: number }) => {
-  const map = useMap();
-
-  map.flyTo([lat, lng], 19, {
-    animate: true,
-    duration: 1.5,
-  });
-
-  return null;
-};
 
 const openLocation = (lat: number, lng: number, googleLink?: string) => {
   if (typeof window === "undefined") return;
@@ -217,33 +190,12 @@ export default function LocationDetails({ id }: any) {
         <div className="mt-15">
           <div className="w-full xl:h-[364px] h-[329px] overflow-hidden border border-[#d1a054]">
             {validLocation.length > 0 ? (
-              <MapContainer
-                {...({
-                  center: genericCenter,
-                  zoom: 19,
-                  scrollWheelZoom: false,
-                  className: "w-full h-full z-0",
-                } as any)}
-              >
-                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
-                {validLocation.map((loc, i) => (
-                  <Marker
-                    key={i}
-                    position={[loc.lat, loc.lng]}
-                    eventHandlers={{
-                      click: () =>
-                        openLocation(loc.lat, loc.lng, location?.googleLink),
-                    }}
-                  />
-                ))}
-
-                <RecenterMap
-                  lat={validLocation[0].lat}
-                  lng={validLocation[0].lng}
-                />
-                <FitBounds locations={validLocation} />
-              </MapContainer>
+              <LocationDetailMap
+                validLocation={validLocation}
+                genericCenter={genericCenter}
+                googleLink={location?.googleLink}
+                onMarkerClick={openLocation}
+              />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-[#7a4a2e]">
                 Location map not available

@@ -33,19 +33,19 @@ export const AddLocation = () => {
       const formData = new FormData();
 
       formData.append("name", data.name);
-      formData.append("description", data.description);
-      formData.append("area", data.area);
       formData.append("location", data.location);
       formData.append("operation_hours", data.operation_hours);
-      formData.append("branchEmail", data.branchEmail);
       formData.append("telephone", data.telephone);
       formData.append("mobileNumber", data.mobileNumber);
 
-      formData.append("lat", data.lat);
-      formData.append("lng", data.lng);
-      formData.append("googleLink", data.googleLink);
+      if (data.area) formData.append("area", data.area);
+      if (data.description) formData.append("description", data.description);
+      if (data.branchEmail) formData.append("branchEmail", data.branchEmail);
+      if (data.lat) formData.append("lat", data.lat);
+      if (data.lng) formData.append("lng", data.lng);
+      if (data.googleLink) formData.append("googleLink", data.googleLink);
 
-      formData.append("image", data.image[0]);
+      if (data.image?.[0]) formData.append("image", data.image[0]);
 
       await createLocation(formData as any).unwrap();
       reset();
@@ -90,18 +90,12 @@ export const AddLocation = () => {
 
             <div>
               <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
-                Area *
+                Area
               </label>
               <input
-                {...register("area", { required: "Area is required" })}
-                className={`w-full border-b text-[#7A4A2E] !font-[system-ui] bg-transparent outline-none
-                  ${errors.area ? "border-red-500" : "border-[#d1a054]"}`}
+                {...register("area")}
+                className="w-full border-b text-[#7A4A2E] !font-[system-ui] bg-transparent outline-none border-[#d1a054]"
               />
-              {errors.area && (
-                <span className="text-xs text-red-500">
-                  {errors.area.message}
-                </span>
-              )}
             </div>
           </div>
 
@@ -123,21 +117,13 @@ export const AddLocation = () => {
 
           <div>
             <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
-              Description *
+              Description
             </label>
             <textarea
               rows={1}
-              {...register("description", {
-                required: "Description is required",
-              })}
-              className={`w-full resize-none border-b text-[#7A4A2E] !font-[system-ui] bg-transparent outline-none
-                ${errors.description ? "border-red-500" : "border-[#d1a054]"}`}
+              {...register("description")}
+              className="w-full resize-none border-b text-[#7A4A2E] !font-[system-ui] bg-transparent outline-none border-[#d1a054]"
             />
-            {errors.description && (
-              <span className="text-xs text-red-500">
-                {errors.description.message}
-              </span>
-            )}
           </div>
 
           <div className="grid md:grid-cols-3 gap-12">
@@ -156,12 +142,11 @@ export const AddLocation = () => {
 
             <div>
               <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
-                Branch Email *
+                Branch Email
               </label>
               <input
                 type="email"
                 {...register("branchEmail", {
-                  required: "Email is required",
                   pattern: { value: /^\S+@\S+$/i, message: "Invalid email" },
                 })}
                 className={`w-full border-b text-[#7A4A2E] !font-[system-ui] bg-transparent outline-none
@@ -200,27 +185,25 @@ export const AddLocation = () => {
           <div className="grid md:grid-cols-2 gap-12">
             <div>
               <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
-                Latitude *
+                Latitude
               </label>
               <input
                 type="number"
                 step="any"
-                {...register("lat", { required: "Latitude is required" })}
-                className={`w-full border-b text-[#7A4A2E] !font-[system-ui] bg-transparent outline-none
-                  ${errors.lat ? "border-red-500" : "border-[#d1a054]"}`}
+                {...register("lat")}
+                className="w-full border-b text-[#7A4A2E] !font-[system-ui] bg-transparent outline-none border-[#d1a054]"
               />
             </div>
 
             <div>
               <label className="block text-xs uppercase tracking-widest text-[#7A4A2E]">
-                Longitude *
+                Longitude
               </label>
               <input
                 type="number"
                 step="any"
-                {...register("lng", { required: "Longitude is required" })}
-                className={`w-full border-b text-[#7A4A2E] !font-[system-ui] bg-transparent outline-none
-                  ${errors.lng ? "border-red-500" : "border-[#d1a054]"}`}
+                {...register("lng")}
+                className="w-full border-b text-[#7A4A2E] !font-[system-ui] bg-transparent outline-none border-[#d1a054]"
               />
             </div>
           </div>
@@ -239,19 +222,14 @@ export const AddLocation = () => {
 
           <div>
             <label className="block text-xs uppercase tracking-widest cursor-pointer text-[#7A4A2E]">
-              Location Image *
+              Location Image
             </label>
             <input
               type="file"
               accept="image/*"
-              {...register("image", { required: "Image is required" })}
+              {...register("image")}
               className="mt-2 block text-[#7A4A2E] cursor-pointer w-full text-sm"
             />
-            {errors.image && (
-              <span className="text-xs text-red-500">
-                {errors.image.message}
-              </span>
-            )}
           </div>
 
           <div className="flex justify-center mt-12">
