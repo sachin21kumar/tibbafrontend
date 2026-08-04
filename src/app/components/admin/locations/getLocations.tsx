@@ -15,12 +15,14 @@ export default function LocationsAdmin() {
   const [selectedLocation, setSelectedLocation] = useState<any>(null);
   const [openingHours, setOpeningHours] = useState("");
   const [googleLink, setGoogleLink] = useState("");
+  const [branchEmail, setBranchEmail] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
   const handleEdit = (location: any) => {
     setSelectedLocation(location);
     setOpeningHours(location.operation_hours || "");
     setGoogleLink(location.googleLink || "");
+    setBranchEmail(location.branchEmail || "");
     setIsOpen(true);
   };
 
@@ -37,6 +39,7 @@ export default function LocationsAdmin() {
         id: selectedLocation._id,
         operation_hours: openingHours,
         googleLink,
+        branchEmail,
       }).unwrap();
 
       toast.success("Opening hours updated successfully.");
@@ -166,6 +169,19 @@ export default function LocationsAdmin() {
                 onChange={(e) => setGoogleLink(e.target.value)}
                 className="w-full border-b border-[#d1a054] text-[#AD5727] focus:outline-none py-2 bg-transparent font-[system-ui] placeholder:text-[#d1b08a]"
                 placeholder="https://maps.app.goo.gl/..."
+              />
+            </div>
+
+            <div className="mb-6">
+              <label className="text-xs uppercase tracking-wider text-[#AD5727] mb-2 block">
+                Branch Email
+              </label>
+              <input
+                type="email"
+                value={branchEmail}
+                onChange={(e) => setBranchEmail(e.target.value)}
+                className="w-full border-b border-[#d1a054] text-[#AD5727] focus:outline-none py-2 bg-transparent font-[system-ui] placeholder:text-[#d1b08a]"
+                placeholder="branch@tibba.ae"
               />
             </div>
 

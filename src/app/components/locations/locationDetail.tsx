@@ -7,6 +7,7 @@ import { useGetLocationByIdQuery } from "../redux/query/locationsQuery/location.
 import LocationForm from "./locationForm";
 import LocationsGrid from "./locationsGrid";
 import Image from "next/image";
+import { Mail } from "lucide-react";
 import { useTranslations } from "@/i18n/TranslationProvider";
 
 delete L.Icon.Default.prototype._getIconUrl;
@@ -164,6 +165,19 @@ export default function LocationDetails({ id }: any) {
                   </a>
                 </span>
               </div>
+
+              {location?.branchEmail && (
+                <div className="flex items-center gap-4">
+                  <div className="min-w-[40px] h-[40px] rounded-[63%_37%_30%_70%_/_50%_45%_55%_50%] bg-[#d1a054] text-white flex items-center justify-center text-[14px]">
+                    <Mail size={14} />
+                  </div>
+                  <span className="text-[#AD5727] font-semibold">
+                    <a href={`mailto:${location.branchEmail}`}>
+                      {location.branchEmail}
+                    </a>
+                  </span>
+                </div>
+              )}
             </div>
 
             <div className="bg-white shadow-xl border border-[#f8f8f8] md:p-8 font-semibold">

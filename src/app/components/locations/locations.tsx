@@ -2,6 +2,7 @@
 import dynamic from "next/dynamic";
 import { useGetLocationsQuery } from "../redux/query/locationsQuery/location.query";
 import Image from "next/image";
+import { Mail } from "lucide-react";
 import { useTranslations } from "@/i18n/TranslationProvider";
 const Location = dynamic(
   () => import("../home/locations").then((mod) => mod.Location),
@@ -113,6 +114,14 @@ export default function LocationCard() {
                       {location.mobileNumber}
                     </a>
                   </div>
+                  {location.branchEmail && (
+                    <div className="flex items-center gap-3 text-[#AD5727] mb-4">
+                      <Mail size={14} />
+                      <a href={`mailto:${location.branchEmail}`}>
+                        {location.branchEmail}
+                      </a>
+                    </div>
+                  )}
                 </div>
                 <a
                   href={`/${locale}/locations/${location._id}`}
