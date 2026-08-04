@@ -22,6 +22,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Tibba Restaurant",
   description: "Multilingual Restaurant Website",
+  verification: {
+    google: "EN532v5Fkg6PH7eCzJHlxVvIRqw1rVDMQdVUQrYn5bY",
+  },
 };
 
 export default async function RootLayout({
@@ -37,17 +40,17 @@ export default async function RootLayout({
   return (
     <html lang={locale} dir="ltr">
       <head>
-        {/* Google Ads Global Site Tag */}
+        {/* Google tag (gtag.js) - Analytics */}
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=AW-18083582462"
+          src="https://www.googletagmanager.com/gtag/js?id=G-PMYMWXWJ8T"
           strategy="afterInteractive"
         />
-        <Script id="google-ads" strategy="afterInteractive">
+        <Script id="google-tag" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'AW-18083582462');
+            gtag('config', 'G-PMYMWXWJ8T');
           `}
         </Script>
 
