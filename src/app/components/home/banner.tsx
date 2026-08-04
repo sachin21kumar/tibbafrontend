@@ -18,7 +18,8 @@ export const Banner = () => {
             src="/herro-slide-1.jpg.webp"
             alt="Restaurant Dish"
             fill
-            priority
+            preload
+            fetchPriority="high"
             sizes="100vw"
             className="object-cover"
           />

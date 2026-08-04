@@ -54,6 +54,12 @@ export default async function RootLayout({
           `}
         </Script>
 
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Allura&family=Cinzel:wght@400..900&display=swap"
