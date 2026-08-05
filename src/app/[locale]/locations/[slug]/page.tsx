@@ -57,7 +57,7 @@ export default async function Page({
   const hours = parseOperatingHours(location.operation_hours);
 
   const imageUrl = location.imagePath
-    ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/${location.imagePath}`
+    ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location.imagePath}`
     : "https://tibba.ae/logo.png";
 
   const schema = {
