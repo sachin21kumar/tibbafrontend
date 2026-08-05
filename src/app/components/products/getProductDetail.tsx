@@ -24,17 +24,17 @@ export default function ProductDetail() {
   if (isError || !product)
     return <p className="text-center my-12">Product not found.</p>;
 
+  const productImage = product.imagePath
+    ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
+    : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png";
+
   return (
     <div className="max-w-[1508px] mx-auto my-12 bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row">
       <div className="absolute inset-0 bg-gradient-to-b from-[#4e4719] via-transparent to-white -z-10"></div>
 
       <div className="w-full md:w-[754px] h-[300px] sm:h-[400px] md:h-[502px] flex-shrink-0">
         <img
-          src={
-            product.imagePath
-              ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
-              : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
-          }
+          src={productImage}
           alt={product.name}
           className="w-full h-full object-cover rounded-t-xl md:rounded-none md:rounded-l-xl"
         />

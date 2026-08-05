@@ -21,11 +21,11 @@ function convertTo24Hour(timeStr: string) {
 
   if (!minutes) minutes = "00";
 
-  if (modifier.toLowerCase() === "pm" && hours !== "12") {
+  if (modifier?.toLowerCase() === "pm" && hours !== "12") {
     hours = String(parseInt(hours, 10) + 12);
   }
 
-  if (modifier.toLowerCase() === "am" && hours === "12") {
+  if (modifier?.toLowerCase() === "am" && hours === "12") {
     hours = "00";
   }
 

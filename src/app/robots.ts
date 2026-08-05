@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
-
-const SITE_URL = "https://tibba.ae";
+import { i18n } from "@/i18n/config";
+import { SITE_URL } from "@/lib/seoRoutes";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -20,7 +20,10 @@ export default function robots(): MetadataRoute.Robots {
         ],
       },
     ],
-    sitemap: `${SITE_URL}/sitemap.xml`,
+    sitemap: [
+      `${SITE_URL}/sitemap.xml`,
+      ...i18n.locales.map((locale) => `${SITE_URL}/${locale}/sitemap.xml`),
+    ],
     host: SITE_URL,
   };
 }
