@@ -1,31 +1,23 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState, useMemo, useCallback } from "react";
-import { useGetCategoryQuery } from "../redux/query/categoryQuery/categoryQuery";
-import { useGetProductsQuery } from "../redux/query/productsQuery/productsQuery";
-import { useAppDispatch } from "../redux/hook";
+import { useEffect, useRef, useState, useCallback } from "react";
+import Image from "next/image";
 
 interface Category {
   _id: string;
   title: string;
 }
 
-export default function Gallery() {
+export default function Gallery({
+  categories,
+  products,
+}: {
+  categories: Category[];
+  products: any[];
+}) {
   const [activeCategory, setActiveCategory] = useState<string>("");
 
-  const { data: categoriesResponse, isLoading: categoriesLoading } =
-    useGetCategoryQuery();
-
-  const { data: productsResponse, isLoading: productsLoading } =
-    useGetProductsQuery({ limit: 1000 });
-
-  const categories: Category[] = categoriesResponse?.data || [];
-  const products: any[] = productsResponse?.data || [];
-
-  const sortedCategories = useMemo(() => {
-    return categories;
-  }, [categories]);
+  const sortedCategories = categories;
 
   const categoryRefs = useRef<Record<string, HTMLElement | null>>({});
 
@@ -76,10 +68,6 @@ export default function Gallery() {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, [sortedCategories, activeCategory]);
-
-  if (categoriesLoading || productsLoading) {
-    return <p className="text-center py-10">Loading...</p>;
-  }
 
   return (
     <div
@@ -146,15 +134,17 @@ export default function Gallery() {
                       key={product._id}
                       className="group bg-white rounded-xl border border-[#e6e6e6] overflow-hidden cursor-pointer hover:shadow-lg transition"
                     >
-                      <div className="relative w-full h-[200px] flex items-center justify-center bg-white">
-                        <img
+                      <div className="relative w-full h-[200px] bg-white">
+                        <Image
                           src={
                             product.imagePath
                               ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
                               : "https://f.nooncdn.com/s/app/com/noon-food/consumer/icons/placeholder.png"
                           }
                           alt={product.name}
-                          className="object-contain p-6 h-[250px]"
+                          fill
+                          sizes="(min-width: 768px) 33vw, 100vw"
+                          className="object-contain p-6"
                         />
                       </div>
 

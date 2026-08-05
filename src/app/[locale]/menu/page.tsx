@@ -132,7 +132,7 @@ export default async function Page() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
       )}
-      <Gallery />
+      <Gallery categories={categories} products={products} />
     </>
   );
 }
