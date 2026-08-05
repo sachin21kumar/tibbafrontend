@@ -122,7 +122,7 @@ export default async function Page({
         }}
       />
 
-      <LocationDetails id={location._id} />
+      <LocationDetails location={location} />
     </>
   );
 }

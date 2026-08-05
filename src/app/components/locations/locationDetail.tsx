@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import type { LatLngExpression } from "leaflet";
-import { useGetLocationByIdQuery } from "../redux/query/locationsQuery/location.query";
+import type { Location } from "../redux/query/locationsQuery/location.query";
 import LocationForm from "./locationForm";
 import LocationsGrid from "./locationsGrid";
 import Image from "next/image";
@@ -40,7 +40,7 @@ const openLocation = (lat: number, lng: number, googleLink?: string) => {
   window.open(url, "_blank");
 };
 
-export default function LocationDetails({ id }: any) {
+export default function LocationDetails({ location }: { location: Location }) {
   const { t } = useTranslations();
   const openingHours = [
     t("locationdetail.monday"),
@@ -51,11 +51,6 @@ export default function LocationDetails({ id }: any) {
     t("locationdetail.saturday"),
     t("locationdetail.sunday"),
   ];
-  const { data: location, isLoading } = useGetLocationByIdQuery(id, {
-    skip: !id,
-  });
-
-  if (isLoading) return <div className="py-20 text-center">Loading...</div>;
 
   const today = new Date().toLocaleDateString("en-US", { weekday: "long" });
 
@@ -72,16 +67,21 @@ export default function LocationDetails({ id }: any) {
     <>
       <div className="relative w-full h-64 sm:h-80 md:h-100 flex items-center justify-center px-4 overflow-hidden">
         <Image
-          src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location?.imagePath}`}
+          src={
+            location.imagePath
+              ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location.imagePath}`
+              : "https://tibba.ae/logo.png"
+          }
           alt="Location Banner"
           fill
           priority
+          fetchPriority="high"
           sizes="100vw"
           className="object-cover object-center"
         />
 
         <h1 className="relative z-10 text-white text-2xl sm:text-3xl md:text-5xl font-cinzel bg-white/10 border border-white/32 backdrop-blur-[20px] px-4 sm:px-6 py-3 sm:py-4">
-          {t("locationdetail.openUntil")} {location?.operation_hours?.slice(7)}
+          {t("locationdetail.openUntil")} {location.operation_hours?.slice(7)}
         </h1>
       </div>
 

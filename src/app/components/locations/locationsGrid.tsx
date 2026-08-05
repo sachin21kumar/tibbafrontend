@@ -31,12 +31,17 @@ export default function LocationsGrid() {
               key={loc._id}
               className="bg-[#f8f8f8] rounded-2xl shadow-sm hover:shadow-lg transition overflow-hidden"
             >
-              <div className="relative md:h-64 w-full">
-                <img
-                  src={`${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${loc.imagePath}`}
+              <div className="relative h-48 md:h-64 w-full">
+                <Image
+                  src={
+                    loc.imagePath
+                      ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${loc.imagePath}`
+                      : "https://tibba.ae/logo.png"
+                  }
                   alt={loc.name}
-                  sizes="100vw"
-                  className="object-cover h-full w-full"
+                  fill
+                  sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                  className="object-cover"
                 />
               </div>
               <div className="md:p-8 p-4 space-y-6 cursor-pointer">
