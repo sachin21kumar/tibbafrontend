@@ -1,15 +1,13 @@
-import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import LocationDetails from "@/app/components/locations/locationDetail";
+import { slugify } from "@/lib/slug";
 
-async function getLocation(id: string) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/locations/${id}`,
-    {
-      cache: "no-store",
-    },
-  );
+async function getLocations() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/locations`, {
+    cache: "no-store",
+  });
 
-  if (!res.ok) return null;
+  if (!res.ok) return [];
 
   return res.json();
 }
@@ -47,21 +45,26 @@ function parseOperatingHours(operation_hours: string) {
 export default async function Page({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { id } = await params;
+  const { slug } = await params;
 
-  const location = await getLocation(id);
-  const hours = parseOperatingHours(location?.operation_hours);
+  const locations = await getLocations();
+  const location = locations.find((loc: any) => slugify(loc.name) === slug);
 
-  const imageUrl = location?.imagePath
+  if (!location) notFound();
+
+  const hours = parseOperatingHours(location.operation_hours);
+
+  const imageUrl = location.imagePath
     ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/${location.imagePath}`
     : "https://tibba.ae/logo.png";
-  const schema = location && {
+
+  const schema = {
     "@context": "https://schema.org",
     "@type": "Restaurant",
 
-    "@id": `https://tibba.ae/locations/${location._id}`,
+    "@id": `https://tibba.ae/locations/${slug}`,
 
     name: location.name,
     description: location.description,
@@ -70,9 +73,7 @@ export default async function Page({
 
     email: location.branchEmail,
 
-    // telephone: `+971${location.telephone.replace(/\s/g, "")}`,
-
-    url: `https://tibba.ae/locations/${location._id}`,
+    url: `https://tibba.ae/locations/${slug}`,
 
     servesCuisine: "Yemeni Cuisine",
 
@@ -109,16 +110,14 @@ export default async function Page({
 
   return (
     <>
-      {schema && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(schema),
-          }}
-        />
-      )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(schema),
+        }}
+      />
 
-      <LocationDetails id={id} />
+      <LocationDetails id={location._id} />
     </>
   );
 }

@@ -15,6 +15,7 @@ import LanguageSwitcher from "@/app/common/LanguageSwitcher";
 import { useTranslations } from "@/i18n/TranslationProvider";
 import { FaMapMarkerAlt, FaClock, FaPhoneAlt } from "react-icons/fa";
 import MoreInfo from "./moreinfo";
+import { slugify } from "@/lib/slug";
 interface Location {
   _id: string;
   name: string;
@@ -160,7 +161,11 @@ const Navbar = () => {
                     <div
                       key={loc._id}
                       className="text-sm hover:text-[#d1a054] cursor-pointer"
-                      onClick={() => navigate.push(`/locations/${loc._id}`)}
+                      onClick={() =>
+                        navigate.push(
+                          `/${locale}/locations/${slugify(loc.name)}`,
+                        )
+                      }
                     >
                       {loc.name}
                     </div>

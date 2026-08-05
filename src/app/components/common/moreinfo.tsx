@@ -24,7 +24,7 @@ export default function MoreInfo() {
           <FaClock className="text-[#d1a054]" size={12} />
           <span>
             Open Daily:{" "}
-            {locationId ? location?.operation_hours : "11:00 AM – 12:00 PM"}
+            {locationId ? location?.operation_hours : "11:00 AM – 12:00 AM"}
           </span>
         </div>
 

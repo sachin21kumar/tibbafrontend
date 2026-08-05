@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { i18n, type Locale } from "@/i18n/config";
-import { SITE_URL, seoRoutes } from "@/lib/seoRoutes";
+import { SITE_URL, seoRoutes, getDynamicLocationRoutes } from "@/lib/seoRoutes";
 
 export async function GET(
   _request: Request,
@@ -13,8 +13,9 @@ export async function GET(
   }
 
   const lastModified = new Date().toISOString();
+  const allRoutes = [...seoRoutes, ...(await getDynamicLocationRoutes())];
 
-  const urls = seoRoutes
+  const urls = allRoutes
     .map(({ path, changeFrequency, priority }) => {
       const alternates = i18n.locales
         .map(

@@ -1,3 +1,5 @@
+import { slugify } from "@/lib/slug";
+
 export const SITE_URL = (process.env.SITE_URL ?? "https://tibba.ae").replace(
   /\/+$/,
   "",
@@ -29,9 +31,34 @@ export const seoRoutes: SeoRoute[] = [
   { path: "/contact", changeFrequency: "monthly", priority: 0.6 },
 ];
 
-// Detail pages for dynamic content (products, locations) — fetched at
-// sitemap-build time so new items get crawled without a code change.
-export async function getDynamicSeoRoutes(): Promise<SeoRoute[]> {
+// Location detail pages — fetched at sitemap-build time so new branches
+// get crawled without a code change.
+export async function getDynamicLocationRoutes(): Promise<SeoRoute[]> {
+  const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const routes: SeoRoute[] = [];
+
+  try {
+    const res = await fetch(`${apiUrl}/locations`, { cache: "no-store" });
+    if (res.ok) {
+      const locations = await res.json();
+      for (const location of locations ?? []) {
+        routes.push({
+          path: `/locations/${slugify(location.name)}`,
+          changeFrequency: "weekly",
+          priority: 0.6,
+        });
+      }
+    }
+  } catch {
+    // API unreachable — fall back to static routes only
+  }
+
+  return routes;
+}
+
+// Product detail pages — not wired into the sitemap yet, kept ready for
+// when that's turned on.
+export async function getDynamicProductRoutes(): Promise<SeoRoute[]> {
   const apiUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const routes: SeoRoute[] = [];
 
@@ -46,22 +73,6 @@ export async function getDynamicSeoRoutes(): Promise<SeoRoute[]> {
         if (product.isActive !== 1) continue;
         routes.push({
           path: `/product/${product._id}`,
-          changeFrequency: "weekly",
-          priority: 0.6,
-        });
-      }
-    }
-  } catch {
-    // API unreachable — fall back to static routes only
-  }
-
-  try {
-    const res = await fetch(`${apiUrl}/locations`, { cache: "no-store" });
-    if (res.ok) {
-      const locations = await res.json();
-      for (const location of locations ?? []) {
-        routes.push({
-          path: `/locations/${location._id}`,
           changeFrequency: "weekly",
           priority: 0.6,
         });
