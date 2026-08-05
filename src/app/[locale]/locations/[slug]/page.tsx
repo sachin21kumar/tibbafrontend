@@ -83,9 +83,10 @@ export default async function Page({
 
     address: {
       "@type": "PostalAddress",
-      streetAddress: location.area,
+      streetAddress: location.location || location.area,
       addressLocality: "Dubai",
       addressCountry: "AE",
+      postalCode: "V2GV+4X8",
     },
 
     geo: {
