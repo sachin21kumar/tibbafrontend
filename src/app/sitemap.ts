@@ -1,13 +1,12 @@
 import type { MetadataRoute } from "next";
 import { i18n } from "@/i18n/config";
-import { SITE_URL, seoRoutes, getDynamicSeoRoutes } from "@/lib/seoRoutes";
+import { SITE_URL, seoRoutes } from "@/lib/seoRoutes";
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
-  const allRoutes = [...seoRoutes, ...(await getDynamicSeoRoutes())];
 
   return i18n.locales.flatMap((locale) =>
-    allRoutes.map(({ path, changeFrequency, priority }) => ({
+    seoRoutes.map(({ path, changeFrequency, priority }) => ({
       url: `${SITE_URL}/${locale}${path}`,
       lastModified,
       changeFrequency,
