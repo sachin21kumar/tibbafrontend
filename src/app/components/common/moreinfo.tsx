@@ -12,7 +12,7 @@ export default function MoreInfo() {
   });
   return (
     <div className="hidden md:flex justify-center items-center text-white/80 text-[13px] tracking-wide ">
-      <div className="flex items-center gap-8 py-2">
+      <div className="flex items-center gap-2 w-[685px] py-2">
         <div className="flex items-center gap-2 hover:text-[#d1a054] transition">
           <FaMapMarkerAlt className="text-[#d1a054]" size={12} />
           <span>Main Branch, Dubai</span>

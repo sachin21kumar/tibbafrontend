@@ -169,7 +169,7 @@ const Navbar = () => {
               )}
             </div>
 
-            <div
+            {/* <div
               className="relative py-3"
               onMouseEnter={() => setReservationOpen(true)}
               onMouseLeave={() => setReservationOpen(false)}
@@ -194,7 +194,7 @@ const Navbar = () => {
                   </div>
                 </div>
               )}
-            </div>
+            </div> */}
           </div>
 
           <div className="flex gap-5">
