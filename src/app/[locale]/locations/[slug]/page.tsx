@@ -73,6 +73,10 @@ export default async function Page({
 
     email: location.branchEmail,
 
+    telephone: location.telephone || location.mobileNumber,
+
+    priceRange: "$$",
+
     url: `https://tibba.ae/locations/${slug}`,
 
     servesCuisine: "Yemeni Cuisine",
