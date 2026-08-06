@@ -9,6 +9,8 @@ import { getDictionary } from "@/i18n/dictionary";
 import { Locale } from "@/i18n/config";
 import { TranslationProvider } from "@/i18n/TranslationProvider";
 
+const GTM_ID = "GTM-P8B889BZ";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -47,7 +49,7 @@ export default async function RootLayout({
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-P8B889BZ');
+            })(window,document,'script','dataLayer','${GTM_ID}');
           `}
         </Script>
         {/* End Google Tag Manager */}
@@ -82,7 +84,7 @@ export default async function RootLayout({
         {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-P8B889BZ"
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
             height="0"
             width="0"
             style={{ display: "none", visibility: "hidden" }}
