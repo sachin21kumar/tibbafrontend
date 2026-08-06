@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import LocationDetails from "@/app/components/locations/locationDetail";
-import { slugify } from "@/lib/slug";
+import { locationDisplayName, locationSlug } from "@/lib/slug";
+import { toUaePhone } from "@/lib/phone";
 
 async function getLocations() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/locations`, {
@@ -42,15 +43,23 @@ function parseOperatingHours(operation_hours: string) {
   return { opens, closes };
 }
 
+// The API's `location` field ends in ", Dubai", which is redundant next to
+// addressLocality: "Dubai" in the schema.
+function toStreetAddress(location: string) {
+  return location.replace(/,\s*Dubai\s*$/i, "").trim();
+}
+
 export default async function Page({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
 
   const locations = await getLocations();
-  const location = locations.find((loc: any) => slugify(loc.name) === slug);
+  const location = locations.find(
+    (loc: any) => locationSlug(loc.name) === slug,
+  );
 
   if (!location) notFound();
 
@@ -60,33 +69,30 @@ export default async function Page({
     ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location.imagePath}`
     : "https://tibba.ae/logo.png";
 
+  const url = `https://tibba.ae/${locale}/locations/${slug}`;
+
   const schema = {
     "@context": "https://schema.org",
     "@type": "Restaurant",
+    "@id": `${url}#restaurant`,
+    url,
 
-    "@id": `https://tibba.ae/locations/${slug}`,
+    name: locationDisplayName(location.name),
 
-    name: location.name,
-    description: location.description,
+    image: imageUrl,
 
-    image: [imageUrl],
-
-    email: location.branchEmail,
-
-    telephone: location.telephone || location.mobileNumber,
+    telephone: toUaePhone(location.telephone || location.mobileNumber),
 
     priceRange: "$$",
 
-    url: `https://tibba.ae/locations/${slug}`,
-
-    servesCuisine: "Yemeni Cuisine",
+    servesCuisine: ["Indian", "North Indian", "Street Food", "Fast Food"],
 
     address: {
       "@type": "PostalAddress",
-      streetAddress: location.location || location.area,
+      streetAddress: toStreetAddress(location.location || location.area),
       addressLocality: "Dubai",
+      addressRegion: "Dubai",
       addressCountry: "AE",
-      postalCode: "V2GV+4X8",
     },
 
     geo: {
@@ -95,17 +101,21 @@ export default async function Page({
       longitude: location.lng,
     },
 
+    hasMap:
+      location.googleLink ||
+      `https://www.google.com/maps/search/?api=1&query=${location.lat},${location.lng}`,
+
     openingHoursSpecification: hours && [
       {
         "@type": "OpeningHoursSpecification",
         dayOfWeek: [
-          "Sunday",
           "Monday",
           "Tuesday",
           "Wednesday",
           "Thursday",
           "Friday",
           "Saturday",
+          "Sunday",
         ],
         opens: hours.opens,
         closes: hours.closes,

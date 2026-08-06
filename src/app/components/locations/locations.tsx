@@ -4,7 +4,7 @@ import { useGetLocationsQuery } from "../redux/query/locationsQuery/location.que
 import Image from "next/image";
 import { Mail } from "lucide-react";
 import { useTranslations } from "@/i18n/TranslationProvider";
-import { slugify } from "@/lib/slug";
+import { locationSlug } from "@/lib/slug";
 const Location = dynamic(
   () => import("../home/locations").then((mod) => mod.Location),
   {
@@ -125,7 +125,7 @@ export default function LocationCard() {
                   )}
                 </div>
                 <a
-                  href={`/${locale}/locations/${slugify(location.name)}`}
+                  href={`/${locale}/locations/${locationSlug(location.name)}`}
                   className="mt-6 w-fit text-[#AD5727] font-regular hover:text-yellow-600"
                 >
                   {t("location.moredetail")}

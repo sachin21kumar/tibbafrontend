@@ -1,5 +1,6 @@
 import LocationCard from "@/app/components/locations/locations";
 import { Metadata } from "next";
+import { locationDisplayName, locationSlug } from "@/lib/slug";
 
 export const metadata: Metadata = {
   title: "Location Archive - Tibba Restaurant",
@@ -8,52 +9,40 @@ export const metadata: Metadata = {
 };
 
 const API_URL = `${process.env.NEXT_PUBLIC_BASE_URL}/locations`;
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-export default async function Index() {
+
+export default async function Index({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+
   const res = await fetch(API_URL, { cache: "no-store" });
-  const locations: {
-    id: number;
-    name: string;
-    location: string;
-    mobileNumber: string;
-    url: string;
-    lat: number;
-    lng: number;
-    imagePath: string;
-    googleLink?: string;
-  }[] = await res.json();
+  const locations: { name: string }[] = await res.json();
+
+  const listUrl = `https://tibba.ae/${locale}/locations`;
+
   const schema = {
     "@context": "https://schema.org",
-    "@graph": locations.map((loc) => ({
-      "@type": "Restaurant",
-      "@id": `${loc.url}#restaurant`,
-      name: `Tibba Restaurant - ${loc.name}`,
-      url: loc.url,
+    "@type": "ItemList",
+    "@id": `${listUrl}#locations`,
+    name: "Tibba Restaurant Locations",
+    url: listUrl,
+    numberOfItems: locations.length,
+    itemListOrder: "https://schema.org/ItemListOrderAscending",
+    itemListElement: locations.map((loc, index) => {
+      const itemUrl = `https://tibba.ae/${locale}/locations/${locationSlug(loc.name)}`;
 
-      image: `${BASE_URL}/uploads/products/${loc.imagePath}`,
-
-      telephone: loc.mobileNumber,
-
-      priceRange: "$$",
-
-      servesCuisine: ["Indian", "North Indian", "Street Food", "Fast Food"],
-
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: loc.location,
-        addressCountry: "AE",
-      },
-
-      geo: {
-        "@type": "GeoCoordinates",
-        latitude: loc.lat,
-        longitude: loc.lng,
-      },
-
-      hasMap:
-        loc.googleLink ||
-        `https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lng}`,
-    })),
+      return {
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@id": itemUrl,
+          name: locationDisplayName(loc.name),
+          url: itemUrl,
+        },
+      };
+    }),
   };
 
   return (

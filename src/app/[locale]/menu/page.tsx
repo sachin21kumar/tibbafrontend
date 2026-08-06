@@ -57,81 +57,38 @@ export default async function Page() {
     getProducts(),
   ]);
 
-  const hasMenuSection = categories
-    .map((category: any) => {
-      const categoryProducts = products.filter(
-        (p: any) => p.categoryId === category._id && p.isActive === 1,
-      );
-      if (!categoryProducts.length) return null;
-
-      return {
-        "@type": "MenuSection",
-        name: category.title,
-        hasMenuItem: categoryProducts.map((product: any) => ({
-          "@type": "MenuItem",
-          name: product.name,
-          description: product.description || undefined,
-          image: product.imagePath
-            ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
-            : undefined,
-          offers: {
-            "@type": "Offer",
-            price: product.price,
-            priceCurrency: "AED",
-            availability: "https://schema.org/InStock",
-          },
-        })),
-      };
-    })
-    .filter(Boolean);
-
-  const schema = hasMenuSection.length && {
+  const schema = {
     "@context": "https://schema.org",
-    "@type": "Restaurant",
-    name: "Tibba Restaurant",
-    url: "https://tibba.ae/menu",
-    image: "https://tibba.ae/header.webp",
-    telephone: ["+97142578585", "+97142578584"],
-    priceRange: "$$",
-    servesCuisine: "Yemeni",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "Al Qusais",
-      addressLocality: "Dubai",
-      addressCountry: "AE",
-      postalCode: "V2GV+4X8",
-    },
-    openingHoursSpecification: [
+    "@graph": [
       {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: [
-          "Sunday",
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-        ],
-        opens: "11:00",
-        closes: "24:00",
+        "@type": "Restaurant",
+        "@id": "https://tibba.ae/#restaurant",
+        name: "Tibba Restaurant",
+        url: "https://tibba.ae/",
+        image:
+          "https://tibba.ae/api/uploads/products/1785904435772-912862395.webp",
+        telephone: ["+971 4 2578585", "+971 4 2578584"],
+        priceRange: "د.إ",
+        servesCuisine: ["Indian", "North Indian", "Street Food", "Fast Food"],
+        hasMenu: {
+          "@id": "https://tibba.ae/en/menu#menu",
+        },
+      },
+      {
+        "@type": "Menu",
+        "@id": "https://tibba.ae/en/menu#menu",
+        name: "Tibba Restaurant Menu",
+        url: "https://tibba.ae/en/menu",
       },
     ],
-    hasMenu: {
-      "@type": "Menu",
-      name: "Tibba Restaurant Menu",
-      hasMenuSection,
-    },
   };
 
   return (
     <>
-      {schema && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-        />
-      )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
       <Gallery categories={categories} products={products} />
     </>
   );

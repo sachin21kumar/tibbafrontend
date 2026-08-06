@@ -4,75 +4,32 @@ import { Contact } from "../../components/contact/contact";
 export default function Page() {
   const schema = {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Organization",
-        "@id": "https://tibba.ae/#organization",
-        name: "Tibba Restaurant",
-        url: "https://tibba.ae",
-        logo: "https://tibba.ae/tibba-logo.webp",
-        sameAs: [
-          "https://www.instagram.com/tibba.ae",
-          "https://www.facebook.com/tibba.ae",
-        ],
+    "@type": "ContactPage",
+    "@id": "https://tibba.ae/en/contact#contact",
+    url: "https://tibba.ae/en/contact",
+    name: "Contact Tibba Restaurant",
+    description:
+      "Contact Tibba Restaurant for restaurant enquiries, opening hours, directions and branch information across Dubai.",
+    mainEntity: {
+      "@type": "Organization",
+      "@id": "https://tibba.ae/#organization",
+      name: "Tibba Restaurant",
+      url: "https://tibba.ae/",
+      telephone: ["+97142578585", "+97142578584"],
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Dubai",
+        addressRegion: "Dubai",
+        addressCountry: "AE",
       },
-
-      {
-        "@type": "Restaurant",
-        "@id": "https://tibba.ae/contact#restaurant",
-        name: "Tibba Restaurant - Al Qusais Main Branch",
-        image: "https://tibba.ae/header.webp",
-        url: "https://tibba.ae/contact",
-        telephone: "+97142578585",
-
-        servesCuisine: "Yemeni Cuisine",
-        priceRange: "$$",
-
-        address: {
-          "@type": "PostalAddress",
-          streetAddress: "Al Qusais",
-          addressLocality: "Dubai",
-          addressCountry: "AE",
-          postalCode: "V2GV+4X8",
-        },
-
-        geo: {
-          "@type": "GeoCoordinates",
-          latitude: 25.266,
-          longitude: 55.374,
-        },
-
-        openingHoursSpecification: [
-          {
-            "@type": "OpeningHoursSpecification",
-            dayOfWeek: [
-              "Sunday",
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-              "Friday",
-              "Saturday",
-            ],
-            opens: "11:00",
-            closes: "24:00",
-          },
-        ],
-
-        parentOrganization: {
-          "@id": "https://tibba.ae/#organization",
-        },
-      },
-
-      {
+      contactPoint: {
         "@type": "ContactPoint",
-        "@id": "https://tibba.ae/contact#support",
         telephone: "+97142578585",
-        contactType: "customer service",
+        contactType: "Customer Service",
         areaServed: "AE",
         availableLanguage: ["English", "Arabic"],
       },
-    ],
+    },
   };
 
   return (

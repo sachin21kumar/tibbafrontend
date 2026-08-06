@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useGetLocationsQuery } from "../redux/query/locationsQuery/location.query";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "@/i18n/TranslationProvider";
-import { slugify } from "@/lib/slug";
+import { locationSlug } from "@/lib/slug";
 
 interface Location {
   _id: string;
@@ -48,7 +48,9 @@ export default function LocationsGrid() {
                 <h3
                   className="md:text-[20px] text-[16px] text-[#7a4a2e] leading-snug"
                   onClick={() =>
-                    router.push(`/${locale}/locations/${slugify(loc.name)}`)
+                    router.push(
+                      `/${locale}/locations/${locationSlug(loc.name)}`,
+                    )
                   }
                 >
                   {loc.name}
