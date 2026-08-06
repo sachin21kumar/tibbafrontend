@@ -33,6 +33,7 @@ export default function Page() {
           streetAddress: "Al Qusais",
           addressLocality: "Dubai",
           addressCountry: "AE",
+          postalCode: "V2GV+4X8",
         },
 
         geo: {
