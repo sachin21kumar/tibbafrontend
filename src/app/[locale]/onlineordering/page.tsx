@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import MenuPage from "../../components/products/getAllProducts";
+import { SITE_URL } from "@/lib/seoRoutes";
+import { Locale } from "@/i18n/config";
 
 async function getCategories() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category`, {
@@ -24,32 +26,45 @@ async function getProducts() {
   return json?.data ?? [];
 }
 
-export const metadata: Metadata = {
-  title: "Shop | Tibba Restaurant",
-  description:
-    "Browse the Tibba Restaurant menu featuring authentic Yemeni dishes, fresh meals, and traditional flavors. Online ordering coming soon.",
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const canonical = `${SITE_URL}/${locale}/onlineordering`;
 
-  robots: {
-    index: true,
-    follow: true,
-  },
-
-  openGraph: {
+  return {
     title: "Shop | Tibba Restaurant",
     description:
-      "Explore the Tibba Restaurant menu with authentic Yemeni cuisine. Online ordering coming soon.",
-    siteName: "Tibba Restaurant",
-    type: "website",
-    url: "https://tibba.ae/onlineordering",
-  },
+      "Browse the Tibba Restaurant menu featuring authentic Yemeni dishes, fresh meals, and traditional flavors. Online ordering coming soon.",
 
-  twitter: {
-    card: "summary_large_image",
-    title: "Shop | Tibba Restaurant",
-    description:
-      "Explore the Tibba Restaurant menu with authentic Yemeni cuisine. Online ordering coming soon.",
-  },
-};
+    robots: {
+      index: true,
+      follow: true,
+    },
+
+    alternates: {
+      canonical,
+    },
+
+    openGraph: {
+      title: "Shop | Tibba Restaurant",
+      description:
+        "Explore the Tibba Restaurant menu with authentic Yemeni cuisine. Online ordering coming soon.",
+      siteName: "Tibba Restaurant",
+      type: "website",
+      url: canonical,
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title: "Shop | Tibba Restaurant",
+      description:
+        "Explore the Tibba Restaurant menu with authentic Yemeni cuisine. Online ordering coming soon.",
+    },
+  };
+}
 
 export default async function Page() {
   const [categories, products] = await Promise.all([

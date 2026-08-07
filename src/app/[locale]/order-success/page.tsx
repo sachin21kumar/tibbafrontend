@@ -1,30 +1,45 @@
 import type { Metadata } from "next";
 import OrderSuccessPage from "../../components/order/order-confirm";
+import { SITE_URL } from "@/lib/seoRoutes";
+import { Locale } from "@/i18n/config";
 
-export const metadata: Metadata = {
-  title: "Order Confirmed | Tibba",
-  description:
-    "Your order has been successfully placed at Tibba. Thank you for ordering with us.",
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const canonical = `${SITE_URL}/${locale}/order-success`;
 
-  robots: {
-    index: false, // NEVER index order confirmation pages
-    follow: false,
-  },
-
-  openGraph: {
+  return {
     title: "Order Confirmed | Tibba",
-    description: "Your order has been successfully placed at Tibba.",
-    siteName: "Tibba",
-    type: "website",
-    url: "https://tibba.ae/order-success",
-  },
+    description:
+      "Your order has been successfully placed at Tibba. Thank you for ordering with us.",
 
-  twitter: {
-    card: "summary",
-    title: "Order Confirmed | Tibba",
-    description: "Your order has been successfully placed at Tibba.",
-  },
-};
+    robots: {
+      index: false, // NEVER index order confirmation pages
+      follow: false,
+    },
+
+    alternates: {
+      canonical,
+    },
+
+    openGraph: {
+      title: "Order Confirmed | Tibba",
+      description: "Your order has been successfully placed at Tibba.",
+      siteName: "Tibba",
+      type: "website",
+      url: canonical,
+    },
+
+    twitter: {
+      card: "summary",
+      title: "Order Confirmed | Tibba",
+      description: "Your order has been successfully placed at Tibba.",
+    },
+  };
+}
 
 export default function Page() {
   return <OrderSuccessPage />;

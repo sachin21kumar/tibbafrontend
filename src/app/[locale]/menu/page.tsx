@@ -1,5 +1,7 @@
 import Gallery from "@/app/components/gallery/Gallery";
 import type { Metadata } from "next";
+import { SITE_URL } from "@/lib/seoRoutes";
+import { Locale } from "@/i18n/config";
 
 async function getCategories() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category`, {
@@ -24,32 +26,45 @@ async function getProducts() {
   return json?.data ?? [];
 }
 
-export const metadata: Metadata = {
-  title: "Gallery | Tibba Restaurant",
-  description:
-    "Explore the Tibba Restaurant gallery featuring authentic Yemeni dishes, traditional ambiance, and memorable dining moments.",
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const canonical = `${SITE_URL}/${locale}/menu`;
 
-  robots: {
-    index: true,
-    follow: true,
-  },
-
-  openGraph: {
+  return {
     title: "Gallery | Tibba Restaurant",
     description:
-      "Explore the Tibba Restaurant gallery showcasing authentic Yemeni cuisine and a warm dining atmosphere.",
-    siteName: "Tibba Restaurant",
-    type: "website",
-    url: "https://tibba.ae/gallery",
-  },
+      "Explore the Tibba Restaurant gallery featuring authentic Yemeni dishes, traditional ambiance, and memorable dining moments.",
 
-  twitter: {
-    card: "summary_large_image",
-    title: "Gallery | Tibba Restaurant",
-    description:
-      "Explore the Tibba Restaurant gallery showcasing authentic Yemeni cuisine and dining experience.",
-  },
-};
+    robots: {
+      index: true,
+      follow: true,
+    },
+
+    alternates: {
+      canonical,
+    },
+
+    openGraph: {
+      title: "Gallery | Tibba Restaurant",
+      description:
+        "Explore the Tibba Restaurant gallery showcasing authentic Yemeni cuisine and a warm dining atmosphere.",
+      siteName: "Tibba Restaurant",
+      type: "website",
+      url: canonical,
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title: "Gallery | Tibba Restaurant",
+      description:
+        "Explore the Tibba Restaurant gallery showcasing authentic Yemeni cuisine and dining experience.",
+    },
+  };
+}
 
 export default async function Page() {
   const [categories, products] = await Promise.all([

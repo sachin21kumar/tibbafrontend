@@ -1,11 +1,24 @@
 import { Metadata } from "next";
 import Hero from "../components/home/home";
+import { SITE_URL } from "@/lib/seoRoutes";
+import { Locale } from "@/i18n/config";
 
-export const metadata: Metadata = {
-  title: "Home - Tibba Restaurant",
-  description:
-    "Tibba Restaurant Welcome to Tibba Restaurant, where authentic Yemeni flavors thrive. Enjoy a memorable dining experience and explore our menu. Our Menu Free Delivery on Order Over $59",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  return {
+    title: "Home - Tibba Restaurant",
+    description:
+      "Tibba Restaurant Welcome to Tibba Restaurant, where authentic Yemeni flavors thrive. Enjoy a memorable dining experience and explore our menu. Our Menu Free Delivery on Order Over $59",
+    alternates: {
+      canonical: `${SITE_URL}/${locale}`,
+    },
+  };
+}
 
 export default function Home() {
   const schema = {

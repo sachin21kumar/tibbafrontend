@@ -1,7 +1,10 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import LocationDetails from "@/app/components/locations/locationDetail";
 import { locationDisplayName, locationSlug } from "@/lib/slug";
 import { toUaePhone } from "@/lib/phone";
+import { SITE_URL } from "@/lib/seoRoutes";
+import { Locale } from "@/i18n/config";
 
 async function getLocations() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/locations`, {
@@ -47,6 +50,31 @@ function parseOperatingHours(operation_hours: string) {
 // addressLocality: "Dubai" in the schema.
 function toStreetAddress(location: string) {
   return location.replace(/,\s*Dubai\s*$/i, "").trim();
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale; slug: string }>;
+}): Promise<Metadata> {
+  const { locale, slug } = await params;
+
+  const locations = await getLocations();
+  const location = locations.find(
+    (loc: any) => locationSlug(loc.name) === slug,
+  );
+
+  const name = location
+    ? locationDisplayName(location.name)
+    : "Tibba Restaurant";
+
+  return {
+    title: `${name} | Tibba Restaurant`,
+    description: `Visit the ${name} branch of Tibba Restaurant. Find address, opening hours, contact details and directions.`,
+    alternates: {
+      canonical: `${SITE_URL}/${locale}/locations/${slug}`,
+    },
+  };
 }
 
 export default async function Page({

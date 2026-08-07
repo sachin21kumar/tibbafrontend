@@ -1,5 +1,24 @@
 import type { Metadata } from "next";
 import { Contact } from "../../components/contact/contact";
+import { SITE_URL } from "@/lib/seoRoutes";
+import { Locale } from "@/i18n/config";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  return {
+    title: "Contact Tibba Restaurant",
+    description:
+      "Contact Tibba Restaurant for restaurant enquiries, opening hours, directions and branch information across Dubai.",
+    alternates: {
+      canonical: `${SITE_URL}/${locale}/contact`,
+    },
+  };
+}
 
 export default function Page() {
   const schema = {

@@ -1,12 +1,25 @@
 import LocationCard from "@/app/components/locations/locations";
 import { Metadata } from "next";
 import { locationDisplayName, locationSlug } from "@/lib/slug";
+import { SITE_URL } from "@/lib/seoRoutes";
+import { Locale } from "@/i18n/config";
 
-export const metadata: Metadata = {
-  title: "Location Archive - Tibba Restaurant",
-  description:
-    "Explore all Tibba Restaurant locations. Find addresses, contact info, and directions to your nearest branch.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  return {
+    title: "Location Archive - Tibba Restaurant",
+    description:
+      "Explore all Tibba Restaurant locations. Find addresses, contact info, and directions to your nearest branch.",
+    alternates: {
+      canonical: `${SITE_URL}/${locale}/locations`,
+    },
+  };
+}
 
 const API_URL = `${process.env.NEXT_PUBLIC_BASE_URL}/locations`;
 

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import ProductDetail from "@/app/components/products/getProductDetail";
+import { SITE_URL } from "@/lib/seoRoutes";
+import { Locale } from "@/i18n/config";
 
 async function getProduct(id: string) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/${id}`, {
@@ -22,32 +24,50 @@ async function getCategories() {
   return json?.data ?? [];
 }
 
-export const metadata: Metadata = {
-  title: "Product Details | Tibba Restaurant",
-  description:
-    "View product details, pricing, and availability at Tibba Restaurant. Order authentic Yemeni food online.",
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string; locale: Locale }>;
+}): Promise<Metadata> {
+  const { id, locale } = await params;
+  const product = await getProduct(id);
+  const canonical = `${SITE_URL}/${locale}/product/${id}`;
 
-  robots: {
-    index: true,
-    follow: true,
-  },
+  const title = product
+    ? `${product.name} | Tibba Restaurant`
+    : "Product Details | Tibba Restaurant";
+  const description =
+    product?.description ||
+    "View product details, pricing, and availability at Tibba Restaurant. Order authentic Yemeni food online.";
 
-  openGraph: {
-    title: "Product Details | Tibba Restaurant",
-    description:
-      "Explore product details and order authentic Yemeni food from Tibba Restaurant.",
-    siteName: "Tibba Restaurant",
-    type: "website",
-    url: "https://tibba.ae/products",
-  },
+  return {
+    title,
+    description,
 
-  twitter: {
-    card: "summary_large_image",
-    title: "Product Details | Tibba Restaurant",
-    description:
-      "Explore product details and order authentic Yemeni food from Tibba Restaurant.",
-  },
-};
+    robots: {
+      index: true,
+      follow: true,
+    },
+
+    alternates: {
+      canonical,
+    },
+
+    openGraph: {
+      title,
+      description,
+      siteName: "Tibba Restaurant",
+      type: "website",
+      url: canonical,
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  };
+}
 
 export default async function Page({
   params,
