@@ -18,6 +18,7 @@ export default function Page() {
       telephone: ["+97142578585", "+97142578584"],
       address: {
         "@type": "PostalAddress",
+        streetAddress: "Al Qusais, Dubai, UAE Main Branch",
         addressLocality: "Dubai",
         addressRegion: "Dubai",
         addressCountry: "AE",
