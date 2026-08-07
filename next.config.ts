@@ -24,6 +24,15 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/en/locations/tibba-restaurant-for-mandi-madhbi-al-aweer",
+        destination: "/en/locations/tibba-al-aweer",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

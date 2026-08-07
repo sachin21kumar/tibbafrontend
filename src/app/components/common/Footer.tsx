@@ -1,11 +1,16 @@
 "use client";
 import { useTranslations } from "@/i18n/TranslationProvider";
+import { useChrome } from "@/app/common/ChromeContext";
 import { FaFacebookF, FaInstagram, FaTripadvisor } from "react-icons/fa";
 
 export const Footer = () => {
+  const { hidden } = useChrome();
   const { locale, t } = useTranslations();
   const year = new Date().getFullYear();
   const brand = t("brand.name");
+
+  if (hidden) return null;
+
   return (
     <footer className="bg-[#56381D] pt-10 xl:pt-14">
       <div className="max-w-[1508px] mx-auto grid grid-cols-1 xl:grid-cols-3 gap-10 xl:gap-12 text-white px-4 sm:px-6">

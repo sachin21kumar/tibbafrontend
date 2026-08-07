@@ -8,6 +8,7 @@ import { Footer } from "../components/common/Footer";
 import { getDictionary } from "@/i18n/dictionary";
 import { Locale } from "@/i18n/config";
 import { TranslationProvider } from "@/i18n/TranslationProvider";
+import { ChromeProvider } from "../common/ChromeContext";
 
 const GTM_ID = "GTM-P8B889BZ";
 
@@ -94,9 +95,11 @@ export default async function RootLayout({
 
         <ReduxProvider>
           <TranslationProvider key={locale} locale={locale} dict={dict}>
-            <Navbar />
-            {children}
-            <Footer />
+            <ChromeProvider>
+              <Navbar />
+              {children}
+              <Footer />
+            </ChromeProvider>
           </TranslationProvider>
         </ReduxProvider>
       </body>

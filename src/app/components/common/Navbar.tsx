@@ -13,6 +13,7 @@ import { FaFacebookF, FaInstagram, FaTripadvisor } from "react-icons/fa";
 import Cookies from "js-cookie";
 import LanguageSwitcher from "@/app/common/LanguageSwitcher";
 import { useTranslations } from "@/i18n/TranslationProvider";
+import { useChrome } from "@/app/common/ChromeContext";
 import { FaMapMarkerAlt, FaClock, FaPhoneAlt } from "react-icons/fa";
 import MoreInfo from "./moreinfo";
 import { locationSlug } from "@/lib/slug";
@@ -23,6 +24,7 @@ interface Location {
 }
 
 const Navbar = () => {
+  const { hidden } = useChrome();
   const savedLocationId = Cookies.get("selectedLocationId");
   const { locale, t } = useTranslations();
   const { data: category } = useGetCategoryQuery();
@@ -77,6 +79,9 @@ const Navbar = () => {
     img.src = "/tibba-logo.webp";
     e.dataTransfer.setDragImage(img, 40, 40);
   };
+
+  if (hidden) return null;
+
   return (
     <nav className="bg-[#56381D] text-white sticky top-0 z-50 py-3">
       <MoreInfo />
