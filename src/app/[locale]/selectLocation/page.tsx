@@ -9,13 +9,19 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const isAr = locale === "ar";
   const canonical = `${SITE_URL}/${locale}/selectLocation`;
   const image = `${SITE_URL}/header.webp`;
 
+  const title = isAr ? "اختر الموقع | طيبة" : "Select Location | Tibba";
+  const description = isAr
+    ? "اختر موقع التوصيل أو الاستلام لمتابعة الطلب من طيبة."
+    : "Choose your delivery or pickup location to continue ordering from Tibba.";
+  const siteName = isAr ? "طيبة" : "Tibba";
+
   return {
-    title: "Select Location | Tibba",
-    description:
-      "Choose your delivery or pickup location to continue ordering from Tibba.",
+    title,
+    description,
 
     robots: {
       index: false,
@@ -27,10 +33,9 @@ export async function generateMetadata({
     },
 
     openGraph: {
-      title: "Select Location | Tibba",
-      description:
-        "Choose your delivery or pickup location to continue ordering from Tibba.",
-      siteName: "Tibba",
+      title,
+      description,
+      siteName,
       type: "website",
       url: canonical,
       images: [image],
@@ -38,9 +43,8 @@ export async function generateMetadata({
 
     twitter: {
       card: "summary",
-      title: "Select Location | Tibba",
-      description:
-        "Choose your delivery or pickup location to continue ordering from Tibba.",
+      title,
+      description,
       images: [image],
     },
   };

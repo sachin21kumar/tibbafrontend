@@ -86,7 +86,7 @@ export default function SelectLocationPage() {
     }
     if (!isOpen) {
       toast.warn(
-        `Restaurant is currently closed. Opening hours: ${loc.operation_hours}`,
+        t("selectLocation.closed", { hours: loc.operation_hours }),
       );
       return;
     }

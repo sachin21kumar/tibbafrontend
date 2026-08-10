@@ -9,10 +9,13 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const isAr = locale === "ar";
   const canonical = `${SITE_URL}/${locale}/contact`;
-  const title = "Contact Tibba Restaurant";
-  const description =
-    "Contact Tibba Restaurant for restaurant enquiries, opening hours, directions and branch information across Dubai.";
+  const title = isAr ? "تواصل مع مطعم طيبة" : "Contact Tibba Restaurant";
+  const description = isAr
+    ? "تواصل مع مطعم طيبة للاستفسارات، ومواعيد العمل، والاتجاهات، ومعلومات الفروع في جميع أنحاء دبي."
+    : "Contact Tibba Restaurant for restaurant enquiries, opening hours, directions and branch information across Dubai.";
+  const siteName = isAr ? "مطعم طيبة" : "Tibba Restaurant";
   const image = `${SITE_URL}/header.webp`;
 
   return {
@@ -24,7 +27,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      siteName: "Tibba Restaurant",
+      siteName,
       type: "website",
       url: canonical,
       images: [image],

@@ -32,13 +32,25 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const isAr = locale === "ar";
   const canonical = `${SITE_URL}/${locale}/menu`;
   const image = `${SITE_URL}/header.webp`;
 
+  const title = isAr ? "معرض الصور | مطعم طيبة" : "Gallery | Tibba Restaurant";
+  const description = isAr
+    ? "استكشف معرض صور مطعم طيبة الذي يضم أطباقًا يمنية أصيلة، وأجواءً تقليدية، ولحظات طعام لا تُنسى."
+    : "Explore the Tibba Restaurant gallery featuring authentic Yemeni dishes, traditional ambiance, and memorable dining moments.";
+  const ogDescription = isAr
+    ? "استكشف معرض مطعم طيبة الذي يعرض المأكولات اليمنية الأصيلة وأجواء طعام دافئة."
+    : "Explore the Tibba Restaurant gallery showcasing authentic Yemeni cuisine and a warm dining atmosphere.";
+  const twitterDescription = isAr
+    ? "استكشف معرض مطعم طيبة الذي يعرض المأكولات اليمنية الأصيلة وتجربة الطعام."
+    : "Explore the Tibba Restaurant gallery showcasing authentic Yemeni cuisine and dining experience.";
+  const siteName = isAr ? "مطعم طيبة" : "Tibba Restaurant";
+
   return {
-    title: "Gallery | Tibba Restaurant",
-    description:
-      "Explore the Tibba Restaurant gallery featuring authentic Yemeni dishes, traditional ambiance, and memorable dining moments.",
+    title,
+    description,
 
     robots: {
       index: true,
@@ -50,10 +62,9 @@ export async function generateMetadata({
     },
 
     openGraph: {
-      title: "Gallery | Tibba Restaurant",
-      description:
-        "Explore the Tibba Restaurant gallery showcasing authentic Yemeni cuisine and a warm dining atmosphere.",
-      siteName: "Tibba Restaurant",
+      title,
+      description: ogDescription,
+      siteName,
       type: "website",
       url: canonical,
       images: [image],
@@ -61,9 +72,8 @@ export async function generateMetadata({
 
     twitter: {
       card: "summary_large_image",
-      title: "Gallery | Tibba Restaurant",
-      description:
-        "Explore the Tibba Restaurant gallery showcasing authentic Yemeni cuisine and dining experience.",
+      title,
+      description: twitterDescription,
       images: [image],
     },
   };

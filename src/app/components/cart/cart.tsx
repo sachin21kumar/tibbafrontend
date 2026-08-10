@@ -173,7 +173,7 @@ export default function CartPage() {
                       disabled={isRemoving}
                       onClick={() => handleRemove(item.productId._id)}
                       className="ml-2 inline-block align-middle ml-4 text-[#7a4a2e] bg-white w-[30px] h-[30px] border border-white text-xl disabled:opacity-50 rounded-full shadow-xl cursor-pointer px-1 transition-colors"
-                      aria-label="Remove item"
+                      aria-label={t("cart.removeItem")}
                     >
                       ×
                     </button>

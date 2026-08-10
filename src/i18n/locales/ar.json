@@ -6,7 +6,8 @@
     "contact": "اتصل بنا",
     "location": "المواقع",
     "reservation": "حجز",
-    "opentable": "أوبن تيبل"
+    "opentable": "أوبن تيبل",
+    "onlineOrdering": "الطلب عبر الإنترنت"
   },
   "banner": {
     "title": "مطاعم طيبة",
@@ -15,6 +16,22 @@
     "name": "مطعم طيب",
     "reservetable": "احجز طاولة",
     "viewmenu": "عرض القائمة"
+  },
+  "bannerStats": {
+    "rating": "⭐ تقييم 4.7 على جوجل",
+    "signature": "أطباقنا المميزة: مندي / فحسة / سلتة",
+    "halal": "حلال 100%",
+    "parking": "مواقف سيارات وتوصيل"
+  },
+  "signatureDishes": {
+    "title": "أطباقنا المميزة",
+    "subtitle": "مُحضّرة بتوابل يمنية أصيلة ومطهوة ببطء حتى الإتقان.",
+    "explore": "استكشف القائمة الكاملة"
+  },
+  "map": {
+    "loading": "جارٍ تحميل الخريطة...",
+    "notAvailable": "خريطة الموقع غير متاحة",
+    "noValidLocations": "لا توجد مواقع صالحة للعرض"
   },
   "offers": {
     "free_delivery": "توصيل مجاني عند الطلب بقيمة تزيد عن 100 د.إ"
@@ -77,7 +94,13 @@
     "discount": "الخصم",
     "delivery": "رسوم التوصيل",
     "total": "الإجمالي",
-    "checkout": "إتمام الطلب"
+    "checkout": "إتمام الطلب",
+    "updateSuccess": "تم تحديث السلة بنجاح",
+    "updateFailed": "فشل تحديث السلة",
+    "specialInstructions": "تعليمات خاصة (اختياري)",
+    "instructionsPlaceholder": "أضف تعليمات الطهي / التوصيل",
+    "addCutlery": "إضافة أدوات المائدة",
+    "add": "إضافة"
   },
   "location": {
     "moredetail": "مزيد من التفاصيل",
@@ -92,7 +115,13 @@
     "thursday": "الخميس",
     "friday": "الجمعة",
     "saturday": "السبت",
-    "sunday": "الأحد"
+    "sunday": "الأحد",
+    "defaultHours": "8:00 صباحًا – 3:00 صباحًا"
+  },
+  "moreInfo": {
+    "mainBranch": "الفرع الرئيسي، دبي",
+    "openDaily": "مفتوح يوميًا:",
+    "defaultHours": "11:00 صباحًا – 12:00 صباحًا"
   },
   "reservation": {
     "opentable": "احجز طاولة",
@@ -102,6 +131,43 @@
     "guest_number": "عدد الضيوف",
     "booking_loading": "جارٍ الحجز...",
     "find_table": "ابحث عن طاولة"
+  },
+  "reservationForm": {
+    "dateRequired": "التاريخ مطلوب",
+    "timeRequired": "الوقت مطلوب",
+    "guestsRequired": "عدد الضيوف مطلوب",
+    "createFailed": "فشل إنشاء الحجز"
+  },
+  "reservationFlow": {
+    "findTable": "ابحث عن طاولة",
+    "addDetails": "أضف بياناتك",
+    "reservationAt": "الحجز في مطعم Max",
+    "people": "أشخاص",
+    "partnerNotice": "دخل مطعم Max في شراكة مع OpenTable لتقديم حجوزات مجانية وآمنة ومؤكدة فورًا عبر الإنترنت.",
+    "learnMore": "اعرف المزيد",
+    "almostDone": "أنت على وشك الانتهاء!",
+    "standardSeating": "أشخاص (جلوس عادي)",
+    "holdingTable": "نحتفظ بهذه الطاولة لك لمدة",
+    "dinerDetails": "بيانات الضيف",
+    "firstName": "الاسم الأول",
+    "lastName": "اسم العائلة",
+    "phoneNumber": "رقم الهاتف",
+    "email": "البريد الإلكتروني",
+    "firstNameRequired": "الاسم الأول مطلوب",
+    "lastNameRequired": "اسم العائلة مطلوب",
+    "phoneRequired": "رقم الهاتف مطلوب",
+    "emailRequired": "البريد الإلكتروني مطلوب",
+    "validEmail": "أدخل بريدًا إلكترونيًا صالحًا",
+    "selectOccasion": "اختر مناسبة (اختياري)",
+    "birthday": "عيد ميلاد",
+    "anniversary": "ذكرى سنوية",
+    "specialRequest": "أضف طلبًا خاصًا (اختياري)",
+    "diningOffers": "أرغب بالاشتراك لتلقي عروض تناول الطعام من هذا المطعم.",
+    "openTableUpdates": "تلقي تحديثات OpenTable عبر البريد الإلكتروني.",
+    "smsReminders": "تلقي تذكيرات نصية بشأن حجزي.",
+    "completeReservation": "إتمام الحجز",
+    "reservationSuccess": "تم إتمام الحجز بنجاح",
+    "reservationFailed": "فشل إتمام الحجز"
   },
   "onlineordering": {
     "delivery": "توصيل",
@@ -114,7 +180,8 @@
   },
   "selectLocation": {
     "chooserestaurant": "اختر موقع المطعم",
-    "nearestoutlet": "اختر أقرب فرع لعرض قائمة الطعام"
+    "nearestoutlet": "اختر أقرب فرع لعرض قائمة الطعام",
+    "closed": "المطعم مغلق حاليًا. ساعات العمل: {{hours}}"
   },
   "cart": {
     "cart": "سلة التسوق",
@@ -126,7 +193,8 @@
     "shipping": "الشحن",
     "total": "الإجمالي",
     "proceedCheckout": "المتابعة إلى الدفع",
-    "shippingNote": "سيتم احتساب تكاليف الشحن أثناء إتمام الطلب"
+    "shippingNote": "سيتم احتساب تكاليف الشحن أثناء إتمام الطلب",
+    "removeItem": "إزالة العنصر"
   },
   "checkout": {
     "bllingandshipping": "الفوترة والشحن",
@@ -163,7 +231,14 @@
     "paymentSuccess": "تم الدفع بنجاح!",
     "flat": "شقة / مبنى / مدينة / ولاية",
     "discount": "الخصم",
-    "city": "المدينة / الولاية"
+    "city": "المدينة / الولاية",
+    "flatAddressRequired": "عنوان الشقة مطلوب",
+    "cityRequired": "المدينة مطلوبة",
+    "stripeNotLoaded": "لم يتم تحميل Stripe بعد.",
+    "addressValidationFailed": "فشل التحقق من العنوان",
+    "paymentFailed": "فشلت عملية الدفع.",
+    "deliveryFee": "رسوم التوصيل",
+    "free": "مجاني"
   },
   "orderSuccess": {
     "thankyou": "شكرًا لطلبك!",
@@ -216,5 +291,20 @@
     "addCategory": "إضافة فئة",
     "categoryTitle": "عنوان الفئة",
     "saving": "جارٍ الحفظ..."
+  },
+  "menuPage": {
+    "loading": "جارٍ التحميل...",
+    "searchPlaceholder": "ابحث في القائمة",
+    "searchResults": "نتائج البحث"
+  },
+  "productDetail": {
+    "loading": "جارٍ تحميل المنتج...",
+    "notFound": "المنتج غير موجود.",
+    "category": "الفئة:",
+    "viewCart": "عرض السلة",
+    "addToCart": "أضف إلى السلة"
+  },
+  "restaurantCard": {
+    "deliveryFeeNote": "رسوم التوصيل: 3 د.إ (توصيل مجاني للطلبات التي تزيد عن 100 د.إ)"
   }
 }

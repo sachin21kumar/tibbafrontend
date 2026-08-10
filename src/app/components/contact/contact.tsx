@@ -5,15 +5,21 @@ import { MdOutlinePhoneEnabled } from "react-icons/md";
 import ContactForm from "../locations/locationForm";
 import dynamic from "next/dynamic";
 import { useTranslations } from "@/i18n/TranslationProvider";
+
+const MapLoading = () => {
+  const { t } = useTranslations();
+  return (
+    <div className="w-full h-[45vh] flex items-center justify-center text-[#7a4a2e]">
+      {t("map.loading")}
+    </div>
+  );
+};
+
 const Location = dynamic(
   () => import("../home/locations").then((mod) => mod.Location),
   {
     ssr: false,
-    loading: () => (
-      <div className="w-full h-[45vh] flex items-center justify-center text-[#7a4a2e]">
-        Loading map...
-      </div>
-    ),
+    loading: () => <MapLoading />,
   },
 );
 

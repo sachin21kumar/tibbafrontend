@@ -97,9 +97,9 @@ export default function ViewCartModal({
         cutlery: data.cutlery,
       }).unwrap();
 
-      toast.success("Cart updated successfully");
+      toast.success(t("View_cart_model.updateSuccess"));
     } catch (error) {
-      toast.error("Failed to update cart");
+      toast.error(t("View_cart_model.updateFailed"));
     }
   };
 
@@ -175,7 +175,7 @@ export default function ViewCartModal({
 
                   <div className="mt-6 border rounded-xl p-4 bg-gray-50">
                     <p className="text-sm font-medium text-gray-700 mb-2 !font-[system-ui]">
-                      Special Instructions (Optional)
+                      {t("View_cart_model.specialInstructions")}
                     </p>
 
                     <div className="flex items-start gap-2 border-b pb-2">
@@ -183,7 +183,7 @@ export default function ViewCartModal({
                       <input
                         type="text"
                         {...register("specialInstructions")}
-                        placeholder="Add Cooking / Delivery Instructions"
+                        placeholder={t("View_cart_model.instructionsPlaceholder")}
                         className="w-full bg-transparent outline-none text-sm"
                       />
                     </div>
@@ -194,7 +194,7 @@ export default function ViewCartModal({
                         {...register("cutlery")}
                         className="h-4 w-4 accent-[#AD5727]"
                       />
-                      Add cutlery
+                      {t("View_cart_model.addCutlery")}
                     </label>
 
                     <div className="flex justify-end mt-3">
@@ -202,7 +202,7 @@ export default function ViewCartModal({
                         onClick={handleSubmit(onSubmit)}
                         className="px-4 py-1.5 text-sm rounded-full border border-[#AD5727] text-[#AD5727] hover:bg-[#AD5727] hover:text-white"
                       >
-                        Add
+                        {t("View_cart_model.add")}
                       </button>
                     </div>
                   </div>

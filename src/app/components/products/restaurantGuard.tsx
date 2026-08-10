@@ -87,7 +87,7 @@ export const RestaurantCard = ({ order }) => {
           {selectedOption === "delivery" ? (
             <div>
               <p className="text-xs sm:text-sm xl:text-sm text-[#AD5727] !font-[system-ui]">
-                Delivery fee: د.إ 3 (Free delivery on orders over د.إ 100)
+                {t("restaurantCard.deliveryFeeNote")}
               </p>
             </div>
           ) : (

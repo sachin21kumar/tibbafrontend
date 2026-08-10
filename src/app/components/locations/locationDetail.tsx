@@ -9,13 +9,18 @@ import Image from "next/image";
 import { Mail } from "lucide-react";
 import { useTranslations } from "@/i18n/TranslationProvider";
 
+const MapLoading = () => {
+  const { t } = useTranslations();
+  return (
+    <div className="w-full h-full flex items-center justify-center text-[#7a4a2e]">
+      {t("map.loading")}
+    </div>
+  );
+};
+
 const LocationDetailMap = dynamic(() => import("./locationDetailMap"), {
   ssr: false,
-  loading: () => (
-    <div className="w-full h-full flex items-center justify-center text-[#7a4a2e]">
-      Loading map...
-    </div>
-  ),
+  loading: () => <MapLoading />,
 });
 
 const openLocation = (lat: number, lng: number, googleLink?: string) => {
@@ -174,7 +179,8 @@ export default function LocationDetails({ location }: { location: Location }) {
                     >
                       <span className=" text-[14px]">{day}</span>
                       <span className={isToday ? "text-[#d1a054]" : ""}>
-                        {location?.operation_hours || "8:00 am – 3:00 am"}
+                        {location?.operation_hours ||
+                          t("locationdetail.defaultHours")}
                       </span>
                     </li>
                   );
@@ -198,7 +204,7 @@ export default function LocationDetails({ location }: { location: Location }) {
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-[#7a4a2e]">
-                Location map not available
+                {t("map.notAvailable")}
               </div>
             )}
           </div>

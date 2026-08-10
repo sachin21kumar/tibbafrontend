@@ -9,7 +9,7 @@ import { useGetCategoryQuery } from "../redux/query/categoryQuery/categoryQuery"
 
 const SignatureDishes = () => {
   const router = useRouter();
-  const { locale } = useTranslations();
+  const { locale, t } = useTranslations();
   const { data: products } = useGetProductsQuery({ limit: 500 });
   const { data: categories } = useGetCategoryQuery();
   const signatureCategory = categories?.data.find(
@@ -25,10 +25,10 @@ const SignatureDishes = () => {
     <section className="pt-20 px-4 sm:px-6 lg:px-8">
       <div className="text-center max-w-3xl mx-auto mb-14">
         <h2 className="font-semibold text-3xl sm:text-4xl md:text-5xl text-[#56381D]">
-          Our Signature Dishes
+          {t("signatureDishes.title")}
         </h2>
         <p className="mt-4 text-[#56381D] text-[15px] sm:text-base !font-[system-ui] leading-relaxed">
-          Crafted with authentic Yemeni spices and slow-cooked to perfection.
+          {t("signatureDishes.subtitle")}
         </p>
       </div>
 
@@ -63,7 +63,7 @@ const SignatureDishes = () => {
           onClick={() => router.push(`/${locale}/menu`)}
           className="px-10 py-3 flex m-auto items-center gap-2 justify-center font-[system-ui] bg-gradient-to-b from-[#56381D] cursor-pointer to-[#5a3416] text-white font-semibold tracking-wide text-lg rounded-md shadow-md hover:shadow-lg transition duration-300"
         >
-          Explore Full Menu <MdNavigateNext />
+          {t("signatureDishes.explore")} <MdNavigateNext />
         </button>
       </div>
     </section>

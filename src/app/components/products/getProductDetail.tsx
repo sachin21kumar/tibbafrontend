@@ -20,9 +20,10 @@ export default function ProductDetail() {
 
   const [addToCart, { isLoading: addingToCart }] = useAddToCartMutation();
 
-  if (isLoading) return <p className="text-center my-12">Loading product...</p>;
+  if (isLoading)
+    return <p className="text-center my-12">{t("productDetail.loading")}</p>;
   if (isError || !product)
-    return <p className="text-center my-12">Product not found.</p>;
+    return <p className="text-center my-12">{t("productDetail.notFound")}</p>;
 
   const productImage = product.imagePath
     ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
@@ -45,7 +46,7 @@ export default function ProductDetail() {
           <h1 className="text-2xl sm:text-3xl mb-2">{product.name}</h1>
           {product.categoryId && (
             <span className="text-sm text-gray-700 mb-4 capitalize block">
-              Category:{" "}
+              {t("productDetail.category")}{" "}
               <span className="text-black font-semibold">{categoryName}</span>
             </span>
           )}
@@ -80,11 +81,11 @@ export default function ProductDetail() {
               onClick={() => router.push(`/${locale}/cart`)}
               className="bg-[#d1a054] hover:opacity-90 text-white font-medium py-3 px-6 rounded-full shadow-md cursor-pointer transition-all duration-200 w-full md:w-auto"
             >
-              View Cart
+              {t("productDetail.viewCart")}
             </button>
 
             <button className="bg-[#d1a054] cursor-pointer hover:opacity-90 text-white font-medium py-3 px-6 rounded-full shadow-md transition-all duration-200 w-full md:w-auto">
-              Add to Cart
+              {t("productDetail.addToCart")}
             </button>
           </div>
         </div>

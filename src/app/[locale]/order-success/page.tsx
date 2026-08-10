@@ -9,13 +9,22 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const isAr = locale === "ar";
   const canonical = `${SITE_URL}/${locale}/order-success`;
   const image = `${SITE_URL}/header.webp`;
 
+  const title = isAr ? "تم تأكيد الطلب | طيبة" : "Order Confirmed | Tibba";
+  const description = isAr
+    ? "تم تقديم طلبك بنجاح لدى طيبة. شكرًا لطلبك معنا."
+    : "Your order has been successfully placed at Tibba. Thank you for ordering with us.";
+  const shortDescription = isAr
+    ? "تم تقديم طلبك بنجاح لدى طيبة."
+    : "Your order has been successfully placed at Tibba.";
+  const siteName = isAr ? "طيبة" : "Tibba";
+
   return {
-    title: "Order Confirmed | Tibba",
-    description:
-      "Your order has been successfully placed at Tibba. Thank you for ordering with us.",
+    title,
+    description,
 
     robots: {
       index: false, // NEVER index order confirmation pages
@@ -27,9 +36,9 @@ export async function generateMetadata({
     },
 
     openGraph: {
-      title: "Order Confirmed | Tibba",
-      description: "Your order has been successfully placed at Tibba.",
-      siteName: "Tibba",
+      title,
+      description: shortDescription,
+      siteName,
       type: "website",
       url: canonical,
       images: [image],
@@ -37,8 +46,8 @@ export async function generateMetadata({
 
     twitter: {
       card: "summary",
-      title: "Order Confirmed | Tibba",
-      description: "Your order has been successfully placed at Tibba.",
+      title,
+      description: shortDescription,
       images: [image],
     },
   };

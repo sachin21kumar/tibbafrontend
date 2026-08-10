@@ -6,15 +6,32 @@
     "contact": "Contact Us",
     "location": "Locations",
     "reservation": "Reservation",
-    "opentable": "OpenTable"
+    "opentable": "OpenTable",
+    "onlineOrdering": "Online Ordering"
   },
   "banner": {
     "title": "Tibba Restaurants",
     "order": "Online Ordering",
-    "description": "Welcome to <strong>{{name}}</strong>,A taste perfected by the world’s finest mandi chefs.Enjoy a memorable dining experience and explore our menu.",
+    "description": "Welcome to <strong>{{name}}</strong>, A taste perfected by the world’s finest mandi chefs.Enjoy a memorable dining experience and explore our menu.",
     "name": "Tibba Restaurants",
     "reservetable": "Reserve a Table",
     "viewmenu": "View Menu"
+  },
+  "bannerStats": {
+    "rating": "⭐ 4.7 Google Rating",
+    "signature": "Signature: Mandi / Fahsa / Saltah",
+    "halal": "100% Halal",
+    "parking": "Parking & Delivery"
+  },
+  "signatureDishes": {
+    "title": "Our Signature Dishes",
+    "subtitle": "Crafted with authentic Yemeni spices and slow-cooked to perfection.",
+    "explore": "Explore Full Menu"
+  },
+  "map": {
+    "loading": "Loading map...",
+    "notAvailable": "Location map not available",
+    "noValidLocations": "No valid locations to display"
   },
   "offers": {
     "free_delivery": "Free Delivery on Order Over 100 د.إ"
@@ -76,7 +93,13 @@
     "discount": "Discount",
     "delivery": "Delivery Fee",
     "total": "Total",
-    "checkout": "Checkout"
+    "checkout": "Checkout",
+    "updateSuccess": "Cart updated successfully",
+    "updateFailed": "Failed to update cart",
+    "specialInstructions": "Special Instructions (Optional)",
+    "instructionsPlaceholder": "Add Cooking / Delivery Instructions",
+    "addCutlery": "Add cutlery",
+    "add": "Add"
   },
   "location": {
     "moredetail": "More Details",
@@ -91,7 +114,13 @@
     "thursday": "Thursday",
     "friday": "Friday",
     "saturday": "Saturday",
-    "sunday": "Sunday"
+    "sunday": "Sunday",
+    "defaultHours": "8:00 am – 3:00 am"
+  },
+  "moreInfo": {
+    "mainBranch": "Main Branch, Dubai",
+    "openDaily": "Open Daily:",
+    "defaultHours": "11:00 AM – 12:00 AM"
   },
   "reservation": {
     "opentable": "Book a Table",
@@ -101,6 +130,43 @@
     "guest_number": "Guest Number",
     "booking_loading": "BOOKING...",
     "find_table": "FIND A TABLE"
+  },
+  "reservationForm": {
+    "dateRequired": "Date is required",
+    "timeRequired": "Time is required",
+    "guestsRequired": "Guests required",
+    "createFailed": "Failed to create reservation"
+  },
+  "reservationFlow": {
+    "findTable": "Find a table",
+    "addDetails": "Add your details",
+    "reservationAt": "Reservation at Max Restaurant",
+    "people": "people",
+    "partnerNotice": "Max Restaurant has partnered with OpenTable to provide free, secure, and instantly confirmed online reservations.",
+    "learnMore": "Learn more",
+    "almostDone": "You’re almost done!",
+    "standardSeating": "people (Standard seating)",
+    "holdingTable": "We’re holding this table for you for",
+    "dinerDetails": "Diner details",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "phoneNumber": "Phone number",
+    "email": "Email",
+    "firstNameRequired": "First name is required",
+    "lastNameRequired": "Last name is required",
+    "phoneRequired": "Phone number is required",
+    "emailRequired": "Email is required",
+    "validEmail": "Enter a valid email",
+    "selectOccasion": "Select an occasion (optional)",
+    "birthday": "Birthday",
+    "anniversary": "Anniversary",
+    "specialRequest": "Add a special request (optional)",
+    "diningOffers": "Sign me up to receive dining offers from this restaurant.",
+    "openTableUpdates": "Receive OpenTable updates by email.",
+    "smsReminders": "Get text reminders about my reservation.",
+    "completeReservation": "Complete Reservation",
+    "reservationSuccess": "Reservation completed successfully",
+    "reservationFailed": "Failed to complete reservation"
   },
   "onlineordering": {
     "delivery": "Delivery",
@@ -113,7 +179,8 @@
   },
   "selectLocation": {
     "chooserestaurant": "Choose a Restaurant Location",
-    "nearestoutlet": "Select the nearest outlet to view the menu"
+    "nearestoutlet": "Select the nearest outlet to view the menu",
+    "closed": "Restaurant is currently closed. Opening hours: {{hours}}"
   },
   "cart": {
     "cart": "CART",
@@ -125,7 +192,8 @@
     "shipping": "SHIPPING",
     "total": "TOTAL",
     "proceedCheckout": "procedd to checkout",
-    "shippingNote": "Shipping costs are calculated during checkout"
+    "shippingNote": "Shipping costs are calculated during checkout",
+    "removeItem": "Remove item"
   },
   "checkout": {
     "bllingandshipping": "BILLING & SHIPPING",
@@ -162,7 +230,14 @@
     "paymentSuccess": "Payment successful!",
     "flat": "Flat / Apartment / State",
     "discount": "Discount",
-    "city": "City"
+    "city": "City",
+    "flatAddressRequired": "Flat address is required",
+    "cityRequired": "City is required",
+    "stripeNotLoaded": "Stripe has not loaded yet.",
+    "addressValidationFailed": "Address validation failed",
+    "paymentFailed": "Payment failed.",
+    "deliveryFee": "Delivery Fee",
+    "free": "Free"
   },
   "orderSuccess": {
     "thankyou": "Thank you for your order!",
@@ -215,5 +290,20 @@
     "addCategory": "Add Category",
     "categoryTitle": "Category Title",
     "saving": "Saving..."
+  },
+  "menuPage": {
+    "loading": "Loading...",
+    "searchPlaceholder": "Search menu",
+    "searchResults": "Search results"
+  },
+  "productDetail": {
+    "loading": "Loading product...",
+    "notFound": "Product not found.",
+    "category": "Category:",
+    "viewCart": "View Cart",
+    "addToCart": "Add to Cart"
+  },
+  "restaurantCard": {
+    "deliveryFeeNote": "Delivery fee: د.إ 3 (Free delivery on orders over د.إ 100)"
   }
 }

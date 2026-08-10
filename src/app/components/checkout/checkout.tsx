@@ -82,14 +82,14 @@ export const CheckoutPage = () => {
       return true;
     } catch {
       setIsAddressValid(false);
-      setAddressValidationError("Address validation failed");
+      setAddressValidationError(t("checkout.addressValidationFailed"));
       return false;
     }
   };
 
   const onSubmit = async (data: CheckoutFormValues) => {
     if (!stripe || !elements) {
-      toast.error("Stripe has not loaded yet.");
+      toast.error(t("checkout.stripeNotLoaded"));
       return;
     }
 
@@ -185,7 +185,7 @@ export const CheckoutPage = () => {
         window.location.href = `/${locale}/order-success?orderId=${orderId}`;
       }
     } catch (error: any) {
-      toast.error(error?.data?.message || "Payment failed.");
+      toast.error(error?.data?.message || t("checkout.paymentFailed"));
     }
   };
 
@@ -216,7 +216,7 @@ export const CheckoutPage = () => {
                   type="radio"
                   value="delivery"
                   {...register("deliveryType", {
-                    required: "Please select delivery type",
+                    required: t("validation.select_delivery"),
                   })}
                   className="hidden peer"
                 />
@@ -310,7 +310,7 @@ export const CheckoutPage = () => {
               </label>
               <input
                 {...register("address", {
-                  required: "Flat address is required",
+                  required: t("checkout.flatAddressRequired"),
                 })}
                 className={`w-full border-b text-[#AD5727] !font-[system-ui] focus:outline-none py-2 ${
                   isSubmitted && errors.address
@@ -334,7 +334,7 @@ export const CheckoutPage = () => {
               </label>
               <input
                 {...register("city", {
-                  required: "City is required",
+                  required: t("checkout.cityRequired"),
                 })}
                 className={`w-full border-b text-[#AD5727] !font-[system-ui] focus:outline-none py-2 ${
                   isSubmitted && errors.city
@@ -492,11 +492,11 @@ export const CheckoutPage = () => {
               {cart?.deliveryFee !== undefined && (
                 <tr>
                   <th className="py-2 font-bold text-left text-[#AD5727]">
-                    Delivery Fee
+                    {t("checkout.deliveryFee")}
                   </th>
                   <td className="py-2 text-[#AD5727] text-left font-[system-ui]">
                     {cart.deliveryFee === 0
-                      ? "Free"
+                      ? t("checkout.free")
                       : `د.إ ${cart.deliveryFee.toFixed(2)}`}
                   </td>
                 </tr>

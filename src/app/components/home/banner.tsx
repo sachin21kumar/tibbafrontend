@@ -71,25 +71,25 @@ export const Banner = () => {
             <div className="flex flex-col items-center gap-2">
               <FaStar className="text-[#d1a054]" size={20} />
               <p className="text-sm font-semibold text-gray-800 !font-[system-ui]">
-                ⭐ 4.7 Google Rating
+                {t("bannerStats.rating")}
               </p>
             </div>
             <div className="flex flex-col items-center gap-2">
               <FaUtensils className="text-[#d1a054]" size={20} />
               <p className="text-sm font-semibold text-gray-800 !font-[system-ui]">
-                Signature: Mandi / Fahsa / Saltah
+                {t("bannerStats.signature")}
               </p>
             </div>
             <div className="flex flex-col items-center gap-2">
               <FaMosque className="text-[#d1a054]" size={20} />
               <p className="text-sm font-semibold text-gray-800 !font-[system-ui]">
-                100% Halal
+                {t("bannerStats.halal")}
               </p>
             </div>
             <div className="flex flex-col items-center gap-2">
               <FaCar className="text-[#d1a054]" size={20} />
               <p className="text-sm font-semibold text-gray-800 !font-[system-ui]">
-                Parking & Delivery
+                {t("bannerStats.parking")}
               </p>
             </div>
           </div>

@@ -49,7 +49,7 @@ export default function OpenTable() {
       router.push(`/${locale}/reservation?${query}`);
     } catch (error: any) {
       setErrorMsg(
-        error?.response?.data?.message || "Failed to create reservation",
+        error?.response?.data?.message || t("reservationForm.createFailed"),
       );
     }
   };
@@ -106,7 +106,9 @@ export default function OpenTable() {
               <input
                 type="date"
                 className="border-b border-[#AD5727] text-[#AD5727] py-2 bg-transparent focus:outline-none"
-                {...register("date", { required: "Date is required" })}
+                {...register("date", {
+                  required: t("reservationForm.dateRequired"),
+                })}
               />
               {errors.date && (
                 <span className="text-red-500 text-[11px]">
@@ -121,7 +123,9 @@ export default function OpenTable() {
               </label>
               <select
                 className="border-b border-[#AD5727] text-[#AD5727] py-2 bg-transparent focus:outline-none"
-                {...register("time", { required: "Time is required" })}
+                {...register("time", {
+                  required: t("reservationForm.timeRequired"),
+                })}
               >
                 {generateTimeSlots().map((time) => (
                   <option key={time} value={time}>
@@ -142,7 +146,9 @@ export default function OpenTable() {
               </label>
               <select
                 className="border-b border-[#AD5727] text-[#AD5727] py-2 bg-transparent focus:outline-none"
-                {...register("guests", { required: "Guests required" })}
+                {...register("guests", {
+                  required: t("reservationForm.guestsRequired"),
+                })}
               >
                 {Array.from({ length: 9 }, (_, i) => (
                   <option key={i + 2} value={i + 2}>

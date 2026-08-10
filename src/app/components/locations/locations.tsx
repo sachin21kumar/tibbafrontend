@@ -5,15 +5,21 @@ import Image from "next/image";
 import { Mail } from "lucide-react";
 import { useTranslations } from "@/i18n/TranslationProvider";
 import { locationSlug } from "@/lib/slug";
+
+const MapLoading = () => {
+  const { t } = useTranslations();
+  return (
+    <div className="w-full h-[45vh] flex items-center justify-center text-gray-500">
+      {t("map.loading")}
+    </div>
+  );
+};
+
 const Location = dynamic(
   () => import("../home/locations").then((mod) => mod.Location),
   {
     ssr: false,
-    loading: () => (
-      <div className="w-full h-[45vh] flex items-center justify-center text-gray-500">
-        Loading map...
-      </div>
-    ),
+    loading: () => <MapLoading />,
   },
 );
 interface Location {

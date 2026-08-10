@@ -10,9 +10,13 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const isAr = locale === "ar";
   const canonical = `${SITE_URL}/${locale}/reservation`;
-  const title = "Reservation | Tibba";
-  const description = "Make a reservation at Tibba restaurant.";
+  const title = isAr ? "الحجز | طيبة" : "Reservation | Tibba";
+  const description = isAr
+    ? "احجز طاولة في مطعم طيبة."
+    : "Make a reservation at Tibba restaurant.";
+  const siteName = isAr ? "طيبة" : "Tibba";
   const image = `${SITE_URL}/header.webp`;
 
   return {
@@ -28,7 +32,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      siteName: "Tibba",
+      siteName,
       type: "website",
       url: canonical,
       images: [image],

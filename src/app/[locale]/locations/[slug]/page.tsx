@@ -58,6 +58,7 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale; slug: string }>;
 }): Promise<Metadata> {
   const { locale, slug } = await params;
+  const isAr = locale === "ar";
 
   const locations = await getLocations();
   const location = locations.find(
@@ -66,11 +67,16 @@ export async function generateMetadata({
 
   const name = location
     ? locationDisplayName(location.name)
-    : "Tibba Restaurant";
+    : isAr
+      ? "مطعم طيبة"
+      : "Tibba Restaurant";
 
   const canonical = `${SITE_URL}/${locale}/locations/${slug}`;
-  const title = `${name} | Tibba Restaurant`;
-  const description = `Visit the ${name} branch of Tibba Restaurant. Find address, opening hours, contact details and directions.`;
+  const siteName = isAr ? "مطعم طيبة" : "Tibba Restaurant";
+  const title = isAr ? `${name} | مطعم طيبة` : `${name} | Tibba Restaurant`;
+  const description = isAr
+    ? `قم بزيارة فرع ${name} التابع لمطعم طيبة. اعثر على العنوان، ومواعيد العمل، وبيانات التواصل، والاتجاهات.`
+    : `Visit the ${name} branch of Tibba Restaurant. Find address, opening hours, contact details and directions.`;
   const image = location?.imagePath
     ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location.imagePath}`
     : `${SITE_URL}/locations.webp`;
@@ -84,7 +90,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      siteName: "Tibba Restaurant",
+      siteName,
       type: "website",
       url: canonical,
       images: [image],

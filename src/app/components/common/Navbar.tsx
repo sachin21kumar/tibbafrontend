@@ -238,7 +238,7 @@ const Navbar = () => {
                   href={`/${locale}/selectLocation`}
                   className={`bg-white text-[#d1a054] px-4 py-2.5 rounded-sm font-semibold tracking-widest text-xs uppercase transition-all duration-300 `}
                 >
-                  Online Ordering
+                  {t("nav.onlineOrdering")}
                 </a>
               </div>
               <div className="flex items-center gap-4">
@@ -256,7 +256,7 @@ const Navbar = () => {
               { label: t("nav.home"), path: `/${locale}` },
               { label: t("nav.menu"), path: `/${locale}/menu` },
               { label: t("nav.contact"), path: `/${locale}/contact` },
-              { label: "Online Ordering", path: `/${locale}/selectLocation` },
+              { label: t("nav.onlineOrdering"), path: `/${locale}/selectLocation` },
               { label: t("nav.location"), path: `/${locale}/locations` },
               { label: t("nav.reservation"), path: `/${locale}/opentable` },
             ].map((item) => (

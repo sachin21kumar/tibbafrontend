@@ -9,13 +9,27 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const isAr = locale === "ar";
   const canonical = `${SITE_URL}/${locale}/opentable`;
   const image = `${SITE_URL}/header.webp`;
 
+  const title = isAr
+    ? "الحجوزات | مطعم طيبة"
+    : "Reservations | Tibba Restaurant";
+  const description = isAr
+    ? "احجز طاولة في مطعم طيبة واستمتع بالمأكولات اليمنية الأصيلة. احجز طاولتك عبر الإنترنت بسرعة وسهولة."
+    : "Book a table at Tibba Restaurant and enjoy authentic Yemeni cuisine. Reserve your table online quickly and easily.";
+  const ogDescription = isAr
+    ? "احجز طاولة في مطعم طيبة واستمتع بالنكهات اليمنية الأصيلة."
+    : "Reserve a table at Tibba Restaurant and enjoy authentic Yemeni flavors.";
+  const twitterDescription = isAr
+    ? "احجز طاولتك في مطعم طيبة واستمتع بالمأكولات اليمنية الأصيلة."
+    : "Book your table at Tibba Restaurant and enjoy authentic Yemeni cuisine.";
+  const siteName = isAr ? "مطعم طيبة" : "Tibba Restaurant";
+
   return {
-    title: "Reservations | Tibba Restaurant",
-    description:
-      "Book a table at Tibba Restaurant and enjoy authentic Yemeni cuisine. Reserve your table online quickly and easily.",
+    title,
+    description,
 
     robots: {
       index: true,
@@ -27,10 +41,9 @@ export async function generateMetadata({
     },
 
     openGraph: {
-      title: "Reservations | Tibba Restaurant",
-      description:
-        "Reserve a table at Tibba Restaurant and enjoy authentic Yemeni flavors.",
-      siteName: "Tibba Restaurant",
+      title,
+      description: ogDescription,
+      siteName,
       type: "website",
       url: canonical,
       images: [image],
@@ -38,9 +51,8 @@ export async function generateMetadata({
 
     twitter: {
       card: "summary_large_image",
-      title: "Reservations | Tibba Restaurant",
-      description:
-        "Book your table at Tibba Restaurant and enjoy authentic Yemeni cuisine.",
+      title,
+      description: twitterDescription,
       images: [image],
     },
   };

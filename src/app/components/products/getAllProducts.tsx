@@ -16,6 +16,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { setLocation } from "../redux/slices/orderSlice";
 import Cookies from "js-cookie";
 import Image from "next/image";
+import { useTranslations } from "@/i18n/TranslationProvider";
 function useDebounce<T>(value: T, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
@@ -33,6 +34,7 @@ interface Category {
 }
 
 export default function MenuPage() {
+  const { t } = useTranslations();
   const savedLocationId = Cookies.get("selectedLocationId");
 
   const router = useRouter();
@@ -210,7 +212,7 @@ export default function MenuPage() {
   useEffect(() => setIsClient(true), []);
 
   if (categoriesLoading || productsLoading) {
-    return <p className="text-center py-10">Loading...</p>;
+    return <p className="text-center py-10">{t("menuPage.loading")}</p>;
   }
 
   return (
@@ -261,7 +263,7 @@ export default function MenuPage() {
         <div className="flex gap-[10px] mx-auto debounce">
           <aside className="hidden  xl:block shadow-2xl h-screen p-4 sticky top-[130px] h-fit flex-none w-[19%]">
             <input
-              placeholder="Search menu"
+              placeholder={t("menuPage.searchPlaceholder")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full mb-4 rounded-full font-[system-ui] border px-4 py-2 text-sm outline-none"
@@ -294,7 +296,7 @@ export default function MenuPage() {
           <main className="flex-1">
             {debouncedSearch && filteredProducts.length > 0 && (
               <h2 className="text-2xl font-semibold mb-6 text-[#AD5727]">
-                Search results
+                {t("menuPage.searchResults")}
               </h2>
             )}
             <div

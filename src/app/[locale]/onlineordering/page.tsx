@@ -32,13 +32,22 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const isAr = locale === "ar";
   const canonical = `${SITE_URL}/${locale}/onlineordering`;
   const image = `${SITE_URL}/header.webp`;
 
+  const title = isAr ? "المتجر | مطعم طيبة" : "Shop | Tibba Restaurant";
+  const description = isAr
+    ? "تصفح قائمة مطعم طيبة التي تضم أطباقًا يمنية أصيلة ووجبات طازجة ونكهات تقليدية. الطلب عبر الإنترنت قريبًا."
+    : "Browse the Tibba Restaurant menu featuring authentic Yemeni dishes, fresh meals, and traditional flavors. Online ordering coming soon.";
+  const shortDescription = isAr
+    ? "استكشف قائمة مطعم طيبة بالمأكولات اليمنية الأصيلة. الطلب عبر الإنترنت قريبًا."
+    : "Explore the Tibba Restaurant menu with authentic Yemeni cuisine. Online ordering coming soon.";
+  const siteName = isAr ? "مطعم طيبة" : "Tibba Restaurant";
+
   return {
-    title: "Shop | Tibba Restaurant",
-    description:
-      "Browse the Tibba Restaurant menu featuring authentic Yemeni dishes, fresh meals, and traditional flavors. Online ordering coming soon.",
+    title,
+    description,
 
     robots: {
       index: true,
@@ -50,10 +59,9 @@ export async function generateMetadata({
     },
 
     openGraph: {
-      title: "Shop | Tibba Restaurant",
-      description:
-        "Explore the Tibba Restaurant menu with authentic Yemeni cuisine. Online ordering coming soon.",
-      siteName: "Tibba Restaurant",
+      title,
+      description: shortDescription,
+      siteName,
       type: "website",
       url: canonical,
       images: [image],
@@ -61,9 +69,8 @@ export async function generateMetadata({
 
     twitter: {
       card: "summary_large_image",
-      title: "Shop | Tibba Restaurant",
-      description:
-        "Explore the Tibba Restaurant menu with authentic Yemeni cuisine. Online ordering coming soon.",
+      title,
+      description: shortDescription,
       images: [image],
     },
   };

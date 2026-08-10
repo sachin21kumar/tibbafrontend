@@ -82,18 +82,18 @@ export default function ReservationPage() {
                 <span className="w-5 h-5 rounded-full bg-[#AD5727] text-white flex items-center justify-center text-xs">
                   1
                 </span>
-                Find a table
+                {t("reservationFlow.findTable")}
               </span>
               <span className="flex items-center gap-2">
                 <span className="w-5 h-5 rounded-full border flex items-center justify-center text-xs">
                   2
                 </span>
-                Add your details
+                {t("reservationFlow.addDetails")}
               </span>
             </div>
 
             <h2 className="text-[24px] font-[system-ui] py-[19px] text-[#AD5727] font-bold border-b border-b-[#AD5727]">
-              Reservation at Max Restaurant
+              {t("reservationFlow.reservationAt")}
             </h2>
           </div>
 
@@ -124,7 +124,7 @@ export default function ReservationPage() {
                 const guest = i + 2;
                 return (
                   <option key={guest} value={guest}>
-                    {guest} people
+                    {guest} {t("reservationFlow.people")}
                   </option>
                 );
               })}
@@ -140,7 +140,7 @@ export default function ReservationPage() {
             </select>
           </div> */}
           <button className="w-full bg-[#AD5727] text-white py-3 rounded font-semibold mb-4 cursor-pointer">
-            Find a table
+            {t("reservationFlow.findTable")}
           </button>
 
           <div className="flex flex-wrap justify-between gap-2 mb-4">
@@ -161,10 +161,12 @@ export default function ReservationPage() {
               OpenTable
             </div>
             <span className="font-[system-ui]">
-              Max Restaurant has partnered with OpenTable to provide free,
-              secure, and instantly confirmed online reservations.
+              {t("reservationFlow.partnerNotice")}
             </span>
-            .<span className="text-[#AD5727] font-[system-ui]">Learn more</span>
+            .
+            <span className="text-[#AD5727] font-[system-ui]">
+              {t("reservationFlow.learnMore")}
+            </span>
           </div>
         </div>
       </div>

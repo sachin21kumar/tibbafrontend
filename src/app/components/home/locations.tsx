@@ -5,6 +5,7 @@ import "leaflet/dist/leaflet.css";
 import L, { LatLngExpression } from "leaflet";
 import { useEffect } from "react";
 import { useGetLocationsQuery } from "../redux/query/locationsQuery/location.query";
+import { useTranslations } from "@/i18n/TranslationProvider";
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 
@@ -48,12 +49,13 @@ const openLocation = (lat: number, lng: number, googleLink?: string) => {
 };
 
 export const Location = () => {
+  const { t } = useTranslations();
   const { data: locations, isLoading } = useGetLocationsQuery();
 
   if (isLoading) {
     return (
       <div className="w-full h-[45vh] flex items-center justify-center text-[#7a4a2e]">
-        Loading map...
+        {t("map.loading")}
       </div>
     );
   }
@@ -61,7 +63,7 @@ export const Location = () => {
   if (!locations || locations.length === 0) {
     return (
       <div className="w-full h-[45vh] flex items-center justify-center text-[#7a4a2e]">
-        Location map not available
+        {t("map.notAvailable")}
       </div>
     );
   }
@@ -77,7 +79,7 @@ export const Location = () => {
   if (validLocations.length === 0) {
     return (
       <div className="w-full h-[45vh] flex items-center justify-center text-[#7a4a2e]">
-        No valid locations to display
+        {t("map.noValidLocations")}
       </div>
     );
   }

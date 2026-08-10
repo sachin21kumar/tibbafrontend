@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useTranslations } from "@/i18n/TranslationProvider";
 
 type FormValues = {
   firstName: string;
@@ -19,6 +20,7 @@ type FormValues = {
 };
 
 export default function ReservationDetails() {
+  const { t } = useTranslations();
   const params = useSearchParams();
 
   const date = params.get("date") || "";
@@ -69,10 +71,11 @@ export default function ReservationDetails() {
         payload,
       );
       reset();
-      toast.success("Reservation completed successfully");
+      toast.success(t("reservationFlow.reservationSuccess"));
     } catch (err: any) {
       toast.error(
-        err?.response?.data?.message || "Failed to complete reservation",
+        err?.response?.data?.message ||
+          t("reservationFlow.reservationFailed"),
       );
 
       console.error(err);
@@ -88,19 +91,19 @@ export default function ReservationDetails() {
               <span className="w-5 h-5 rounded-full bg-green-600 text-white flex items-center justify-center text-xs">
                 ✓
               </span>
-              Find a table
+              {t("reservationFlow.findTable")}
             </span>
             <span className="flex items-center gap-2 text-red-600">
               <span className="w-5 h-5 rounded-full bg-red-600 text-white flex items-center justify-center text-xs">
                 2
               </span>
-              Add your details
+              {t("reservationFlow.addDetails")}
             </span>
           </div>
         </div>
 
         <h2 className="text-xl font-semibold font-[system-ui] text-[#AD5727] mb-4">
-          You’re almost done!
+          {t("reservationFlow.almostDone")}
         </h2>
 
         <div className="flex gap-4 mb-4">
@@ -108,26 +111,28 @@ export default function ReservationDetails() {
           <div>
             <h3 className="font-semibold text-[#AD5727]">Max Restaurant</h3>
             <div className="text-sm text-[#7a4a2e]">
-              {date} · {time} · {guests} people (Standard seating)
+              {date} · {time} · {guests} {t("reservationFlow.standardSeating")}
             </div>
           </div>
         </div>
 
         <div className="bg-blue-50 text-sm text-[#7a4a2e] p-3 rounded mb-4">
-          We’re holding this table for you for{" "}
+          {t("reservationFlow.holdingTable")}{" "}
           <strong>{formatTime(timeLeft)}</strong>
         </div>
 
-        <h4 className="font-semibold mb-3 text-[#AD5727]">Diner details</h4>
+        <h4 className="font-semibold mb-3 text-[#AD5727]">
+          {t("reservationFlow.dinerDetails")}
+        </h4>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <input
                 className="border border-[#AD5727] focus:ring-[#AD5727] focus:outline-none text-[#7a4a2e] !font-[system-ui] p-3 rounded w-full"
-                placeholder="First name"
+                placeholder={t("reservationFlow.firstName")}
                 {...register("firstName", {
-                  required: "First name is required",
+                  required: t("reservationFlow.firstNameRequired"),
                 })}
               />
               {errors.firstName && (
@@ -140,8 +145,10 @@ export default function ReservationDetails() {
             <div>
               <input
                 className="border border-[#AD5727] focus:ring-[#AD5727] focus:outline-none text-[#7a4a2e] !font-[system-ui] p-3 rounded w-full"
-                placeholder="Last name"
-                {...register("lastName", { required: "Last name is required" })}
+                placeholder={t("reservationFlow.lastName")}
+                {...register("lastName", {
+                  required: t("reservationFlow.lastNameRequired"),
+                })}
               />
               {errors.lastName && (
                 <span className="text-red-700 text-[11px]">
@@ -153,8 +160,10 @@ export default function ReservationDetails() {
             <div>
               <input
                 className="border border-[#AD5727] focus:ring-[#AD5727] focus:outline-none text-[#7a4a2e] !font-[system-ui] p-3 rounded w-full"
-                placeholder="Phone number"
-                {...register("phone", { required: "Phone number is required" })}
+                placeholder={t("reservationFlow.phoneNumber")}
+                {...register("phone", {
+                  required: t("reservationFlow.phoneRequired"),
+                })}
               />
               {errors.phone && (
                 <span className="text-red-700 text-[11px]">
@@ -166,13 +175,13 @@ export default function ReservationDetails() {
             <div>
               <input
                 className="border border-[#AD5727] focus:ring-[#AD5727] focus:outline-none text-[#7a4a2e] !font-[system-ui] p-3 rounded w-full"
-                placeholder="Email"
+                placeholder={t("reservationFlow.email")}
                 type="email"
                 {...register("email", {
-                  required: "Email is required",
+                  required: t("reservationFlow.emailRequired"),
                   pattern: {
                     value: /^\S+@\S+$/i,
-                    message: "Enter a valid email",
+                    message: t("reservationFlow.validEmail"),
                   },
                 })}
               />
@@ -187,14 +196,14 @@ export default function ReservationDetails() {
               className="border border-[#AD5727] focus:ring-[#AD5727] focus:outline-none text-[#7a4a2e] !font-[system-ui] p-3 rounded md:col-span-2"
               {...register("occasion")}
             >
-              <option>Select an occasion (optional)</option>
-              <option>Birthday</option>
-              <option>Anniversary</option>
+              <option>{t("reservationFlow.selectOccasion")}</option>
+              <option>{t("reservationFlow.birthday")}</option>
+              <option>{t("reservationFlow.anniversary")}</option>
             </select>
 
             <textarea
               className="border p-3 border-[#AD5727] focus:ring-[#AD5727] focus:outline-none rounded md:col-span-2"
-              placeholder="Add a special request (optional)"
+              placeholder={t("reservationFlow.specialRequest")}
               maxLength={75}
               {...register("request")}
             />
@@ -203,17 +212,17 @@ export default function ReservationDetails() {
           <div className="mt-4 space-y-2 text-sm">
             <label className="flex items-center gap-2 text-[#7a4a2e]">
               <input type="checkbox" {...register("offers")} />
-              Sign me up to receive dining offers from this restaurant.
+              {t("reservationFlow.diningOffers")}
             </label>
 
             <label className="flex items-center gap-2 text-[#7a4a2e]">
               <input type="checkbox" {...register("opentableEmails")} />
-              Receive OpenTable updates by email.
+              {t("reservationFlow.openTableUpdates")}
             </label>
 
             <label className="flex items-center gap-2 text-[#7a4a2e]">
               <input type="checkbox" {...register("smsUpdates")} />
-              Get text reminders about my reservation.
+              {t("reservationFlow.smsReminders")}
             </label>
           </div>
 
@@ -222,7 +231,7 @@ export default function ReservationDetails() {
               type="submit"
               className="bg-[#AD5727] cursor-pointer py-3 w-full rounded-sm text-white font-bold"
             >
-              Complete Reservation
+              {t("reservationFlow.completeReservation")}
             </button>
           </div>
         </form>

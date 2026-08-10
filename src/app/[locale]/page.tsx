@@ -9,10 +9,13 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const isAr = locale === "ar";
   const canonical = `${SITE_URL}/${locale}`;
-  const title = "Home - Tibba Restaurant";
-  const description =
-    "Tibba Restaurant Welcome to Tibba Restaurant, where authentic Yemeni flavors thrive. Enjoy a memorable dining experience and explore our menu. Our Menu Free Delivery on Order Over $59";
+  const title = isAr ? "الرئيسية - مطعم طيبة" : "Home - Tibba Restaurant";
+  const description = isAr
+    ? "مطعم طيبة، حيث تزدهر النكهات اليمنية الأصيلة. استمتع بتجربة طعام لا تُنسى واستكشف قائمتنا. توصيل مجاني للطلبات التي تزيد عن 59 دولارًا."
+    : "Tibba Restaurant Welcome to Tibba Restaurant, where authentic Yemeni flavors thrive. Enjoy a memorable dining experience and explore our menu. Our Menu Free Delivery on Order Over $59";
+  const siteName = isAr ? "مطعم طيبة" : "Tibba Restaurant";
   const image = "https://tibba.ae/api/uploads/products/1785904435772-912862395.webp";
 
   return {
@@ -24,7 +27,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      siteName: "Tibba Restaurant",
+      siteName,
       type: "website",
       url: canonical,
       images: [image],
