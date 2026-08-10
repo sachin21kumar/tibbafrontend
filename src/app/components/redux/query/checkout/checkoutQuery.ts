@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { getGuestId } from "@/lib/guestId";
 
 export interface CheckoutResponse {
   clientSecret: string;
@@ -26,6 +27,7 @@ export const checkoutApi = createApi({
     baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
     prepareHeaders: (headers) => {
       headers.set("Content-Type", "application/json");
+      headers.set("x-guest-id", getGuestId());
       return headers;
     },
   }),

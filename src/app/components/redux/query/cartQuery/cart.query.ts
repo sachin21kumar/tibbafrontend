@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { getGuestId } from "@/lib/guestId";
 
 export interface CartProduct {
   _id: string;
@@ -66,6 +67,7 @@ export const cartApi = createApi({
     prepareHeaders: (headers) => {
       const locale = getLocale();
       headers.set("x-locale", locale);
+      headers.set("x-guest-id", getGuestId());
       return headers;
     },
   }),
