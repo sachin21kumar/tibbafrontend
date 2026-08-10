@@ -85,9 +85,9 @@ export default function LocationDetails({ location }: { location: Location }) {
           className="object-cover object-center"
         />
 
-        <h1 className="relative z-10 text-white text-2xl sm:text-3xl md:text-5xl font-cinzel bg-white/10 border border-white/32 backdrop-blur-[20px] px-4 sm:px-6 py-3 sm:py-4">
+        <div className="relative z-10 text-white text-2xl sm:text-3xl md:text-5xl font-cinzel bg-white/10 border border-white/32 backdrop-blur-[20px] px-4 sm:px-6 py-3 sm:py-4">
           {t("locationdetail.openUntil")} {location.operation_hours?.slice(7)}
-        </h1>
+        </div>
       </div>
 
       <section className="font-semibold">
@@ -160,9 +160,9 @@ export default function LocationDetails({ location }: { location: Location }) {
 
             <div className="bg-white shadow-xl border border-[#f8f8f8] md:p-8 font-semibold">
               <div className="flex items-center justify-center">
-                <h3 className="border-b border-b-[#d1a054] text-[#d1a054] font-[allura] text-[32px] pb-1 w-fit mb-6">
+                <h2 className="border-b border-b-[#d1a054] text-[#d1a054] font-[allura] text-[32px] pb-1 w-fit mb-6">
                   {t("locationdetail.opening_hours")}
-                </h3>
+                </h2>
               </div>
 
               <ul>
