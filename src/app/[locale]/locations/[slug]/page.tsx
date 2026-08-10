@@ -1,7 +1,11 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import LocationDetails from "@/app/components/locations/locationDetail";
-import { locationDisplayName, locationSlug } from "@/lib/slug";
+import {
+  canonicalLocationName,
+  locationDisplayName,
+  locationSlug,
+} from "@/lib/slug";
 import { toUaePhone } from "@/lib/phone";
 import { SITE_URL } from "@/lib/seoRoutes";
 import { Locale } from "@/i18n/config";
@@ -14,6 +18,17 @@ async function getLocations() {
   if (!res.ok) return [];
 
   return res.json();
+}
+
+// The list above is fetched without an x-locale header, so slugs stay
+// stable across languages (see locationSlug). Each location still carries
+// a `translations` map with per-locale name/description/area/location —
+// merge the current locale's copy in for display and metadata.
+function localizeLocation(location: any, locale: string) {
+  const translation = location?.translations?.[locale];
+  if (!translation) return location;
+
+  return { ...location, ...translation };
 }
 
 function convertTo24Hour(timeStr: string) {
@@ -62,11 +77,12 @@ export async function generateMetadata({
 
   const locations = await getLocations();
   const location = locations.find(
-    (loc: any) => locationSlug(loc.name) === slug,
+    (loc: any) => locationSlug(canonicalLocationName(loc)) === slug,
   );
+  const localized = location ? localizeLocation(location, locale) : null;
 
-  const name = location
-    ? locationDisplayName(location.name)
+  const name = localized
+    ? locationDisplayName(localized.name)
     : isAr
       ? "مطعم طيبة"
       : "Tibba Restaurant";
@@ -77,8 +93,8 @@ export async function generateMetadata({
   const description = isAr
     ? `قم بزيارة فرع ${name} التابع لمطعم طيبة. اعثر على العنوان، ومواعيد العمل، وبيانات التواصل، والاتجاهات.`
     : `Visit the ${name} branch of Tibba Restaurant. Find address, opening hours, contact details and directions.`;
-  const image = location?.imagePath
-    ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location.imagePath}`
+  const image = localized?.imagePath
+    ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${localized.imagePath}`
     : `${SITE_URL}/locations.webp`;
 
   return {
@@ -113,15 +129,17 @@ export default async function Page({
 
   const locations = await getLocations();
   const location = locations.find(
-    (loc: any) => locationSlug(loc.name) === slug,
+    (loc: any) => locationSlug(canonicalLocationName(loc)) === slug,
   );
 
   if (!location) notFound();
 
-  const hours = parseOperatingHours(location.operation_hours);
+  const localized = localizeLocation(location, locale);
 
-  const imageUrl = location.imagePath
-    ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location.imagePath}`
+  const hours = parseOperatingHours(localized.operation_hours);
+
+  const imageUrl = localized.imagePath
+    ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${localized.imagePath}`
     : "https://tibba.ae/logo.png";
 
   const url = `https://tibba.ae/${locale}/locations/${slug}`;
@@ -132,11 +150,11 @@ export default async function Page({
     "@id": `${url}#restaurant`,
     url,
 
-    name: locationDisplayName(location.name),
+    name: locationDisplayName(localized.name),
 
     image: imageUrl,
 
-    telephone: toUaePhone(location.telephone || location.mobileNumber),
+    telephone: toUaePhone(localized.telephone || localized.mobileNumber),
 
     priceRange: "$$",
 
@@ -144,7 +162,7 @@ export default async function Page({
 
     address: {
       "@type": "PostalAddress",
-      streetAddress: toStreetAddress(location.location || location.area),
+      streetAddress: toStreetAddress(localized.location || localized.area),
       addressLocality: "Dubai",
       addressRegion: "Dubai",
       addressCountry: "AE",
@@ -152,13 +170,13 @@ export default async function Page({
 
     geo: {
       "@type": "GeoCoordinates",
-      latitude: location.lat,
-      longitude: location.lng,
+      latitude: localized.lat,
+      longitude: localized.lng,
     },
 
     hasMap:
-      location.googleLink ||
-      `https://www.google.com/maps/search/?api=1&query=${location.lat},${location.lng}`,
+      localized.googleLink ||
+      `https://www.google.com/maps/search/?api=1&query=${localized.lat},${localized.lng}`,
 
     openingHoursSpecification: hours && [
       {
@@ -187,7 +205,7 @@ export default async function Page({
         }}
       />
 
-      <LocationDetails location={location} />
+      <LocationDetails location={localized} />
     </>
   );
 }

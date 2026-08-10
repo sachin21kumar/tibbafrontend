@@ -15,9 +15,9 @@ export const Footer = () => {
     <footer className="bg-[#56381D] pt-10 xl:pt-14">
       <div className="max-w-[1508px] mx-auto grid grid-cols-1 xl:grid-cols-3 gap-10 xl:gap-12 text-white px-4 sm:px-6">
         <div className="hidden xl:block text-center xl:text-left">
-          <h3 className="uppercase tracking-widest text-[18px]">
+          <h2 className="uppercase tracking-widest text-[18px]">
             {t("footer.lunch_time")}
-          </h3>
+          </h2>
 
           <div className="mt-2 h-[1px] w-[200px] sm:w-[260px] bg-gradient-to-r from-[#D1A054] to-transparent mx-auto xl:mx-0" />
 
@@ -30,9 +30,9 @@ export const Footer = () => {
         </div>
 
         <div className="text-center px-2 sm:px-0">
-          <h3 className="uppercase tracking-[3px] sm:tracking-[4px] text-[20px] sm:text-[22px] font-serif">
+          <h2 className="uppercase tracking-[3px] sm:tracking-[4px] text-[20px] sm:text-[22px] font-serif">
            {t("banner.title")}
-          </h3>
+          </h2>
           <div className="w-fit m-auto">
             <div className={`h-[9px] tracking-[4px] text-[8px] text-white bg-[radial-gradient(circle,_#d1a054_20%,_transparent_100%)] mx-auto`}>
               {t("brand.restaurant")}
@@ -53,9 +53,9 @@ export const Footer = () => {
 
         <div className="text-center xl:text-right">
           <div className="w-fit ml-auto flex flex-col justify-end">
-            <h3 className="hidden xl:block uppercase tracking-widest text-[18px]">
+            <h2 className="hidden xl:block uppercase tracking-widest text-[18px]">
               {t("footer.follow_us")}
-            </h3>
+            </h2>
 
             <div className="hidden xl:block mt-2 h-[1px]  sm:w-[345px] bg-gradient-to-l from-[#D1A054] to-transparent mx-auto xl:ml-auto" />
           </div>

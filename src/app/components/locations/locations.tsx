@@ -4,7 +4,7 @@ import { useGetLocationsQuery } from "../redux/query/locationsQuery/location.que
 import Image from "next/image";
 import { Mail } from "lucide-react";
 import { useTranslations } from "@/i18n/TranslationProvider";
-import { locationSlug } from "@/lib/slug";
+import { canonicalLocationName, locationSlug } from "@/lib/slug";
 
 const MapLoading = () => {
   const { t } = useTranslations();
@@ -131,7 +131,9 @@ export default function LocationCard() {
                   )}
                 </div>
                 <a
-                  href={`/${locale}/locations/${locationSlug(location.name)}`}
+                  href={`/${locale}/locations/${locationSlug(
+                    canonicalLocationName(location),
+                  )}`}
                   className="mt-6 w-fit text-[#AD5727] font-regular hover:text-yellow-600"
                 >
                   {t("location.moredetail")}

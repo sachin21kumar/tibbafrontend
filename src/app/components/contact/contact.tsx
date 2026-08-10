@@ -102,7 +102,7 @@ export const Contact = () => {
                 {card.icon}
               </div>
 
-              <h3 className="mt-8 text-[20px] text-[#AD5727]">{card.title}</h3>
+              <h2 className="mt-8 text-[20px] text-[#AD5727]">{card.title}</h2>
               <p className="mt-2 text-[#AD5727] !font-[system-ui] whitespace-pre-line">
                 {card.text}
               </p>

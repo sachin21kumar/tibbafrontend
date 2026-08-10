@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
+import { useTranslations } from "@/i18n/TranslationProvider";
 
 interface Category {
   _id: string;
@@ -15,6 +16,7 @@ export default function Gallery({
   categories: Category[];
   products: any[];
 }) {
+  const { t } = useTranslations();
   const [activeCategory, setActiveCategory] = useState<string>("");
 
   const sortedCategories = categories;
@@ -80,6 +82,10 @@ export default function Gallery({
       //   backgroundAttachment: "fixed",
       // }}
     >
+      <h1 className="text-center text-2xl sm:text-3xl md:text-4xl text-[#AD5727] mb-8">
+        {t("gallery.heading")}
+      </h1>
+
       <div className="flex gap-[10px] mx-auto">
         <aside className="hidden xl:block shadow-2xl sticky top-[120px] h-fit  flex-none w-[19%] p-4">
           <ul className="space-y-1 max-h-[80vh] debounce overflow-y-auto">

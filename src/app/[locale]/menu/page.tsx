@@ -3,9 +3,10 @@ import type { Metadata } from "next";
 import { SITE_URL } from "@/lib/seoRoutes";
 import { Locale } from "@/i18n/config";
 
-async function getCategories() {
+async function getCategories(locale: string) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category`, {
     cache: "no-store",
+    headers: { "x-locale": locale },
   });
 
   if (!res.ok) return [];
@@ -14,10 +15,10 @@ async function getCategories() {
   return json?.data ?? [];
 }
 
-async function getProducts() {
+async function getProducts(locale: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/product?page=1&limit=1000`,
-    { cache: "no-store" },
+    { cache: "no-store", headers: { "x-locale": locale } },
   );
 
   if (!res.ok) return [];
@@ -36,16 +37,12 @@ export async function generateMetadata({
   const canonical = `${SITE_URL}/${locale}/menu`;
   const image = `${SITE_URL}/header.webp`;
 
-  const title = isAr ? "معرض الصور | مطعم طيبة" : "Gallery | Tibba Restaurant";
+  const title = isAr
+    ? "قائمة مطعم طيبة | مأكولات يمنية أصيلة"
+    : "Tibba Restaurant Menu | Authentic Yemeni Cuisine";
   const description = isAr
-    ? "استكشف معرض صور مطعم طيبة الذي يضم أطباقًا يمنية أصيلة، وأجواءً تقليدية، ولحظات طعام لا تُنسى."
-    : "Explore the Tibba Restaurant gallery featuring authentic Yemeni dishes, traditional ambiance, and memorable dining moments.";
-  const ogDescription = isAr
-    ? "استكشف معرض مطعم طيبة الذي يعرض المأكولات اليمنية الأصيلة وأجواء طعام دافئة."
-    : "Explore the Tibba Restaurant gallery showcasing authentic Yemeni cuisine and a warm dining atmosphere.";
-  const twitterDescription = isAr
-    ? "استكشف معرض مطعم طيبة الذي يعرض المأكولات اليمنية الأصيلة وتجربة الطعام."
-    : "Explore the Tibba Restaurant gallery showcasing authentic Yemeni cuisine and dining experience.";
+    ? "استكشف قائمة مطعم طيبة التي تضم أطباقًا يمنية أصيلة، مندي، مدفون، مظبي، مأكولات بحرية، حلويات، عصائر طازجة والمزيد في دبي."
+    : "Explore Tibba Restaurant’s menu featuring authentic Yemeni dishes, mandi, madfoon, madhbi, seafood, desserts, fresh juices and more in Dubai.";
   const siteName = isAr ? "مطعم طيبة" : "Tibba Restaurant";
 
   return {
@@ -63,7 +60,7 @@ export async function generateMetadata({
 
     openGraph: {
       title,
-      description: ogDescription,
+      description,
       siteName,
       type: "website",
       url: canonical,
@@ -73,16 +70,22 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title,
-      description: twitterDescription,
+      description,
       images: [image],
     },
   };
 }
 
-export default async function Page() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}) {
+  const { locale } = await params;
+
   const [categories, products] = await Promise.all([
-    getCategories(),
-    getProducts(),
+    getCategories(locale),
+    getProducts(locale),
   ]);
 
   const schema = {

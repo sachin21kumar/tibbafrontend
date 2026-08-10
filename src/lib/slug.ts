@@ -1,5 +1,17 @@
 const DIACRITICS_REGEX = new RegExp("[\\u0300-\\u036f]", "g");
 
+// The API returns `name` translated to whatever locale was requested via
+// the x-locale header, but always includes the full `translations` map
+// alongside it. Slugs must stay identical across languages, so always
+// derive them from the English name — regardless of which locale the
+// location object itself was fetched with.
+export function canonicalLocationName(location: {
+  name: string;
+  translations?: { en?: { name?: string } };
+}): string {
+  return location?.translations?.en?.name || location?.name;
+}
+
 export function slugify(value: string): string {
   return value
     .toString()

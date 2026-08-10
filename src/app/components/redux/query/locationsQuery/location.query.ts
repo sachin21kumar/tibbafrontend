@@ -1,5 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+export interface LocationTranslation {
+  name?: string;
+  description?: string;
+  area?: string;
+  location?: string;
+}
+
 export interface Location {
   _id: string;
   name: string;
@@ -16,6 +23,10 @@ export interface Location {
   lat?: any;
   lng?: any;
   googleLink?: string;
+  translations?: {
+    en?: LocationTranslation;
+    ar?: LocationTranslation;
+  };
 }
 
 export interface CreateLocationPayload {

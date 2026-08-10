@@ -1,6 +1,10 @@
 import LocationCard from "@/app/components/locations/locations";
 import { Metadata } from "next";
-import { locationDisplayName, locationSlug } from "@/lib/slug";
+import {
+  canonicalLocationName,
+  locationDisplayName,
+  locationSlug,
+} from "@/lib/slug";
 import { SITE_URL } from "@/lib/seoRoutes";
 import { Locale } from "@/i18n/config";
 
@@ -13,11 +17,11 @@ export async function generateMetadata({
   const isAr = locale === "ar";
   const canonical = `${SITE_URL}/${locale}/locations`;
   const title = isAr
-    ? "أرشيف الفروع - مطعم طيبة"
-    : "Location Archive - Tibba Restaurant";
+    ? "فروع مطعم طيبة | فروعنا في دبي"
+    : "Tibba Restaurant Locations | Dubai Branches";
   const description = isAr
-    ? "استكشف جميع فروع مطعم طيبة. اعثر على العناوين، ومعلومات التواصل، والاتجاهات إلى أقرب فرع منك."
-    : "Explore all Tibba Restaurant locations. Find addresses, contact info, and directions to your nearest branch.";
+    ? "استكشف فروع مطعم طيبة في جميع أنحاء دبي. اعثر على عناوين الفروع، ومواعيد العمل، وبيانات التواصل، والاتجاهات."
+    : "Explore Tibba Restaurant locations across Dubai. Find branch addresses, opening hours, contact details and directions.";
   const siteName = isAr ? "مطعم طيبة" : "Tibba Restaurant";
   const image = `${SITE_URL}/locations.webp`;
 
@@ -54,7 +58,10 @@ export default async function Index({
   const { locale } = await params;
 
   const res = await fetch(API_URL, { cache: "no-store" });
-  const locations: { name: string }[] = await res.json();
+  const locations: {
+    name: string;
+    translations?: { en?: { name?: string } };
+  }[] = await res.json();
 
   const listUrl = `https://tibba.ae/${locale}/locations`;
 
@@ -67,7 +74,7 @@ export default async function Index({
     numberOfItems: locations.length,
     itemListOrder: "https://schema.org/ItemListOrderAscending",
     itemListElement: locations.map((loc, index) => {
-      const itemUrl = `https://tibba.ae/${locale}/locations/${locationSlug(loc.name)}`;
+      const itemUrl = `https://tibba.ae/${locale}/locations/${locationSlug(canonicalLocationName(loc))}`;
 
       return {
         "@type": "ListItem",

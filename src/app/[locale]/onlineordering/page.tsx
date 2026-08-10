@@ -3,9 +3,10 @@ import MenuPage from "../../components/products/getAllProducts";
 import { SITE_URL } from "@/lib/seoRoutes";
 import { Locale } from "@/i18n/config";
 
-async function getCategories() {
+async function getCategories(locale: string) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category`, {
     cache: "no-store",
+    headers: { "x-locale": locale },
   });
 
   if (!res.ok) return [];
@@ -14,10 +15,10 @@ async function getCategories() {
   return json?.data ?? [];
 }
 
-async function getProducts() {
+async function getProducts(locale: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/product?page=1&limit=1000`,
-    { cache: "no-store" },
+    { cache: "no-store", headers: { "x-locale": locale } },
   );
 
   if (!res.ok) return [];
@@ -76,10 +77,16 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}) {
+  const { locale } = await params;
+
   const [categories, products] = await Promise.all([
-    getCategories(),
-    getProducts(),
+    getCategories(locale),
+    getProducts(locale),
   ]);
 
   const hasMenuSection = categories

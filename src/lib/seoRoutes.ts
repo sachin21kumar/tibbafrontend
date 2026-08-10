@@ -1,4 +1,4 @@
-import { locationSlug } from "@/lib/slug";
+import { canonicalLocationName, locationSlug } from "@/lib/slug";
 
 export const SITE_URL = (process.env.SITE_URL ?? "https://tibba.ae").replace(
   /\/+$/,
@@ -43,7 +43,7 @@ export async function getDynamicLocationRoutes(): Promise<SeoRoute[]> {
       const locations = await res.json();
       for (const location of locations ?? []) {
         routes.push({
-          path: `/locations/${locationSlug(location.name)}`,
+          path: `/locations/${locationSlug(canonicalLocationName(location))}`,
           changeFrequency: "weekly",
           priority: 0.6,
         });

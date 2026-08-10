@@ -16,11 +16,12 @@ import { useTranslations } from "@/i18n/TranslationProvider";
 import { useChrome } from "@/app/common/ChromeContext";
 import { FaMapMarkerAlt, FaClock, FaPhoneAlt } from "react-icons/fa";
 import MoreInfo from "./moreinfo";
-import { locationSlug } from "@/lib/slug";
+import { canonicalLocationName, locationSlug } from "@/lib/slug";
 interface Location {
   _id: string;
   name: string;
   area?: string;
+  translations?: { en?: { name?: string } };
 }
 
 const Navbar = () => {
@@ -168,7 +169,9 @@ const Navbar = () => {
                       className="text-sm hover:text-[#d1a054] cursor-pointer"
                       onClick={() =>
                         navigate.push(
-                          `/${locale}/locations/${locationSlug(loc.name)}`,
+                          `/${locale}/locations/${locationSlug(
+                            canonicalLocationName(loc),
+                          )}`,
                         )
                       }
                     >

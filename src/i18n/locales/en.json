@@ -33,6 +33,9 @@
     "notAvailable": "Location map not available",
     "noValidLocations": "No valid locations to display"
   },
+  "gallery": {
+    "heading": "Tibba Restaurant Menu"
+  },
   "offers": {
     "free_delivery": "Free Delivery on Order Over 100 د.إ"
   },
