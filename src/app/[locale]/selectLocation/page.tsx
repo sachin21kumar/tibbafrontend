@@ -10,6 +10,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const canonical = `${SITE_URL}/${locale}/selectLocation`;
+  const image = `${SITE_URL}/header.webp`;
 
   return {
     title: "Select Location | Tibba",
@@ -32,6 +33,7 @@ export async function generateMetadata({
       siteName: "Tibba",
       type: "website",
       url: canonical,
+      images: [image],
     },
 
     twitter: {
@@ -39,6 +41,7 @@ export async function generateMetadata({
       title: "Select Location | Tibba",
       description:
         "Choose your delivery or pickup location to continue ordering from Tibba.",
+      images: [image],
     },
   };
 }

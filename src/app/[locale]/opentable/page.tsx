@@ -10,6 +10,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const canonical = `${SITE_URL}/${locale}/opentable`;
+  const image = `${SITE_URL}/header.webp`;
 
   return {
     title: "Reservations | Tibba Restaurant",
@@ -32,6 +33,7 @@ export async function generateMetadata({
       siteName: "Tibba Restaurant",
       type: "website",
       url: canonical,
+      images: [image],
     },
 
     twitter: {
@@ -39,6 +41,7 @@ export async function generateMetadata({
       title: "Reservations | Tibba Restaurant",
       description:
         "Book your table at Tibba Restaurant and enjoy authentic Yemeni cuisine.",
+      images: [image],
     },
   };
 }

@@ -39,6 +39,9 @@ export async function generateMetadata({
   const description =
     product?.description ||
     "View product details, pricing, and availability at Tibba Restaurant. Order authentic Yemeni food online.";
+  const image = product?.imagePath
+    ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${product.imagePath}`
+    : `${SITE_URL}/header.webp`;
 
   return {
     title,
@@ -59,12 +62,14 @@ export async function generateMetadata({
       siteName: "Tibba Restaurant",
       type: "website",
       url: canonical,
+      images: [image],
     },
 
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: [image],
     },
   };
 }

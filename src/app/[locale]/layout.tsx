@@ -9,6 +9,7 @@ import { getDictionary } from "@/i18n/dictionary";
 import { Locale } from "@/i18n/config";
 import { TranslationProvider } from "@/i18n/TranslationProvider";
 import { ChromeProvider } from "../common/ChromeContext";
+import { SITE_URL } from "@/lib/seoRoutes";
 
 const GTM_ID = "GTM-P8B889BZ";
 
@@ -27,6 +28,20 @@ export const metadata: Metadata = {
   description: "Multilingual Restaurant Website",
   verification: {
     google: "EN532v5Fkg6PH7eCzJHlxVvIRqw1rVDMQdVUQrYn5bY",
+  },
+  openGraph: {
+    title: "Tibba Restaurant",
+    description: "Multilingual Restaurant Website",
+    siteName: "Tibba Restaurant",
+    type: "website",
+    url: SITE_URL,
+    images: [`${SITE_URL}/header.webp`],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tibba Restaurant",
+    description: "Multilingual Restaurant Website",
+    images: [`${SITE_URL}/header.webp`],
   },
 };
 

@@ -10,16 +10,34 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const canonical = `${SITE_URL}/${locale}/reservation`;
+  const title = "Reservation | Tibba";
+  const description = "Make a reservation at Tibba restaurant.";
+  const image = `${SITE_URL}/header.webp`;
 
   return {
-    title: "Reservation | Tibba",
-    description: "Make a reservation at Tibba restaurant.",
+    title,
+    description,
     robots: {
       index: false,
       follow: false,
     },
     alternates: {
-      canonical: `${SITE_URL}/${locale}/reservation`,
+      canonical,
+    },
+    openGraph: {
+      title,
+      description,
+      siteName: "Tibba",
+      type: "website",
+      url: canonical,
+      images: [image],
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+      images: [image],
     },
   };
 }

@@ -68,11 +68,32 @@ export async function generateMetadata({
     ? locationDisplayName(location.name)
     : "Tibba Restaurant";
 
+  const canonical = `${SITE_URL}/${locale}/locations/${slug}`;
+  const title = `${name} | Tibba Restaurant`;
+  const description = `Visit the ${name} branch of Tibba Restaurant. Find address, opening hours, contact details and directions.`;
+  const image = location?.imagePath
+    ? `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/products/${location.imagePath}`
+    : `${SITE_URL}/locations.webp`;
+
   return {
-    title: `${name} | Tibba Restaurant`,
-    description: `Visit the ${name} branch of Tibba Restaurant. Find address, opening hours, contact details and directions.`,
+    title,
+    description,
     alternates: {
-      canonical: `${SITE_URL}/${locale}/locations/${slug}`,
+      canonical,
+    },
+    openGraph: {
+      title,
+      description,
+      siteName: "Tibba Restaurant",
+      type: "website",
+      url: canonical,
+      images: [image],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
     },
   };
 }

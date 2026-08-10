@@ -9,13 +9,31 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const canonical = `${SITE_URL}/${locale}`;
+  const title = "Home - Tibba Restaurant";
+  const description =
+    "Tibba Restaurant Welcome to Tibba Restaurant, where authentic Yemeni flavors thrive. Enjoy a memorable dining experience and explore our menu. Our Menu Free Delivery on Order Over $59";
+  const image = "https://tibba.ae/api/uploads/products/1785904435772-912862395.webp";
 
   return {
-    title: "Home - Tibba Restaurant",
-    description:
-      "Tibba Restaurant Welcome to Tibba Restaurant, where authentic Yemeni flavors thrive. Enjoy a memorable dining experience and explore our menu. Our Menu Free Delivery on Order Over $59",
+    title,
+    description,
     alternates: {
-      canonical: `${SITE_URL}/${locale}`,
+      canonical,
+    },
+    openGraph: {
+      title,
+      description,
+      siteName: "Tibba Restaurant",
+      type: "website",
+      url: canonical,
+      images: [image],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
     },
   };
 }

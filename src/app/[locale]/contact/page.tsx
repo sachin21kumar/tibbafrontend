@@ -9,13 +9,31 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const canonical = `${SITE_URL}/${locale}/contact`;
+  const title = "Contact Tibba Restaurant";
+  const description =
+    "Contact Tibba Restaurant for restaurant enquiries, opening hours, directions and branch information across Dubai.";
+  const image = `${SITE_URL}/header.webp`;
 
   return {
-    title: "Contact Tibba Restaurant",
-    description:
-      "Contact Tibba Restaurant for restaurant enquiries, opening hours, directions and branch information across Dubai.",
+    title,
+    description,
     alternates: {
-      canonical: `${SITE_URL}/${locale}/contact`,
+      canonical,
+    },
+    openGraph: {
+      title,
+      description,
+      siteName: "Tibba Restaurant",
+      type: "website",
+      url: canonical,
+      images: [image],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
     },
   };
 }
