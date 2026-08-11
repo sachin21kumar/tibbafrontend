@@ -31,6 +31,31 @@ const nextConfig = {
         destination: "/en/locations/tibba-al-aweer",
         permanent: true,
       },
+      {
+        source: "/en/locations/tibba-restaurant-for-mandi-madhbi-business-bay",
+        destination: "/en/locations/tibba-business-bay",
+        permanent: true,
+      },
+      {
+        source: "/en/locations/tibba-restaurant-for-mandi-madhbi-dic",
+        destination: "/en/locations/tibba-dic",
+        permanent: true,
+      },
+      {
+        source: "/en/locations/tibba-restaurant-for-mandi-madhbi-al-qusais",
+        destination: "/en/locations/tibba-al-qusais",
+        permanent: true,
+      },
+      {
+        source: "/en/locations/tibba-restaurant-for-mandi-madhbi-deira",
+        destination: "/en/locations/tibba-deira",
+        permanent: true,
+      },
+      {
+        source: "/en/locations/tibba-restaurant-for-mandi-madhbi-abu-hail",
+        destination: "/en/locations/tibba-abu-hail",
+        permanent: true,
+      },
     ];
   },
 };
