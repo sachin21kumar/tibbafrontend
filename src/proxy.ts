@@ -11,6 +11,14 @@ function detectBrowserLocale(request: NextRequest) {
 export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
+  // Single 301 straight to the localized URL — avoids the
+  // trailing-slash (308) + locale-prefix (307) redirect chain below.
+  if (pathname === "/locations" || pathname === "/locations/") {
+    const url = request.nextUrl.clone();
+    url.pathname = "/en/locations";
+    return NextResponse.redirect(url, 301);
+  }
+
   if (
     pathname.startsWith("/_next") ||
     pathname.startsWith("/api") ||
