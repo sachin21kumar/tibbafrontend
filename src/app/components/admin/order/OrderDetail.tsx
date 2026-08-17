@@ -11,7 +11,6 @@ type OrderItem = {
   quantity: number;
   productId?: {
     _id?: string;
-    name?: string;
     price?: number;
     image?: string;
     translations?: {
@@ -20,6 +19,7 @@ type OrderItem = {
     };
   };
   name?: string;
+  nameAr?: string;
   price?: number;
 };
 
@@ -51,11 +51,22 @@ type Order = {
 
 const getItemName = (item: OrderItem, locale: string) => {
   const translations = item.productId?.translations;
+
+  if (locale === "ar") {
+    return (
+      item.nameAr ||
+      translations?.ar?.name ||
+      item.name ||
+      translations?.en?.name ||
+      "Item"
+    );
+  }
+
   return (
-    translations?.[locale as "en" | "ar"]?.name ||
-    translations?.en?.name ||
-    item.productId?.name ||
     item.name ||
+    translations?.en?.name ||
+    item.nameAr ||
+    translations?.ar?.name ||
     "Item"
   );
 };
