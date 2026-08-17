@@ -14,6 +14,10 @@ type OrderItem = {
     name?: string;
     price?: number;
     image?: string;
+    translations?: {
+      en?: { name?: string };
+      ar?: { name?: string };
+    };
   };
   name?: string;
   price?: number;
@@ -45,8 +49,16 @@ type Order = {
   totalPrice?: number;
 };
 
-const getItemName = (item: OrderItem) =>
-  item.productId?.name || item.name || "Item";
+const getItemName = (item: OrderItem, locale: string) => {
+  const translations = item.productId?.translations;
+  return (
+    translations?.[locale as "en" | "ar"]?.name ||
+    translations?.en?.name ||
+    item.productId?.name ||
+    item.name ||
+    "Item"
+  );
+};
 
 const getItemPrice = (item: OrderItem) =>
   item.productId?.price ?? item.price ?? 0;
@@ -58,7 +70,7 @@ type UpdateOrderForm = {
 };
 
 export default function AdminOrdersPageDetail() {
-  const { t } = useTranslations();
+  const { t, locale } = useTranslations();
   const { id }: any = useParams();
 
   const statusOptions = [
@@ -374,7 +386,7 @@ export default function AdminOrdersPageDetail() {
                                     className="text-[#7a4a2e]"
                                   >
                                     <td className="py-1">
-                                      {getItemName(item)}
+                                      {getItemName(item, locale)}
                                     </td>
                                     <td className="py-1 text-right">
                                       {item.quantity}
@@ -450,7 +462,7 @@ export default function AdminOrdersPageDetail() {
                           className="flex items-center justify-between text-sm text-[#7a4a2e]"
                         >
                           <span>
-                            {getItemName(item)} × {item.quantity}
+                            {getItemName(item, locale)} × {item.quantity}
                           </span>
                           <span>
                             د.إ{" "}
