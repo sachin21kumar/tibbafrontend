@@ -1,9 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useTranslations } from "@/i18n/TranslationProvider";
 import { useParams } from "next/navigation";
+import { ChevronDown, ChevronUp } from "lucide-react";
+
+type OrderItem = {
+  _id?: string;
+  quantity: number;
+  productId?: {
+    _id?: string;
+    name?: string;
+    price?: number;
+    image?: string;
+  };
+  name?: string;
+  price?: number;
+};
 
 type Order = {
   _id: string;
@@ -26,7 +40,16 @@ type Order = {
   paymentMethod: string;
   specialInstructions?: string;
   cutlery?: boolean;
+  items?: OrderItem[];
+  subtotal?: number;
+  totalPrice?: number;
 };
+
+const getItemName = (item: OrderItem) =>
+  item.productId?.name || item.name || "Item";
+
+const getItemPrice = (item: OrderItem) =>
+  item.productId?.price ?? item.price ?? 0;
 
 type UpdateOrderForm = {
   OrderStatus: string;
@@ -51,6 +74,11 @@ export default function AdminOrdersPageDetail() {
   const [editedOrders, setEditedOrders] = useState<
     Record<string, UpdateOrderForm>
   >({});
+  const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
+
+  const toggleExpanded = (orderId: string) => {
+    setExpandedOrderId((prev) => (prev === orderId ? null : orderId));
+  };
 
   const fetchOrders = async (locationId: string) => {
     try {
@@ -162,6 +190,7 @@ export default function AdminOrdersPageDetail() {
               <thead className="bg-gray-50 sticky top-0 z-10">
                 <tr className="text-xs font-semibold uppercase tracking-wider text-[#7a4a2e]">
                   <th className="px-4 py-3 border-b">{t("order.orderId")}</th>
+                  <th className="px-4 py-3 border-b text-center">Items</th>
                   <th className="px-4 py-3 border-b">{t("order.customer")}</th>
                   <th className="px-4 py-3 border-b">{t("order.address")}</th>
                   <th className="px-4 py-3 border-b">{t("order.phone")}</th>
@@ -188,9 +217,25 @@ export default function AdminOrdersPageDetail() {
 
               <tbody className="divide-y divide-[#eaeaea]">
                 {orders.map((order) => (
-                  <tr key={order._id} className="hover:bg-gray-50">
+                  <Fragment key={order._id}>
+                    <tr className="hover:bg-gray-50">
                     <td className="px-4 py-3 text-sm font-mono text-[#7a4a2e]">
                       {order._id}
+                    </td>
+
+                    <td className="px-4 py-3 text-sm text-center">
+                      <button
+                        type="button"
+                        onClick={() => toggleExpanded(order._id)}
+                        className="inline-flex items-center gap-1 text-xs font-medium text-[#7a4a2e] border border-[#d1a054] rounded-md px-2 py-1 hover:bg-[#fdf3e7] cursor-pointer"
+                      >
+                        {order.items?.length || 0}
+                        {expandedOrderId === order._id ? (
+                          <ChevronUp className="w-3.5 h-3.5" />
+                        ) : (
+                          <ChevronDown className="w-3.5 h-3.5" />
+                        )}
+                      </button>
                     </td>
 
                     <td className="px-4 py-3 text-sm font-medium text-[#7a4a2e]">
@@ -299,7 +344,63 @@ export default function AdminOrdersPageDetail() {
                         </button>
                       </form>
                     </td>
-                  </tr>
+                    </tr>
+
+                    {expandedOrderId === order._id && (
+                      <tr key={`${order._id}-items`}>
+                        <td colSpan={12} className="px-4 py-3 bg-[#fdf3e7]">
+                          {order.items && order.items.length > 0 ? (
+                            <table className="w-full text-sm">
+                              <thead>
+                                <tr className="text-xs uppercase text-[#7a4a2e]">
+                                  <th className="text-left pb-1 font-semibold">
+                                    Product
+                                  </th>
+                                  <th className="text-right pb-1 font-semibold">
+                                    Qty
+                                  </th>
+                                  <th className="text-right pb-1 font-semibold">
+                                    Price
+                                  </th>
+                                  <th className="text-right pb-1 font-semibold">
+                                    Subtotal
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {order.items.map((item, idx) => (
+                                  <tr
+                                    key={item._id || idx}
+                                    className="text-[#7a4a2e]"
+                                  >
+                                    <td className="py-1">
+                                      {getItemName(item)}
+                                    </td>
+                                    <td className="py-1 text-right">
+                                      {item.quantity}
+                                    </td>
+                                    <td className="py-1 text-right">
+                                      د.إ {getItemPrice(item).toFixed(2)}
+                                    </td>
+                                    <td className="py-1 text-right">
+                                      د.إ{" "}
+                                      {(
+                                        getItemPrice(item) * item.quantity
+                                      ).toFixed(2)}
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          ) : (
+                            <span className="text-sm text-gray-500">
+                              No item details available
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    )}
+                  </Fragment>
                 ))}
               </tbody>
             </table>
@@ -324,6 +425,47 @@ export default function AdminOrdersPageDetail() {
                   {order.status}
                 </span>
               </div>
+
+              {/* Items toggle */}
+              <button
+                type="button"
+                onClick={() => toggleExpanded(order._id)}
+                className="w-full flex items-center justify-between border border-[#d1a054] rounded-md px-3 py-2 mb-3 text-xs font-medium text-[#7a4a2e] bg-[#fdf3e7] cursor-pointer"
+              >
+                <span>{order.items?.length || 0} item(s)</span>
+                {expandedOrderId === order._id ? (
+                  <ChevronUp className="w-3.5 h-3.5" />
+                ) : (
+                  <ChevronDown className="w-3.5 h-3.5" />
+                )}
+              </button>
+
+              {expandedOrderId === order._id && (
+                <div className="mb-4 border border-[#f0d9b5] rounded-md p-2 !font-[system-ui]">
+                  {order.items && order.items.length > 0 ? (
+                    <div className="flex flex-col gap-1">
+                      {order.items.map((item, idx) => (
+                        <div
+                          key={item._id || idx}
+                          className="flex items-center justify-between text-sm text-[#7a4a2e]"
+                        >
+                          <span>
+                            {getItemName(item)} × {item.quantity}
+                          </span>
+                          <span>
+                            د.إ{" "}
+                            {(getItemPrice(item) * item.quantity).toFixed(2)}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <span className="text-sm text-gray-500">
+                      No item details available
+                    </span>
+                  )}
+                </div>
+              )}
 
               {/* Info grid */}
               <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm mb-4 !font-[system-ui]">
